@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>CLAZ Shop</title>
+<!-- Nhung Jquery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- Nhúng boostrap icon -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+    <!-- Nhúng boostrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <!-- Nhúng angularjs min và route -->
+    <link href="https://fonts.googleapis.com/css?family=Satisfy" rel="stylesheet" />
+    <!-- Nhúng font-awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <!-- Nhung owlcarousel -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
+        integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css"
+        integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Nhung SweetAlert -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <!-- Css -->
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+<!-- Header -->
+    <div class="d-none d-xl-block backg">
+        <div class="container d-flex justify-content-between">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link active text-white fw-medium px-0" href="#"><i class="bi bi-caret-left-fill"></i>
+                        <i class="bi bi-caret-right-fill"></i></i></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="#">Giải trí cực chill tại CLAZ</a>
+                </li>
+            </ul>
+
+            <ul class="nav d-flex justify-content-end">
+                <li class="nav-item menu ">
+                    <a class="nav-link text-white" aria-current="page" href="#"><i
+                            class="bi bi-journal-bookmark-fill"></i> &nbsp;&nbsp;Hướng dẫn mua hàng</a>
+                </li>
+                <li class="nav-item menu">
+                    <a class="nav-link text-white" aria-current="page" href="#"><i class="bi bi-patch-check-fill"></i>
+                        &nbsp;&nbsp;Ưu đãi khách hàng</a>
+                </li>
+                <li class="nav-item menu">
+                    <a class="nav-link text-white pe-0" aria-current="page" href="#"><i
+                            class="bi bi-telephone-fill"></i> &nbsp;&nbsp;Thông tin liên hệ</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Offcanvas Menu -->
+    <div class="offcanvas offcanvas-start offcanvas-half" tabindex="-1" id="offcanvasMenu"
+        aria-labelledby="offcanvasMenuLabel">
+        <div class="offcanvas-header bg-primary">
+            <h5 class="offcanvas-title text-white fw-semibold d-flex" id="offcanvasMenuLabel">
+                <div class="pe-2 d-flex align-items-center">
+                    <i class="bi bi-person-circle text-white py-3 px-2 fs-1"></i>
+                    <div class="pe-2 d-flex align-items-center">
+                        <div class="text-white fs-6">
+                            <a href="">Đăng Nhập</a> /
+                            <a href="">Đăng Ký</a>
+                        </div>
+                    </div>
+                </div>
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active fw-semibold" aria-current="page" href="#"><i class="bi bi-house-fill"></i>
+                        &nbsp;Trang Chủ</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active fw-semibold" aria-current="page" href="#"><i
+                            class="bi bi-plus-circle-fill"></i> &nbsp;Nạp Tiền Vào Tài Khoản </a>
+                </li>
+                <li class="w-100 border-top border-info-subtle my-2"></li>
+                <li class="nav-item">
+                    <a class="nav-link active fw-semibold" aria-current="page" href="#"><i class="bi bi-dpad-fill"></i>
+                        &nbsp;Giải Trí</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active fw-semibold" aria-current="page" href="#"><i
+                            class="bi bi-briefcase-fill"></i> &nbsp;Làm Việc</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active fw-semibold" aria-current="page" href="#"><i
+                            class="bi bi-mortarboard-fill"></i> &nbsp;Học Tập</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active fw-semibold" aria-current="page" href="#"><i class="bi bi-steam"></i>
+                        &nbsp;Game Steam</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active fw-semibold" aria-current="page" href="#"><i
+                            class="bi bi-pencil-square"></i> &nbsp;Edit Ảnh - Video</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active fw-semibold" aria-current="page" href="#"><i class="bi bi-windows"></i>
+                        &nbsp;Window, Office</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active fw-semibold" aria-current="page" href="#"><i
+                            class="bi bi-google-play"></i> &nbsp;Google Play, iTunes</a>
+                </li>
+                <li class="w-100 border-top border-info-subtle my-2"></li>
+                <li class="nav-item">
+                    <a class="nav-link fw-semibol pt-0 pb-3d" aria-current="page" href="#"><i
+                            class="bi bi-journal-bookmark-fill"></i> &nbsp;&nbsp;Hướng dẫn mua hàng</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link fw-semibol pt-0 pb-3d" aria-current="page" href="#"><i
+                            class="bi bi-patch-check-fill"></i> &nbsp;&nbsp;Ưu đãi khách hàng</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link fw-semibol pt-0 pb-3d" aria-current="page" href="#"><i
+                            class="bi bi-telephone-fill"></i> &nbsp;&nbsp;Thông tin liên hệ</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- header -->
+    <header class="navbg">
+        <div class="container">
+            <div class="row">
+                <div class="d-flex align-items-center justify-content-between">
+                    <!-- Logo -->
+                    <div class="col-md-1 col-lg-2 p-0 d-flex d-xl-block d-none align-items-center header_hover">
+                        <a href="" class="d-flex overflow-hidden align-items-center"> <img src="./images/logo.png"
+                                width="100%" height="70px" alt="" />
+                        </a>
+                    </div>
+                    <!-- button -->
+                    <button class="navbar-toggler d-block d-xl-none header_hover" type="button"
+                        data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu" aria-controls="offcanvasMenu">
+                        <span class=""><i class="bi bi-list text-white fs-1"></i></span>
+                    </button>
+                    <!-- Search -->
+                    <div class="col-md-11 col-lg-10 d-flex gap-3 align-items-center justify-content-between py-3">
+                        <form action="/search/name" method="post" class="d-flex justify-content-center">
+                            <div class="py-3">
+                                <div class="d-flex align-items-center">
+                                    <input class="rounded-start lh-lg border-white p-3 form_search" type="search"
+                                        placeholder="Tìm kiếm" />
+                                    <a href="#" class="text-white d-flex align-items-center rounded-end btn_search">
+                                        <i class=" bi bi-search my-2 mx-3"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </form>
+
+                        <!-- LogIn/SignUp -->
+                        <div class="d-md-block d-none">
+                            <div class="d-flex">
+                                <i class="bi bi-person-circle text-white pe-2 fs-1"></i>
+                                <div class="pe-2 d-flex align-items-center">
+                                    <div class="text-white fs-6 fw-bold">
+                                        <a class="header_hover" href="">Đăng Nhập</a> /
+                                        <a class="header_hover" href="">Đăng Ký</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- <div class="dropdown d-sm-block d-none">
+                            <a href="#"
+                                class="d-flex align-items-center text-decoration-none dropdown-center header_hover"
+                                data-bs-toggle="dropdown">
+                                <img src="./images/1000.jpg" class="rounded-circle object-fit-cover me-2" width="40px"
+                                    height="40px" alt="">
+                                <div class="pe-2 d-flex align-items-center">
+                                    <span class="text-white fs-6">
+                                        HXLuong</span>
+                                </div>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="">Quản lý tài khoản</a></li>
+                                <li><a class="dropdown-item" href="">Lịch sử đơn hàng</a></li>
+                                <li><a class="dropdown-item" href="">Đăng Xuất</a></li>
+                            </ul>
+                        </div> -->
+
+                        <!-- Cart -->
+                        <a href="" class="border rounded d-flex text-decoration-none position-relative header_hover"> <i
+                                class="fa-solid fa-cart-shopping text-white py-2 px-2 fs-5"></i>
+                            <div class="pe-2 d-flex align-items-center">
+                                <span class="text-white fs-6">Giỏ hàng</span>
+                            </div>
+                            <span
+                                class="position-absolute top-0 start-100 translate-middle text-primary badge rounded-pill bg-white">
+                                99
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Nav -->
+    <nav class="navbg d-none d-xl-block">
+        <div class="container">
+            <ul class="nav d-flex justify-content-between align-items-center">
+                <li class="nav-item menu header_hover">
+                    <a class="nav-link text-white pt-0 pb-2 ps-0 d-flex align-items-center" aria-current="page"
+                        href="#">
+                        <i class="bi bi-list fs-5 me-2"></i>
+                        Danh mục sản phẩm
+                    </a>
+                </li>
+                <li class="nav-item menu header_hover">
+                    <a class="nav-link text-white pt-0 pb-2 d-flex align-items-center" aria-current="page" href="#">
+                        <i class="bi bi-fire fs-5 me-2"></i>
+                        Sản phẩm mua nhiều
+                    </a>
+                </li>
+                <li class="nav-item menu header_hover">
+                    <a class="nav-link text-white pt-0 pb-2 d-flex align-items-center" aria-current="page" href="#">
+                        <i class="bi bi-percent fs-5 me-2"></i>
+                        Sản phẩm khuyến mãi
+                    </a>
+                </li>
+                <li class="nav-item menu header_hover">
+                    <a class="nav-link text-white pt-0 pb-2 d-flex align-items-center" aria-current="page" href="#">
+                        <i class="bi bi-gift-fill fs-5 me-2"></i>
+                        Hướng dẫn mua hàng
+                    </a>
+                </li>
+                <li class="nav-item menu header_hover">
+                    <a class="nav-link text-white pt-0 pb-2 pe-0 d-flex align-items-center" aria-current="page"
+                        href="#">
+                        <i class="bi bi-translate fs-5 me-2"></i>
+                        Ngôn ngữ
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Body -->
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-9 col-lg-12 col-md-12 col-sm-12 mt-3">
+                <div class="d-flex">
+                    <ul class="navbar-nav border rounded px-3 d-xl-block d-none me-4" style="width: 335px;">
+                        <li class="nav-item">
+                            <a class="nav-link active fw-semibold" aria-current="page" href="#"><i
+                                    class="bi bi-dpad-fill"></i>
+                                &nbsp;Giải Trí</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active fw-semibold" aria-current="page" href="#"><i
+                                    class="bi bi-briefcase-fill"></i> &nbsp;Làm Việc</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active fw-semibold" aria-current="page" href="#"><i
+                                    class="bi bi-mortarboard-fill"></i> &nbsp;Học Tập</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active fw-semibold" aria-current="page" href="#"><i
+                                    class="bi bi-steam"></i>
+                                &nbsp;Game Steam</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active fw-semibold" aria-current="page" href="#"><i
+                                    class="bi bi-pencil-square"></i> &nbsp;Edit Ảnh - Video</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active fw-semibold" aria-current="page" href="#"><i
+                                    class="bi bi-windows"></i>
+                                &nbsp;Window, Office</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active fw-semibold" aria-current="page" href="#"><i
+                                    class="bi bi-google-play"></i> &nbsp;Google Play, iTunes</a>
+                        </li>
+                        <li class="nav-item"></li>
+                        <a class="nav-link active fw-semibold" aria-current="page" href="#"><i
+                                class="bi bi-windows"></i>
+                            &nbsp;Window, Office</a>
+                        </li>
+                    </ul>
+
+                    <div id="carouselExampleIndicators" class="carousel slide carousel-fade caro"
+                        data-bs-ride="carousel" data-bs-interval="2500">
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
+                                class="active" aria-current="true" aria-label="Slide 1"></button>
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                                aria-label="Slide 2"></button>
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                                aria-label="Slide 3"></button>
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3"
+                                aria-label="Slide 4"></button>
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4"
+                                aria-label="Slide 5"></button>
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="5"
+                                aria-label="Slide 6"></button>
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="6"
+                                aria-label="Slide 7"></button>
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="7"
+                                aria-label="Slide 8"></button>
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="8"
+                                aria-label="Slide 9"></button>
+                        </div>
+                        <div class="carousel-inner rounded">
+                            <div class="carousel-item active">
+                                <img src="images/Netflix-81012.png" class="d-block" width="100%" alt="..." />
+                            </div>
+                            <div class="carousel-item">
+                                <img src="images/banner2.png" class="d-block" width="100%" alt="..." />
+                            </div>
+                            <div class="carousel-item">
+                                <img src="images/banner3.png" class="d-block" width="100%" alt="..." />
+                            </div>
+                            <div class="carousel-item">
+                                <img src="images/banner4.png" class="d-block" width="100%" alt="..." />
+                            </div>
+                            <div class="carousel-item">
+                                <img src="images/banner5.png" class="d-block" width="100%" alt="..." />
+                            </div>
+                            <div class="carousel-item">
+                                <img src="images/banner6.png" class="d-block" width="100%" alt="..." />
+                            </div>
+                            <div class="carousel-item">
+                                <img src="images/banner7.png" class="d-block" width="100%" alt="..." />
+                            </div>
+                            <div class="carousel-item">
+                                <img src="images/banner9.png" class="d-block" width="100%" alt="..." />
+                            </div>
+                            <div class="carousel-item">
+                                <img src="images/banner10.png" class="d-block" width="100%" alt="..." />
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                            data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                            data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Bên phải (4 phần) -->
+            <div class="col-xl-3 col-lg-12 col-md-12 col-sm-12 mt-2">
+                <div class="row">
+                    <div class="col-xl-12 col-lg-6 col-md-6 col-6 parent1 list_product">
+                        <img src="images/VPN (2)-23095.png" class="img-fluid rounded" alt="Right Image 1" width="100%">
+                    </div>
+                    <div class="col-xl-12 col-md-6 col-6 parent2 list_product">
+                        <img src="images/Spotify (1)-72615.png" class="img-fluid rounded" alt="Right Image 2"
+                            width="100%">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-2">
+        <div class="row">
+            <div class="col-md-3 col-6 list_product">
+                <img src="images/Steam (1)-46684.png" class="img-fluid mt-2 rounded" alt="Right Image 2" width="100%">
+            </div>
+            <div class="col-md-3 col-6 list_product">
+                <img src="images/ThietKe-36571.png" class="img-fluid mt-2 rounded" alt="Right Image 2" width="100%">
+            </div>
+            <div class="col-md-3 col-6 list_product">
+                <img src="images/AntiVirus99k-61638.png" class="img-fluid rounded parent3" alt="Right Image 2"
+                    width="100%">
+            </div>
+            <div class="col-md-3 col-6 list_product">
+                <img src="images/Microsoft Office (4)-77805.png" class="img-fluid rounded parent3" alt="Right Image 2"
+                    width="100%">
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="container mt-2">
+        <div class="row">
+            <div class="col-xl-10 col-8">
+                <h4 class="fw-bolder">Sản phẩm nổi bật</h4>
+                <h6 class="text-secondary text_product">Danh sách những sản phẩm theo xu hướng mà có thể bạn sẽ thích
+                </h6>
+            </div>
+            <div class="col-xl-2 col-4 d-flex justify-content-end">
+                <a href="" class="btn btn-primary " style="height: 40px;">Khám Phá</a>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-2">
+        <div class="row">
+            <div class="col-lg-3 col-md-4 col-6 list_product">
+                <a href="">
+                    <img src="./images/black myth wukong-13641.jpg" class="img-fluid mt-2 rounded" alt="Right Image 2"
+                        width="100%">
+                </a>
+                <a href="" class="d-block mt-2 text_product">Black Myth: Wukong Black Black Myth: Wukong Black</a>
+                <h6 class="mt-2 mb-3 d-flex align-items-center fw-bold text_product">
+                    122.000.000đ<strike class="mx-2 text-secondary">221.000.000đ</strike><span
+                        class="badge text-bg-danger text-white p-2">-62%</span>
+                </h6>
+            </div>
+            <div class="col-lg-3 col-md-4 col-6 list_product">
+                <a href="">
+                    <img src="./images/black myth wukong-13641.jpg" class="img-fluid mt-2 rounded" alt="Right Image 2"
+                        width="100%">
+                </a>
+                <a href="" class="d-block mt-2 text_product">Black Myth: Wukong Black Black Myth: Wukong Black</a>
+                <h6 class="mt-2 mb-3 d-flex align-items-center fw-bold text_product">
+                    122.000.000đ<strike class="mx-2 text-secondary">221.000.000đ</strike><span
+                        class="badge text-bg-danger text-white p-2">-62%</span>
+                </h6>
+            </div>
+            <div class="col-lg-3 col-md-4 col-6 list_product">
+                <a href="">
+                    <img src="./images/black myth wukong-13641.jpg" class="img-fluid mt-2 rounded" alt="Right Image 2"
+                        width="100%">
+                </a>
+                <a href="" class="d-block mt-2 text_product">Black Myth: Wukong Black Black Myth: Wukong Black</a>
+                <h6 class="mt-2 mb-3 d-flex align-items-center fw-bold text_product">
+                    122.000.000đ<strike class="mx-2 text-secondary">221.000.000đ</strike><span
+                        class="badge text-bg-danger text-white p-2">-62%</span>
+                </h6>
+            </div>
+            <div class="col-lg-3 col-md-4 col-6 list_product">
+                <a href="">
+                    <img src="./images/black myth wukong-13641.jpg" class="img-fluid mt-2 rounded" alt="Right Image 2"
+                        width="100%">
+                </a>
+                <a href="" class="d-block mt-2 text_product">Black Myth: Wukong Black Black Myth: Wukong Black</a>
+                <h6 class="mt-2 mb-3 d-flex align-items-center fw-bold text_product">
+                    122.000.000đ<strike class="mx-2 text-secondary">221.000.000đ</strike><span
+                        class="badge text-bg-danger text-white p-2">-62%</span>
+                </h6>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <hr>
+        <h4 class="mt-4 fw-bolder">Từ Khóa Nổi Bật</h4>
+        <div class="row mt-4">
+            <div class="col-md-2 col-4 list_keyword">
+                <button type="button" class="btn rounded text-white fw-semibold"
+                    style="width: 100%;height: 65px;background-color: #3d5b81;">Làm Việc</button>
+            </div>
+            <div class="col-md-2 col-4 list_keyword">
+                <button type="button" class="btn rounded text-white fw-semibold"
+                    style="width: 100%;height: 65px;background-color: #98c0d9;">Giải Trí</button>
+            </div>
+            <div class="col-md-2 col-4 list_keyword">
+                <button type="button" class="btn rounded text-white fw-semibold"
+                    style="width: 100%;height: 65px;background-color: #ee6b4d;">Học Tập</button>
+            </div>
+            <div class="col-md-2 col-4 list_keyword">
+                <button type="button" class="btn rounded text-white fw-semibold noibat"
+                    style="width: 100%;height: 65px;background-color: #293241;">Spotify</button>
+            </div>
+            <div class="col-md-2 col-4 list_keyword">
+                <button type="button" class="btn  rounded text-white fw-semibold noibat"
+                    style="width: 100%;height: 65px;background-color: #545a66;">Wallet</button>
+            </div>
+            <div class="col-md-2 col-4 list_keyword">
+                <button type="button" class="btn rounded text-white fw-semibold noibat"
+                    style="width: 100%;height: 65px;background-color: #757c86;">Youtube</button>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="wrapper">
+        <div class="bg-image"></div>
+    </div>
+    <br>
+    <div class="container mt-2">
+        <div class="row">
+            <div class="col-md-6 col-8">
+                <h4 class="fw-bolder">Game Trên Steam</h4>
+                <h6>Những trò chơi được đánh giá tốt, nội dung hấp dẫn thu hút đang chờ bạn</h6>
+            </div>
+            <div class="col-md-6 d-flex justify-content-end col-4">
+                <button type="button" class="btn btn-primary " style="height: 40px;">Khám Phá</button>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-2">
+        <div class="row">
+            <c:forEach var="item" items="${liststeam}">
+                <div class="col-md-3 col-6">
+                    <a href="/product/detail/${item.id}">
+                        <img src="images/${item.image}" class="img-fluid mt-2 rounded" alt="Right Image 2" width="100%">
+                    </a>
+                    <a href="/product/detail/${item.id}" class="d-block mt-2">${item.name}</a>
+                    <h6 class="mt-2 mb-3 position-relative" style="font-weight: 500;">
+                        <fmt:formatNumber value="${item.price}"></fmt:formatNumber>đ &nbsp;<strike
+                            style="color: grey;">1.000.000đ</strike>&nbsp;&nbsp;<span
+                            class="border border-danger rounded bg-danger text-white px-2 py-1 special-span">-62%</span>
+                    </h6>
+                </div>
+            </c:forEach>
+        </div>
+    </div>
+    <div class="container mt-2">
+        <hr>
+        <br>
+        <div class="row">
+            <div class="col-md-6 col-8">
+                <h4 class="fw-bolder">Sản phẩm mới</h4>
+            </div>
+            <div class="col-md-6 d-flex justify-content-end col-4">
+                <button type="button" class="btn btn-primary " style="height: 40px;">Khám Phá</button>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-2">
+        <div class="row">
+            <c:forEach var="item" items="${listnew}">
+                <div class="col-md-3 col-6">
+                    <a href="/product/detail/${item.id}">
+                        <img src="images/${item.image}" class="img-fluid mt-2 rounded" alt="Right Image 2" width="100%">
+                    </a>
+                    <a href="/product/detail/${item.id}" class="d-block mt-2">${item.name}</a>
+                    <h6 class="mt-2 mb-3 position-relative" style="font-weight: 500;">
+                        <fmt:formatNumber value="${item.price}"></fmt:formatNumber>đ &nbsp;<strike
+                            style="color: grey;">1.000.000đ</strike>&nbsp;&nbsp;<span
+                            class="border border-danger rounded bg-danger text-white px-2 py-1 special-span">-62%</span>
+                    </h6>
+                </div>
+            </c:forEach>
+        </div>
+    </div>
+    <div class="container mt-2">
+        <hr>
+        <br>
+        <div class="row">
+            <div class="col-md-6 col-8">
+                <h4 class="fw-bolder">Học Tập</h4>
+            </div>
+            <div class="col-md-6 d-flex justify-content-end col-4">
+                <button type="button" class="btn btn-primary " style="height: 40px;">Khám Phá</button>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-2">
+        <div class="row">
+            <c:forEach var="item" items="${listhoctap}">
+                <div class="col-md-3 col-6">
+                    <a href="/product/detail/${item.id}">
+                        <img src="images/${item.image}" class="img-fluid mt-2 rounded" alt="Right Image 2" width="100%">
+                    </a>
+                    <a href="/product/detail/${item.id}" class="d-block mt-2">${item.name}</a>
+                    <h6 class="mt-2 mb-3 position-relative" style="font-weight: 500;">
+                        <fmt:formatNumber value="${item.price}"></fmt:formatNumber>đ &nbsp;<strike
+                            style="color: grey;">1.000.000đ</strike>&nbsp;&nbsp;<span
+                            class="border border-danger rounded bg-danger text-white px-2 py-1 special-span">-62%</span>
+                    </h6>
+                </div>
+            </c:forEach>
+        </div>
+    </div>
+    <div class="container mt-2">
+        <hr>
+        <br>
+        <div class="row">
+            <div class="col-md-6 col-8">
+                <h4 class="fw-bolder">Làm việc</h4>
+            </div>
+            <div class="col-md-6 d-flex justify-content-end col-4">
+                <button type="button" class="btn btn-primary " style="height: 40px;">Khám Phá</button>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-2">
+        <div class="row">
+            <c:forEach var="item" items="${listwork}">
+                <div class="col-md-3 col-6">
+                    <a href="/product/detail/${item.id}">
+                        <img src="images/${item.image}" class="img-fluid mt-2 rounded" alt="Right Image 2" width="100%">
+                    </a>
+                    <a href="/product/detail/${item.id}" class="d-block mt-2">${item.name}</a>
+                    <h6 class="mt-2 mb-3 position-relative" style="font-weight: 500;">
+                        <fmt:formatNumber value="${item.price}"></fmt:formatNumber>đ &nbsp;<strike
+                            style="color: grey;">1.000.000đ</strike>&nbsp;&nbsp;<span
+                            class="border border-danger rounded bg-danger text-white px-2 py-1 special-span">-62%</span>
+                    </h6>
+                </div>
+            </c:forEach>
+        </div>
+        <br>
+        <hr>
+        <br>
+        <br>
+    </div>
+
+    <!-- footer -->
+    <footer class="bg-dark text-white pt-5 pb-4">
+        <div class="container text-center text-md-start">
+            <div class="row text-center text-md-start">
+                <div class="col-md-4 col-lg-4 col-xl-3 mx-auto mt-3">
+                    <h5 class="text-uppercase mb-3 font-weight-bold text-warning">Liên kết Hữu ích</h5>
+                    <p><a href="#" class="text-white" style="text-decoration: none;">Dành Cho Khách Du Lịch Lần Đầu Đến
+                            Nhật</a></p>
+                    <p><a href="#" class="text-white" style="text-decoration: none;">Thời Tiết Nhật Bản</a></p>
+                    <p><a href="#" class="text-white" style="text-decoration: none;">Tour & Hoạt Động Nhật Bản</a></p>
+                    <p><a href="#" class="text-white" style="text-decoration: none;">Câu Hỏi Thường Gặp</a></p>
+                </div>
+                <div class="col-md-4 col-lg-4 col-xl-2 mx-auto mt-3">
+                    <h5 class="text-uppercase mb-3 font-weight-bold text-warning">Trang Web Divine Liên Quan</h5>
+                    <p><a href="#" class="text-white" style="text-decoration: none;">Văn Phòng Hội Nghị Nhật Bản</a></p>
+                    <p><a href="#" class="text-white" style="text-decoration: none;">Trung Tâm Truyền Thông Trực Tuyến
+                            Nhật Bản</a></p>
+                </div>
+                <div class="col-md-4 col-lg-4 col-xl-2 mx-auto mt-3">
+                    <h5 class="text-uppercase mb-3 font-weight-bold text-warning">Về DIVINE</h5>
+                    <p><a href="#" class="text-white" style="text-decoration: none;">Về Chúng Tôi</a></p>
+                    <p><a href="#" class="text-white" style="text-decoration: none;">Liên Hệ</a></p>
+                </div>
+            </div>
+            <hr class="mb-4 mt-4">
+            <div class="row align-item-center">
+                <div class="col-md-7 col-lg-8">
+                    <p>Copyright @2020 All rights reserved by: <img src="/images/logo1-removebg-preview.png"
+                            height="50px"></p>
+                </div>
+                <div class="col-md-5 col-lg-4">
+                    <div class="text-center text-md-end">
+                        <ul class="list-unstyled list-inline">
+                            <li class="list-group-item">
+                                <a href="#" class="btn-floating btn-sm text-white" style="font-size: 23px;"><i
+                                        class="bi bi-facebook"></i></a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="#" class="btn-floating btn-sm text-white" style="font-size: 23px;"><i
+                                        class="bi bi-twitter"></i></a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="#" class="btn-floating btn-sm text-white" style="font-size: 23px;"><i
+                                        class="bi bi-envelope-at-fill"></i></a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="#" class="btn-floating btn-sm text-white" style="font-size: 23px;"><i
+                                        class="bi bi-linkedin"></i></a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="#" class="btn-floating btn-sm text-white" style="font-size: 23px;"><i
+                                        class="bi bi-youtube"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+    </footer>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const icon = document.getElementById('myicon').value;
+        const title = document.getElementById('mytitle').value;
+        const message = document.getElementById('mymessage').value;
+        console.log(icon, title, message);
+        if (icon && title && message) {
+            Swal.fire({
+                title: title,
+                text: message,
+                icon: icon
+            });
+        }
+    });
+</script>
+</html>
