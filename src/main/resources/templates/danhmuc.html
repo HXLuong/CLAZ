@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<!-- Nhung Jquery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+    integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- Nhúng boostrap icon -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+<!-- Nhúng boostrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<!-- Nhúng angularjs min và route -->
+<link href="https://fonts.googleapis.com/css?family=Satisfy" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<!-- Nhung owlcarousel -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
+    integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css"
+    integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+<title>Document</title>
+</head>
+<style>
+    a {
+        color: inherit;
+        text-decoration: inherit;
+    }
+
+    h4 {
+        font-size: 1.2rem;
+        line-height: 2rem;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    strong,
+    th {
+        font-weight: 500;
+    }
+
+    blockquote,
+    dd,
+    dl,
+    figure,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    hr,
+    p,
+    pre {
+        margin: 0;
+    }
+
+    .no-gap {
+        margin-left: -15px !important;
+        margin-right: 20px !important;
+    }
+
+    .backg {
+        background-color: #ff99cf;
+    }
+
+    .navbg {
+        background-color: #ff80c3;
+    }
+
+    .arrow-gap {
+        margin-left: 90px !important;
+        margin-right: -20px !important;
+    }
+
+    .search-gap {
+        margin-left: 65px !important;
+        margin-right: -20px !important;
+    }
+
+    .offcanvas-half {
+        width: 74% !important;
+    }
+
+    .anhdd {
+        margin-bottom: 4px;
+        width: 100%;
+        height: 14.5rem;
+    }
+
+    .caro {
+        width: 100%;
+    }
+
+    .wrapper {
+        width: 100%;
+        height: auto;
+        margin-bottom: 10px;
+    }
+
+    @media only screen and (max-width: 768px) {
+        .anhdd {
+            margin-bottom: 0px;
+            width: 100%;
+            height: auto;
+        }
+
+        .caro {
+            margin-top: -10px !important;
+        }
+
+        .special-span {
+            margin-top: 7px !important;
+            /* hoặc bất kỳ giá trị nào bạn muốn */
+            display: block;
+            max-width: 60px;
+            max-height: 70px;
+        }
+
+        .noibat {
+            margin-top: 10px !important;
+        }
+
+        .wrapper {
+            width: 90%;
+            margin-top: -2px !important;
+            height: auto;
+        }
+
+        .bg-image {
+            width: 100%;
+            height: 100px !important;
+            background-size: contain;
+        }
+
+        .sotien {
+            margin-top: 0.2rem !important;
+        }
+
+        .formcart {
+            margin-left: -23px !important;
+        }
+
+        .fill {
+            margin-bottom: 15px !important;
+        }
+    }
+
+    .special-span {
+        margin-top: -3px;
+        /* hoặc bất kỳ giá trị nào bạn muốn */
+    }
+
+    .bg-image {
+        background-image: url(https://divineshop.vn/static/0de2668c294edf9d5fd8a8647b2c65b6.png);
+        height: 300px;
+        width: 100%;
+        background-repeat: no-repeat;
+        background-color: #000d21;
+    }
+
+    .list-inline {
+        display: block;
+    }
+
+    .list-inline li {
+        display: inline-block;
+    }
+
+    .list-inline li:after {
+        content: '|';
+        margin: 0 10px;
+    }
+
+    .dropdown-menu ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .dmsp {
+        margin-top: -2rem !important;
+    }
+
+    .searchbtn {
+        margin-top: -0.2rem !important;
+    }
+</style>
+
+<body>
+
+    <br>
+    <br>
+    <div class="container dmsp">
+        <span class="" style="font-size: 1.8rem;line-height: 2.5rem;font-weight: 600;">Danh Mục Sản Phẩm</span>
+        <div class="row mt-3">
+            <div class="col-md-2 col-12 fill">
+                <select class="form-select" aria-label="Default select example">
+                    <option selected>Danh Mục</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+            </div>
+            <div class="col-md-2 col-12 fill">
+                <select class="form-select" aria-label="Default select example">
+                    <option selected>Thể Loại</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+            </div>
+            <div class="col-md-5 col-12 fill">
+                <form action="/product/searchgia" method="post" class="d-flex justify-content-between giatien">
+                    <span style="font-weight: 500;" class="text-nowrap mt-2 me-2 d-sm-block d-none">Mức Giá</span>
+                    <div class="form-group me-2">
+                        <input name="min" value="${param.min}" placeholder="Min Price?" class="form-control">
+                    </div>
+                    <span class="mt-2 me-2 d-sm-block d-none">-</span>
+                    <div class="form-group">
+                        <input name="max" value="${param.max}" placeholder="Max Price?" class="form-control">
+                    </div>
+                    <button class="btn btn-primary" style="display: none;"><i class="bi bi-funnel"></i> Lọc</button>
+                </form>
+            </div>
+            <div class="col-md-2 col-12 fill">
+                <select class="form-select" aria-label="Default select example">
+                    <option selected>Sắp xếp</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+            </div>
+            <div class="col-md-1 col-12 fill">
+                <button type="button" class="btn btn-primary"><i class="bi bi-funnel"></i> Lọc</button>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-lg-3 col-md-4 col-6 mb-4">
+                <div class=" h-100">
+                    <img src="/images/black myth wukong-13641.jpg" class="card-img-top rounded" alt="...">
+                    <div class="card-body">
+                        <p class="card-text text-truncate">Black Myth: Wukong - Thuê game (1 ngày)</p>
+                        <p class="mt-2 fw-bold" style="font-size: 13px">40.000đ <del class=""
+                                style="color: #c7cad1;">1.299.000đ</del> <span
+                                class="bg-danger text-white p-1 rounded mt-2">-97%</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-6 mb-4">
+                <div class=" h-100">
+                    <img src="/images/black myth wukong-13641.jpg" class="card-img-top rounded" alt="...">
+                    <div class="card-body">
+                        <p class="card-text text-truncate">Black Myth: Wukong - Thuê game (1 ngày)</p>
+                        <p class="mt-2 fw-bold" style="font-size: 13px">40.000đ <del class=""
+                                style="color: #c7cad1;">1.299.000đ</del> <span
+                                class="bg-danger text-white p-1 rounded mt-2">-97%</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-6 mb-4">
+                <div class=" h-100">
+                    <img src="/images/black myth wukong-13641.jpg" class="card-img-top rounded" alt="...">
+                    <div class="card-body">
+                        <p class="card-text text-truncate">Black Myth: Wukong - Thuê game (1 ngày)</p>
+                        <p class="mt-2 fw-bold" style="font-size: 13px">40.000đ <del class=""
+                                style="color: #c7cad1;">1.299.000đ</del> <span
+                                class="bg-danger text-white p-1 rounded mt-2">-97%</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-6 mb-4">
+                <div class=" h-100">
+                    <img src="/images/black myth wukong-13641.jpg" class="card-img-top rounded" alt="...">
+                    <div class="card-body">
+                        <p class="card-text text-truncate">Black Myth: Wukong - Thuê game (1 ngày)</p>
+                        <p class="mt-2 fw-bold" style="font-size: 13px">40.000đ <del class=""
+                                style="color: #c7cad1;">1.299.000đ</del> <span
+                                class="bg-danger text-white p-1 rounded mt-2">-97%</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+         <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center mt-4">
+            <li class="page-item"><a class="page-link" href="/product/page?p=0">First</a></li>
+            <li class="page-item"><a class="page-link"
+                    href="/product/page?p=${(listproduct.number-1<0)?0:listproduct.number-1}">Previous</a></li>
+            <li class="page-item"><a class="page-link"
+                    href="/product/page?p=${(listproduct.number+1>listproduct.totalPages-1)?listproduct.totalPages-1:listproduct.number+1}">Next</a>
+            </li>
+            <li class="page-item"><a class="page-link" href="/product/page?p=${listproduct.totalPages-1}">Last</a></li>
+        </ul>
+    </nav> 
+        <br>
+        <br>
+        <!-- <%@include file="footer.jsp"%> -->
+</body>
+<script src=" https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+
+</html>

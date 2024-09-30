@@ -1,0 +1,219 @@
+a {
+	color: inherit;
+	text-decoration: inherit;
+}
+
+h4 {
+	font-size: 1.2rem;
+	line-height: 2rem;
+}
+
+h1, h2, h3, h4, h5, strong, th {
+	font-weight: 500;
+}
+
+blockquote, dd, dl, figure, h1, h2, h3, h4, h5, h6, hr, p, pre {
+	margin: 0;
+}
+
+.no-gap {
+	margin-left: -15px !important;
+	margin-right: 20px !important;
+}
+
+.backg {
+	background-color: #0959cc;
+}
+
+.navbg {
+	background-color: #2579f3;
+}
+
+.arrow-gap {
+	margin-left: 90px !important;
+	margin-right: -20px !important;
+}
+
+.btn_search {
+	background-color: #0959cc;
+}
+
+.form_search {
+	outline: none;
+	width: 380px;
+	height: 40px;
+	margin-left: 70px;
+}
+
+.btn_search:hover {
+	opacity: 0.8;
+}
+
+.header_hover:hover {
+	opacity: 0.8;
+}
+
+.caro {
+	width: 100%;
+}
+
+.parent1 {
+	margin-top: 8px;
+}
+
+.parent2 {
+	margin-top: 20px;
+}
+
+.parent3 {
+	margin-top: 8px;
+}
+
+.special-span {
+	margin-top: -3px;
+	/* hoặc bất kỳ giá trị nào bạn muốn */
+}
+
+.list_product:hover {
+	transform: translateY(-5px);
+	transition: all linear 0.3s;
+}
+
+.list_keyword:hover {
+	transform: scale(1.1);
+	transition: all linear 0.3s;
+}
+
+.bg-image {
+	background-image:
+		url(https://divineshop.vn/static/0de2668c294edf9d5fd8a8647b2c65b6.png);
+	height: 300px;
+	width: 100%;
+	background-repeat: no-repeat;
+	background-color: #000d21;
+}
+
+.list-inline {
+	display: block;
+}
+
+.list-inline li {
+	display: inline-block;
+}
+
+.list-inline li:after {
+	content: '|';
+	margin: 0 10px;
+}
+
+.searchbtn {
+	margin-top: -0.2rem !important;
+}
+
+@media only screen and (max-width: 1200px) {
+	.parent1, .parent2 {
+		margin-top: 8px;
+	}
+	.form_search {
+		outline: none;
+		width: 100%;
+		height: 40px;
+	}
+	.text_product {
+		font-size: 13px;
+		margin-top: 5px !important;
+	}
+	.offcanvas-half {
+		width: 30% !important;
+	}
+}
+
+@media only screen and (max-width: 992px) {
+	.parent1, .parent2 {
+		margin-top: 8px;
+	}
+	.form_search {
+		outline: none;
+		width: 200px;
+		height: 40px;
+		margin-left: 20px;
+	}
+	.text_product {
+		font-size: 13px;
+		margin-top: 5px !important;
+	}
+	.offcanvas-half {
+		width: 40% !important;
+	}
+}
+
+@media only screen and (max-width: 768px) {
+	.anhdd {
+		margin-bottom: 0px;
+		width: 100%;
+		height: auto;
+	}
+	.parent1, .parent2 {
+		margin-top: 8px;
+	}
+	.parent3 {
+		margin-top: 8px;
+	}
+	.form_search {
+		outline: none;
+		width: 200px;
+		height: 40px;
+		margin-left: 10px;
+	}
+	.offcanvas-half {
+		width: 45% !important;
+	}
+	.text_product {
+		font-size: 13px;
+		margin-top: 5px !important;
+	}
+	.caro {
+		margin-top: -10px !important;
+	}
+	.special-span {
+		margin-top: 7px !important;
+		/* hoặc bất kỳ giá trị nào bạn muốn */
+		display: block;
+		max-width: 60px;
+		max-height: 70px;
+	}
+	.noibat {
+		margin-top: 10px !important;
+	}
+	.wrapper {
+		width: 100%;
+		background-size: cover;
+	}
+	.bg-image {
+		width: 100%;
+		height: 100px !important;
+		background-size: contain;
+	}
+}
+
+@media only screen and (max-width: 576px) {
+	.parent1, .parent2 {
+		margin-top: 8px;
+	}
+	.parent3 {
+		margin-top: 16px;
+	}
+	.form_search {
+		outline: none;
+		width: 160px;
+		height: 40px;
+		margin-left: 0;
+	}
+	.text_product {
+		font-size: 10px;
+		margin-top: 2px !important;
+	}
+	.offcanvas-half {
+		width: 80% !important;
+	}
+}
