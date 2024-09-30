@@ -10,4 +10,8 @@ public class HomeController {
     public String index(Model model) {
         return "index";
     }
+	@RequestMapping("/danhmuc")
+    public String danhmuc(Model model) {
+        return "danhmuc";
+    }
 }
