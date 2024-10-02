@@ -14,4 +14,36 @@ public class HomeController {
     public String danhmuc(Model model) {
         return "danhmuc";
     }
+	@RequestMapping("/ac")
+    public String upaccount(Model model) {
+        return "/update_profile/capnhaptaikhoan";
+    }
+	@RequestMapping("/pass")
+    public String uppass(Model model) {
+        return "/update_profile/capnhapmatkhau";
+    }
+	@RequestMapping("/giaodich")
+    public String giaodich(Model model) {
+        return "/update_profile/lichsugiaodich";
+    }
+	@RequestMapping("/donhang")
+    public String donhang(Model model) {
+        return "/update_profile/lichsudonhang";
+    }
+	@RequestMapping("/binhluan")
+    public String binhluan(Model model) {
+        return "/update_profile/binhluan";
+    }
+	@RequestMapping("/sanphamyeuthich")
+    public String sanphamyeuthich(Model model) {
+        return "/update_profile/sanphamyeuthich";
+    }
+	@RequestMapping("/gioithieubanbe")
+    public String gioithieu(Model model) {
+        return "/update_profile/gioithieubanbe";
+    }
+	@RequestMapping("/huongdantaotaikhoan")
+    public String huongdantaotaikhoan(Model model) {
+        return "huongdantaotaikhoan";
+    }
 }
