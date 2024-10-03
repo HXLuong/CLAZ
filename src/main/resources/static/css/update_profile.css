@@ -1,0 +1,22 @@
+.vertical-divider {
+	height: 100%;
+	border-left: 1px solid grey;
+	/* Hoặc màu sắc và độ rộng khác */
+}
+
+.hover-underline {
+	text-decoration: none;
+}
+
+.hover-underline:hover {
+	text-decoration: underline;
+	/* Gạch chân khi hover */
+}
+
+.text-block {
+	display: block;
+}
+
+input[type="file"] {
+	display: none;
+}

@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lịch sử đơn hàng</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<!-- Css -->
+<link rel="stylesheet" href="./css/update_profile.css">
+</head>
+
+<body style="">
+	<div class="container">
+		<div th:replace="/update_profile/settingupdate.html"></div>
+		<div class="col-xl-9 col-lg-9 col-md-12 rounded"
+			style="background-color: rgb(255, 255, 255);">
+			<div class="container m-3">
+				<h5 class="fw-bold">Bình luận của tôi</h5>
+				<span style="display: block;">Bình luận và trả lời mà bạn đã viết trên CLAZ</span>
+				<hr>
+			</div>
+
+			<div class="row m-3">
+
+				<div class="col-xl-4 col-lg-4 col-md-4 col-12 mt-2">
+					<div class="form-floating">
+						<input type="text" class="form-control" id="pwd"
+							placeholder="Enter password" name="pswd"> <label
+							for="pwd">Nội dung</label>
+					</div>
+				</div>
+				<div class="col-xl-3 col-lg-4 col-md-4 col-6 mt-2">
+					<div class="form-floating">
+						<input type="date" class="form-control" id="tn" name="pswd">
+						<label for="tn">Từ ngày</label>
+					</div>
+				</div>
+				<div class="col-xl-3 col-lg-4 col-md-4 col-6 mt-2">
+					<div class="form-floating">
+						<input type="date" class="form-control" id="dn" name="pswd">
+						<label for="dn">Đến ngày</label>
+					</div>
+				</div>
+				<div
+					class="col-xl-2 col-lg-4 col-md-4 col-12 d-flex align-items-center">
+					<button type="button" class="btn btn-primary mt-2">
+						<i class="bi bi-funnel"></i> Lọc
+					</button>
+				</div>
+			</div>
+			<div class="container m-3">
+				<table class="table table-bordered mt-2 ">
+					<thead>
+						<tr class="align-middle">
+							<th>Thời gian</th>
+							<th>Nội dung</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>2024-10-02 14:59:34</td>
+							<td>sssssssssssssssssssssssssssss</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+
+</html>

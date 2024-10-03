@@ -10,40 +10,40 @@ public class HomeController {
     public String index(Model model) {
         return "index";
     }
-	@RequestMapping("/danhmuc")
+	@RequestMapping("/category")
     public String danhmuc(Model model) {
-        return "danhmuc";
+        return "/category/category";
     }
-	@RequestMapping("/ac")
+	@RequestMapping("/account")
     public String upaccount(Model model) {
-        return "/update_profile/capnhaptaikhoan";
+        return "/update_profile/account_profile";
     }
-	@RequestMapping("/pass")
+	@RequestMapping("/password")
     public String uppass(Model model) {
-        return "/update_profile/capnhapmatkhau";
+        return "/update_profile/password_profile";
     }
-	@RequestMapping("/giaodich")
+	@RequestMapping("/payment")
     public String giaodich(Model model) {
-        return "/update_profile/lichsugiaodich";
+        return "/update_profile/payment_profile";
     }
-	@RequestMapping("/donhang")
+	@RequestMapping("/order")
     public String donhang(Model model) {
-        return "/update_profile/lichsudonhang";
+        return "/update_profile/order_profile";
     }
-	@RequestMapping("/binhluan")
+	@RequestMapping("/comment")
     public String binhluan(Model model) {
-        return "/update_profile/binhluan";
+        return "/update_profile/comment_profile";
     }
-	@RequestMapping("/sanphamyeuthich")
+	@RequestMapping("/favorite")
     public String sanphamyeuthich(Model model) {
-        return "/update_profile/sanphamyeuthich";
+        return "/update_profile/favorite_profile";
     }
-	@RequestMapping("/gioithieubanbe")
+	@RequestMapping("/introduct")
     public String gioithieu(Model model) {
-        return "/update_profile/gioithieubanbe";
+        return "/update_profile/introduct_profile";
     }
-	@RequestMapping("/huongdantaotaikhoan")
+	@RequestMapping("/instruct_createAccount")
     public String huongdantaotaikhoan(Model model) {
-        return "huongdantaotaikhoan";
+        return "/instruct/instruct_createAccount";
     }
 }
