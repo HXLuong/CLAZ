@@ -18,20 +18,19 @@
 		<div th:replace="/update_profile/settingupdate.html"></div>
 		<div class="col-xl-9 col-lg-9 col-md-12 rounded"
 			style="background-color: rgb(255, 255, 255);">
-			<div class="container">
-				<h5 class="fw-bold">Lịch sử đơn hàng</h5>
-				<span style="display: block;">Hiển thị thông tin các sản phẩm
-					bạn đã mua tại CLAZ</span>
+			<div class="container m-3">
+				<h5 class="fw-bold">Lịch sử giao dịch</h5>
+				<span style="display: block;">Hiển thị tất cả các giao dịch bạn dã thực hiện tại CLAZ</span>
 				<hr>
 			</div>
 
-			<div class="row container">
+			<div class="row m-3">
 
 				<div class="col-xl-2 col-lg-4 col-md-4 col-12 mt-2">
 					<div class="form-floating">
 						<input type="text" class="form-control" id="pwd"
 							placeholder="Enter password" name="pswd"> <label
-							for="pwd">Mã đơn hàng</label>
+							for="pwd">Mô tả</label>
 					</div>
 				</div>
 				<div class="col-xl-2 col-lg-4 col-md-4 col-6 mt-2">
@@ -67,28 +66,22 @@
 					</button>
 				</div>
 			</div>
-			<div class="container">
+			<div class="container m-3">
 				<table class="table table-bordered mt-2 ">
 					<thead>
 						<tr class="align-middle">
 							<th>Thời gian</th>
-							<th>Mã đơn hàng</th>
-							<th>Sản phẩm</th>
-							<th>Tổng tiền</th>
-							<th>Trạng thái</th>
-							<th></th>
+							<th>Mô tả</th>
+							<th>Số tiền</th>
+							<th>Số dư</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
-							<td>2024-10-02 14:59:34</td>
-							<td>7416909</td>
-							<td class="d-flex justify-content-between">Random Code Steam
-								<span>x1</span>
-							</td>
+							<td>2024-10-02 15:00:45</td>
+							<td>Nạp tiền qua VNPay. Mã giao dịch #2094527</td>
+							<td class="text-success">9.000đ</td>
 							<td>9.000đ</td>
-							<td class="text-success">Đã xử lý</td>
-							<td><a href="" class="text-decoration-none">Chi tiết</a></td>
 						</tr>
 					</tbody>
 				</table>

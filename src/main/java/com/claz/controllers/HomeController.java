@@ -46,4 +46,14 @@ public class HomeController {
     public String huongdantaotaikhoan(Model model) {
         return "/instruct/instruct_createAccount";
     }
+	
+	@RequestMapping("/detailProduct")
+    public String detailProduct(Model model) {
+        return "/detailProduct/detailProduct";
+    }
+	
+	@RequestMapping("/login")
+    public String login(Model model) {
+        return "/login/login";
+    }
 }
