@@ -2,330 +2,337 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <!-- Nhung Jquery -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
-        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <!-- Nhúng boostrap icon -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
-    <!-- Nhúng boostrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <!-- Nhúng bootstrap script -->
-    <script src=" https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
-    <!-- Nhúng angularjs min và route -->
-    <link href="https://fonts.googleapis.com/css?family=Satisfy" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-    <!-- Nhung owlcarousel -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
-        integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css"
-        integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- Nhúng SweetAlert -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!-- Nhúng Css -->
-    <link rel="stylesheet" href="./css/detailProduct.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<!-- Nhung Jquery -->
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+	integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+	crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- Nhúng boostrap icon -->
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+<!-- Nhúng boostrap -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+	crossorigin="anonymous">
+<!-- Nhúng bootstrap script -->
+<script
+	src=" https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+	crossorigin="anonymous"></script>
+<!-- Nhúng angularjs min và route -->
+<link href="https://fonts.googleapis.com/css?family=Satisfy"
+	rel="stylesheet" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<!-- Nhung owlcarousel -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
+	integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g=="
+	crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css"
+	integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw=="
+	crossorigin="anonymous" referrerpolicy="no-referrer" />
+<!-- Nhúng SweetAlert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- Nhúng Css -->
+<link rel="stylesheet" href="./css/detailProduct.css">
 </head>
 
 <body>
-    <div class="container ps-0">
-        <form class="mt-1">
-            <div class="row ms-3 me-1">
-                <div class="col-lg-6 col-sm-12 d-flex flex-wrap mt-3 p-0 overflow-hidden">
-                    <div class="img-showcase">
-                        <img src="./images/black myth wukong-13641.jpg" class="rounded" width="100%" alt="">
-                        <img src="./images/slide-4.jpg" width="100%" class="rounded" alt="">
-                        <img src="./images/slide-2.jpg" width="100%" class="rounded" alt="">
-                        <img src="./images/slide-3.jpg" width="100%" class="rounded" alt="">
-                    </div>
-                    <div class="img-select d-flex mt-1">
-                        <div class="img-item p-1">
-                            <a href="#" data-id="1">
-                                <img src="./images/black myth wukong-13641.jpg" class="object-fit-cover" alt="">
-                            </a>
-                        </div>
-                        <div class="img-item p-1">
-                            <a href="#" data-id="2">
-                                <img src="./images/slide-4.jpg" class="object-fit-cover" alt="">
-                            </a>
-                        </div>
-                        <div class="img-item p-1">
-                            <a href="#" data-id="3">
-                                <img src="./images/slide-2.jpg" class="object-fit-cover" alt="">
-                            </a>
-                        </div>
-                        <div class="img-item p-1">
-                            <a href="#" data-id="4">
-                                <img src="./images/slide-3.jpg" class="object-fit-cover" alt="">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-sm-12 detailProduct">
-                    <div class="mb-3 mt-3">
-                        <span class="text-secondary">Sản
-                            phẩm</span>
-                        <br>
-                        <label class="mt-1 fw-bold fs-4">Black
-                            Myth: Wukong - Tài khoản Steam</label>
-                        <br>
-                        <label class="mt-2 fw-medium"><i class="bi bi-box2"></i> Tình Trạng:
-                            <label class="text-success">Còn
-                                Hàng</label>
-                        </label>
-                        <br>
-                        <label class="mt-2 fw-medium">
-                            <i class="bi bi-code-slash"></i> Mã Sản Phẩm:
-                            <label class="text-secondary">black-myth-wukong</label>
-                        </label>
-                        <br>
-                        <label class="mt-2 fw-medium">
-                            <i class="bi bi-tag"></i> Thể Loại:
-                            <label class="text-secondary">Action</label>
-                        </label>
-                        <br>
-                        <label class="mt-2 fw-bold fs-5">
-                            900.000đ
-                        </label>
-                        <br>
-                        <div class="d-flex align-items-center text-nowrap flex-nowrap">
-                            <strike class=" text-body-tertiary fw-bold">1.000.000đ</strike> &nbsp;<span
-                                class="border border-danger rounded bg-danger text-white px-2 py-1">-62%</span>
-                            </label>
-                        </div>
-                        <hr class="my-3">
-                        <div>
-                            <h6 class="fw-medium">Các sản phẩm liên quan</h6>
-                            <div>
-                                <a href="" class="btn btn-outline-primary me-2 mb-2">
-                                    Tài khoản game
-                                </a>
-                                <a href="" class="btn btn-outline-primary me-2 mb-2">
-                                    Thuê 1 ngày
-                                </a>
-                                <a href="" class="btn btn-outline-primary me-2 mb-2">
-                                    Thuê 1 tuần
-                                </a>
-                                <a href="" class="btn btn-outline-primary me-2 mb-2">
-                                    Mua game
-                                </a>
-                                <a href="" class="btn btn-outline-primary me-2 mb-2">
-                                    Tài khoản game cũ
-                                </a>
-                            </div>
-                        </div>
-                        <hr class="my-3">
-                        <div class="cart-btn">
-                            <a href="" class="btn btn-primary mb-3 me-3" style="width: 13rem;"><i
-                                    class="bi bi-credit-card-fill"></i> <span class="fw-semibold">Mua
-                                    Ngay</span></a>
-                            <a href="" class="btn btn-outline-primary mb-3 fw-semibold" style="width: 13rem;"><i
-                                    class="bi bi-cart-plus fw-semibold"></i> <span class="fw-semibold">Thêm Vào
-                                    Giỏ</span></a>
-                        </div>
-                    </div>
-                </div>
-                <hr class="mt-4">
-            </div>
-        </form>
-    </div>
-    <div class="container mt-2">
-        <div class="row">
-            <h4 class="lh-lg fw-medium col-xl-3">Chi tiết sản phẩm</h4>
-            <div class="col-xl-9">
-                <div class="text-md-start mt-2 mb-4">
-                    <p class="fs-6 text-justify"><strong>Black Myth: Wukong</strong> là một game hành động nhập vai
-                        (RPG) lấy cảm
-                        hứng từ thần thoại Trung Quốc. Câu chuyện dựa trên "Tây Du Ký", một trong Tứ Đại Danh Tác của
-                        văn học Trung Quốc. Bạn sẽ vào vai Nhân Vật Được Định Mệnh Chọn Lựa, đối mặt với những thách
-                        thức và kỳ quan phía trước, khám phá sự thật bị che giấu dưới tấm màn của một huyền thoại huy
-                        hoàng từ quá khứ.</p>
-                </div>
-                <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2358720/extras/SteamGIF_Scene.gif?t=1718690162"
-                    class="w-75">
+	<!-- header -->
+	<div th:replace="~{/component/header.html}"></div>
 
-                <div class="mt-2">
-                    <h5 class="fw-bold">Khám Phá Vùng Đất Của Những Điều Kỳ Diệu</h5>
-                    <p class="text-justify">
-                        "Thế giới chưa thấy, nơi kỳ quan lấp lánh, <br>
-                        Và mỗi bước đi, một cảnh mới trải dài."
-                    </p>
-                    <p class="text-justify">
-                        Bước vào một cõi huyền bí đầy những kỳ quan và khám phá của thần thoại Trung Quốc cổ đại! Là
-                        Nhân Vật Được Định Mệnh Chọn Lựa, bạn sẽ băng qua nhiều phong cảnh tuyệt đẹp và độc đáo từ câu
-                        chuyện cổ điển, tạo nên một thiên anh hùng ca về cuộc phiêu lưu được nhìn nhận theo một cách
-                        hoàn toàn mới.
-                    </p>
-                    <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2358720/extras/SteamGIF_Boss.gif?t=1718690162"
-                        class="w-75">
-                </div>
-            </div>
-        </div>
-        <hr class="mt-4">
-        <div class="row">
-            <h4 class="lh-lg fw-medium col-xl-3">Chính sách bảo hành</h4>
-            <div class="col-xl-9">
-                <div class="mt-2">
-                    <h5 class="fw-bold">Thời gian bảo hành</h5>
-                    <p class="text-justify">
-                        - 1 ngày
-                    </p>
-                    <h5 class="fw-bold">Cách thức bảo hành</h5>
-                    <p class="text-justify">
-                        - Đổi mới sản phẩm khác nếu lỗi trong quá trình sử dụng hoặc hoàn tiền nếu không có sản phẩm bảo
-                        hành.
+	<div class="container ps-0">
+		<form class="mt-1">
+			<div class="row ms-3 me-1">
+				<div
+					class="col-lg-6 col-sm-12 d-flex flex-wrap mt-3 p-0 overflow-hidden">
+					<div class="img-showcase">
+						<img src="./images/black myth wukong-13641.jpg" class="rounded"
+							width="100%" alt=""> <img src="./images/slide-4.jpg"
+							width="100%" class="rounded" alt=""> <img
+							src="./images/slide-2.jpg" width="100%" class="rounded" alt="">
+						<img src="./images/slide-3.jpg" width="100%" class="rounded"
+							alt="">
+					</div>
+					<div class="img-select d-flex mt-1">
+						<div class="img-item p-1">
+							<a href="#" data-id="1"> <img
+								src="./images/black myth wukong-13641.jpg"
+								class="object-fit-cover" alt="">
+							</a>
+						</div>
+						<div class="img-item p-1">
+							<a href="#" data-id="2"> <img src="./images/slide-4.jpg"
+								class="object-fit-cover" alt="">
+							</a>
+						</div>
+						<div class="img-item p-1">
+							<a href="#" data-id="3"> <img src="./images/slide-2.jpg"
+								class="object-fit-cover" alt="">
+							</a>
+						</div>
+						<div class="img-item p-1">
+							<a href="#" data-id="4"> <img src="./images/slide-3.jpg"
+								class="object-fit-cover" alt="">
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6 col-sm-12 detailProduct">
+					<div class="mb-3 mt-3">
+						<span class="text-secondary">Sản phẩm</span> <br> <label
+							class="mt-1 fw-bold fs-4">Black Myth: Wukong - Tài khoản
+							Steam</label> <br> <label class="mt-2 fw-medium"><i
+							class="bi bi-box2"></i> Tình Trạng: <label class="text-success">Còn
+								Hàng</label> </label> <br> <label class="mt-2 fw-medium"> <i
+							class="bi bi-code-slash"></i> Mã Sản Phẩm: <label
+							class="text-secondary">black-myth-wukong</label>
+						</label> <br> <label class="mt-2 fw-medium"> <i
+							class="bi bi-tag"></i> Thể Loại: <label class="text-secondary">Action</label>
+						</label> <br> <label class="mt-2 fw-bold fs-5"> 900.000đ </label> <br>
+						<div class="d-flex align-items-center text-nowrap flex-nowrap">
+							<strike class=" text-body-tertiary fw-bold">1.000.000đ</strike>
+							&nbsp;<span
+								class="border border-danger rounded bg-danger text-white px-2 py-1">-62%</span>
+							</label>
+						</div>
+						<hr class="my-3">
+						<div>
+							<h6 class="fw-medium mb-2">Các sản phẩm liên quan</h6>
+							<div>
+								<a href="" class="btn btn-outline-primary me-2 mb-2"> Tài
+									khoản game </a> <a href=""
+									class="btn btn-outline-primary me-2 mb-2"> Thuê 1 ngày </a> <a
+									href="" class="btn btn-outline-primary me-2 mb-2"> Thuê 1
+									tuần </a> <a href="" class="btn btn-outline-primary me-2 mb-2">
+									Mua game </a> <a href="" class="btn btn-outline-primary me-2 mb-2">
+									Tài khoản game cũ </a>
+							</div>
+						</div>
+						<hr class="mt-2 mb-3">
+						<div class="cart-btn">
+							<a href="" class="btn btn-primary mb-3 me-3"
+								style="width: 13rem;"><i class="bi bi-credit-card-fill"></i>
+								<span class="fw-semibold">Mua Ngay</span></a> <a href=""
+								class="btn btn-outline-primary mb-3 fw-semibold"
+								style="width: 13rem;"><i class="bi bi-cart-plus fw-semibold"></i>
+								<span class="fw-semibold">Thêm Vào Giỏ</span></a>
+						</div>
+					</div>
+				</div>
+				<hr class="mt-4">
+			</div>
+		</form>
+	</div>
+	<div class="container mt-2">
+		<div class="row">
+			<h4 class="lh-lg fw-bold col-xl-3">Chi tiết sản phẩm</h4>
+			<div class="col-xl-9">
+				<div class="text-md-start mt-2 mb-4">
+					<p class="fs-6 text-justify">
+						<strong>Black Myth: Wukong</strong> là một game hành động nhập vai
+						(RPG) lấy cảm hứng từ thần thoại Trung Quốc. Câu chuyện dựa trên
+						"Tây Du Ký", một trong Tứ Đại Danh Tác của văn học Trung Quốc. Bạn
+						sẽ vào vai Nhân Vật Được Định Mệnh Chọn Lựa, đối mặt với những
+						thách thức và kỳ quan phía trước, khám phá sự thật bị che giấu
+						dưới tấm màn của một huyền thoại huy hoàng từ quá khứ.
+					</p>
+				</div>
+				<img
+					src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2358720/extras/SteamGIF_Scene.gif?t=1718690162"
+					class="w-75">
 
-                        - Không hỗ trợ bảo hành trong trường hợp khách hàng vi phạm chính sách của Steam và khách hàng
-                        bán lại tài khoản.
+				<div class="mt-2">
+					<h5 class="fw-medium">Khám Phá Vùng Đất Của Những Điều Kỳ Diệu</h5>
+					<p class="text-justify">
+						"Thế giới chưa thấy, nơi kỳ quan lấp lánh, <br> Và mỗi bước
+						đi, một cảnh mới trải dài."
+					</p>
+					<p class="text-justify">Bước vào một cõi huyền bí đầy những kỳ
+						quan và khám phá của thần thoại Trung Quốc cổ đại! Là Nhân Vật
+						Được Định Mệnh Chọn Lựa, bạn sẽ băng qua nhiều phong cảnh tuyệt
+						đẹp và độc đáo từ câu chuyện cổ điển, tạo nên một thiên anh hùng
+						ca về cuộc phiêu lưu được nhìn nhận theo một cách hoàn toàn mới.</p>
+					<img
+						src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2358720/extras/SteamGIF_Boss.gif?t=1718690162"
+						class="w-75">
+				</div>
+			</div>
+		</div>
+		<hr class="mt-4">
+		<div class="row">
+			<h4 class="lh-lg fw-bold col-xl-3">Chính sách bảo hành</h4>
+			<div class="col-xl-9">
+				<div class="mt-2">
+					<h5 class="fw-medium">Thời gian bảo hành</h5>
+					<p class="text-justify">- 1 ngày</p>
+					<h5 class="fw-medium">Cách thức bảo hành</h5>
+					<p class="text-justify">- Đổi mới sản phẩm khác nếu lỗi trong
+						quá trình sử dụng hoặc hoàn tiền nếu không có sản phẩm bảo hành. -
+						Không hỗ trợ bảo hành trong trường hợp khách hàng vi phạm chính
+						sách của Steam và khách hàng bán lại tài khoản. - Không hỗ trợ bảo
+						hành các sản phẩm game khác mà khách hàng mua vào tài khoản.</p>
+				</div>
+			</div>
+		</div>
+		<hr class="mt-4">
+		<div class="row">
+			<h4 class="lh-lg fw-bold col-xl-3">Câu hỏi thường gặp</h4>
+			<div class="col-xl-9">
+				<div class="mt-2">
+					<h6 class="fw-medium">1. Tôi có thể nhận game vào tài khoản
+						Steam có sẵn của tôi hay không?</h6>
+					<p class="text-justify">Dạ không ạ, đây là tài khoản Steam
+						Divine Shop đã tạo sẵn, sau khi mua bạn sẽ nhận được thông tin
+						đăng nhập gồm có tài khoản và mật khẩu để chơi game.</p>
+					<h6 class="fw-medium">2. Tôi có thể thuê bao nhiêu ngày?</h6>
+					<p class="text-justify">Số ngày thuê tối thiểu là 4 và không
+						giới hạn số ngày tối đa ạ.</p>
+					<h6 class="fw-medium">3. Tôi muốn thuê 10 ngày thì mua như thế
+						nào?</h6>
+					<p class="text-justify">
+						Bạn thêm sản phẩm vào giỏ hàng, sau đó vào <a
+							class="text-decoration-none" href="">giỏ hàng</a> và sửa số lượng
+						sản phẩm thành số ngày muốn thuê nhé.
+					</p>
+					<h6 class="fw-medium">4. Tôi có thể đổi thông tin tài khoản
+						trong lúc chơi không?</h6>
+					<p class="text-justify">Dạ không, bạn không được đổi thông tin
+						tài khoản ạ.</p>
+				</div>
+			</div>
+		</div>
+		<div class="fw-bold d-flex justify-content-end gap-2 my-2">
+			<span>Rating:</span> <span>4.9 <i
+				class=" bi bi-star-fill text-warning"></i></span> <span>(69 lượt
+				đánh giá)</span>
+		</div>
+	</div>
 
-                        - Không hỗ trợ bảo hành các sản phẩm game khác mà khách hàng mua vào tài khoản.
-                    </p>
-                </div>
-            </div>
-        </div>
-        <hr class="mt-4">
-        <div class="row">
-            <h4 class="lh-lg fw-medium col-xl-3">Câu hỏi thường gặp</h4>
-            <div class="col-xl-9">
-                <div class="mt-2">
-                    <h6 class="fw-bold">1. Tôi có thể nhận game vào tài khoản Steam có sẵn của tôi hay không?</h6>
-                    <p class="text-justify">
-                        Dạ không ạ, đây là tài khoản Steam Divine Shop đã tạo sẵn, sau khi mua bạn sẽ nhận được thông
-                        tin đăng nhập gồm có tài khoản và mật khẩu để chơi game.
-                    </p>
-                    <h6 class="fw-bold">2. Tôi có thể thuê bao nhiêu ngày?</h6>
-                    <p class="text-justify">
-                        Số ngày thuê tối thiểu là 4 và không giới hạn số ngày tối đa ạ.
-                    </p>
-                    <h6 class="fw-bold">3. Tôi muốn thuê 10 ngày thì mua như thế nào?</h6>
-                    <p class="text-justify">
-                        Bạn thêm sản phẩm vào giỏ hàng, sau đó vào <a class="text-decoration-none" href="">giỏ hàng</a>
-                        và sửa số lượng sản
-                        phẩm thành số ngày muốn
-                        thuê nhé.
-                    </p>
-                    <h6 class="fw-bold">4. Tôi có thể đổi thông tin tài khoản trong lúc chơi không?</h6>
-                    <p class="text-justify">
-                        Dạ không, bạn không được đổi thông tin tài khoản ạ.
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div class="fw-bold d-flex justify-content-end gap-2 my-2">
-            <span>Rating:</span>
-            <span>4.9 <i class=" bi bi-star-fill text-warning"></i></span>
-            <span>(69 lượt đánh giá)</span>
-        </div>
-    </div>
+	<div class="container mt-4">
+		<h4>Bình luận</h4>
+		<span>Thời gian phản hồi trung bình: 5 phút!</span>
+		<form action="">
+			<textarea class="mt-3 form-control"
+				placeholder="Nhập nội dung bình luận" rows="4"></textarea>
+			<div class="d-flex justify-content-end mt-3">
+				<button class="btn btn-outline-primary">
+					<i class="bi bi-send-fill"></i> Gửi bình luận
+				</button>
+			</div>
+		</form>
+		<div class="mt-3 d-flex">
+			<div class="me-3">
+				<img class="object-fit-cover rounded-circle" src="./images/1000.jpg"
+					width="70px" height="70px" alt="">
+			</div>
+			<div>
+				<h6 class="fw-bold">HXLuong</h6>
+				<span class="text-secondary">Bình luận vào 2024-08-29
+					23:11:34</span>
+				<p class="mb-2">thuê 1 tài khoản 1 ngày k được nữa ạ? Toàn tối
+					thiểu là 4 ko hở ad ơi</p>
+				<a class="text-decoration-none fw-bold" href="">Trả lời</a>
 
-    <div class="container mt-4">
-        <h4>Bình luận</h4>
-        <span>Thời gian phản hồi trung bình: 5 phút!</span>
-        <form action="">
-            <textarea class="mt-3 form-control" placeholder="Nhập nội dung bình luận" rows="4"></textarea>
-            <div class="d-flex justify-content-end mt-3">
-                <button class="btn btn-outline-primary"><i class="bi bi-send-fill"></i> Gửi bình
-                    luận</button>
-            </div>
-        </form>
-        <div class="mt-3 d-flex">
-            <div class="me-3">
-                <img class="object-fit-cover rounded-circle" src="./images/1000.jpg" width="70px" height="70px" alt="">
-            </div>
-            <div>
-                <h6 class="fw-bold">HXLuong</h6>
-                <span class="text-secondary">Bình luận vào 2024-08-29 23:11:34</span>
-                <p class="mb-2">thuê 1 tài khoản 1 ngày k được nữa ạ? Toàn tối thiểu là 4 ko hở ad ơi</p>
-                <a class="text-decoration-none fw-bold" href="">Trả lời</a>
+				<div class="mt-3 d-flex">
+					<div class="me-3">
+						<img class="object-fit-cover rounded-circle"
+							src="./images/AntiVirus99k-61638.png" width="50px" height="50px"
+							alt="">
+					</div>
+					<div>
+						<span class="fw-bold me-2">AntiVirus</span> <span
+							class="text-secondary">2024-08-29 23:11:34</span>
+						<p class="mb-2">@HXLuong Dạ vâng đúng rùi bạn ạ</p>
+						<a class="text-decoration-none fw-bold" href="">Trả lời</a>
+					</div>
+				</div>
+			</div>
+		</div>
 
-                <div class="mt-3 d-flex">
-                    <div class="me-3">
-                        <img class="object-fit-cover rounded-circle" src="./images/AntiVirus99k-61638.png" width="50px"
-                            height="50px" alt="">
-                    </div>
-                    <div>
-                        <span class="fw-bold me-2">AntiVirus</span>
-                        <span class="text-secondary">2024-08-29 23:11:34</span>
-                        <p class="mb-2">@HXLuong Dạ vâng đúng rùi bạn ạ</p>
-                        <a class="text-decoration-none fw-bold" href="">Trả lời</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+		<div class="mt-3 d-flex">
+			<div class="me-3">
+				<img class="object-fit-cover rounded-circle" src="./images/1000.jpg"
+					width="70px" height="70px" alt="">
+			</div>
+			<div>
+				<h6 class="fw-bold">HXLuong</h6>
+				<span class="text-secondary">Bình luận vào 2024-08-29
+					23:11:34</span>
+				<p class="mb-2">thuê 1 tài khoản 1 ngày k được nữa ạ? Toàn tối
+					thiểu là 4 ko hở ad ơi</p>
+				<a class="text-decoration-none fw-bold" href="">Trả lời</a>
 
-        <div class="mt-3 d-flex">
-            <div class="me-3">
-                <img class="object-fit-cover rounded-circle" src="./images/1000.jpg" width="70px" height="70px" alt="">
-            </div>
-            <div>
-                <h6 class="fw-bold">HXLuong</h6>
-                <span class="text-secondary">Bình luận vào 2024-08-29 23:11:34</span>
-                <p class="mb-2">thuê 1 tài khoản 1 ngày k được nữa ạ? Toàn tối thiểu là 4 ko hở ad ơi</p>
-                <a class="text-decoration-none fw-bold" href="">Trả lời</a>
+				<div class="mt-3 d-flex">
+					<div class="me-3">
+						<img class="object-fit-cover rounded-circle"
+							src="./images/AntiVirus99k-61638.png" width="50px" height="50px"
+							alt="">
+					</div>
+					<div>
+						<span class="fw-bold me-2">AntiVirus</span> <span
+							class="text-secondary">2024-08-29 23:11:34</span>
+						<p class="mb-2">@HXLuong Dạ vâng đúng rùi bạn ạ</p>
+						<a class="text-decoration-none fw-bold" href="">Trả lời</a>
+					</div>
+				</div>
 
-                <div class="mt-3 d-flex">
-                    <div class="me-3">
-                        <img class="object-fit-cover rounded-circle" src="./images/AntiVirus99k-61638.png" width="50px"
-                            height="50px" alt="">
-                    </div>
-                    <div>
-                        <span class="fw-bold me-2">AntiVirus</span>
-                        <span class="text-secondary">2024-08-29 23:11:34</span>
-                        <p class="mb-2">@HXLuong Dạ vâng đúng rùi bạn ạ</p>
-                        <a class="text-decoration-none fw-bold" href="">Trả lời</a>
-                    </div>
-                </div>
+				<div class="mt-3 d-flex">
+					<div class="me-3">
+						<img class="object-fit-cover rounded-circle"
+							src="./images/AntiVirus99k-61638.png" width="50px" height="50px"
+							alt="">
+					</div>
+					<div>
+						<span class="fw-bold me-2">AntiVirus</span> <span
+							class="text-secondary">2024-08-29 23:11:34</span>
+						<p class="mb-2">@HXLuong Dạ vâng đúng rùi bạn ạ</p>
+						<a class="text-decoration-none fw-bold" href="">Trả lời</a>
+					</div>
+				</div>
+			</div>
+		</div>
 
-                <div class="mt-3 d-flex">
-                    <div class="me-3">
-                        <img class="object-fit-cover rounded-circle" src="./images/AntiVirus99k-61638.png" width="50px"
-                            height="50px" alt="">
-                    </div>
-                    <div>
-                        <span class="fw-bold me-2">AntiVirus</span>
-                        <span class="text-secondary">2024-08-29 23:11:34</span>
-                        <p class="mb-2">@HXLuong Dạ vâng đúng rùi bạn ạ</p>
-                        <a class="text-decoration-none fw-bold" href="">Trả lời</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+		<div class="mt-3 d-flex">
+			<div class="me-3">
+				<img class="object-fit-cover rounded-circle" src="./images/1000.jpg"
+					width="70px" height="70px" alt="">
+			</div>
+			<div>
+				<h6 class="fw-bold">HXLuong</h6>
+				<span class="text-secondary">Bình luận vào 2024-08-29
+					23:11:34</span>
+				<p class="mb-2">thuê 1 tài khoản 1 ngày k được nữa ạ? Toàn tối
+					thiểu là 4 ko hở ad ơi</p>
+				<a class="text-decoration-none fw-bold" href="">Trả lời</a>
 
-        <div class="mt-3 d-flex">
-            <div class="me-3">
-                <img class="object-fit-cover rounded-circle" src="./images/1000.jpg" width="70px" height="70px" alt="">
-            </div>
-            <div>
-                <h6 class="fw-bold">HXLuong</h6>
-                <span class="text-secondary">Bình luận vào 2024-08-29 23:11:34</span>
-                <p class="mb-2">thuê 1 tài khoản 1 ngày k được nữa ạ? Toàn tối thiểu là 4 ko hở ad ơi</p>
-                <a class="text-decoration-none fw-bold" href="">Trả lời</a>
+				<div class="mt-3 d-flex">
+					<div class="me-3">
+						<img class="object-fit-cover rounded-circle"
+							src="./images/AntiVirus99k-61638.png" width="50px" height="50px"
+							alt="">
+					</div>
+					<div>
+						<span class="fw-bold me-2">AntiVirus</span> <span
+							class="text-secondary">2024-08-29 23:11:34</span>
+						<p class="mb-2">@HXLuong Dạ vâng đúng rùi bạn ạ</p>
+						<a class="text-decoration-none fw-bold" href="">Trả lời</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- footer -->
+	<div th:replace="~{/component/footer.html}"></div>
 
-                <div class="mt-3 d-flex">
-                    <div class="me-3">
-                        <img class="object-fit-cover rounded-circle" src="./images/AntiVirus99k-61638.png" width="50px"
-                            height="50px" alt="">
-                    </div>
-                    <div>
-                        <span class="fw-bold me-2">AntiVirus</span>
-                        <span class="text-secondary">2024-08-29 23:11:34</span>
-                        <p class="mb-2">@HXLuong Dạ vâng đúng rùi bạn ạ</p>
-                        <a class="text-decoration-none fw-bold" href="">Trả lời</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="./js/detailProduct.js"></script>
+	<script src="./js/detailProduct.js"></script>
 </body>
 
 </html>
