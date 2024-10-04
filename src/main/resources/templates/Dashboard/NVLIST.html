@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hóa Đơn Chi Tiết List</title>
+    <title>Người Dùng List</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css">
     <script src="https://kit.fontawesome.com/ae360af17e.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/styleOfDashBoard.css">
@@ -37,7 +37,8 @@
                         </a>
                         <ul id="pages" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                             <li class="sidebar-item">
-                                <a href="addNV.html" class="sidebar-link ms-3"><i class="fa-solid fa-plus pe-2"></i> Tạo người
+                                <a href="addNV.html" class="sidebar-link ms-3"><i class="fa-solid fa-plus pe-2"></i> Tạo
+                                    người
                                     dùng</a>
                             </li>
                             <li class="sidebar-item">
@@ -53,7 +54,8 @@
                         </a>
                         <ul id="posts" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                             <li class="sidebar-item">
-                                <a href="addSP.html" class="sidebar-link ms-3"><i class="fa-solid fa-plus pe-2"></i> Thêm sản
+                                <a href="addSP.html" class="sidebar-link ms-3"><i class="fa-solid fa-plus pe-2"></i>
+                                    Thêm sản
                                     phẩm</a>
                             </li>
                             <li class="sidebar-item">
@@ -69,11 +71,13 @@
                     </a>
                     <ul id="category" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                         <li class="sidebar-item">
-                            <a href="addDM.html" class="sidebar-link ms-3"><i class="fa-solid fa-plus pe-2"></i> Thêm danh
+                            <a href="addDM.html" class="sidebar-link ms-3"><i class="fa-solid fa-plus pe-2"></i> Thêm
+                                danh
                                 mục</a>
                         </li>
                         <li class="sidebar-item">
-                            <a href="DANHMUCLIST.html" class="sidebar-link ms-3"><i class="fa-solid fa-clipboard-list pe-3"></i>Danh
+                            <a href="DANHMUCLIST.html" class="sidebar-link ms-3"><i
+                                    class="fa-solid fa-clipboard-list pe-3"></i>Danh
                                 sách danh mục</a>
                         </li>
                     </ul>
@@ -85,11 +89,13 @@
                     </a>
                     <ul id="order" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                         <li class="sidebar-item">
-                            <a href="HDLIST.html" class="sidebar-link ms-3"><i class="fa-solid fa-file-invoice pe-3"></i> Hóa
+                            <a href="HDLIST.html" class="sidebar-link ms-3"><i
+                                    class="fa-solid fa-file-invoice pe-3"></i> Hóa
                                 đơn</a>
                         </li>
                         <li class="sidebar-item">
-                            <a href="HDCTLIST.html" class="sidebar-link ms-3"><i class="fa-solid fa-circle-info pe-3"></i>Chi tiết
+                            <a href="HDCTLIST.html" class="sidebar-link ms-3"><i
+                                    class="fa-solid fa-circle-info pe-3"></i>Chi tiết
                                 hóa đơn</a>
                         </li>
                     </ul>
@@ -125,7 +131,7 @@
                     <ul class="navbar-nav">
                         <li class="nav-item dropdown">
                             <a href="#" data-bs-toggle="dropdown" class="nav-icon pe-md-0">
-                                <img src="image/profile.jpg" class="avatar img-fluid rounded" alt="">
+                                <img src="images/profile.jpg" class="avatar img-fluid rounded" alt="">
                             </a>
                             <div class="dropdown-menu dropdown-menu-end">
                                 <a href="#" class="dropdown-item">Profile</a>
@@ -145,26 +151,113 @@
                                 Table
                             </h5>
                             <h6 class="card-subtitle text-muted">
-                                Hóa Đơn Chi Tiết
+                                Người Dùng
                             </h6>
                         </div>
                         <div class="card-body table-responsive">
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>ID Hóa Đơn Chi Tiết</th>
-                                        <th>ID Hóa Đơn</th>
-                                        <th>Số Lượng</th>
-                                        <th>Giá Sản Phẩm</th>
-                                        <th>Tên Sản Phẩm</th>
+                                        <th scope="col">Username</th>
+                                        <th scope="col">Password</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Fullname</th>
+                                        <th scope="col">Vai Trò</th>
+                                        <th scope="col">Hoạt động</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <td>1</td>
-                                    <td>1</td>
-                                    <td>2</td>
-                                    <td>100000đ</td>
-                                    <td>Elden Ring</td>
+                                    <td>Záp đẹp try</td>
+                                    <td>*******</td>
+                                    <td>aduzapdeptry@gmail.com</td>
+                                    <td>Hoàng Giáp</td>
+                                    <td>Admin</td>
+                                    <td scope="row">
+                                        <!-- Button trigger modal -->
+                                        <button type="button" class="bg-warning text-white btn btn-sm"
+                                            data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                            Chỉnh Sửa
+                                        </button>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
+                                            data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+                                            aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Cập nhật
+                                                            người dùng</h1>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form class="col-xs-12 col-lg-6 mx-auto">
+                                                            <div class="form-outline mb-4">
+                                                                <label class="form-label"
+                                                                    for="form2Example1">Username:</label>
+                                                                <input value="" type="text" class="form-control" />
+                                                                <form:errors cssClass="msg_errors" />
+                                                            </div>
+
+                                                            <div class="form-outline mb-4">
+                                                                <label class="form-label" for="form2Example2">Mật
+                                                                    khẩu:</label>
+                                                                <input value="" type="password" class="form-control" />
+                                                                <form:errors cssClass="msg_errors" />
+                                                            </div>
+
+                                                            <div class="form-outline mb-4">
+                                                                <label class="form-label" for="form2Example2">Xác Nhận
+                                                                    Mật Khẩu:</label>
+                                                                <input value="" type="password" class="form-control" />
+                                                                <form:errors cssClass="msg_errors" />
+                                                            </div>
+
+                                                            <div class="form-outline mb-4">
+                                                                <label class="form-label" for="form2Example2">Họ và
+                                                                    tên:</label>
+                                                                <input value="" type="text" class="form-control" />
+                                                                <form:errors cssClass="msg_errors" />
+                                                            </div>
+
+                                                            <div class="form-outline mb-4">
+                                                                <label class="form-label"
+                                                                    for="form2Example2">Email:</label>
+                                                                <input value="" type="email" class="form-control" />
+                                                                <form:errors cssClass="msg_errors" />
+                                                            </div>
+
+                                                            <div class="row mb-4">
+                                                                <label class="form-label" for="form2Example2">Vai
+                                                                    trò:</label>
+                                                                <div class="col d-flex">
+                                                                    <input type="radio" itemCssClass="radio-spacing" />
+                                                                    &nbsp;&nbsp;Admin&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                                                    <input type="radio" itemCssClass="radio-spacing" />
+                                                                    &nbsp;&nbsp;User<br>
+                                                                    <form:errors path="admin" cssClass="msg_errors" />
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Submit button -->
+                                                            <div class="d-flex justify-content-center mb-4">
+                                                                <button
+                                                                    class="btn btn-outline-success me-2">Thêm</button>
+                                                                <button class="btn btn-outline-info">Mới</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-primary">Cập Nhật</button>
+                                                        <button type="button" class="btn btn-danger">Xóa</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
                                 </tbody>
                             </table>
                         </div>
