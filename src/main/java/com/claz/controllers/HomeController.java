@@ -56,4 +56,9 @@ public class HomeController {
     public String login(Model model) {
         return "/login/login";
     }
+	
+	@RequestMapping("/cart-index")
+    public String cart(Model model) {
+        return "/cart/cart-index";
+    }
 }
