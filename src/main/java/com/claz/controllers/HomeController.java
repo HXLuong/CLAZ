@@ -51,59 +51,59 @@ public class HomeController {
 		return "/update_profile/introduct_profile";
 	}
 
-	@RequestMapping("/instruct_createAccount")
-	public String huongdantaotaikhoan(Model model) {
-		return "/instruct/instruct_createAccount";
+//	@RequestMapping("/instruct_createAccount")
+//	public String huongdantaotaikhoan(Model model) {
+//		return "/instruct/instruct_createAccount";
+//	}
+
+	@RequestMapping("/cart_instruct")
+	public String cart_instruct(Model model) {
+		return "/instruct/cart_instruct";
 	}
 
-	@RequestMapping("/cart_dashboard")
-	public String huongdanquanlygiohang(Model model) {
-		return "/dashboard/cart_dashboard";
+	@RequestMapping("/payment_instruct")
+	public String payment_instruct(Model model) {
+		return "/instruct/payment_instruct";
 	}
 
-	@RequestMapping("/payment_dashboard")
-	public String payment_dashboard(Model model) {
-		return "/dashboard/payment_dashboard";
+	@RequestMapping("/vnpay_instruct")
+	public String vnpay_instruct(Model model) {
+		return "/instruct/payment_vnpay_instruct";
 	}
 
-	@RequestMapping("/vnpay_dashboard")
-	public String vnpay_dashboard(Model model) {
-		return "/dashboard/payment_vnpay_dashboard";
+	@RequestMapping("/momo_instruct")
+	public String momo_instruct(Model model) {
+		return "/instruct/payment_momo_instruct";
 	}
 
-	@RequestMapping("/momo_dashboard")
-	public String momo_dashboard(Model model) {
-		return "/dashboard/payment_momo_dashboard";
+	@RequestMapping("/account_instruct")
+	public String account_instruct(Model model) {
+		return "/instruct/account_instruct";
 	}
 
-	@RequestMapping("/account_dashboard")
-	public String account_dashboard(Model model) {
-		return "/dashboard/account_dashboard";
+	@RequestMapping("/buymain_instruct")
+	public String buymain_instruct(Model model) {
+		return "/instruct/buymain_instruct";
 	}
 
-	@RequestMapping("/buymain_dashboard")
-	public String buymain_dashboard(Model model) {
-		return "/dashboard/buymain_dashboard";
+	@RequestMapping("/bonus_instruct")
+	public String bonus_instruct(Model model) {
+		return "/instruct/bonus_instruct";
 	}
 
-	@RequestMapping("/bonus_dashboard")
-	public String bonus_dashboard(Model model) {
-		return "/dashboard/bonus_dashboard";
+	@RequestMapping("/about_instruct")
+	public String about_instruct(Model model) {
+		return "/instruct/about_instruct";
 	}
 
-	@RequestMapping("/about_dashboard")
-	public String about_dashboard(Model model) {
-		return "/dashboard/about_dashboard";
+	@RequestMapping("/security_instruct")
+	public String security_instruct(Model model) {
+		return "/instruct/security_instruct";
 	}
 
-	@RequestMapping("/security_dashboard")
-	public String security_dashboard(Model model) {
-		return "/dashboard/security_dashboard";
-	}
-
-	@RequestMapping("/signup_dashboard")
-	public String signup_dashboard(Model model) {
-		return "/dashboard/signup_dashboard2";
+	@RequestMapping("/signup_instruct")
+	public String signup_instruct(Model model) {
+		return "/instruct/signup_instruct";
 	}
 
 	@RequestMapping("/detailProduct")
