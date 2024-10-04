@@ -53,6 +53,7 @@ blockquote, dd, dl, figure, h1, h2, h3, h4, h5, h6, hr, p, pre {
 	opacity: 0.8;
 }
 
+
 .caro {
 	width: 100%;
 }
@@ -240,4 +241,8 @@ blockquote, dd, dl, figure, h1, h2, h3, h4, h5, h6, hr, p, pre {
 	.offcanvas-half {
 		width: 80% !important;
 	}
+}
+.icon-search {
+
+	font-size: 1.6rem; /* Điều chỉnh kích thước icon tìm kiếm */
 }

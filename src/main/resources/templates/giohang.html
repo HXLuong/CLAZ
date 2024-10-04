@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cart with CSS Grid</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            margin: 20px;
+        }
+
+        .cart-details {
+            text-align: center;
+        }
+
+        .cart-details img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .payment-details {
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .payment-details h4 {
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            border-radius: 20px !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            margin-bottom: 10px;
+            width: 100%;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-warning {
+            background-color: burlywood;
+            color: black;
+        }
+
+        .btn-danger {
+            background-color: deeppink;
+            color: white;
+        }
+
+        /* Responsive for mobile */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr; /* Chuyển thành 1 cột khi màn hình nhỏ hơn 768px */
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div th:replace="/header.html"></div>
+
+<div class="container">
+    <!-- Cart Details -->
+    <div class="cart-details">
+        <h3 class="fw-bold text-muted-custom">Giỏ hàng trống!</h3>
+        <p class="text-muted-custom">Thêm sản phẩm vào giỏ và quay lại trang này để thanh toán nha bạn <3</p>
+        <img aria-hidden="true" alt="cat-in-box" src="https://cdn.divineshop.vn/static/4e0db8ffb1e9cac7c7bc91d497753a2c.svg" />
+    </div>
+
+    <!-- Payment Details -->
+    <div class="payment-details">
+        <h4>Thanh toán</h4>
+        <p>Tổng giá trị sản phẩm: <span class="font-bold">0đ</span></p>
+        <hr>
+        <p>Tổng giá trị phải thanh toán: <span class="font-bold">0đ</span></p>
+        <p>Số dư hiện tại: <span class="font-bold">0đ</span></p>
+        <p>Số tiền cần nạp thêm: <span class="font-bold">0đ</span></p>
+
+        <button class="btn btn-primary">
+            <img class="me-2" src="https://cdn.divineshop.vn/static/b1402e84a947ed36cebe9799e47f61c2.svg" alt="icon" style="width: 30px; height: 30px;">
+            Nạp thêm vào tài khoản
+        </button>
+
+        <p class="mb-2">Quét mã, Thanh Toán, Không cần nạp tiền</p>
+
+        <button class="btn btn-warning">
+            <img class="me-2" src="https://cdn.divineshop.vn/static/ed4044413ba8489903d4f27bac88aa02.svg" alt="icon" style="width: 30px; height: 30px;">
+            Mua siêu tốc qua Mobile Banking
+        </button>
+
+        <button class="btn btn-danger">
+            <img class="me-2" src="https://cdn.divineshop.vn/static/b77a2122717d76696bd2b87d7125fd47.svg" alt="icon" style="width: 30px; height: 30px;">
+            Mua siêu tốc với MoMo
+        </button>
+    </div>
+</div>
+
+<div th:replace="/footer.html"></div>
+
+</body>
+</html>
