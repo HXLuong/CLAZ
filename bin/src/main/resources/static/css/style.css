@@ -53,7 +53,6 @@ blockquote, dd, dl, figure, h1, h2, h3, h4, h5, h6, hr, p, pre {
 	opacity: 0.8;
 }
 
-
 .caro {
 	width: 100%;
 }
@@ -88,8 +87,8 @@ blockquote, dd, dl, figure, h1, h2, h3, h4, h5, h6, hr, p, pre {
 .bg-image {
 	background-image:
 		url(https://divineshop.vn/static/0de2668c294edf9d5fd8a8647b2c65b6.png);
-	height: 100%;
-	max-width: 100%;
+	height: 300px;
+	width: 100%;
 	background-repeat: no-repeat;
 	background-color: #000d21;
 }
@@ -111,26 +110,6 @@ blockquote, dd, dl, figure, h1, h2, h3, h4, h5, h6, hr, p, pre {
 	margin-top: -0.2rem !important;
 }
 
-.hot-product {
-	padding: 154px 0 35px;
-}
-
-.hot-text {
-	width: 30%;
-	border: 1px solid white;
-	border-radius: 40px
-}
-
-.icon-payment {
-	max-width: 100%;
-	height: 1.75rem;
-	margin: 10px;
-}
-
-.footer-btn:hover {
-	color: red;
-}
-
 @media only screen and (max-width: 1200px) {
 	.parent1, .parent2 {
 		margin-top: 8px;
@@ -146,9 +125,6 @@ blockquote, dd, dl, figure, h1, h2, h3, h4, h5, h6, hr, p, pre {
 	}
 	.offcanvas-half {
 		width: 30% !important;
-	}
-	.hot-text {
-		width: 50%;
 	}
 }
 
@@ -168,9 +144,6 @@ blockquote, dd, dl, figure, h1, h2, h3, h4, h5, h6, hr, p, pre {
 	}
 	.offcanvas-half {
 		width: 40% !important;
-	}
-	.hot-text {
-		width: 70%;
 	}
 }
 
@@ -216,8 +189,10 @@ blockquote, dd, dl, figure, h1, h2, h3, h4, h5, h6, hr, p, pre {
 		width: 100%;
 		background-size: cover;
 	}
-	.hot-text {
-		width: 90%;
+	.bg-image {
+		width: 100%;
+		height: 100px !important;
+		background-size: contain;
 	}
 }
 
@@ -241,8 +216,4 @@ blockquote, dd, dl, figure, h1, h2, h3, h4, h5, h6, hr, p, pre {
 	.offcanvas-half {
 		width: 80% !important;
 	}
-}
-.icon-search {
-
-	font-size: 1.6rem; /* Điều chỉnh kích thước icon tìm kiếm */
 }
