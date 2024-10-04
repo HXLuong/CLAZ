@@ -1,0 +1,55 @@
+html {
+    scroll-behavior: smooth;
+}
+
+.img-showcase {
+    display: flex;
+    width: 100%;
+    transition: transform 0.8s ease-in-out;
+}
+
+.img-item a img {
+    width: 100%;
+    height: 80px;
+}
+
+.img-select {
+    width: 100%;
+}
+
+.img-item {
+    width: 25%;
+}
+
+span {
+    font-size: 15px;
+}
+
+.detailProduct {
+    padding-left: 20px;
+}
+
+.cart-btn {
+    display: flex;
+}
+
+.text-justify {
+    text-align: justify;
+}
+
+@media only screen and (max-width: 768px) {
+    .detailProduct {
+        padding-left: 0px;
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    .detailProduct {
+        padding-left: 0px;
+    }
+
+    .cart-btn {
+        display: flex;
+        justify-content: center;
+    }
+}
