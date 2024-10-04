@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Hướng dẫn quản lý giỏ hàng</title>
+</head>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<body>
+	<div th:replace="/dashboard/menu_dashboard.html"></div>
+	<div class="col-lg-8">
+		<div class="container">
+			<p class="fs-2 fw-bold mt-4">Quản lý đơn hàng</p>
+			<p class="fs-2 fw-bold mt-4" id="truycap">
+				Truy cập lịch sử đơn hàng tại <a href="#">ĐÂY</a>
+			</p>
+			<p>Tại đây bạn sẽ xem được tất cả các đơn hàng bạn đã mua trên
+				Claz Shop</p>
+			<div class="d-flex justify-content-center">
+				<img src="/images/pic_donhang.avif"
+					class="img-fluid d-block rounded" alt="...">
+			</div>
+			<p class="fs-2 fw-bold mt-4" id="1">1. Bộ lọc tìm kiếm</p>
+			<p>Giúp bạn tìm kiếm các đơn hàng theo những điều kiện khác nhau
+				như: Mã đơn hàng, ngày mua (ngày tạo từ - ngày tạo đến), giá trị đơn
+				hàng (số tiền từ - số tiền đến)</p>
+			<p class="fs-2 fw-bold mt-4" id="2">2.Tổng tiền đã thanh toán.</p>
+			<p>Con số này thể hiện tổng giá trị các đơn hàng.</p>
+			<p>Mặc định khi truy cập trang này, nó sẽ là tổng tiền mà bạn đã
+				giao dịch trên Claz Shop.</p>
+			<p>Ngoài ra khi bạn sử dụng chức năng tìm kiếm, nó sẽ là tổng của
+				những đơn hàng nằm trong kết quả tìm kiếm</p>
+
+
+			<div class="bg-primary p-1 text-dark bg-opacity-25 rounded mt-3">
+				<div class="container">
+					<p class="mt-2">
+						<i class="bi bi-check-circle"></i> <Strong>Ví Dụ</Strong>: Bạn
+						muốn biết tháng 03/2020 bạn đã phát sinh bao nhiêu tiền trên Shop.
+						Chỉ cần tìm kiếm đơn hàng với điều kiện:
+					</p>
+					<ul>
+						<li><Strong>Ngày tạo từ</Strong>: 2020-03-01</li>
+						<li><Strong>Ngày tạo đến</Strong>: 2020-03-31</li>
+					</ul>
+					<p>Sau đó bấm tìm kiếm, khi có kết quả, Tổng tiền hiện ra chính
+						là tổng tiền phát sinh trong tháng 03/2020</p>
+				</div>
+			</div>
+			<p class="fs-2 fw-bold mt-4" id="3">3. Danh sách các đơn hàng</p>
+			<p>Đây là danh sách chi tiết các đơn hàng của bạn.</p>
+			<p>Nhìn qua đây, các bạn có thể thấy được các thông tin cơ bản
+				của đơn hàng như: ngày mua, sản phẩm mua, giá trị đơn hàng.</p>
+			<p class="fs-2 fw-bold mt-4" id="4">4. Chi tiết đơn hàng</p>
+			<p>Để biết thêm các thông tin chi tiết của đơn hàng như:</p>
+			<ul>
+				<li class="text-secondary"><Span class="text-dark">Tình
+						trạng đơn hàng: Hoàn thành/Chờ thanh toán/Chargeback</Span></li>
+				<li class="text-secondary"><Span class="text-dark">Key
+						game</Span></li>
+				<li class="text-secondary"><Span class="text-dark">Hướng
+						dẫn sử dụng </Span></li>
+				<li class="text-secondary"><Span class="text-dark">Biên
+						lai chi tiết của đơn hàng</Span></li>
+			</ul>
+			<p>Bạn hãy click vào nút này.</p>
+			<div class="d-flex justify-content-center">
+				<img src="/images/pic_donhang2.avif"
+					class="img-fluid d-block rounded" alt="...">
+			</div>
+
+		</div>
+		<nav aria-label="Page navigation example ">
+			<ul class="pagination d-flex justify-content-between">
+				<li class="page-item w-100"><a
+					class="page-link btn btn-primary w-100 rounded p-3 me-3 mt-5">Previous</a>
+				</li>
+				<li class=" ms-3 page-item w-100"><a
+					class="page-link btn btn-primary w-100 rounded p-3 mt-5" href="#">Next
+				</a></li>
+			</ul>
+		</nav>
+	</div>
+
+	<div class="col-lg-2 d-none d-lg-block border-start fixed-sidebar"
+		style="border-color: black; border-width: 2px; max-height: 200px">
+		<div style="font-size: 14px;">
+			<a href="#truycap" class="step-link">Truy cập lịch sử đơn hàng
+				tại ĐÂY</a> <a href="#1" class="step-link">1. Bộ lọc tìm kiếm</a> <a
+				href="#2" class="step-link active-step">2. Tổng tiền đã thanh
+				toán</a> <a href="#3" class="step-link">3. Danh sách các đơn hàng</a> <a
+				href="#4" class="step-link">4. Chi tiết đơn hàng</a>
+		</div>
+	</div>
+</body>
+
+<link rel="stylesheet" href="./css/dashboard.css">
+</html>
