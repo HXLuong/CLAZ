@@ -116,8 +116,12 @@ public class HomeController {
 		return "/update_profile/detail_profile";
 	}
 
-	@RequestMapping("/login")
-	public String login(Model model) {
-		return "/login/login";
-	}
+    public String login(Model model) {
+        return "/login/login";
+    }
+	
+	@RequestMapping("/cart-index")
+    public String cart(Model model) {
+        return "/cart/cart-index";
+    }
 }
