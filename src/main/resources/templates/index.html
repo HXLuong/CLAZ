@@ -168,8 +168,8 @@
                                 <i class="bi bi-person-circle text-white pe-2 fs-1"></i>
                                 <div class="pe-2 d-flex align-items-center">
                                     <div class="text-white fs-6 fw-bold">
-                                        <a class="header_hover" href="">Đăng Nhập</a> /
-                                        <a class="header_hover" href="">Đăng Ký</a>
+                                        <a class="header_hover" href="/login">Đăng Nhập</a> /
+                                        <a class="header_hover" href="/register">Đăng Ký</a>
                                     </div>
                                 </div>
                             </div>
@@ -194,7 +194,7 @@
                         </div> -->
 
                         <!-- Cart -->
-                        <a href="" class="border rounded d-flex text-decoration-none position-relative header_hover"> <i
+                        <a href="/cart" class="border rounded d-flex text-decoration-none position-relative header_hover"> <i
                                 class="fa-solid fa-cart-shopping text-white py-2 px-2 fs-5"></i>
                             <div class="pe-2 d-flex align-items-center">
                                 <span class="text-white fs-6">Giỏ hàng</span>
@@ -486,126 +486,6 @@
         <div class="bg-image"></div>
     </div>
     <br>
-    <div class="container mt-2">
-        <div class="row">
-            <div class="col-md-6 col-8">
-                <h4 class="fw-bolder">Game Trên Steam</h4>
-                <h6>Những trò chơi được đánh giá tốt, nội dung hấp dẫn thu hút đang chờ bạn</h6>
-            </div>
-            <div class="col-md-6 d-flex justify-content-end col-4">
-                <button type="button" class="btn btn-primary " style="height: 40px;">Khám Phá</button>
-            </div>
-        </div>
-    </div>
-    <div class="container mt-2">
-        <div class="row">
-            <c:forEach var="item" items="${liststeam}">
-                <div class="col-md-3 col-6">
-                    <a href="/product/detail/${item.id}">
-                        <img src="images/${item.image}" class="img-fluid mt-2 rounded" alt="Right Image 2" width="100%">
-                    </a>
-                    <a href="/product/detail/${item.id}" class="d-block mt-2">${item.name}</a>
-                    <h6 class="mt-2 mb-3 position-relative" style="font-weight: 500;">
-                        <fmt:formatNumber value="${item.price}"></fmt:formatNumber>đ &nbsp;<strike
-                            style="color: grey;">1.000.000đ</strike>&nbsp;&nbsp;<span
-                            class="border border-danger rounded bg-danger text-white px-2 py-1 special-span">-62%</span>
-                    </h6>
-                </div>
-            </c:forEach>
-        </div>
-    </div>
-    <div class="container mt-2">
-        <hr>
-        <br>
-        <div class="row">
-            <div class="col-md-6 col-8">
-                <h4 class="fw-bolder">Sản phẩm mới</h4>
-            </div>
-            <div class="col-md-6 d-flex justify-content-end col-4">
-                <button type="button" class="btn btn-primary " style="height: 40px;">Khám Phá</button>
-            </div>
-        </div>
-    </div>
-    <div class="container mt-2">
-        <div class="row">
-            <c:forEach var="item" items="${listnew}">
-                <div class="col-md-3 col-6">
-                    <a href="/product/detail/${item.id}">
-                        <img src="images/${item.image}" class="img-fluid mt-2 rounded" alt="Right Image 2" width="100%">
-                    </a>
-                    <a href="/product/detail/${item.id}" class="d-block mt-2">${item.name}</a>
-                    <h6 class="mt-2 mb-3 position-relative" style="font-weight: 500;">
-                        <fmt:formatNumber value="${item.price}"></fmt:formatNumber>đ &nbsp;<strike
-                            style="color: grey;">1.000.000đ</strike>&nbsp;&nbsp;<span
-                            class="border border-danger rounded bg-danger text-white px-2 py-1 special-span">-62%</span>
-                    </h6>
-                </div>
-            </c:forEach>
-        </div>
-    </div>
-    <div class="container mt-2">
-        <hr>
-        <br>
-        <div class="row">
-            <div class="col-md-6 col-8">
-                <h4 class="fw-bolder">Học Tập</h4>
-            </div>
-            <div class="col-md-6 d-flex justify-content-end col-4">
-                <button type="button" class="btn btn-primary " style="height: 40px;">Khám Phá</button>
-            </div>
-        </div>
-    </div>
-    <div class="container mt-2">
-        <div class="row">
-            <c:forEach var="item" items="${listhoctap}">
-                <div class="col-md-3 col-6">
-                    <a href="/product/detail/${item.id}">
-                        <img src="images/${item.image}" class="img-fluid mt-2 rounded" alt="Right Image 2" width="100%">
-                    </a>
-                    <a href="/product/detail/${item.id}" class="d-block mt-2">${item.name}</a>
-                    <h6 class="mt-2 mb-3 position-relative" style="font-weight: 500;">
-                        <fmt:formatNumber value="${item.price}"></fmt:formatNumber>đ &nbsp;<strike
-                            style="color: grey;">1.000.000đ</strike>&nbsp;&nbsp;<span
-                            class="border border-danger rounded bg-danger text-white px-2 py-1 special-span">-62%</span>
-                    </h6>
-                </div>
-            </c:forEach>
-        </div>
-    </div>
-    <div class="container mt-2">
-        <hr>
-        <br>
-        <div class="row">
-            <div class="col-md-6 col-8">
-                <h4 class="fw-bolder">Làm việc</h4>
-            </div>
-            <div class="col-md-6 d-flex justify-content-end col-4">
-                <button type="button" class="btn btn-primary " style="height: 40px;">Khám Phá</button>
-            </div>
-        </div>
-    </div>
-    <div class="container mt-2">
-        <div class="row">
-            <c:forEach var="item" items="${listwork}">
-                <div class="col-md-3 col-6">
-                    <a href="/product/detail/${item.id}">
-                        <img src="images/${item.image}" class="img-fluid mt-2 rounded" alt="Right Image 2" width="100%">
-                    </a>
-                    <a href="/product/detail/${item.id}" class="d-block mt-2">${item.name}</a>
-                    <h6 class="mt-2 mb-3 position-relative" style="font-weight: 500;">
-                        <fmt:formatNumber value="${item.price}"></fmt:formatNumber>đ &nbsp;<strike
-                            style="color: grey;">1.000.000đ</strike>&nbsp;&nbsp;<span
-                            class="border border-danger rounded bg-danger text-white px-2 py-1 special-span">-62%</span>
-                    </h6>
-                </div>
-            </c:forEach>
-        </div>
-        <br>
-        <hr>
-        <br>
-        <br>
-    </div>
-
     <!-- footer -->
     <footer class="bg-dark text-white pt-5 pb-4">
         <div class="container text-center text-md-start">
