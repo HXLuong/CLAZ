@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class ManagerController {
     @GetMapping("/adm")
     public String adm() {
-        return "/Dashboard/SPLIST";
+        return "/admin/SPLIST";
     }
 }

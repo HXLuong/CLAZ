@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Người Dùng List</title>
+    <title>Danh Mục List</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css">
     <script src="https://kit.fontawesome.com/ae360af17e.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/styleOfDashBoard.css">
@@ -151,27 +151,23 @@
                                 Table
                             </h5>
                             <h6 class="card-subtitle text-muted">
-                                Người Dùng
+                                Danh Mục
                             </h6>
                         </div>
                         <div class="card-body table-responsive">
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
-                                        <th scope="col">Username</th>
-                                        <th scope="col">Password</th>
-                                        <th scope="col">Email</th>
-                                        <th scope="col">Fullname</th>
-                                        <th scope="col">Vai Trò</th>
-                                        <th scope="col">Hoạt động</th>
+                                        <th>ID Danh Mục</th>
+                                        <th>Tên Danh Mục</th>
+                                        <th>Sản Phẩm</th>
+                                        <th class="align-middle" scope="col">Trạng Thái</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <td>Záp đẹp try</td>
-                                    <td>*******</td>
-                                    <td>aduzapdeptry@gmail.com</td>
-                                    <td>Hoàng Giáp</td>
-                                    <td>Admin</td>
+                                    <td>DM1</td>
+                                    <td>RPG</td>
+                                    <td>Elden Ring</td>
                                     <td scope="row">
                                         <!-- Button trigger modal -->
                                         <button type="button" class="bg-warning text-white btn btn-sm"
@@ -187,64 +183,24 @@
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h1 class="modal-title fs-5" id="staticBackdropLabel">Cập nhật
-                                                            người dùng</h1>
+                                                            danh mục</h1>
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                             aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
                                                         <form class="col-xs-12 col-lg-6 mx-auto">
-                                                            <div class="form-outline mb-4">
-                                                                <label class="form-label"
-                                                                    for="form2Example1">Username:</label>
-                                                                <input value="" type="text" class="form-control" />
+                                                            <div class="form-outline mb-4 col-md-12">
+                                                                <label class="form-label" for="form2Example2">ID Danh
+                                                                    Mục:</label>
+                                                                <input value="" readonly="true" class="form-control" />
                                                                 <form:errors cssClass="msg_errors" />
                                                             </div>
 
                                                             <div class="form-outline mb-4">
-                                                                <label class="form-label" for="form2Example2">Mật
-                                                                    khẩu:</label>
-                                                                <input value="" type="password" class="form-control" />
+                                                                <label class="form-label" for="form2Example2">Tên Danh
+                                                                    Mục:</label>
+                                                                <input value="" class="form-control" />
                                                                 <form:errors cssClass="msg_errors" />
-                                                            </div>
-
-                                                            <div class="form-outline mb-4">
-                                                                <label class="form-label" for="form2Example2">Xác Nhận
-                                                                    Mật Khẩu:</label>
-                                                                <input value="" type="password" class="form-control" />
-                                                                <form:errors cssClass="msg_errors" />
-                                                            </div>
-
-                                                            <div class="form-outline mb-4">
-                                                                <label class="form-label" for="form2Example2">Họ và
-                                                                    tên:</label>
-                                                                <input value="" type="text" class="form-control" />
-                                                                <form:errors cssClass="msg_errors" />
-                                                            </div>
-
-                                                            <div class="form-outline mb-4">
-                                                                <label class="form-label"
-                                                                    for="form2Example2">Email:</label>
-                                                                <input value="" type="email" class="form-control" />
-                                                                <form:errors cssClass="msg_errors" />
-                                                            </div>
-
-                                                            <div class="row mb-4">
-                                                                <label class="form-label" for="form2Example2">Vai
-                                                                    trò:</label>
-                                                                <div class="col d-flex">
-                                                                    <input type="radio" itemCssClass="radio-spacing" />
-                                                                    &nbsp;&nbsp;Admin&nbsp;&nbsp;&nbsp;&nbsp;<br>
-                                                                    <input type="radio" itemCssClass="radio-spacing" />
-                                                                    &nbsp;&nbsp;User<br>
-                                                                    <form:errors path="admin" cssClass="msg_errors" />
-                                                                </div>
-                                                            </div>
-
-                                                            <!-- Submit button -->
-                                                            <div class="d-flex justify-content-center mb-4">
-                                                                <button
-                                                                    class="btn btn-outline-success me-2">Thêm</button>
-                                                                <button class="btn btn-outline-info">Mới</button>
                                                             </div>
                                                         </form>
                                                     </div>
@@ -271,39 +227,7 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        const sidebarToggle = document.querySelector("#sidebar-toggle");
-        sidebarToggle.addEventListener("click", function () {
-            document.querySelector("#sidebar").classList.toggle("collapsed");
-        });
-
-        document.querySelector(".theme-toggle").addEventListener("click", () => {
-            toggleLocalStorage();
-            toggleRootClass();
-        });
-
-        function toggleRootClass() {
-            const current = document.documentElement.getAttribute('data-bs-theme');
-            const inverted = current == 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-bs-theme', inverted);
-        }
-
-        function toggleLocalStorage() {
-            if (isLight()) {
-                localStorage.removeItem("light");
-            } else {
-                localStorage.setItem("light", "set");
-            }
-        }
-
-        function isLight() {
-            return localStorage.getItem("light");
-        }
-
-        if (isLight()) {
-            toggleRootClass();
-        }
-    </script>
+    <script src="./js/admin.js"></script>
 </body>
 
 </html>
