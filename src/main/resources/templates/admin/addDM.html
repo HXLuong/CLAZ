@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hóa Đơn Chi Tiết List</title>
+    <title>Thêm Danh Mục</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css">
     <script src="https://kit.fontawesome.com/ae360af17e.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/styleOfDashBoard.css">
@@ -37,7 +37,8 @@
                         </a>
                         <ul id="pages" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                             <li class="sidebar-item">
-                                <a href="addNV.html" class="sidebar-link ms-3"><i class="fa-solid fa-plus pe-2"></i> Tạo người
+                                <a href="addNV.html" class="sidebar-link ms-3"><i class="fa-solid fa-plus pe-2"></i> Tạo
+                                    người
                                     dùng</a>
                             </li>
                             <li class="sidebar-item">
@@ -53,7 +54,8 @@
                         </a>
                         <ul id="posts" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                             <li class="sidebar-item">
-                                <a href="addSP.html" class="sidebar-link ms-3"><i class="fa-solid fa-plus pe-2"></i> Thêm sản
+                                <a href="addSP.html" class="sidebar-link ms-3"><i class="fa-solid fa-plus pe-2"></i>
+                                    Thêm sản
                                     phẩm</a>
                             </li>
                             <li class="sidebar-item">
@@ -69,11 +71,13 @@
                     </a>
                     <ul id="category" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                         <li class="sidebar-item">
-                            <a href="addDM.html" class="sidebar-link ms-3"><i class="fa-solid fa-plus pe-2"></i> Thêm danh
+                            <a href="addDM.html" class="sidebar-link ms-3"><i class="fa-solid fa-plus pe-2"></i> Thêm
+                                danh
                                 mục</a>
                         </li>
                         <li class="sidebar-item">
-                            <a href="DANHMUCLIST.html" class="sidebar-link ms-3"><i class="fa-solid fa-clipboard-list pe-3"></i>Danh
+                            <a href="DANHMUCLIST.html" class="sidebar-link ms-3"><i
+                                    class="fa-solid fa-clipboard-list pe-3"></i>Danh
                                 sách danh mục</a>
                         </li>
                     </ul>
@@ -85,11 +89,13 @@
                     </a>
                     <ul id="order" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                         <li class="sidebar-item">
-                            <a href="HDLIST.html" class="sidebar-link ms-3"><i class="fa-solid fa-file-invoice pe-3"></i> Hóa
+                            <a href="HDLIST.html" class="sidebar-link ms-3"><i
+                                    class="fa-solid fa-file-invoice pe-3"></i> Hóa
                                 đơn</a>
                         </li>
                         <li class="sidebar-item">
-                            <a href="HDCTLIST.html" class="sidebar-link ms-3"><i class="fa-solid fa-circle-info pe-3"></i>Chi tiết
+                            <a href="HDCTLIST.html" class="sidebar-link ms-3"><i
+                                    class="fa-solid fa-circle-info pe-3"></i>Chi tiết
                                 hóa đơn</a>
                         </li>
                     </ul>
@@ -145,28 +151,30 @@
                                 Table
                             </h5>
                             <h6 class="card-subtitle text-muted">
-                                Hóa Đơn Chi Tiết
+                                Thêm Danh Mục
                             </h6>
                         </div>
-                        <div class="card-body table-responsive">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>ID Hóa Đơn Chi Tiết</th>
-                                        <th>ID Hóa Đơn</th>
-                                        <th>Số Lượng</th>
-                                        <th>Giá Sản Phẩm</th>
-                                        <th>Tên Sản Phẩm</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <td>1</td>
-                                    <td>1</td>
-                                    <td>2</td>
-                                    <td>100000đ</td>
-                                    <td>Elden Ring</td>
-                                </tbody>
-                            </table>
+                        <div class="card-body">
+                            <form class="col-xs-12 col-lg-6 mx-auto">
+                                <div class="form-outline mb-4 col-md-12">
+                                    <label class="form-label" for="form2Example2">ID Danh Mục:</label>
+                                    <input value="" readonly="true" class="form-control" />
+                                    <form:errors cssClass="msg_errors" />
+                                </div>
+
+                                <div class="form-outline mb-4">
+                                    <label class="form-label" for="form2Example2">Tên Danh Mục:</label>
+                                    <input value="" class="form-control" />
+                                    <form:errors cssClass="msg_errors" />
+                                </div>
+                                <!-- Submit button -->
+                                <div class="row">
+                                    <div class="d-flex justify-content-center mb-4">
+                                        <button class="btn btn-outline-success me-2">Thêm</button>
+                                        <button class="btn btn-outline-info">Mới</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -178,39 +186,7 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        const sidebarToggle = document.querySelector("#sidebar-toggle");
-        sidebarToggle.addEventListener("click", function () {
-            document.querySelector("#sidebar").classList.toggle("collapsed");
-        });
-
-        document.querySelector(".theme-toggle").addEventListener("click", () => {
-            toggleLocalStorage();
-            toggleRootClass();
-        });
-
-        function toggleRootClass() {
-            const current = document.documentElement.getAttribute('data-bs-theme');
-            const inverted = current == 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-bs-theme', inverted);
-        }
-
-        function toggleLocalStorage() {
-            if (isLight()) {
-                localStorage.removeItem("light");
-            } else {
-                localStorage.setItem("light", "set");
-            }
-        }
-
-        function isLight() {
-            return localStorage.getItem("light");
-        }
-
-        if (isLight()) {
-            toggleRootClass();
-        }
-    </script>
+    <script src="./js/admin.js"></script>
 </body>
 
 </html>

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thêm Người Dùng</title>
+    <title>Hóa Đơn Chi Tiết List</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css">
     <script src="https://kit.fontawesome.com/ae360af17e.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/styleOfDashBoard.css">
@@ -145,56 +145,28 @@
                                 Table
                             </h5>
                             <h6 class="card-subtitle text-muted">
-                                Thêm Danh Mục
+                                Hóa Đơn Chi Tiết
                             </h6>
                         </div>
-                        <div class="card-body">
-                            <form class="col-xs-12 col-lg-6 mx-auto">
-                                <div class="form-outline mb-4">
-                                    <label class="form-label" for="form2Example1">Username:</label>
-                                    <input value="" type="text" class="form-control" />
-                                    <form:errors cssClass="msg_errors" />
-                                </div>
-
-                                <div class="form-outline mb-4">
-                                    <label class="form-label" for="form2Example2">Mật khẩu:</label>
-                                    <input value="" type="password" class="form-control" />
-                                    <form:errors cssClass="msg_errors" />
-                                </div>
-
-                                <div class="form-outline mb-4">
-                                    <label class="form-label" for="form2Example2">Xác Nhận Mật Khẩu:</label>
-                                    <input value="" type="password" class="form-control" />
-                                    <form:errors cssClass="msg_errors" />
-                                </div>
-
-                                <div class="form-outline mb-4">
-                                    <label class="form-label" for="form2Example2">Họ và tên:</label>
-                                    <input value="" type="text" class="form-control" />
-                                    <form:errors cssClass="msg_errors" />
-                                </div>
-
-                                <div class="form-outline mb-4">
-                                    <label class="form-label" for="form2Example2">Email:</label>
-                                    <input value="" type="email" class="form-control" />
-                                    <form:errors cssClass="msg_errors" />
-                                </div>
-
-                                <div class="row mb-4">
-                                    <label class="form-label" for="form2Example2">Vai trò:</label>
-                                    <div class="col d-flex">
-                                        <input type="radio" itemCssClass="radio-spacing" />
-                                        &nbsp;&nbsp;Admin&nbsp;&nbsp;&nbsp;&nbsp;<br>
-                                        <input type="radio" itemCssClass="radio-spacing" /> &nbsp;&nbsp;User<br>
-                                        <form:errors path="admin" cssClass="msg_errors" />
-                                    </div>
-                                </div>
-                                <!-- Submit button -->
-                                <div class="d-flex justify-content-center mb-4">
-                                    <button class="btn btn-outline-success me-2">Thêm</button>
-                                    <button class="btn btn-outline-info">Mới</button>
-                                </div>
-                            </form>
+                        <div class="card-body table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>ID Hóa Đơn Chi Tiết</th>
+                                        <th>ID Hóa Đơn</th>
+                                        <th>Số Lượng</th>
+                                        <th>Giá Sản Phẩm</th>
+                                        <th>Tên Sản Phẩm</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>2</td>
+                                    <td>100000đ</td>
+                                    <td>Elden Ring</td>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -206,39 +178,7 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        const sidebarToggle = document.querySelector("#sidebar-toggle");
-        sidebarToggle.addEventListener("click", function () {
-            document.querySelector("#sidebar").classList.toggle("collapsed");
-        });
-
-        document.querySelector(".theme-toggle").addEventListener("click", () => {
-            toggleLocalStorage();
-            toggleRootClass();
-        });
-
-        function toggleRootClass() {
-            const current = document.documentElement.getAttribute('data-bs-theme');
-            const inverted = current == 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-bs-theme', inverted);
-        }
-
-        function toggleLocalStorage() {
-            if (isLight()) {
-                localStorage.removeItem("light");
-            } else {
-                localStorage.setItem("light", "set");
-            }
-        }
-
-        function isLight() {
-            return localStorage.getItem("light");
-        }
-
-        if (isLight()) {
-            toggleRootClass();
-        }
-    </script>
+    <script src="./js/admin.js"></script>
 </body>
 
 </html>
