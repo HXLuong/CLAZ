@@ -74,7 +74,8 @@ public class HomeController {
 
 	@RequestMapping("/detail_profile")
 	public String detail_profile(Model model) {
-		return "/update_profile/detail_profile";
+		model.addAttribute("page", "/update_profile/detail_profile");
+		return "index";
 	}
 
     public String login(Model model) {
