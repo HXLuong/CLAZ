@@ -1,0 +1,62 @@
+<div class="content px-3 py-2">
+	<div class="container-fluid">
+		<!-- Content -->
+		<div class="card border-0">
+			<div class="card-header">
+				<h5 class="card-title">Table</h5>
+				<h6 class="card-subtitle text-muted">Thêm Danh Mục</h6>
+			</div>
+			<div class="card-body">
+				<form class="col-xs-12 col-lg-6 mx-auto">
+					<div class="form-outline mb-4">
+						<label class="form-label" for="form2Example1">Username:</label> <input
+							value="" type="text" class="form-control" />
+						<form:errors cssClass="msg_errors" />
+					</div>
+
+					<div class="form-outline mb-4">
+						<label class="form-label" for="form2Example2">Mật khẩu:</label> <input
+							value="" type="password" class="form-control" />
+						<form:errors cssClass="msg_errors" />
+					</div>
+
+					<div class="form-outline mb-4">
+						<label class="form-label" for="form2Example2">Xác Nhận Mật
+							Khẩu:</label> <input value="" type="password" class="form-control" />
+						<form:errors cssClass="msg_errors" />
+					</div>
+
+					<div class="form-outline mb-4">
+						<label class="form-label" for="form2Example2">Họ và tên:</label> <input
+							value="" type="text" class="form-control" />
+						<form:errors cssClass="msg_errors" />
+					</div>
+
+					<div class="form-outline mb-4">
+						<label class="form-label" for="form2Example2">Email:</label> <input
+							value="" type="email" class="form-control" />
+						<form:errors cssClass="msg_errors" />
+					</div>
+
+					<div class="row mb-4">
+						<label class="form-label" for="form2Example2">Vai trò:</label>
+						<div class="col d-flex">
+							<input type="radio" itemCssClass="radio-spacing" />
+							&nbsp;&nbsp;Admin&nbsp;&nbsp;&nbsp;&nbsp;<br> <input
+								type="radio" itemCssClass="radio-spacing" /> &nbsp;&nbsp;User<br>
+							<form:errors path="admin" cssClass="msg_errors" />
+						</div>
+					</div>
+					<!-- Submit button -->
+					<div class="d-flex justify-content-center mb-4">
+						<button class="btn btn-outline-success me-2">Thêm</button>
+						<button class="btn btn-outline-info">Mới</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<a href="#" class="theme-toggle"> <i class="fa-regular fa-moon"></i>
+	<i class="fa-regular fa-sun"></i>
+</a>

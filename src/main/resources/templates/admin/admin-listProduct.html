@@ -1,0 +1,105 @@
+<div class="content px-3 py-2">
+	<div class="container-fluid">
+		<!-- Content -->
+		<div class="card border-0">
+			<div class="card-header">
+				<h5 class="card-title">Table</h5>
+				<h6 class="card-subtitle text-muted">Sản Phẩm</h6>
+			</div>
+			<div class="card-body table-responsive">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th class="align-middle" scope="col">ID Sản Phẩm</th>
+							<th class="align-middle" scope="col">Ảnh</th>
+							<th class="align-middle" scope="col">Tên Sản Phẩm</th>
+							<th class="align-middle" scope="col">Giá Sản Phẩm</th>
+							<th class="align-middle" scope="col">Mã Danh Mục</th>
+							<th class="align-middle" scope="col">Trạng Thái</th>
+						</tr>
+					</thead>
+					<tbody>
+						<td class="align-middle" scope="row">1</td>
+						<td class="align-middle" scope="row">Eldenring.jpg</td>
+						<td class="align-middle" scope="row">Elden Ring</td>
+						<td class="align-middle" scope="row">100000đ</td>
+						<td class="align-middle" scope="row">RPG</td>
+						<td scope="row">
+							<!-- Button trigger modal -->
+							<button type="button" class="bg-warning text-white btn btn-sm"
+								data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+								Chỉnh Sửa</button> <!-- Modal -->
+							<div class="modal fade" id="staticBackdrop"
+								data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+								aria-labelledby="staticBackdropLabel" aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h1 class="modal-title fs-5" id="staticBackdropLabel">Cập
+												nhật sản phẩm</h1>
+											<button type="button" class="btn-close"
+												data-bs-dismiss="modal" aria-label="Close"></button>
+										</div>
+										<div class="modal-body">
+											<form class="col-xs-12 col-lg-6 mx-auto">
+												<div class="form-outline mb-4 col-md-12">
+													<label class="form-label" for="form2Example2">ID
+														Sản Phẩm:</label> <input value="" readonly="true"
+														class="form-control" />
+													<form:errors cssClass="msg_errors" />
+												</div>
+
+												<div class="form-outline mb-4">
+													<label class="form-label" for="form2Example2">Tên
+														Sản Phẩm:</label> <input value="" class="form-control" />
+													<form:errors cssClass="msg_errors" />
+												</div>
+
+												<div class="form-outline mb-4">
+													<label class="form-label" for="form2Example2">Giá
+														Sản Phẩm:</label> <input value="" type="text" class="form-control" />
+													<form:errors cssClass="msg_errors" />
+												</div>
+
+												<div class="form-outline">
+													<label for="form-label">Image:</label> <input name="photo"
+														type="file" accept="image"> <br>
+													<br>
+													<!-- <h4>${message_img}</h4> -->
+												</div>
+
+												<div class="form-outline mb-4">
+													<label class="form-label" for="form2Example2">Mã
+														Danh Mục:</label> <input value="" class="form-control" />
+													<form:errors cssClass="msg_errors" />
+												</div>
+
+												<!-- Submit button -->
+												<div class="row">
+													<div class="d-flex justify-content-center mb-4">
+														<button class="btn btn-outline-success me-2">Thêm</button>
+														<button class="btn btn-outline-info">Mới</button>
+													</div>
+												</div>
+											</form>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary"
+												data-bs-dismiss="modal">Close</button>
+											<button type="button" class="btn btn-primary">Cập
+												Nhật</button>
+											<button type="button" class="btn btn-danger">Xóa</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</td>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<a href="#" class="theme-toggle"> <i class="fa-regular fa-moon"></i>
+	<i class="fa-regular fa-sun"></i>
+</a>
