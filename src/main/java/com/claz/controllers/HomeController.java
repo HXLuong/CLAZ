@@ -8,48 +8,79 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HomeController {
 	@RequestMapping("/")
 	public String index(Model model) {
+		model.addAttribute("page", "component/home");
 		return "index";
 	}
+	
+	@RequestMapping("/cart-index")
+    public String cart(Model model) {
+		model.addAttribute("page", "/cart/cart-index");
+        return "index";
+    }
 
 	@RequestMapping("/category")
 	public String danhmuc(Model model) {
-		return "/category/category";
+		model.addAttribute("page", "/category/category");
+		return "index";
 	}
 
 	@RequestMapping("/account")
 	public String upaccount(Model model) {
-		return "/update_profile/account_profile";
+		model.addAttribute("page", "/update_profile/account_profile");
+		return "index";
 	}
 
 	@RequestMapping("/password")
 	public String uppass(Model model) {
-		return "/update_profile/password_profile";
+		model.addAttribute("page", "/update_profile/password_profile");
+		return "index";
 	}
 
 	@RequestMapping("/payment")
 	public String giaodich(Model model) {
-		return "/update_profile/payment_profile";
+		model.addAttribute("page", "/update_profile/payment_profile");
+		return "index";
 	}
 
 	@RequestMapping("/order")
 	public String donhang(Model model) {
-		return "/update_profile/order_profile";
+		model.addAttribute("page", "/update_profile/order_profile");
+		return "index";
 	}
 
 	@RequestMapping("/comment")
 	public String binhluan(Model model) {
-		return "/update_profile/comment_profile";
+		model.addAttribute("page", "/update_profile/comment_profile");
+		return "index";
 	}
 
 	@RequestMapping("/favorite")
 	public String sanphamyeuthich(Model model) {
-		return "/update_profile/favorite_profile";
+		model.addAttribute("page", "/update_profile/favorite_profile");
+		return "index";
 	}
 
 	@RequestMapping("/introduct")
 	public String gioithieu(Model model) {
-		return "/update_profile/introduct_profile";
+		model.addAttribute("page", "/update_profile/introduct_profile");
+		return "index";
 	}
+	
+	@RequestMapping("/detailProduct")
+	public String detailProduct(Model model) {
+		model.addAttribute("page", "/detailProduct/detailProduct");
+		return "index";
+	}
+
+	@RequestMapping("/detail_profile")
+	public String detail_profile(Model model) {
+		model.addAttribute("page", "/update_profile/detail_profile");
+		return "index";
+	}
+
+    public String login(Model model) {
+        return "/login/login";
+    }
 
 //	@RequestMapping("/instruct_createAccount")
 //	public String huongdantaotaikhoan(Model model) {
@@ -105,23 +136,5 @@ public class HomeController {
 	public String signup_instruct(Model model) {
 		return "/instruct/signup_instruct";
 	}
-
-	@RequestMapping("/detailProduct")
-	public String detailProduct(Model model) {
-		return "/detailProduct/detailProduct";
-	}
-
-	@RequestMapping("/detail_profile")
-	public String detail_profile(Model model) {
-		return "/update_profile/detail_profile";
-	}
-
-    public String login(Model model) {
-        return "/login/login";
-    }
 	
-	@RequestMapping("/cart-index")
-    public String cart(Model model) {
-        return "/cart/cart-index";
-    }
 }
