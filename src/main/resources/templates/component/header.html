@@ -5,7 +5,12 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="./css/style.css">
 </head>
-<body>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.js"></script>
+<script src="/js/customer.js"></script>
+<body ng-app="app" ng-controller="ctrl">
 	<!-- Header -->
 	<div class="d-none d-xl-block backg">
 		<div class="container d-flex justify-content-between">
@@ -43,7 +48,7 @@
 					<i class="bi bi-person-circle text-white py-3 px-2 fs-1"></i>
 					<div class="pe-2 d-flex align-items-center">
 						<div class="text-white fs-6">
-							<a href="">Đăng Nhập</a> / <a href="">Đăng Ký</a>
+							<a href="z">Đăng Nhập</a> / <a href="">Đăng Ký</a>
 						</div>
 					</div>
 				</div>
@@ -130,35 +135,38 @@
 						</form>
 
 						<!-- LogIn/SignUp -->
-						<div class="d-md-block d-none">
-							<div class="d-flex">
-								<i class="bi bi-person-circle text-white pe-2 fs-1"></i>
-								<div class="pe-2 d-flex align-items-center">
-									<div class="text-white fs-6 fw-bold">
-										<a class="header_hover" href="">Đăng Nhập</a> / <a
-											class="header_hover" href="">Đăng Ký</a>
+						<th:block th:unless="${#request.remoteUser}">
+							<div class="d-md-block d-none">
+								<div class="d-flex">
+									<i class="bi bi-person-circle text-white pe-2 fs-1"></i>
+									<div class="pe-2 d-flex align-items-center">
+										<div class="text-white fs-6 fw-bold">
+											<a th:href="@{/login}">Đăng nhập</a>/<a th:href="@{/}">Đăng
+												ký</a>
+										</div>
 									</div>
 								</div>
 							</div>
-						</div>
-
-						<!-- <div class="dropdown d-sm-block d-none">
-                            <a href="#"
-                                class="d-flex align-items-center text-decoration-none dropdown-center header_hover"
-                                data-bs-toggle="dropdown">
-                                <img src="./images/1000.jpg" class="rounded-circle object-fit-cover me-2" width="40px"
-                                    height="40px" alt="">
-                                <div class="pe-2 d-flex align-items-center">
-                                    <span class="text-white fs-6">
-                                        HXLuong</span>
-                                </div>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="">Quản lý tài khoản</a></li>
-                                <li><a class="dropdown-item" href="">Lịch sử đơn hàng</a></li>
-                                <li><a class="dropdown-item" href="">Đăng Xuất</a></li>
-                            </ul>
-                        </div> -->
+						</th:block>
+						<th:block th:if="${#request.remoteUser}">
+							<div class="dropdown d-sm-block d-none">
+								<a href="#"
+									class="d-flex align-items-center text-decoration-none dropdown-center header_hover"
+									data-bs-toggle="dropdown"> <img src="./images/{{form.image}}"
+									class="rounded-circle object-fit-cover me-2" width="40px"
+									height="40px" alt="">
+									<div class="pe-2 d-flex align-items-center">
+										<span class="text-white fs-6">{{form.fullname}}</span>
+									</div>
+								</a>
+								<ul class="dropdown-menu">
+									<li><a class="dropdown-item" href="/account">Quản lý tài khoản</a></li>
+									<li><a class="dropdown-item" href="">Lịch sử đơn hàng</a></li>
+									<a class="dropdown-item" th:href="@{/security/logoff}">Đăng
+										Xuất</a>
+								</ul>
+							</div>
+						</th:block>
 
 						<!-- Cart -->
 						<a href="/cart-index"

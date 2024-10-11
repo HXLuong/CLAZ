@@ -136,5 +136,4 @@ public class HomeController {
 	public String signup_instruct(Model model) {
 		return "/instruct/signup_instruct";
 	}
-	
 }
