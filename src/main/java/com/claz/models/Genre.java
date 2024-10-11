@@ -4,11 +4,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,8 +20,8 @@ public class Genre {
 	int id;
 	String name;
 	String decription;
-	
+
 	@JsonIgnore
-    @OneToMany(mappedBy = "genre")
-    List<GenreProduct> genreProducts;
+	@OneToMany(mappedBy = "genre")
+	List<GenreProduct> genreProducts;
 }

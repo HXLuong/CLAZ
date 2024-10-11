@@ -13,7 +13,13 @@
 <link rel="stylesheet" href="./css/update_profile.css">
 </head>
 
-<body>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.js"></script>
+<script src="/js/customer.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<body ng-app="app" ng-controller="ctrl">
 	<!-- header -->
 	<div th:replace="~{/component/header.html}"></div>
 
@@ -25,28 +31,34 @@
 				<h5 class="fw-bold mb-4">Tổng quan</h5>
 				<div class="col-6 col-sm-6 col-lg-4 col-md-4">
 					<p class="">
-						Tên đăng nhập <span class="fw-bold text-block">ahahahaha</span>
+						Tên đăng nhập <span class="fw-bold text-block">{{form.username}}</span>
 					</p>
 				</div>
 				<div class="col-6 col-sm-6 col-lg-4 col-md-4">
 					<p class="">
-						Email <span class="fw-bold text-block">Emailcc@gmail.com</span>
+						Email <span class="fw-bold text-block">{{form.email}}</span>
 					</p>
 				</div>
 				<div class="col-6 col-sm-6 col-lg-4 col-md-4">
 					<p class="">
-						Họ và tên <span class="fw-bold text-block">tran du andubu</span>
+						Họ và tên <span class="fw-bold text-block">{{form.fullname}}</span>
 					</p>
 				</div>
 				<div class="col-6 col-sm-6 col-lg-4 col-md-4">
 					<p class="">
-						Nhóm khách hàng <span class="fw-bold text-block">Member</span>
+						Số điện thoại <span class="fw-bold text-block">{{form.phone}}</span>
 					</p>
 				</div>
 				<div class="col-6 col-sm-6 col-lg-4 col-md-4">
 					<p class="">
-						Ngày tham gia <span class="fw-bold text-block">2024-10-01
-							08:56:11</span>
+						Giới tính <span class="fw-bold text-block">{{form.gender ?
+							"Nam":"Nữ"}}</span>
+					</p>
+				</div>
+				<div class="col-6 col-sm-6 col-lg-4 col-md-4">
+					<p class="">
+						Ngày tham gia <span class="fw-bold text-block"> {{
+							form.created_at | date:'dd/MM/yyyy HH:mm:ss' }}</span>
 					</p>
 				</div>
 			</div>
@@ -56,13 +68,15 @@
 					<div
 						class="col-xl-5 col-lg-6 col-md-6 d-flex justify-content-between align-items-center">
 						<div>
-							<img src="/images/hoctap1.png"
+							<img src="/images/{{form.image}}"
 								style="height: 150px; width: 150px;"
 								class="rounded-circle object-fit-cover" alt="...">
 						</div>
 						<div>
 							<label for="file-upload" class="btn btn-outline-primary ms-3">
-								Sửa ảnh đại diện </label> <input id="file-upload" type="file" />
+								Sửa ảnh đại diện </label> <input id="file-upload" type="file"
+								onchange="angular.element(this).scope().imageChaged(this.files)"
+								ng-click="updateAccountimg()" />
 						</div>
 						<div class="vertical-divider me-3 d-none d-lg-block"
 							style="height: 100%; border-left: 1px solid grey;"></div>
@@ -79,27 +93,31 @@
 				<hr class="m-3">
 				<div>
 					<h3>Cá nhân</h3>
-					<div class=" col-sm-5 col-10 mb-3 mt-3">
-						<div class="form-floating ">
-							<input type="text" class="form-control" id="floatingInput">
-							<label for="floatingInput">Họ và tên</label>
+					<div class="col-sm-5 col-10 mb-3 mt-3">
+						<div class="form-floating">
+							<input type="text" class="form-control" id="floatingInput"
+								ng-model="form.fullname"> <label for="floatingInput">Họ
+								và tên</label>
 						</div>
 					</div>
-					<div class=" col-sm-5 col-10 mb-3 mt-3">
-						<div class="form-floating ">
-							<input type="text" class="form-control" id="floatingInput">
-							<label for="floatingInput">Số điện thoại</label>
+					<div class="col-sm-5 col-10 mb-3 mt-3">
+						<div class="form-floating">
+							<input type="tel" class="form-control" id="floatingInput2"
+								ng-model="form.phone"> <label for="floatingInput2">Số
+								điện thoại</label>
 						</div>
 					</div>
-					<div class=" col-sm-5 col-10 mb-3 mt-3">
-						<div class="form-floating ">
-							<select class="form-control" id="floatingInput">
-								<option>Nam</option>
-								<option>Nữ</option>
-							</select> <label for="floatingInput">Giới tính</label>
+					<div class="col-sm-5 col-10 mb-3 mt-3">
+						<div class="form-floating">
+							<select class="form-control" id="floatingInput3"
+								ng-model="form.gender">
+								<option value="true">Nam</option>
+								<option value="false">Nữ</option>
+							</select> <label for="floatingInput3">Giới tính</label>
 						</div>
 					</div>
-					<button class="btn btn-primary mt-2">Lưu thay đổi</button>
+					<button class="btn btn-primary mt-2" ng-click="updateAccount()">Lưu
+						thay đổi</button>
 				</div>
 			</div>
 		</div>

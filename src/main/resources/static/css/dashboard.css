@@ -12,7 +12,7 @@
 
 .fixed-sidebar {
     position: sticky;
-    top: 20px; 
+    top: 10px; 
     height: 100vh;
     overflow-y: auto;
 }
