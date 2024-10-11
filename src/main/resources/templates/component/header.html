@@ -48,7 +48,7 @@
 					<i class="bi bi-person-circle text-white py-3 px-2 fs-1"></i>
 					<div class="pe-2 d-flex align-items-center">
 						<div class="text-white fs-6">
-							<a href="z">Đăng Nhập</a> / <a href="">Đăng Ký</a>
+							<a href="">Đăng Nhập</a> / <a href="">Đăng Ký</a>
 						</div>
 					</div>
 				</div>
@@ -139,11 +139,9 @@
 							<div class="d-md-block d-none">
 								<div class="d-flex">
 									<i class="bi bi-person-circle text-white pe-2 fs-1"></i>
-									<div class="pe-2 d-flex align-items-center">
-										<div class="text-white fs-6 fw-bold">
-											<a th:href="@{/login}">Đăng nhập</a>/<a th:href="@{/}">Đăng
-												ký</a>
-										</div>
+									<div class="d-flex align-items-center gap-2 text-white fs-6 fw-bold">
+										<a th:href="@{/login}">Đăng nhập</a>/<a
+											th:href="@{/}">Đăng ký</a>
 									</div>
 								</div>
 							</div>
@@ -152,7 +150,8 @@
 							<div class="dropdown d-sm-block d-none">
 								<a href="#"
 									class="d-flex align-items-center text-decoration-none dropdown-center header_hover"
-									data-bs-toggle="dropdown"> <img src="./images/{{form.image}}"
+									data-bs-toggle="dropdown"> <img
+									src="./images/{{form.image}}"
 									class="rounded-circle object-fit-cover me-2" width="40px"
 									height="40px" alt="">
 									<div class="pe-2 d-flex align-items-center">
@@ -160,7 +159,8 @@
 									</div>
 								</a>
 								<ul class="dropdown-menu">
-									<li><a class="dropdown-item" href="/account">Quản lý tài khoản</a></li>
+									<li><a class="dropdown-item" href="/account">Quản lý
+											tài khoản</a></li>
 									<li><a class="dropdown-item" href="">Lịch sử đơn hàng</a></li>
 									<a class="dropdown-item" th:href="@{/security/logoff}">Đăng
 										Xuất</a>

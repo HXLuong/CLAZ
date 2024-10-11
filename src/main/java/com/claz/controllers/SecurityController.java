@@ -48,7 +48,7 @@ public class SecurityController {
 			System.out.println("Người dùng không xác định");
 		}
 
-		return "index";
+		return "redirect:/";
 	}
 
 	@RequestMapping("/security/login/error")
