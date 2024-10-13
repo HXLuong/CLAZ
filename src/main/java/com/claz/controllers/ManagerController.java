@@ -18,9 +18,21 @@ public class ManagerController {
         return "/admin/admin-index";
     }
     
+    @RequestMapping("/adminGenre")
+    public String adminGenre(Model model) {
+    	model.addAttribute("page", "/admin/admin-genre");
+        return "/admin/admin-index";
+    }
+    
     @RequestMapping("/adminProduct")
     public String adminProduct(Model model) {
     	model.addAttribute("page", "/admin/admin-product");
+        return "/admin/admin-index";
+    }
+    
+    @RequestMapping("/adminStaff")
+    public String adminStaff(Model model) {
+    	model.addAttribute("page", "/admin/admin-staff");
         return "/admin/admin-index";
     }
     
@@ -36,6 +48,18 @@ public class ManagerController {
         return "/admin/admin-index";
     }
     
+    @RequestMapping("/adminGalary")
+    public String adminGalary(Model model) {
+    	model.addAttribute("page", "/admin/admin-galary");
+        return "/admin/admin-index";
+    }
+    
+    @RequestMapping("/adminListStaff")
+    public String adminListStaff(Model model) {
+    	model.addAttribute("page", "/admin/admin-listStaff");
+        return "/admin/admin-index";
+    }
+    
     @RequestMapping("/adminListCustomer")
     public String adminListCustomer(Model model) {
     	model.addAttribute("page", "/admin/admin-listCustomer");
@@ -48,9 +72,33 @@ public class ManagerController {
         return "/admin/admin-index";
     }
     
+    @RequestMapping("/adminListGenre")
+    public String adminListGenre(Model model) {
+    	model.addAttribute("page", "/admin/admin-listGenre");
+        return "/admin/admin-index";
+    }
+    
     @RequestMapping("/adminListOrder")
     public String adminListOrder(Model model) {
     	model.addAttribute("page", "/admin/admin-listOrder");
+        return "/admin/admin-index";
+    }
+    
+    @RequestMapping("/adminOrderDetail")
+    public String adminOrderDetail(Model model) {
+    	model.addAttribute("page", "/admin/admin-orderDetail");
+        return "/admin/admin-index";
+    }
+    
+    @RequestMapping("/adminSlide")
+    public String adminSlide(Model model) {
+    	model.addAttribute("page", "/admin/admin-slide");
+        return "/admin/admin-index";
+    }
+    
+    @RequestMapping("/adminComment")
+    public String adminComment(Model model) {
+    	model.addAttribute("page", "/admin/admin-comment");
         return "/admin/admin-index";
     }
 }
