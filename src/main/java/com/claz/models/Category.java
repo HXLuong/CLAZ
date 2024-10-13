@@ -12,6 +12,7 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Repository;
 
 @Entity
 @Data
@@ -20,12 +21,12 @@ import lombok.NoArgsConstructor;
 @Table(name = "category")
 public class Category {
 	@Id
-	@Column(name = "id", updatable = false, nullable = false)
+	@Column(name = "Category_ID", updatable = false, nullable = false)
 	int id;
 	@Column(nullable = false, unique = true)
 	String name;
 	@Column(nullable = false, unique = true)
-	String decription;
+	String Decription;
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "category")

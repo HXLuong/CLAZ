@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 public class Customer {
 
 	@Id
-	@Column(name = "username", updatable = false, nullable = false)
+	@Column(name = "Username", updatable = false, nullable = false)
 	String username;
 	String fullname;
     String password;
@@ -34,7 +34,7 @@ public class Customer {
     String image;
     boolean gender;
     @Temporal(TemporalType.DATE)
-    @Column(name = "created_at")
+    @Column(name = "Created_at")
     Date created_at = new Date();
     
     @JsonIgnore

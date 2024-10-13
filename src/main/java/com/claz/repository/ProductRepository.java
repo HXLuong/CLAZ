@@ -1,2 +1,9 @@
-package com.claz.Repository;public interface ProductRepository {
+package com.claz.repository;
+
+import com.claz.models.Product;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface ProductRepository extends JpaRepository<Product, Integer> {
 }

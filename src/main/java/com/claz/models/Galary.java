@@ -17,11 +17,11 @@ import lombok.NoArgsConstructor;
 @Table(name = "galary")
 public class Galary {
 	@Id
-	@Column(name = "id", updatable = false, nullable = false)
+	@Column(name = "Galary_ID", updatable = false, nullable = false)
 	int id;
 	String image;
 
 	@ManyToOne
-	@JoinColumn(name = "product_id")
+	@JoinColumn(name = "Product_ID")
 	Product product;
 }

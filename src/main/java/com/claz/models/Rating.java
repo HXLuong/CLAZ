@@ -21,10 +21,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "comment")
+@Table(name = "rating")
 public class Rating {
 	@Id
-	@Column(name = "id", updatable = false, nullable = false)
+	@Column(name = "Rating_ID", updatable = false, nullable = false)
 	int id;
 	int number_Stars;
 	@Temporal(TemporalType.DATE)

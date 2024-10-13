@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
 public class Order {
 
 	@Id
-	@Column(name = "id", updatable = false, nullable = false)
+	@Column(name = "Order_ID", updatable = false, nullable = false)
 	int id;
 	String status;
     String paymentMethod;

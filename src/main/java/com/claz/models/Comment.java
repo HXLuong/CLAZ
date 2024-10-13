@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "comment")
 public class Comment {
 	@Id
-	@Column(name = "id", updatable = false, nullable = false)
+	@Column(name = "Comment_ID", updatable = false, nullable = false)
 	int id;
 	String content;
 	@Temporal(TemporalType.DATE)

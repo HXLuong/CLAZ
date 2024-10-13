@@ -14,10 +14,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "genreProduct")
+@Table(name = "genre_product")
 public class GenreProduct {
 	@Id
-	@Column(name = "id", updatable = false, nullable = false)
+	@Column(name = "GenreProduct_ID", updatable = false, nullable = false)
 	int id;
 	String name;
 	
@@ -26,6 +26,6 @@ public class GenreProduct {
     Product product;
 	
 	@ManyToOne
-    @JoinColumn(name = "genre_id")
+    @JoinColumn(name = "Genre_ID")
     Genre genre;
 }
