@@ -19,120 +19,133 @@ public class HomeController {
 	public String index(Model model) {
 		List<Product> products = productService.getAllProducts();
 		model.addAttribute("products", products);
+		model.addAttribute("page", "component/home");
 		return "index";
 	}
+	
+	@RequestMapping("/cart-index")
+    public String cart(Model model) {
+		model.addAttribute("page", "/cart/cart-index");
+        return "index";
+    }
 
 	@RequestMapping("/category")
 	public String danhmuc(Model model) {
-		return "/category/category";
+		model.addAttribute("page", "/category/category");
+		return "index";
 	}
 
 	@RequestMapping("/account")
 	public String upaccount(Model model) {
-		return "/update_profile/account_profile";
+		model.addAttribute("page", "/update_profile/account_profile");
+		return "index";
 	}
 
 	@RequestMapping("/password")
 	public String uppass(Model model) {
-		return "/update_profile/password_profile";
+		model.addAttribute("page", "/update_profile/password_profile");
+		return "index";
 	}
 
 	@RequestMapping("/payment")
 	public String giaodich(Model model) {
-		return "/update_profile/payment_profile";
+		model.addAttribute("page", "/update_profile/payment_profile");
+		return "index";
 	}
 
 	@RequestMapping("/order")
 	public String donhang(Model model) {
-		return "/update_profile/order_profile";
+		model.addAttribute("page", "/update_profile/order_profile");
+		return "index";
 	}
 
 	@RequestMapping("/comment")
 	public String binhluan(Model model) {
-		return "/update_profile/comment_profile";
+		model.addAttribute("page", "/update_profile/comment_profile");
+		return "index";
 	}
 
 	@RequestMapping("/favorite")
 	public String sanphamyeuthich(Model model) {
-		return "/update_profile/favorite_profile";
+		model.addAttribute("page", "/update_profile/favorite_profile");
+		return "index";
 	}
 
 	@RequestMapping("/introduct")
 	public String gioithieu(Model model) {
-		return "/update_profile/introduct_profile";
+		model.addAttribute("page", "/update_profile/introduct_profile");
+		return "index";
 	}
-
-	@RequestMapping("/instruct_createAccount")
-	public String huongdantaotaikhoan(Model model) {
-		return "/instruct/instruct_createAccount";
-	}
-
-	@RequestMapping("/cart_dashboard")
-	public String huongdanquanlygiohang(Model model) {
-		return "/dashboard/cart_dashboard";
-	}
-
-	@RequestMapping("/payment_dashboard")
-	public String payment_dashboard(Model model) {
-		return "/dashboard/payment_dashboard";
-	}
-
-	@RequestMapping("/vnpay_dashboard")
-	public String vnpay_dashboard(Model model) {
-		return "/dashboard/payment_vnpay_dashboard";
-	}
-
-	@RequestMapping("/momo_dashboard")
-	public String momo_dashboard(Model model) {
-		return "/dashboard/payment_momo_dashboard";
-	}
-
-	@RequestMapping("/account_dashboard")
-	public String account_dashboard(Model model) {
-		return "/dashboard/account_dashboard";
-	}
-
-	@RequestMapping("/buymain_dashboard")
-	public String buymain_dashboard(Model model) {
-		return "/dashboard/buymain_dashboard";
-	}
-
-	@RequestMapping("/bonus_dashboard")
-	public String bonus_dashboard(Model model) {
-		return "/dashboard/bonus_dashboard";
-	}
-
-	@RequestMapping("/about_dashboard")
-	public String about_dashboard(Model model) {
-		return "/dashboard/about_dashboard";
-	}
-
-	@RequestMapping("/security_dashboard")
-	public String security_dashboard(Model model) {
-		return "/dashboard/security_dashboard";
-	}
-
-	@RequestMapping("/signup_dashboard")
-	public String signup_dashboard(Model model) {
-		return "/dashboard/signup_dashboard2";
-	}
-
+	
 	@RequestMapping("/detailProduct")
 	public String detailProduct(Model model) {
-		return "/detailProduct/detailProduct";
+		model.addAttribute("page", "/detailProduct/detailProduct");
+		return "index";
 	}
 
 	@RequestMapping("/detail_profile")
 	public String detail_profile(Model model) {
-		return "/update_profile/detail_profile";
+		model.addAttribute("page", "/update_profile/detail_profile");
+		return "index";
 	}
-	@RequestMapping("/login")
+
     public String login(Model model) {
         return "/login/login";
     }
-	
-	@RequestMapping("/cart-index")
-    public String cart(Model model) {
-        return "/cart/cart-index";
-    }
+
+//	@RequestMapping("/instruct_createAccount")
+//	public String huongdantaotaikhoan(Model model) {
+//		return "/instruct/instruct_createAccount";
+//	}
+
+	@RequestMapping("/cart_instruct")
+	public String cart_instruct(Model model) {
+		return "/instruct/cart_instruct";
+	}
+
+	@RequestMapping("/payment_instruct")
+	public String payment_instruct(Model model) {
+		return "/instruct/payment_instruct";
+	}
+
+	@RequestMapping("/vnpay_instruct")
+	public String vnpay_instruct(Model model) {
+		return "/instruct/payment_vnpay_instruct";
+	}
+
+	@RequestMapping("/momo_instruct")
+	public String momo_instruct(Model model) {
+		return "/instruct/payment_momo_instruct";
+	}
+
+	@RequestMapping("/account_instruct")
+	public String account_instruct(Model model) {
+		return "/instruct/account_instruct";
+	}
+
+	@RequestMapping("/buymain_instruct")
+	public String buymain_instruct(Model model) {
+		return "/instruct/buymain_instruct";
+	}
+
+	@RequestMapping("/bonus_instruct")
+	public String bonus_instruct(Model model) {
+		return "/instruct/bonus_instruct";
+	}
+
+	@RequestMapping("/about_instruct")
+	public String about_instruct(Model model) {
+		return "/instruct/about_instruct";
+	}
+
+	@RequestMapping("/security_instruct")
+	public String security_instruct(Model model) {
+		return "/instruct/security_instruct";
+	}
+
+
+	@RequestMapping("/signup_instruct")
+	public String signup_instruct(Model model) {
+		return "/instruct/signup_instruct";
+	}
 }

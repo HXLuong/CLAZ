@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <title>CLAZ Shop</title>
 <!-- Nhung Jquery -->
+<script src="https://code.jquery.com/jquery-3.7.1.js"
+	integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+	crossorigin="anonymous"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
 	integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -39,42 +42,10 @@
 <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
-	<div th:replace="/component/header.html"></div>
+	<div th:replace="~{/component/header.html}"></div>
 
 	<!-- Body -->
-	<div class="container">
-		<div class="row">
-			<div class="col-xl-9 col-lg-12 col-md-12 col-sm-12 mt-3">
-				<div class="d-flex">
-					<ul class="navbar-nav border rounded px-3 d-xl-block d-none me-4"
-						style="width: 335px;">
-						<li class="nav-item"><a class="nav-link active fw-semibold"
-							aria-current="page" href="#"><i class="bi bi-dpad-fill"></i>
-								&nbsp;Giải Trí</a></li>
-						<li class="nav-item"><a class="nav-link active fw-semibold"
-							aria-current="page" href="#"><i class="bi bi-briefcase-fill"></i>
-								&nbsp;Làm Việc</a></li>
-						<li class="nav-item"><a class="nav-link active fw-semibold"
-							aria-current="page" href="#"><i
-								class="bi bi-mortarboard-fill"></i> &nbsp;Học Tập</a></li>
-						<li class="nav-item"><a class="nav-link active fw-semibold"
-							aria-current="page" href="#"><i class="bi bi-steam"></i>
-								&nbsp;Game Steam</a></li>
-						<li class="nav-item"><a class="nav-link active fw-semibold"
-							aria-current="page" href="#"><i class="bi bi-pencil-square"></i>
-								&nbsp;Edit Ảnh - Video</a></li>
-						<li class="nav-item"><a class="nav-link active fw-semibold"
-							aria-current="page" href="#"><i class="bi bi-windows"></i>
-								&nbsp;Window, Office</a></li>
-						<li class="nav-item"><a class="nav-link active fw-semibold"
-							aria-current="page" href="#"><i class="bi bi-google-play"></i>
-								&nbsp;Google Play, iTunes</a></li>
-						<li class="nav-item"></li>
-						<a class="nav-link active fw-semibold" aria-current="page"
-							href="#"><i class="bi bi-windows"></i> &nbsp;Window, Office</a>
-						</li>
-					</ul>
-
+	<main th:replace="~{*{page}}"></main>
 					<div id="carouselExampleIndicators"
 						class="carousel slide carousel-fade caro" data-bs-ride="carousel"
 						data-bs-interval="2500">
@@ -441,11 +412,16 @@
 		<br>
 		<hr>
 		<br> <br>
+	<div id="backtop">
+		<i class="bi bi-arrow-up"></i>
 	</div>
 
 	<!-- footer -->
-	<div th:replace="/component/footer.html"></div>
+	<div th:replace="~{/component/footer.html}"></div>
+
 </body>
+
+<script src="./js/detailProduct.js"></script>
 
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
@@ -465,6 +441,23 @@
 				icon : icon
 			});
 		}
+	});
+
+	$('#backtop').fadeOut();
+	/* Back to top button */
+	$(document).ready(function() {
+		$(window).scroll(function() {
+			if ($(this).scrollTop()) {
+				$('#backtop').fadeIn();
+			} else {
+				$('#backtop').fadeOut();
+			}
+		});
+		$('#backtop').click(function() {
+			$('html, body').animate({
+				scrollTop : 0
+			}, 100);
+		})
 	});
 </script>
 </html>

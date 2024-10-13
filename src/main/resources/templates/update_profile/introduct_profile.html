@@ -1,137 +1,97 @@
-
-<!DOCTYPE html>
-<html xmlns="http://www.thymeleaf.org">
-
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Giới thiệu bạn bè</title>
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-	rel="stylesheet">
-</head>
-<style>
-.vertical-divider {
-	height: 100%;
-	border-left: 1px solid black;
-	/* Hoặc màu sắc và độ rộng khác */
-}
-
-.hover-underline {
-	text-decoration: none;
-}
-
-.hover-underline:hover {
-	text-decoration: underline;
-	/* Gạch chân khi hover */
-}
-</style>
-
-<body style="">
-	<div class="container">
-		<div th:replace="/update_profile/settingupdate.html"></div>
-		<div class="col-xl-9 col-lg-9 col-md-12 rounded"
-			style="background-color: rgb(255, 255, 255);">
-			<div class="row m-1">
-				<div class="row mt-3">
-					<p class="">
-						<Strong>Giới thiệu bạn bè</Strong> <span style="display: block;">Chia
-							sẻ thế giới game và sản phẩm rộng lớn từ Divine Shop với bạn bè
-							để hưởng hoa hồng. </span>
-					</p>
-					<hr>
-					<div class="row">
-						<p class="fw-bold">Thông tin</p>
-						<p>
-							Khi khách hàng truy cập <Strong>link giới thiệu</Strong> này để
-							tạo tài khoản mới hoặc sử dụng mã giới thiệu của bạn khi thanh
-							toán đơn hàng đầu tiên, Divine Shop sẽ ưu đãi <Strong>5%</Strong>
-							giá trị đơn hàng đầu tiên đó.
-						</p>
-					</div>
+<div class="container mt-4">
+	<div th:replace="~{/update_profile/settingupdate.html}"></div>
+	<div class="col-xl-9 col-lg-9 col-md-12 rounded"
+		style="background-color: rgb(255, 255, 255);">
+		<div class="row m-1">
+			<div class="row mt-3">
+				<p class="">
+					<Strong>Giới thiệu bạn bè</Strong> <span style="display: block;">Chia
+						sẻ thế giới game và sản phẩm rộng lớn từ Divine Shop với bạn bè để
+						hưởng hoa hồng. </span>
+				</p>
+				<hr>
+				<div class="row">
+					<p class="fw-bold">Thông tin</p>
 					<p>
-						Thông tin chi tiết chương trình xem <a href="#">tại đây</a>
+						Khi khách hàng truy cập <Strong>link giới thiệu</Strong> này để
+						tạo tài khoản mới hoặc sử dụng mã giới thiệu của bạn khi thanh
+						toán đơn hàng đầu tiên, Divine Shop sẽ ưu đãi <Strong>5%</Strong>
+						giá trị đơn hàng đầu tiên đó.
 					</p>
 				</div>
 				<p>
-					<i class="bi bi-exclamation-circle text-primary"></i> <a href="#"
-						class="text-decoration-none">Xem thông tin chi tiết</a>
+					Thông tin chi tiết chương trình xem <a href="#">tại đây</a>
 				</p>
-				<p class="fw-bold">Liên kết giới thiệu 1</p>
-				<div class="col-md-4 col-9 d-flex align-items-center">
-					<input type="email" class="form-control me-2" id="email"
-						value="CLaz@.com" name="email">
-					<button class="btn btn-primary">Copy</button>
-				</div>
-				<p class="fw-bold">Lịch sử giao dịch</p>
-				<div class="col-md-2 col-12 mt-2">
-					<div class="form-floating">
-						<input type="text" class="form-control" id="pwd"
-							placeholder="Enter password" name="pswd"> <label
-							for="pwd">Mô tả</label>
-					</div>
-				</div>
-				<div class="col-md-2 col-6 mt-2">
-					<div class="form-floating">
-						<input type="text" class="form-control text-center" id="stt"
-							placeholder="Enter password" name="pswd"> <label
-							for="stt">Số tiền từ</label>
-					</div>
-				</div>
-				<div class="col-md-2 col-6 mt-2">
-					<div class="form-floating">
-						<input type="text" class="form-control" id="std"
-							placeholder="Enter password" name="pswd"> <label
-							for="std">Số tiền đến</label>
-					</div>
-				</div>
-				<div class="col-md-2 col-6 mt-2">
-					<div class="form-floating">
-						<input type="date" class="form-control" id="tn" name="pswd">
-						<label for="tn">Từ ngày</label>
-					</div>
-				</div>
-				<div class="col-md-2 col-6 mt-2">
-					<div class="form-floating">
-						<input type="date" class="form-control" id="dn" name="pswd">
-						<label for="dn">Đến ngày</label>
-					</div>
-				</div>
-				<div class="col-md-2 col-12 d-flex align-items-center">
-					<button type="button" class="btn btn-primary mt-2">
-						<i class="bi bi-funnel"></i> Lọc
-					</button>
+			</div>
+			<p>
+				<i class="bi bi-exclamation-circle text-primary"></i> <a href="#"
+					class="text-decoration-none">Xem thông tin chi tiết</a>
+			</p>
+			<p class="fw-bold">Liên kết giới thiệu 1</p>
+			<div class="col-md-4 col-9 d-flex align-items-center">
+				<input type="email" class="form-control me-2" id="email"
+					value="CLaz@.com" name="email">
+				<button class="btn btn-primary">Copy</button>
+			</div>
+			<p class="fw-bold">Lịch sử giao dịch</p>
+			<div class="col-md-2 col-12 mt-2">
+				<div class="form-floating">
+					<input type="text" class="form-control" id="pwd"
+						placeholder="Enter password" name="pswd"> <label for="pwd">Mô
+						tả</label>
 				</div>
 			</div>
-			<div class="container">
-				<table class="table table-bordered mt-2">
-					<thead>
-						<tr>
-							<th scope="col">Thời gian</th>
-							<th scope="col">Mô tả</th>
-							<th scope="col">Số tiền</th>
-							<th scope="col">Số dư</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<th scope="row">1</th>
-							<td>Mark</td>
-							<td>Otto</td>
-							<td>@mdo</td>
-						</tr>
-					</tbody>
-				</table>
+			<div class="col-md-2 col-6 mt-2">
+				<div class="form-floating">
+					<input type="text" class="form-control text-center" id="stt"
+						placeholder="Enter password" name="pswd"> <label for="stt">Số
+						tiền từ</label>
+				</div>
+			</div>
+			<div class="col-md-2 col-6 mt-2">
+				<div class="form-floating">
+					<input type="text" class="form-control" id="std"
+						placeholder="Enter password" name="pswd"> <label for="std">Số
+						tiền đến</label>
+				</div>
+			</div>
+			<div class="col-md-2 col-6 mt-2">
+				<div class="form-floating">
+					<input type="date" class="form-control" id="tn" name="pswd">
+					<label for="tn">Từ ngày</label>
+				</div>
+			</div>
+			<div class="col-md-2 col-6 mt-2">
+				<div class="form-floating">
+					<input type="date" class="form-control" id="dn" name="pswd">
+					<label for="dn">Đến ngày</label>
+				</div>
+			</div>
+			<div class="col-md-2 col-12 d-flex align-items-center">
+				<button type="button" class="btn btn-primary mt-2">
+					<i class="bi bi-funnel"></i> Lọc
+				</button>
 			</div>
 		</div>
+		<div class="container">
+			<table class="table table-bordered mt-2">
+				<thead>
+					<tr>
+						<th scope="col">Thời gian</th>
+						<th scope="col">Mô tả</th>
+						<th scope="col">Số tiền</th>
+						<th scope="col">Số dư</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">1</th>
+						<td>Mark</td>
+						<td>Otto</td>
+						<td>@mdo</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
-
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
-
-</html>
+</div>
