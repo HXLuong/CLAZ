@@ -156,45 +156,20 @@
 	</div>
 </div>
 <div class="container mt-2">
+
 	<div class="row">
-		<div class="col-lg-3 col-md-4 col-6 list_product">
-			<a href=""> <img src="./images/black myth wukong-13641.jpg"
-				class="img-fluid mt-2 rounded" alt="Right Image 2" width="100%">
-			</a> <a href="" class="d-block mt-2 text_product">Black Myth: Wukong
-				Black Black Myth: Wukong Black</a>
+		<div class="col-lg-3 col-md-4 col-6 list_product"
+			th:each="product : ${products}">
+			<a th:href="@{/product/{id}(id=${product.id})}"> <img
+				th:src="@{'/images/'+${product.image}}"
+				class="img-fluid mt-2 rounded" alt="Product Image" width="100%">
+			</a> <a th:href="@{/product/{id}(id=${product.id})}"
+				class="d-block mt-2 text_product" th:text="${product.name}"></a>
 			<h6 class="mt-2 mb-3 d-flex align-items-center fw-bold text_product">
-				122.000.000đ<strike class="mx-2 text-secondary">221.000.000đ</strike><span
-					class="badge text-bg-danger text-white p-2">-62%</span>
-			</h6>
-		</div>
-		<div class="col-lg-3 col-md-4 col-6 list_product">
-			<a href=""> <img src="./images/black myth wukong-13641.jpg"
-				class="img-fluid mt-2 rounded" alt="Right Image 2" width="100%">
-			</a> <a href="" class="d-block mt-2 text_product">Black Myth: Wukong
-				Black Black Myth: Wukong Black</a>
-			<h6 class="mt-2 mb-3 d-flex align-items-center fw-bold text_product">
-				122.000.000đ<strike class="mx-2 text-secondary">221.000.000đ</strike><span
-					class="badge text-bg-danger text-white p-2">-62%</span>
-			</h6>
-		</div>
-		<div class="col-lg-3 col-md-4 col-6 list_product">
-			<a href=""> <img src="./images/black myth wukong-13641.jpg"
-				class="img-fluid mt-2 rounded" alt="Right Image 2" width="100%">
-			</a> <a href="" class="d-block mt-2 text_product">Black Myth: Wukong
-				Black Black Myth: Wukong Black</a>
-			<h6 class="mt-2 mb-3 d-flex align-items-center fw-bold text_product">
-				122.000.000đ<strike class="mx-2 text-secondary">221.000.000đ</strike><span
-					class="badge text-bg-danger text-white p-2">-62%</span>
-			</h6>
-		</div>
-		<div class="col-lg-3 col-md-4 col-6 list_product">
-			<a href=""> <img src="./images/black myth wukong-13641.jpg"
-				class="img-fluid mt-2 rounded" alt="Right Image 2" width="100%">
-			</a> <a href="" class="d-block mt-2 text_product">Black Myth: Wukong
-				Black Black Myth: Wukong Black</a>
-			<h6 class="mt-2 mb-3 d-flex align-items-center fw-bold text_product">
-				122.000.000đ<strike class="mx-2 text-secondary">221.000.000đ</strike><span
-					class="badge text-bg-danger text-white p-2">-62%</span>
+				<span th:text="${product.price} + 'đ'"></span> <strike
+					class="mx-2 text-secondary" th:text="${product.price} + 'đ'"></strike>
+				<span class="badge text-bg-danger text-white p-2"
+					th:text="${product.discount + '%'}"></span>
 			</h6>
 		</div>
 	</div>
