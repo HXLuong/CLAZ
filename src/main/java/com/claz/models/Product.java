@@ -18,47 +18,47 @@ import lombok.NoArgsConstructor;
 public class Product {
 
 	@Id
-	@Column(name = "id", updatable = false, nullable = false)
+	@Column(name = "Product_ID", updatable = false, nullable = false)
 	int id;
-	String name;
-	String image;
-	Double price;
-	int quantity;
-	String description;
-	Double discount;
-	int hot;
-	Double total_Pay;
-	int total_Rating;
-	int total_Stars;
-	@Temporal(TemporalType.DATE)
-	@Column(name = "created_at")
-	Date created_at = new Date();
-
-	@ManyToOne
-	@JoinColumn(name = "category_id")
-	Category category;
-
-	@JsonIgnore
-	@OneToMany(mappedBy = "product")
-	List<GenreProduct> genreProducts;
-
-	@JsonIgnore
-	@OneToMany(mappedBy = "product")
-	List<Galary> galaries;
-
-	@JsonIgnore
-	@OneToMany(mappedBy = "product")
-	List<OrderDetail> orderDetails;
-
-	@JsonIgnore
-	@OneToMany(mappedBy = "product")
-	List<Cart> cart;
-
-	@JsonIgnore
-	@OneToMany(mappedBy = "product")
-	List<Comment> comment;
-
-	@JsonIgnore
-	@OneToMany(mappedBy = "product")
-	List<Rating> rating;
+	String Name;
+    String Image;
+    Double Price;
+    int Quantity;
+    String Decription;
+    Double Discount;
+    int Hot;
+    Double Total_Pay;
+    int Total_Rating;
+    int Total_Stars;
+    @Temporal(TemporalType.DATE)
+    @Column(name = "Created_at")
+    Date Created_at = new Date();
+    
+    @ManyToOne
+    @JoinColumn(name = "Category_ID")
+    Category category;
+    
+    @JsonIgnore
+    @OneToMany(mappedBy = "product")
+    List<GenreProduct> genreProducts;
+    
+    @JsonIgnore
+    @OneToMany(mappedBy = "product")
+    List<Galary> galaries;
+    
+    @JsonIgnore
+    @OneToMany(mappedBy = "product")
+    List<OrderDetail> orderDetails;
+    
+    @JsonIgnore
+    @OneToMany(mappedBy = "product")
+    List<Cart> cart;
+    
+    @JsonIgnore
+    @OneToMany(mappedBy = "product")
+    List<Comment> comment;
+    
+    @JsonIgnore
+    @OneToMany(mappedBy = "product")
+    List<Rating> rating;
 }

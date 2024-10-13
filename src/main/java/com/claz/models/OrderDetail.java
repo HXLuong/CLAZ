@@ -9,11 +9,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "orderDetail")
+@Table(name = "order_detail")
 public class OrderDetail {
 
 	@Id
-	@Column(name = "id", updatable = false, nullable = false)
+	@Column(name = "OrderDetail_ID", updatable = false, nullable = false)
 	int id;
 	Double price;
     int quantity;

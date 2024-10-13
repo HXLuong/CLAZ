@@ -1,13 +1,24 @@
 package com.claz.controllers;
 
+import com.claz.models.Product;
+import com.claz.services.ProductService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+
 @Controller
+@RequiredArgsConstructor
 public class HomeController {
-	@RequestMapping("/")
+
+	private final ProductService productService;
+	@GetMapping("/")
 	public String index(Model model) {
+		List<Product> products = productService.getAllProducts();
+		model.addAttribute("products", products);
 		model.addAttribute("page", "component/home");
 		return "index";
 	}
@@ -131,6 +142,7 @@ public class HomeController {
 	public String security_instruct(Model model) {
 		return "/instruct/security_instruct";
 	}
+
 
 	@RequestMapping("/signup_instruct")
 	public String signup_instruct(Model model) {

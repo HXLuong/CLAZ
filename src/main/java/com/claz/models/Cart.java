@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "cart")
 public class Cart {
 	@Id
-	@Column(name = "id", updatable = false, nullable = false)
+	@Column(name = "Cart_ID", updatable = false, nullable = false)
 	int id;
 	String name;
 	Double price;

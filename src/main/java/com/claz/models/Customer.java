@@ -21,33 +21,33 @@ import lombok.NoArgsConstructor;
 public class Customer {
 
 	@Id
-	@Column(name = "username")
+	@Column(name = "Username", updatable = false, nullable = false)
 	String username;
 	String fullname;
-	String password;
-	String email;
-	String phone;
-	String image;
-	boolean gender;
-	@Temporal(TemporalType.DATE)
-	@Column(name = "created_at")
-	Date created_at = new Date();
-
-	@JsonIgnore
-	@OneToMany(mappedBy = "customer")
-	List<Order> orders;
-
-	@JsonIgnore
-	@OneToMany(mappedBy = "customer")
-	List<Cart> cart;
-
-	@JsonIgnore
-	@OneToMany(mappedBy = "customer")
-	List<Comment> comment;
-
-	@JsonIgnore
-	@OneToMany(mappedBy = "customer")
-	List<Rating> rating;
+    String password;
+    String email;
+    String phone;
+    String image;
+    boolean gender;
+    @Temporal(TemporalType.DATE)
+    @Column(name = "Created_at")
+    Date created_at = new Date();
+    
+    @JsonIgnore
+    @OneToMany(mappedBy = "customer")
+    List<Order> orders;
+    
+    @JsonIgnore
+    @OneToMany(mappedBy = "customer")
+    List<Cart> cart;
+    
+    @JsonIgnore
+    @OneToMany(mappedBy = "customer")
+    List<Comment> comment;
+    
+    @JsonIgnore
+    @OneToMany(mappedBy = "customer")
+    List<Rating> rating;
 
 	@PrePersist
 	public void prePersist() {

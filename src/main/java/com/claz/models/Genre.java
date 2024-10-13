@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "genre")
 public class Genre {
 	@Id
-	@Column(name = "id", updatable = false, nullable = false)
+	@Column(name = "Genre_ID", updatable = false, nullable = false)
 	int id;
 	String name;
 	String decription;

@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class Slide {
 
 	@Id
-	@Column(name = "id", updatable = false, nullable = false)
+	@Column(name = "Slide_ID", updatable = false, nullable = false)
 	int id;
 	String image;
 	@Temporal(TemporalType.DATE)
