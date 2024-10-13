@@ -3,7 +3,7 @@
 		<!-- Content -->
 		<div>
 			<div class="mb-3">
-				<h4 class="fw-bold fs-3">Danh sách sản phẩm</h4>
+				<h4 class="fw-bold fs-3">Danh sách Nhân viên</h4>
 			</div>
 			<div class="table-responsive">
 				<form action="" method="post" class="d-flex my-3">
@@ -18,27 +18,26 @@
 					<thead>
 						<tr>
 							<th scope="col">STT</th>
-							<th scope="col">Hình ảnh</th>
-							<th scope="col">Tên sản phẩm</th>
-							<th scope="col">Giá</th>
-							<th scope="col">Giảm giá</th>
-							<th scope="col">Số lượng</th>
-							<th scope="col">Danh mục</th>
-							<th scope="col">Thể loại</th>
-							<th scope="col">Ngày tạo</th>
+							<th scope="col">Tên đăng nhập</th>
+							<th scope="col">Họ và tên</th>
+							<th scope="col">Mật khẩu</th>
+							<th scope="col">Email</th>
+							<th scope="col">Số điện thoại</th>
+							<th scope="col">Giới tính</th>
+							<th scope="col">Ngày tham gia</th>
 							<th scope="col">Khác</th>
 						</tr>
 					</thead>
 					<tbody>
 						<td>1</td>
-						<td><img src="./images/black myth wukong-13641.jpg"
-							class="rounded object-fit-cover me-2" width="100%" height="70px"></td>
-						<td>sssssssssssssssssssssssssssss</td>
-						<td>11111111111đ</td>
-						<td>20%</td>
-						<td>10000</td>
-						<td>Danh mục</td>
-						<td>Thể loại</td>
+						<td>Záp đẹp try</td>
+						<td><img src="./images/profile.jpg"
+							class="rounded-circle object-fit-cover me-2" width="40px"
+							height="40px"> Hoàng Giáp</td>
+						<td>*******</td>
+						<td>aduzapdeptry@gmail.com</td>
+						<td>0123456789</td>
+						<td>Nam</td>
 						<td>11/10/2024</td>
 						<td scope="row">
 							<!-- Button trigger modal -->
@@ -56,71 +55,66 @@
 									<div class="modal-content">
 										<div class="modal-header">
 											<h1 class="modal-title fs-5" id="staticBackdropLabel">Cập
-												nhật sản phẩm</h1>
+												nhật tài khoản</h1>
 											<button type="button" class="btn-close"
 												data-bs-dismiss="modal" aria-label="Close"></button>
 										</div>
 										<div class="modal-body">
-											<form class="col-xs-12 col-lg-12 mt-3">
+											<form class="col-xs-12 col-lg-12">
 												<div class="row">
 													<input type="hidden" ng-model="form.id">
-													<div class="col-md-12 col-lg-12 text-center mb-3">
+													<div class="col-12">
 														<label for="image"> <img
-															class="rounded object-fit-cover"
-															src="./images/black myth wukong-13641.jpg" width="100%"
+															class="rounded-circle object-fit-cover"
+															src="./images/profile.jpg" width="200px" height="200px"
 															alt="Chọn ảnh sản phẩm">
 														</label> <input type="file" class="form-control" id="image"
 															onchange="angular.element(this).scope().imageChaged(this.files)"
 															hidden>
 													</div>
-													<div class="col-md-12 col-lg-12">
+													<div class="col-12 mt-3">
 														<div class="row mb-3">
 															<div class="form-group col-sm-6">
-																<div>Tên sản phẩm:</div>
+																<div>Tên đăng nhập:</div>
 																<input ng-model="form.username" class="form-control">
 															</div>
 															<div class="form-group col-sm-6">
-																<div>Giá sản phẩm:</div>
+																<div>Họ và tên:</div>
 																<input ng-model="form.name" class="form-control">
 															</div>
 														</div>
 														<div class="row mb-3">
 															<div class="form-group col-sm-6">
-																<div>Giảm giá:</div>
+																<div>Mật khẩu:</div>
 																<input ng-model="form.password" class="form-control"
-																	type="text">
+																	type="password">
 															</div>
 															<div class="form-group col-sm-6">
-																<div>Số lượng:</div>
+																<div>Email:</div>
 																<input ng-model="form.email" class="form-control"
-																	type="text">
+																	type="email">
 															</div>
 														</div>
 														<div class="row mb-3">
 															<div class="form-group col-sm-6">
-																<div>Danh mục sản phẩm:</div>
-																<select class="form-control">
-																	<option>Giải trí</option>
-																	<option>Học tập</option>
-																</select>
+																<div>Số điện thoại:</div>
+																<input ng-model="form.phone" class="form-control">
 															</div>
 															<div class="form-group col-sm-6">
-																<div>Thể loại sản phẩm:</div>
-																<select class="form-control">
-																	<option>Giải trí</option>
-																	<option>Học tập</option>
-																</select>
+																<div>Giới tính:</div>
+																<div class="d-flex gap-2 justify-content-center">
+																	<input class="form-check-input" type="radio"
+																		name="gender"> Nam <input
+																		class="form-check-input" type="radio" name="gender">
+																	Nữ<br>
+																</div>
 															</div>
 														</div>
 														<div class="mb-3">
-															<div class="form-group mb-3">
-																<div>Ngày tạo:</div>
+															<div class="form-group">
+																<div>ngày tham gia:</div>
 																<input ng-model="form.phone" class="form-control"
 																	disabled>
-															</div>
-															<div class="form-group">
-																<div>Mô tả:</div>
-																<textarea rows="5" class="form-control"></textarea>
 															</div>
 														</div>
 													</div>
