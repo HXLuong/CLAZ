@@ -1,4 +1,4 @@
-package com.claz.service;
+package com.claz.services;
 
 import java.util.List;
 import java.util.Optional;

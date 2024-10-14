@@ -2,7 +2,10 @@ package com.claz.controllers;
 
 import com.claz.models.Product;
 import com.claz.services.ProductService;
+
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,13 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
-@RequiredArgsConstructor
 public class HomeController {
 
-	private final ProductService productService;
+	@Autowired
+	ProductService productService;
+	
 	@GetMapping("/")
 	public String index(Model model) {
-		List<Product> products = productService.getAllProducts();
+		List<Product> products = productService.findAll();
 		model.addAttribute("products", products);
 		model.addAttribute("page", "component/home");
 		return "index";

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.claz.models.Customer;
-import com.claz.service.CustomerService;
+import com.claz.services.CustomerService;
 
 @CrossOrigin("*")
 @RestController

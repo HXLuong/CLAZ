@@ -1,32 +1,23 @@
 package com.claz.services;
 
-import com.claz.repository.ProductRepository;
-import com.claz.models.Product;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
+import com.claz.models.Product;
+
 @Service
-@RequiredArgsConstructor
-public class ProductService {
+public interface ProductService {
 
-    private final ProductRepository productRepository;
+	List<Product> findAll();
 
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
-    }
-//
-//    public Product getProductById(int id) {
-//        return productRepository.findById(id).get();
-//    }
-//
-//    public void saveProduct(Product product) {
-//        productRepository.save(product);
-//    }
-//
-//    public void deleteProduct(int id) {
-//        productRepository.deleteById(id);
-//    }
+	Product finById(int id);
+
+	List<Product> findByCategoryId(int cid);
+
+	Product create(Product product);
+
+	Product update(Product product);
+
+	void delete(int id);
 }

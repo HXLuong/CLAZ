@@ -12,9 +12,14 @@ body {
     background: linear-gradient(to right, #e2e2e2, #c9d6ff);
     display: flex;
     align-items: center;
-    justify-content: center;
     flex-direction: column;
     height: 100vh;
+}
+
+.logo {
+	margin: 10px;
+	display: flex;
+	justify-content: center
 }
 
 .container {
@@ -25,7 +30,7 @@ body {
     overflow: hidden;
     width: 768px;
     max-width: 100%;
-    min-height: 480px;
+    min-height: 500px;
 }
 
 .container p {
@@ -219,7 +224,7 @@ body {
 
 @media only screen and (max-width: 576px) {
     .container {
-        min-height: 580px;
+        min-height: 620px;
     }
 
     .container.active .toggle-container {
