@@ -1,6 +1,8 @@
 package com.claz.controllers;
 
+import com.claz.models.Category;
 import com.claz.models.Product;
+import com.claz.repository.CategoryRepository;
 import com.claz.services.CategoryService;
 import com.claz.services.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,7 @@ public class HomeController {
 
     private final ProductService productService;
     private final CategoryService categoryService;
+    private final CategoryRepository categoryRepository;
 
     @GetMapping("/")
     public String index(Model model) {
@@ -28,6 +31,10 @@ public class HomeController {
         model.addAttribute("lamviec", pr3);
         List<Product> pr4 = productService.getAllProduct().stream().filter(e -> e.getCategory().getId() == 3).toList();
         model.addAttribute("hoctap", pr3);
+        List<Product> allpr = productService.getAllProduct();
+        model.addAttribute("allproducts",allpr);
+        List<Category> cate = categoryRepository.findAll();
+        model.addAttribute("cates", cate);
         model.addAttribute("page", "component/home");
         return "index";
     }
@@ -40,7 +47,11 @@ public class HomeController {
 
     @RequestMapping("/category")
     public String danhmuc(Model model) {
+    	List<Product> allpr = productService.getAllProduct();
+        model.addAttribute("allproducts",allpr);
         model.addAttribute("page", "/category/category");
+        List<Category> cate = categoryRepository.findAll();
+        model.addAttribute("cates", cate);
         return "index";
     }
 

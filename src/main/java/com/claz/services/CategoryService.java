@@ -13,9 +13,11 @@ import java.util.List;
 public class CategoryService {
     private final CategoryRepository categoryRepository;
     public List<Category> getAllProducts() {
+
         return categoryRepository.findAll();
     }
     public Category getCategoryById(int id) {
+
         return categoryRepository.findById(id);
     }
 }
