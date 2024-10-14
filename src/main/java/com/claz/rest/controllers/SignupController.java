@@ -1,4 +1,4 @@
-package com.claz.controllers;
+package com.claz.rest.controllers;
 
 import java.util.Date;
 import java.util.List;

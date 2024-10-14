@@ -22,7 +22,7 @@ public class Category {
 	@Column(nullable = false, unique = true)
 	String name;
 	@Column(nullable = false, unique = true)
-	String Decription;
+	String decription;
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "category")

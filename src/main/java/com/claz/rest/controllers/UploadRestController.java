@@ -1,4 +1,4 @@
-package com.claz.controllers;
+package com.claz.rest.controllers;
 
 import java.io.File;
 import java.util.List;
