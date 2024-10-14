@@ -9,10 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.claz.service.UploadService;
-
-
-
-
 @Service
 public class UploadServiceImpl implements UploadService {
 

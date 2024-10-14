@@ -1,9 +1,10 @@
 package com.claz.controllers;
 
+import com.claz.models.Category;
 import com.claz.models.Product;
+import com.claz.services.CategoryService;
 import com.claz.services.ProductService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,11 +17,15 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
+    private final CategoryService categoryService;
 
     @GetMapping("/")
-    public String index(Model model) {
-        List<Product> products = productService.getAllProducts();
-        model.addAttribute("products", products);
+    public String index(Model model, @RequestParam(value = "id", required = false) int id) {
+            Category ct = categoryService.getCategoryById(id);
+            if (ct.getId() == 1) {
+                List<Product> products = productService.getProductsByCategoryId(1);
+                model.addAttribute("products", products);
+            }
         return "index"; // Trả về template Thymeleaf
     }
 

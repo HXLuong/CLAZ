@@ -13,10 +13,13 @@ import java.util.List;
 public class ProductService {
 
     private final ProductRepository productRepository;
-
-    public List<Product> getAllProducts() {
+    public List<Product> getProductsByCategoryId(int Category_ID) {
+        return productRepository.findAllByCategoryId(Category_ID);
+    }
+    public List<Product> getAllProduct() {
         return productRepository.findAll();
     }
+
 //
 //    public Product getProductById(int id) {
 //        return productRepository.findById(id).get();
