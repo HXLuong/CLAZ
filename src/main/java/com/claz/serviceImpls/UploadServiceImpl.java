@@ -1,4 +1,4 @@
-package com.claz.serviceImpl;
+package com.claz.serviceImpls;
 
 import java.io.File;
 
@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.claz.service.UploadService;
+import com.claz.services.UploadService;
 
 
 

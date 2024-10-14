@@ -1,4 +1,4 @@
-package com.claz.service;
+package com.claz.services;
 
 import java.io.File;
 

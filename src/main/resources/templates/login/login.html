@@ -23,6 +23,19 @@
 </head>
 
 <body ng-app="app" ng-controller="ctrl">
+
+	<header>
+		<div
+			class="btn_login logo">
+			<a href="/" class="d-flex overflow-hidden align-items-center"> <img
+				src="./images/logo2.png" width="100%" height="90px" alt="" />
+			</a>
+		</div>
+		<div
+			class="">
+			
+		</div>
+	</header>
 	<div class="container" id="container">
 		<div class="form-container sign-up">
 			<form id="registerForm" action="" method="post"
@@ -44,7 +57,7 @@
 				<input ng-model="form.confirmPassword" type="password"
 					placeholder="Nhập lại mật khẩu"> <span class="text-danger"
 					ng-show="form.password !== form.confirmPassword && form.confirmPassword !== ''">
-					Xác nhận mật khẩu chưa trùng khớp</span> <br>
+					* Xác nhận mật khẩu chưa trùng khớp</span> <br>
 				<button type="button" class="btn_login" ng-click="create()">Đăng
 					Ký</button>
 				<!-- Đảm bảo type là "button" -->

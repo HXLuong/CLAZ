@@ -12,9 +12,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.claz.DAO.CustomerDAO;
 import com.claz.models.Customer;
-import com.claz.service.CustomerService;
+import com.claz.repositories.CustomerRepository;
+import com.claz.services.CustomerService;
 
 @Controller
 public class SecurityController {
@@ -24,7 +24,7 @@ public class SecurityController {
 	@Autowired
 	private BCryptPasswordEncoder pe;
 	@Autowired
-	CustomerDAO dao;
+	CustomerRepository dao;
 
 	@RequestMapping("/login")
 	public String login(Model model) {
