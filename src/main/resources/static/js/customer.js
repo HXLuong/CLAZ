@@ -137,7 +137,7 @@ app.controller('ctrl', function($scope, $http) {
 		var data = new FormData();
 		data.append('file', files[0]);
 
-		$http.post('/rest/upload/image', data, {
+		$http.post('/rest/upload/images', data, {
 			transformRequest: angular.identity,
 			headers: { 'Content-Type': undefined }
 		}).then(resp => {
