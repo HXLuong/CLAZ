@@ -21,11 +21,6 @@ public class HomeController {
         return "index";
     }
 
-	@RequestMapping("/category")
-	public String danhmuc(Model model) {
-		model.addAttribute("page", "/category/category");
-		return "index";
-	}
 
 	@RequestMapping("/account")
 	public String upaccount(Model model) {
