@@ -45,15 +45,6 @@ public class HomeController {
         return "index";
     }
 
-    @RequestMapping("/category")
-    public String danhmuc(Model model) {
-    	List<Product> allpr = productService.getAllProduct();
-        model.addAttribute("allproducts",allpr);
-        model.addAttribute("page", "/category/category");
-        List<Category> cate = categoryRepository.findAll();
-        model.addAttribute("cates", cate);
-        return "index";
-    }
 
     @RequestMapping("/account")
     public String upaccount(Model model) {
