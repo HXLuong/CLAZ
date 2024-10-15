@@ -21,6 +21,11 @@ app.controller('ctrl', function($scope, $http) {
 		return emailPattern.test(email);
 	};
 
+	$scope.isValidPhone = function(phone) {
+		const phonePattern = /^(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})$/;
+		return phonePattern.test(phone);
+	};
+
 	$scope.create = function() {
 		$scope.form = $scope.form || {};
 
@@ -80,11 +85,10 @@ app.controller('ctrl', function($scope, $http) {
 
 
 	$scope.updateAccount = function() {
-		var phonePattern = /^[0-9]{10}$/;
-		if (!$scope.form.phone || !phonePattern.test($scope.form.phone)) {
+		if (!$scope.form.phone || !$scope.isValidPhone($scope.form.phone)) {
 			Swal.fire({
 				title: "Lỗi",
-				text: "Vui lòng nhập số điện (10 chữ số)",
+				text: "Vui lòng nhập số điện thoại hợp lệ",
 				icon: "error"
 			});
 			return;
@@ -112,6 +116,7 @@ app.controller('ctrl', function($scope, $http) {
 			});
 			return;
 		}
+
 		// Kiểm tra xác nhận mật khẩu
 		if ($scope.form.password !== $scope.form.confirmPassword) {
 			$scope.error = 'Mật khẩu không trùng khớp';

@@ -1,5 +1,5 @@
-var app = angular.module("categoryApp", []);
-app.controller("categoryCtrl", function($scope, $http) {
+var app = angular.module("genreApp", []);
+app.controller("genreCtrl", function($scope, $http) {
 	$scope.form = {};
 	$scope.items = [];
 
@@ -13,7 +13,7 @@ app.controller("categoryCtrl", function($scope, $http) {
 	};
 
 	$scope.load_all = function() {
-		$http.get(`/rest/categories`).then(resp => {
+		$http.get(`/rest/genres`).then(resp => {
 			$scope.items = resp.data;
 			console.log("Success", resp);
 		}).catch(error => {
@@ -34,7 +34,7 @@ app.controller("categoryCtrl", function($scope, $http) {
 		if (!$scope.form.name) {
 			Swal.fire({
 				title: "Lỗi",
-				text: "Vui lòng nhập tên danh mục",
+				text: "Vui lòng nhập tên thể loại",
 				icon: "error"
 			});
 			return;
@@ -50,19 +50,19 @@ app.controller("categoryCtrl", function($scope, $http) {
 
 		var item = angular.copy($scope.form);
 		item.id = $scope.generateRandomId(6); // Tạo ID ngẫu nhiên 6 chữ số
-		$http.post(`/rest/categories`, item).then(resp => {
+		$http.post(`/rest/genres`, item).then(resp => {
 			$scope.items.push(resp.data);
 			$scope.reset();
 			Swal.fire({
 				icon: "success",
 				title: "Thêm Thành công",
-				text: "Danh mục sản phẩm mới đã được thêm vào danh sách",
+				text: "Thể loại sản phẩm mới đã được thêm vào danh sách",
 			});
 		}).catch(error => {
 			Swal.fire({
 				icon: "error",
 				title: "Lỗi",
-				text: "Thêm mới danh mục sản phẩm gặp trục trặc",
+				text: "Thêm mới thể loại sản phẩm gặp trục trặc",
 			});
 		});
 	}
@@ -72,7 +72,7 @@ app.controller("categoryCtrl", function($scope, $http) {
 		if (!$scope.form.name) {
 			Swal.fire({
 				title: "Lỗi",
-				text: "Vui lòng nhập tên danh mục",
+				text: "Vui lòng nhập tên thể loại",
 				icon: "error"
 			});
 			return;
@@ -87,14 +87,14 @@ app.controller("categoryCtrl", function($scope, $http) {
 		}
 
 		var item = angular.copy($scope.form);
-		$http.put(`/rest/categories/${item.id}`, item).then(resp => {
+		$http.put(`/rest/genres/${item.id}`, item).then(resp => {
 			var index = $scope.items.findIndex(p => p.id == item.id);
 			$scope.items[item] = item
 			$scope.reset();
 			Swal.fire({
 				icon: "success",
 				title: "Cập nhật Thành công",
-				text: "Danh mục sản phẩm đã được cập nhật",
+				text: "Thể loại sản phẩm đã được cập nhật",
 			});
 
 			$('#staticBackdrop').modal('hide');
@@ -103,7 +103,7 @@ app.controller("categoryCtrl", function($scope, $http) {
 			Swal.fire({
 				icon: "error",
 				title: "Lỗi",
-				text: "Cập nhật danh mục sản phẩm gặp trục trặc",
+				text: "Cập nhật thể loại sản phẩm gặp trục trặc",
 			});
 		})
 	};
@@ -111,8 +111,8 @@ app.controller("categoryCtrl", function($scope, $http) {
 
 	$scope.delete = function(item) {
 		Swal.fire({
-			title: "Bạn có chắc muốn xoá danh mục sản phẩm này không?",
-			text: "Bạn sẽ không thể hoàn tác lại danh mục sản phẩm này!",
+			title: "Bạn có chắc muốn xoá thể loại sản phẩm này không?",
+			text: "Bạn sẽ không thể hoàn tác lại thể loại sản phẩm này!",
 			icon: "warning",
 			showCancelButton: true,
 			confirmButtonColor: "#3085d6",
@@ -123,9 +123,9 @@ app.controller("categoryCtrl", function($scope, $http) {
 				Swal.fire({
 					icon: "success",
 					title: "Xóa Thành công",
-					text: "Danh mục sản phẩm đã được xóa khỏi danh sách",
+					text: "Thể loại sản phẩm đã được xóa khỏi danh sách",
 				});
-				$http.delete(`/rest/categories/${item.id}`).then(resp => {
+				$http.delete(`/rest/genres/${item.id}`).then(resp => {
 					var index = $scope.items.findIndex(p => p.id == item.id);
 					$scope.items.splice(index, 1);
 					$scope.reset();
@@ -136,7 +136,7 @@ app.controller("categoryCtrl", function($scope, $http) {
 					Swal.fire({
 						icon: "error",
 						title: "Lỗi",
-						text: "Xóa danh mục sản phẩm gặp trục trặc",
+						text: "Xóa thể loại sản phẩm gặp trục trặc",
 					});
 				});
 			}
