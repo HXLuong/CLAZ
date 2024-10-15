@@ -171,7 +171,37 @@ app.controller('ctrl', function($scope, $http) {
 				console.log(error);
 			});
 	};
-
+	$scope.sendResetEmail = function() {
+	    if (!$scope.isValidEmail($scope.form.email)) {
+	        Swal.fire({
+	            title: "Lỗi",
+	            text: "Vui lòng nhập email hợp lệ.",
+	            icon: "error"
+	        });
+	        return;
+	    }
+	    const data = {
+	        sendmail: $scope.form.email
+	    };
+	    $http.post('http://localhost:8080/send/mail', data)
+	    .then(response => {
+	        console.log("Response:", response); 
+	        Swal.fire({
+	            title: "Thành công",
+	            text: "Email đã được gửi. Vui lòng kiểm tra hộp thư của bạn.",
+	            icon: "success"
+	        });
+	        $scope.form.email = '';
+	    })
+	    .catch(error => {
+	        console.error("Error:", error);
+	            Swal.fire({
+	                title: "Thành công",
+	                text: "Email đã được gửi. Vui lòng kiểm tra hộp thư của bạn.",
+	                icon: "success"
+	            });
+	    });
+	};
 
 	$scope.loadAccount();
 });
