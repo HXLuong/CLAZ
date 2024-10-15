@@ -1,4 +1,4 @@
-package com.claz.controllers;
+package com.claz.rest.controllers;
 
 import java.util.Date;
 import java.util.List;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.claz.models.Customer;
-import com.claz.service.CustomerService;
+import com.claz.services.CustomerService;
 
 @CrossOrigin("*")
 @RestController

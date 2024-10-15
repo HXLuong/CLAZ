@@ -1,4 +1,4 @@
-package com.claz.serviceImpl;
+package com.claz.serviceImpls;
 
 import java.io.File;
 
@@ -8,7 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+<<<<<<< HEAD:src/main/java/com/claz/serviceImpl/UploadServiceImpl.java
 import com.claz.service.UploadService;
+=======
+import com.claz.services.UploadService;
+
+
+
+
+>>>>>>> cefbaa9380fbe81f6f5454181f197dfe67734ff9:src/main/java/com/claz/serviceImpls/UploadServiceImpl.java
 @Service
 public class UploadServiceImpl implements UploadService {
 

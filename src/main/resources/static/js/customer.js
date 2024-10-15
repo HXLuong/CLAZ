@@ -1,26 +1,27 @@
 var app = angular.module('app', ['ngRoute']);
-app.controller('ctrl', function ($scope, $http) {
+app.controller('ctrl', function($scope, $http) {
 	$scope.items = [];
 	$scope.form = {};
 	$scope.cutomer = {};
 	$scope.error = '';
+	var element = angular.element(document.getElementById('container'));
 
-	$scope.loadAccount = function () {
+	$scope.loadAccount = function() {
 		$http.get('/rest/customer/current').then(resp => {
 			$scope.form = resp.data || {};
 		});
 	};
 
-	$scope.reset = function () {
+	$scope.reset = function() {
 		$scope.form = {};
 	};
 
-	$scope.isValidEmail = function (email) {
+	$scope.isValidEmail = function(email) {
 		const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 		return emailPattern.test(email);
 	};
 
-	$scope.create = function () {
+	$scope.create = function() {
 		$scope.form = $scope.form || {};
 
 		if (!$scope.form.fullname) {
@@ -72,12 +73,13 @@ app.controller('ctrl', function ($scope, $http) {
 				text: "Đăng ký thành công",
 				icon: "success"
 			});
+			element.removeClass('active');
 			$scope.reset();
 		})
 	};
 
 
-	$scope.updateAccount = function () {
+	$scope.updateAccount = function() {
 		var phonePattern = /^[0-9]{10}$/;
 		if (!$scope.form.phone || !phonePattern.test($scope.form.phone)) {
 			Swal.fire({
@@ -100,7 +102,7 @@ app.controller('ctrl', function ($scope, $http) {
 	};
 
 
-	$scope.updateAccountPass = function () {
+	$scope.updateAccountPass = function() {
 		if ($scope.form.password.length < 6) {
 			$scope.error = 'Mật khẩu phải có ít nhất 6 ký tự';
 			Swal.fire({
@@ -131,29 +133,36 @@ app.controller('ctrl', function ($scope, $http) {
 				});
 			})
 	};
-	$scope.imageChaged = function (files) {
+	$scope.imageChaged = function(files) {
 		var data = new FormData();
 		data.append('file', files[0]);
 
-		$http.post('/rest/upload/image', data, {
+		$http.post('/rest/upload/images', data, {
 			transformRequest: angular.identity,
 			headers: { 'Content-Type': undefined }
 		}).then(resp => {
-			$scope.form.image = resp.data.name; 
-			$scope.updateAccountimg(); 
+			$scope.form.image = resp.data.name;
+			$scope.updateAccountimg();
 		}).catch(error => {
-			alert("Lỗi hình ảnh!");
-			console.log(error);
+			Swal.fire({
+				title: "Lỗi",
+				text: "Lỗi hình ảnh",
+				icon: "error"
+			});
 		});
 	};
 
-	$scope.updateAccountimg = function () {
+	$scope.updateAccountimg = function() {
 		$http.put('/rest/customer/currentimg', $scope.form)
 			.then(resp => {
 				$scope.form = resp.data; // Cập nhật dữ liệu mới từ server
 			})
 			.catch(error => {
-				alert("Lỗi cập nhật thông tin!");
+				Swal.fire({
+					title: "Lỗi",
+					text: "Lỗi cập nhật thông tin",
+					icon: "error"
+				});
 				console.log(error);
 			});
 	};

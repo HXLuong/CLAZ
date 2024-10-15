@@ -1,4 +1,4 @@
-package com.claz.DAO;
+package com.claz.repositories;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.claz.models.Customer;
 
 @Repository
-public interface CustomerDAO extends JpaRepository<Customer, String> {
+public interface CustomerRepository extends JpaRepository<Customer, String> {
 	Optional<Customer> findByUsername(String name);
 
 	@Query("select o from Customer o where o.fullname like ?1")

@@ -26,10 +26,8 @@ import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import java.util.Arrays;
 
 import com.claz.models.Customer;
-import com.claz.service.CustomerService;
-
+import com.claz.services.CustomerService;
 import com.claz.models.Customer;
-import com.claz.service.CustomerService;
 
 @Configuration
 @EnableWebSecurity

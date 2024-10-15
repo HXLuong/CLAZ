@@ -1,17 +1,15 @@
 package com.claz.services;
 
-import com.claz.repository.ProductRepository;
-import com.claz.models.Product;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 
-@Service
-@RequiredArgsConstructor
-public class ProductService {
+import org.springframework.stereotype.Service;
 
+import com.claz.models.Product;
+
+@Service
+public interface ProductService {
+
+<<<<<<< HEAD
     private final ProductRepository productRepository;
     public List<Product> getProductsByCategoryId(int Category_ID) {
         return productRepository.findAllByCategoryId(Category_ID);
@@ -35,3 +33,17 @@ public class ProductService {
 //        productRepository.deleteById(id);
 //    }
 }
+=======
+	List<Product> findAll();
+
+	Product finById(int id);
+
+	List<Product> findByCategoryId(int cid);
+
+	Product create(Product product);
+
+	Product update(Product product);
+
+	void delete(int id);
+}
+>>>>>>> cefbaa9380fbe81f6f5454181f197dfe67734ff9

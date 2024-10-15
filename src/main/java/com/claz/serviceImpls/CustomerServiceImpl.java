@@ -1,4 +1,4 @@
-package com.claz.serviceImpl;
+package com.claz.serviceImpls;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,14 +8,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import com.claz.DAO.CustomerDAO;
 import com.claz.models.Customer;
-import com.claz.service.CustomerService;
+import com.claz.repositories.CustomerRepository;
+import com.claz.services.CustomerService;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
 	@Autowired
-	private CustomerDAO customerDAO;
+	private CustomerRepository customerDAO;
 
 	public List<Customer> findAll() {
 		return customerDAO.findAll();

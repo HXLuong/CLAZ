@@ -1,10 +1,9 @@
 package com.claz.controllers;
 
-import com.claz.models.Category;
 import com.claz.models.Product;
-import com.claz.services.CategoryService;
 import com.claz.services.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,12 +11,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
+@RequestMapping("/products")
 @RequiredArgsConstructor
 public class ProductController {
-
-    private final ProductService productService;
-    private final CategoryService categoryService;
-
+    private final
     @GetMapping("/")
     public String index(Model model) {
         List<Product> pr = productService.getAllProduct().stream().filter(e -> e.getCategory().getId() == 1).toList();
@@ -27,17 +24,10 @@ public class ProductController {
         List<Product> pr3 = productService.getAllProduct().stream().filter(e -> e.getCategory().getId() == 2).toList();
         model.addAttribute("lamviec", pr3);
         List<Product> pr4 = productService.getAllProduct().stream().filter(e -> e.getCategory().getId() == 3).toList();
-        model.addAttribute("hoctap", pr4);
+        model.addAttribute("hoctap", pr3);
         model.addAttribute("page", "component/home");
         return "index";
     }
-//    @PostMapping("/search/name")
-//    public String searchProducts(@RequestParam("searchQuery") String query, Model model) {
-//        List<Product> products = productService.getAllNameOfProduct(query);
-//        model.addAttribute("products", products);
-//        return "index";
-//    }
-
 //    @GetMapping("/{id}")
 //    public String showProduct(@PathVariable int id, Model model) {
 //        Product product = productService.getProductById(id);
