@@ -1,4 +1,5 @@
-<div class="content px-3 py-2">
+<div class="content px-3 py-2" ng-app="categoryApp"
+	ng-controller="categoryCtrl">
 	<div class="container-fluid">
 		<!-- Content -->
 		<div>
@@ -18,70 +19,79 @@
 					<thead>
 						<tr>
 							<th scope="col">STT</th>
+							<th scope="col">ID</th>
 							<th scope="col">Tên danh mục</th>
 							<th scope="col">Mô tả</th>
 							<th scope="col">Khác</th>
 						</tr>
 					</thead>
 					<tbody>
-						<td>1</td>
-						<td>sssssssssssssssssssssssssssss</td>
-						<td>ssssssddfffffffffffffffffffff</td>
-						<td scope="row">
-							<!-- Button trigger modal -->
-							<button type="button" class="btn btn-outline-warning me-2"
-								data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-								<i class="bi bi-box-arrow-up-right"></i> Chỉnh Sửa
-							</button>
-							<button ng-click="" class="btn btn-outline-danger">
-								<i class="bi bi-trash3-fill"></i>
-							</button> <!-- Modal -->
-							<div class="modal fade" id="staticBackdrop"
-								data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-								aria-labelledby="staticBackdropLabel" aria-hidden="true">
-								<div class="modal-dialog">
-									<div class="modal-content">
-										<div class="modal-header">
-											<h1 class="modal-title fs-5" id="staticBackdropLabel">Cập
-												nhật danh mục sản phẩm</h1>
-											<button type="button" class="btn-close"
-												data-bs-dismiss="modal" aria-label="Close"></button>
-										</div>
-										<div class="modal-body">
-											<form class="col-xs-12 col-lg-12 mt-3">
-												<div class="row">
-													<input type="hidden" ng-model="form.id">
-													<div class="col-md-12 col-lg-12 col-xl-8 mx-auto">
-														<div class="mb-3">
-															<div class="form-group mb-3">
-																<div>Tên danh mục:</div>
-																<input ng-model="form.phone" class="form-control">
-															</div>
-															<div class="form-group">
-																<div>Mô tả:</div>
-																<textarea rows="3" class="form-control"></textarea>
+						<tr ng-repeat="item in items">
+							<td>{{$index + 1}}</td>
+							<td>{{item.id}}</td>
+							<td>{{item.name}}</td>
+							<td>{{item.decription}}</td>
+							<td scope="row" class="d-flex justify-content-center gap-2">
+								<!-- Button trigger modal -->
+								<button ng-click="edit(item)" type="button"
+									class="btn btn-outline-warning me-2" data-bs-toggle="modal"
+									data-bs-target="#staticBackdrop">
+									<i class="bi bi-box-arrow-up-right"></i> Chỉnh Sửa
+								</button>
+								<button ng-click="delete(item)" class="btn btn-outline-danger">
+									<i class="bi bi-trash3-fill"></i>
+								</button> <!-- Modal -->
+								<div class="modal fade" id="staticBackdrop"
+									data-bs-backdrop="static" data-bs-keyboard="false"
+									tabindex="-1" aria-labelledby="staticBackdropLabel"
+									aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h1 class="modal-title fs-5" id="staticBackdropLabel">Cập
+													nhật danh mục sản phẩm</h1>
+												<button type="button" class="btn-close"
+													data-bs-dismiss="modal" aria-label="Close"></button>
+											</div>
+											<div class="modal-body">
+												<form class="col-xs-12 col-lg-12 mt-3">
+													<div class="row">
+														<input type="hidden" ng-model="form.id">
+														<div class="col-md-12 col-lg-12 col-xl-8 mx-auto">
+															<div class="mb-3">
+																<div class="form-group mb-3">
+																	<div>Tên danh mục:</div>
+																	<input ng-model="form.name" class="form-control">
+																</div>
+																<div class="form-group">
+																	<div>Mô tả:</div>
+																	<textarea ng-model="form.decription" rows="3"
+																		class="form-control"></textarea>
+																</div>
 															</div>
 														</div>
+														<div class="mt-4 d-flex justify-content-center gap-3">
+															<button ng-click="update()"
+																class="btn btn-outline-warning">
+																<i class="bi bi-box-arrow-up-right"></i> Cập nhật
+															</button>
+															<button ng-click="delete(form)"
+																class="btn btn-outline-danger">
+																<i class="bi bi-trash3-fill"></i> Xóa
+															</button>
+														</div>
 													</div>
-													<div class="mt-4 d-flex justify-content-center gap-3">
-														<button ng-click="" class="btn btn-outline-warning">
-															<i class="bi bi-box-arrow-up-right"></i> Cập nhật
-														</button>
-														<button ng-click="" class="btn btn-outline-danger">
-															<i class="bi bi-trash3-fill"></i> Xóa
-														</button>
-													</div>
-												</div>
-											</form>
-										</div>
-										<div class="modal-footer">
-											<button type="button" class="btn btn-secondary"
-												data-bs-dismiss="modal">Close</button>
+												</form>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-secondary"
+													data-bs-dismiss="modal">Close</button>
+											</div>
 										</div>
 									</div>
 								</div>
-							</div>
-						</td>
+							</td>
+						</tr>
 					</tbody>
 				</table>
 			</div>

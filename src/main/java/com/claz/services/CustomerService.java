@@ -16,6 +16,8 @@ public interface CustomerService {
 
 	Optional<Customer> getname(String username);
 
+	Optional<Customer> findByEmail(String email);
+
 	Customer createAccount(Customer Customer);
 
 	Customer update(Customer username);

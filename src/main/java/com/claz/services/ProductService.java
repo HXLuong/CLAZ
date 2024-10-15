@@ -13,7 +13,9 @@ public interface ProductService {
 
 	Product finById(int id);
 
-	List<Product> findByCategoryId(int cid);
+	List<Product> findAllByCategoryId(int Category_ID);
+
+	List<Product> findBySearch(String search) ;
 
 	Product create(Product product);
 

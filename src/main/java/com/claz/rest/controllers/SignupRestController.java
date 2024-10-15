@@ -1,4 +1,4 @@
-package com.claz.controllers;
+package com.claz.rest.controllers;
 
 import java.util.Date;
 import java.util.List;
@@ -23,7 +23,7 @@ import com.claz.services.CustomerService;
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/rest/customer")
-public class SignupController {
+public class SignupRestController {
 	@Autowired
 	CustomerService customerService;
 
