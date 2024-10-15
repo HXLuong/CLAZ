@@ -9,17 +9,17 @@ import com.claz.models.Product;
 @Service
 public interface ProductService {
 
-    List<Product> findAll();
+	List<Product> findAll();
 
-    Product finById(int id);
+	Product finById(int id);
 
-    List<Product> findAllByCategoryId(int Category_ID);
+	List<Product> findAllByCategoryId(int Category_ID);
 
-    List<Product> findBySearch(String search) ;
+	List<Product> findBySearch(String search) ;
 
-    Product create(Product product);
+	Product create(Product product);
 
-    Product update(Product product);
+	Product update(Product product);
 
-    void delete(int id);
+	void delete(int id);
 }

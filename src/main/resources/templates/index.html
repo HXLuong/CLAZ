@@ -44,7 +44,8 @@
 	<div th:replace="~{/component/header.html}"></div>
 
 	<!-- Body -->
-	<main th:replace="~{*{page}}"></main>
+	<main th:replace="~{*{session.page}}"></main>
+
 	<div id="backtop">
 		<i class="bi bi-arrow-up"></i>
 	</div>

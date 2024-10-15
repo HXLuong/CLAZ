@@ -44,4 +44,9 @@ public class CustomerServiceImpl implements CustomerService {
 		return customerDAO.findByUsername(username);
 	}
 
+	@Override
+	public Optional<Customer> findByEmail(String email) {
+		return customerDAO.findByEmail(email);
+	}
+
 }

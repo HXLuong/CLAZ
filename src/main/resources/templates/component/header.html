@@ -118,18 +118,21 @@
 						data-bs-target="#offcanvasMenu" aria-controls="offcanvasMenu">
 						<span class=""><i class="bi bi-list text-white fs-1"></i></span>
 					</button>
-					<!-- Search -->
-				<div class="col-md-11 col-lg-10 d-flex gap-3 align-items-center justify-content-between py-3">
-                    <form th:action="@{/search/name}" method="post"class="d-flex justify-content-center">
-						<div class="py-3">
-							<div class="d-flex align-items-center">
-                        <input class="rounded-start lh-lg border-white p-3 form_search" type="search" name="searchQuery" placeholder="Tìm kiếm" aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">
-                            <i class="bi bi-search"></i>
-                        </button>
+
+					<div
+						class="col-md-11 col-lg-10 d-flex gap-3 align-items-center justify-content-between py-3">
+						<form th:action="@{/searchProduct}" method="post" class="d-flex justify-content-center">
+							<div class="py-3">
+								<div class="d-flex align-items-center">
+									<input class="rounded-start lh-lg border-white p-3 form_search" name="search"
+										   placeholder="Tìm kiếm" th:value="${session.search}" />
+									<button type="submit" class="btn btn-outline-light text-black d-flex align-items-center rounded-end btn_search ">
+										<i class="bi bi-search my-2 mx-3"></i>
+									</button>
+								</div>
 							</div>
-						</div>
-                    </form>
+						</form>
+
 						<!-- LogIn/SignUp -->
 						<th:block th:unless="${#request.remoteUser}">
 							<div class="d-md-block d-none">

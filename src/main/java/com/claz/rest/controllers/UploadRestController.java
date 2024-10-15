@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,13 +28,17 @@ public class UploadRestController {
 	UploadService uploadService;
 
 	@PostMapping("/rest/upload/{folder}")
-	public JsonNode upload(@PathParam("file") MultipartFile file, @PathVariable("folder") String folder) {
-		File savedFile = uploadService.save(file, folder);
-
+	public JsonNode upload(@RequestParam("file") MultipartFile file, @PathVariable("folder") String folder) {
 		ObjectMapper mapper = new ObjectMapper();
 		ObjectNode node = mapper.createObjectNode();
-		node.put("name", savedFile.getName());
-		node.put("size", savedFile.length());
+		try {
+			File savedFile = uploadService.save(file, folder);
+			node.put("name", savedFile.getName());
+			node.put("size", savedFile.length());
+		} catch (Exception e) {
+			node.put("error", "File upload failed: " + e.getMessage());
+		}
 		return node;
 	}
+
 }

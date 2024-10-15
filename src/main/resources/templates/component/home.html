@@ -159,7 +159,7 @@
 
 	<div class="row">
 		<div class="col-lg-3 col-md-4 col-6 list_product"
-			th:each="product : ${products}">
+			th:each="product : ${session.products}">
 			<a th:href="@{/product/{id}(id=${product.id})}"> <img
 				th:src="@{'/images/'+${product.image}}"
 				class="img-fluid mt-2 rounded" alt="Product Image" width="100%">
@@ -292,10 +292,9 @@
 	</div>
 </div>
 <div class="container mt-2">
-
 	<div class="row">
 		<div class="col-lg-3 col-md-4 col-6 list_product"
-			 th:each="product : ${gamesteam}">
+			 th:each="product : ${session.gamesteam}">
 			<a th:href="@{/product/{id}(id=${product.id})}"> <img
 					th:src="@{'/images/'+${product.image}}"
 					class="img-fluid mt-2 rounded" alt="Product Image" width="100%">
@@ -310,36 +309,6 @@
 		</div>
 	</div>
 </div>
-<!--<div class="container mt-2">-->
-<!--	<hr>-->
-<!--	<br>-->
-<!--	<div class="row">-->
-<!--		<div class="col-md-6 col-8">-->
-<!--			<h4 class="fw-bolder">Sản phẩm mới</h4>-->
-<!--		</div>-->
-<!--		<div class="col-md-6 d-flex justify-content-end col-4">-->
-<!--			<button type="button" class="btn btn-primary " style="height: 40px;">Khám-->
-<!--				Phá</button>-->
-<!--		</div>-->
-<!--	</div>-->
-<!--</div>-->
-<!--<div class="container mt-2">-->
-<!--	<div class="row">-->
-<!--		<c:forEach var="item" items="${listnew}">-->
-<!--			<div class="col-md-3 col-6">-->
-<!--				<a href="/product/detail/${item.id}"> <img-->
-<!--					src="images/${item.image}" class="img-fluid mt-2 rounded"-->
-<!--					alt="Right Image 2" width="100%">-->
-<!--				</a> <a href="/product/detail/${item.id}" class="d-block mt-2">${item.name}</a>-->
-<!--				<h6 class="mt-2 mb-3 position-relative" style="font-weight: 500;">-->
-<!--					<fmt:formatNumber value="${item.price}"></fmt:formatNumber>-->
-<!--					đ &nbsp;<strike style="color: grey;">1.000.000đ</strike>&nbsp;&nbsp;<span-->
-<!--						class="border border-danger rounded bg-danger text-white px-2 py-1 special-span">-62%</span>-->
-<!--				</h6>-->
-<!--			</div>-->
-<!--		</c:forEach>-->
-<!--	</div>-->
-<!--</div>-->
 <div class="container mt-2">
 	<hr>
 	<br>
@@ -356,7 +325,7 @@
 <div class="container mt-2">
 	<div class="row">
 		<div class="col-lg-3 col-md-4 col-6 list_product"
-			 th:each="product : ${hoctap}">
+			 th:each="product : ${session.hoctap}">
 			<a th:href="@{/product/{id}(id=${product.id})}"> <img
 					th:src="@{'/images/'+${product.image}}"
 					class="img-fluid mt-2 rounded" alt="Product Image" width="100%">
@@ -385,10 +354,9 @@
 	</div>
 </div>
 <div class="container mt-2">
-
 	<div class="row">
 		<div class="col-lg-3 col-md-4 col-6 list_product"
-			 th:each="product : ${lamviec}">
+			 th:each="product : ${session.lamviec}">
 			<a th:href="@{/product/{id}(id=${product.id})}"> <img
 					th:src="@{'/images/'+${product.image}}"
 					class="img-fluid mt-2 rounded" alt="Product Image" width="100%">
@@ -402,4 +370,7 @@
 			</h6>
 		</div>
 	</div>
+	<br>
+	<hr>
+	<br> <br>
 </div>

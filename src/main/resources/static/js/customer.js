@@ -21,6 +21,11 @@ app.controller('ctrl', function($scope, $http) {
 		return emailPattern.test(email);
 	};
 
+	$scope.isValidPhone = function(phone) {
+		const phonePattern = /^(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})$/;
+		return phonePattern.test(phone);
+	};
+
 	$scope.create = function() {
 		$scope.form = $scope.form || {};
 
@@ -80,11 +85,10 @@ app.controller('ctrl', function($scope, $http) {
 
 
 	$scope.updateAccount = function() {
-		var phonePattern = /^[0-9]{10}$/;
-		if (!$scope.form.phone || !phonePattern.test($scope.form.phone)) {
+		if (!$scope.form.phone || !$scope.isValidPhone($scope.form.phone)) {
 			Swal.fire({
 				title: "Lỗi",
-				text: "Vui lòng nhập số điện (10 chữ số)",
+				text: "Vui lòng nhập số điện thoại hợp lệ",
 				icon: "error"
 			});
 			return;
@@ -112,6 +116,7 @@ app.controller('ctrl', function($scope, $http) {
 			});
 			return;
 		}
+
 		// Kiểm tra xác nhận mật khẩu
 		if ($scope.form.password !== $scope.form.confirmPassword) {
 			$scope.error = 'Mật khẩu không trùng khớp';
@@ -166,7 +171,37 @@ app.controller('ctrl', function($scope, $http) {
 				console.log(error);
 			});
 	};
-
+	$scope.sendResetEmail = function() {
+	    if (!$scope.isValidEmail($scope.form.email)) {
+	        Swal.fire({
+	            title: "Lỗi",
+	            text: "Vui lòng nhập email hợp lệ.",
+	            icon: "error"
+	        });
+	        return;
+	    }
+	    const data = {
+	        sendmail: $scope.form.email
+	    };
+	    $http.post('http://localhost:8080/send/mail', data)
+	    .then(response => {
+	        console.log("Response:", response); 
+	        Swal.fire({
+	            title: "Thành công",
+	            text: "Email đã được gửi. Vui lòng kiểm tra hộp thư của bạn.",
+	            icon: "success"
+	        });
+	        $scope.form.email = '';
+	    })
+	    .catch(error => {
+	        console.error("Error:", error);
+	            Swal.fire({
+	                title: "Thành công",
+	                text: "Email đã được gửi. Vui lòng kiểm tra hộp thư của bạn.",
+	                icon: "success"
+	            });
+	    });
+	};
 
 	$scope.loadAccount();
 });
