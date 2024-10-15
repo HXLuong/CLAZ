@@ -28,8 +28,13 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public List<Product> findByCategoryId(int cid) {
-		 return List.of();
+	public List<Product> findAllByCategoryId(int Category_ID) {
+		return productRepository.findAllByCategoryId(Category_ID);
+	}
+
+	@Override
+	public List<Product> findBySearch(String search) {
+			return productRepository.findByContentContaining(search);
 	}
 
 	@Override

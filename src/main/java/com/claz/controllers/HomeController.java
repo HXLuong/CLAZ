@@ -3,8 +3,6 @@ package com.claz.controllers;
 import com.claz.models.Product;
 import com.claz.services.ProductService;
 
-import lombok.RequiredArgsConstructor;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,16 +14,6 @@ import java.util.List;
 @Controller
 public class HomeController {
 
-	@Autowired
-	ProductService productService;
-	
-	@GetMapping("/")
-	public String index(Model model) {
-		List<Product> products = productService.findAll();
-		model.addAttribute("products", products);
-		model.addAttribute("page", "component/home");
-		return "index";
-	}
 	
 	@RequestMapping("/cart-index")
     public String cart(Model model) {
