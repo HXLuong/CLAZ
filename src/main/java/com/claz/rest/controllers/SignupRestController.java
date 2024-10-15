@@ -23,7 +23,7 @@ import com.claz.services.CustomerService;
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/rest/customer")
-public class SignupController {
+public class SignupRestController {
 	@Autowired
 	CustomerService customerService;
 
