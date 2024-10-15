@@ -7,31 +7,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
 public class HomeController {
-
-    private final ProductService productService;
-    private final CategoryService categoryService;
-
-    @GetMapping("/")
-    public String index(Model model) {
-        List<Product> pr = productService.getAllProduct().stream().filter(e -> e.getCategory().getId() == 1).toList();
-        model.addAttribute("products", pr);
-        List<Product> pr2 = productService.getAllProduct().stream().filter(e -> e.getCategory().getId() == 4).toList();
-        model.addAttribute("gamesteam", pr2);
-        List<Product> pr3 = productService.getAllProduct().stream().filter(e -> e.getCategory().getId() == 2).toList();
-        model.addAttribute("lamviec", pr3);
-        List<Product> pr4 = productService.getAllProduct().stream().filter(e -> e.getCategory().getId() == 3).toList();
-        model.addAttribute("hoctap", pr3);
-        model.addAttribute("page", "component/home");
-        return "index";
-    }
-
     @RequestMapping("/cart-index")
     public String cart(Model model) {
         model.addAttribute("page", "/cart/cart-index");

@@ -19,7 +19,9 @@ public class ProductService {
     public List<Product> getAllProduct() {
         return productRepository.findAll();
     }
-
+//public List<Product> getAllNameOfProduct(String name) {
+//        return productRepository.findByName(name);
+//}
 //
 //    public Product getProductById(int id) {
 //        return productRepository.findById(id).get();

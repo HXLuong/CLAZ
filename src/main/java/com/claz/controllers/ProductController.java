@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/products")
 @RequiredArgsConstructor
 public class ProductController {
 
@@ -20,14 +19,24 @@ public class ProductController {
     private final CategoryService categoryService;
 
     @GetMapping("/")
-    public String index(Model model, @RequestParam(value = "id", required = false) int id) {
-            Category ct = categoryService.getCategoryById(id);
-            if (ct.getId() == 1) {
-                List<Product> products = productService.getProductsByCategoryId(1);
-                model.addAttribute("products", products);
-            }
-        return "index"; // Trả về template Thymeleaf
+    public String index(Model model) {
+        List<Product> pr = productService.getAllProduct().stream().filter(e -> e.getCategory().getId() == 1).toList();
+        model.addAttribute("products", pr);
+        List<Product> pr2 = productService.getAllProduct().stream().filter(e -> e.getCategory().getId() == 4).toList();
+        model.addAttribute("gamesteam", pr2);
+        List<Product> pr3 = productService.getAllProduct().stream().filter(e -> e.getCategory().getId() == 2).toList();
+        model.addAttribute("lamviec", pr3);
+        List<Product> pr4 = productService.getAllProduct().stream().filter(e -> e.getCategory().getId() == 3).toList();
+        model.addAttribute("hoctap", pr4);
+        model.addAttribute("page", "component/home");
+        return "index";
     }
+//    @PostMapping("/search/name")
+//    public String searchProducts(@RequestParam("searchQuery") String query, Model model) {
+//        List<Product> products = productService.getAllNameOfProduct(query);
+//        model.addAttribute("products", products);
+//        return "index";
+//    }
 
 //    @GetMapping("/{id}")
 //    public String showProduct(@PathVariable int id, Model model) {
