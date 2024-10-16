@@ -35,9 +35,9 @@ public class ProductController {
 
     @PostMapping("/searchProduct")
     public String searchProduct(@RequestParam(name = "search", required = false) String search, HttpSession session) {
-    if(search != null || !search.isEmpty()) {
-        session.setAttribute("searchProdut", productService.findBySearch(search));
-    }
+        if(search != null || !search.isEmpty()) {
+            session.setAttribute("searchProdut", productService.findBySearch(search));
+        }
         return "search/search";
     }
 }
