@@ -1,7 +1,8 @@
 package com.claz.controllers;
 
+import com.claz.models.Category;
 import com.claz.models.Product;
-import com.claz.serviceImpls.ProductServiceImpl;
+import com.claz.repositories.CategoryRepository;
 import com.claz.services.ProductService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,36 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 public class HomeController {
+	@Autowired
+	private ProductService productService;
+
+	@Autowired
+	private CategoryRepository categoryRepository;
+
+	@GetMapping("/")
+	public String index(HttpSession session, Model model) {
+		List<Product> pr = productService.findAll().stream().filter(e -> e.getCategory().getId() == 1).toList();
+		session.setAttribute("products", pr);
+		List<Product> pr2 = productService.findAll().stream().filter(e -> e.getCategory().getId() == 4).toList();
+		session.setAttribute("gamesteam", pr2);
+		List<Product> pr3 = productService.findAll().stream().filter(e -> e.getCategory().getId() == 2).toList();
+		session.setAttribute("lamviec", pr3);
+		List<Product> pr4 = productService.findAll().stream().filter(e -> e.getCategory().getId() == 3).toList();
+		session.setAttribute("hoctap", pr4);
+		List<Category> cate = categoryRepository.findAll();
+		model.addAttribute("cates", cate);
+		session.setAttribute("page", "component/home");
+		return "index";
+	}
+
+	@PostMapping("/searchProduct")
+	public String searchProduct(@RequestParam(name = "search", required = false) String search, HttpSession session) {
+		if (search != null || !search.isEmpty()) {
+			session.setAttribute("searchProdut", productService.findBySearch(search));
+		}
+		session.setAttribute("page", "search/search");
+		return "index";
+	}
 
 	@RequestMapping("/cart-index")
 	public String cart(Model model) {
