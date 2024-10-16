@@ -14,7 +14,7 @@ import java.util.List;
 @Controller
 public class HomeController {
 
-	
+
 	@RequestMapping("/cart-index")
     public String cart(Model model) {
 		model.addAttribute("page", "/cart/cart-index");
