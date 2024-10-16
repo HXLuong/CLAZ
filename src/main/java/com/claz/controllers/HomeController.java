@@ -1,25 +1,29 @@
 package com.claz.controllers;
 
 import com.claz.models.Product;
+import com.claz.serviceImpls.ProductServiceImpl;
 import com.claz.services.ProductService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class HomeController {
 
-
 	@RequestMapping("/cart-index")
-    public String cart(Model model) {
+	public String cart(Model model) {
 		model.addAttribute("page", "/cart/cart-index");
-        return "index";
-    }
+		return "index";
+	}
 
 
 	@RequestMapping("/account")
@@ -63,7 +67,7 @@ public class HomeController {
 		model.addAttribute("page", "/update_profile/introduct_profile");
 		return "index";
 	}
-	
+
 	@RequestMapping("/detailProduct")
 	public String detailProduct(Model model) {
 		model.addAttribute("page", "/detailProduct/detailProduct");
@@ -76,9 +80,9 @@ public class HomeController {
 		return "index";
 	}
 
-    public String login(Model model) {
-        return "/login/login";
-    }
+	public String login(Model model) {
+		return "/login/login";
+	}
 
 //	@RequestMapping("/instruct_createAccount")
 //	public String huongdantaotaikhoan(Model model) {
@@ -129,7 +133,6 @@ public class HomeController {
 	public String security_instruct(Model model) {
 		return "/instruct/security_instruct";
 	}
-
 
 	@RequestMapping("/signup_instruct")
 	public String signup_instruct(Model model) {

@@ -1,114 +1,103 @@
+<div class="container mt-4">
+	<div th:replace="~{/update_profile/settingupdate.html}"></div>
+	<div class="col-xl-9 col-lg-9 col-md-12 rounded"
+		style="background-color: rgb(255, 255, 255);">
+		<div class="container row">
+			<h5 class="fw-bold mb-4">Tổng quan</h5>
+			<div class="col-6 col-sm-6 col-lg-4 col-md-4">
+				<p class="">
+					Tên đăng nhập <span class="fw-bold text-block">{{form.username}}</span>
+				</p>
+			</div>
+			<div class="col-6 col-sm-6 col-lg-4 col-md-4">
+				<p class="">
+					Email <span class="fw-bold text-block">{{form.email}}</span>
+				</p>
+			</div>
+			<div class="col-6 col-sm-6 col-lg-4 col-md-4">
+				<p class="">
+					Họ và tên <span class="fw-bold text-block">{{form.fullname}}</span>
+				</p>
+			</div>
+			<div class="col-6 col-sm-6 col-lg-4 col-md-4">
+				<p class="">
+					Số điện thoại <span class="fw-bold text-block">{{form.phone}}</span>
+				</p>
+			</div>
+			<div class="col-6 col-sm-6 col-lg-4 col-md-4">
+				<p class="">
+					Giới tính <span class="fw-bold text-block">{{form.gender ?
+						"Nam":"Nữ"}}</span>
+				</p>
+			</div>
+			<div class="col-6 col-sm-6 col-lg-4 col-md-4">
+				<p class="">
+					Ngày tham gia <span class="fw-bold text-block">{{
+						form.created_at | date:'dd/MM/yyyy' }}</span>
+				</p>
+			</div>
+		</div>
 
-<!DOCTYPE html>
-<html xmlns="http://www.thymeleaf.org">
+		<div class="container row">
+			<hr class="m-3">
+			<div class="d-flex flex-wrap justify-content-center">
+				<div
+					class="col-xl-5 col-lg-6 col-md-6 d-flex justify-content-between align-items-center">
+					<div>
+						<img src="/images/{{form.image}}"
+							style="height: 150px; width: 150px;"
+							class="rounded-circle object-fit-cover" alt="...">
+					</div>
+					<div>
+						<label for="file-upload" class="btn btn-outline-primary ms-3">
+							Sửa ảnh đại diện </label> <input id="file-upload" type="file"
+							onchange="angular.element(this).scope().imageChaged(this.files)"
+							ng-click="updateAccountimg()" />
+					</div>
+					<div class="vertical-divider me-3 d-none d-lg-block"
+						style="height: 100%; border-left: 1px solid grey;"></div>
+				</div>
+				<div
+					class="col-xl-7 col-lg-6 col-md-6 d-flex align-items-center mt-3 ps-3">
+					<p class="">
+						Vui lòng chọn ảnh nhỏ hơn 5MB <br> Chọn hình ảnh phù hợp,
+						không phản cảm
+					</p>
 
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cập nhập tài khoản</title>
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-	rel="stylesheet">
-<!-- Css -->
-<link rel="stylesheet" href="./css/update_profile.css">
-</head>
-
-<body style="">
-	<div class="container">
-		<div th:replace="/update_profile/settingupdate.html"></div>
-		<div class="col-xl-9 col-lg-9 col-md-12 rounded"
-			style="background-color: rgb(255, 255, 255);">
-			<div class="row m-3">
-				<h5 class="fw-bold mb-4">Tổng quan</h5>
-				<div class="col-6 col-sm-6 col-lg-4 col-md-4">
-					<p class="">
-						Tên đăng nhập <span class="fw-bold text-block">ahahahaha</span>
-					</p>
-				</div>
-				<div class="col-6 col-sm-6 col-lg-4 col-md-4">
-					<p class="">
-						Email <span class="fw-bold text-block">Emailcc@gmail.com</span>
-					</p>
-				</div>
-				<div class="col-6 col-sm-6 col-lg-4 col-md-4">
-					<p class="">
-						Họ và tên <span class="fw-bold text-block">tran du andubu</span>
-					</p>
-				</div>
-				<div class="col-6 col-sm-6 col-lg-4 col-md-4">
-					<p class="">
-						Nhóm khách hàng <span class="fw-bold text-block">Member</span>
-					</p>
-				</div>
-				<div class="col-6 col-sm-6 col-lg-4 col-md-4">
-					<p class="">
-						Ngày tham gia <span class="fw-bold text-block">2024-10-01
-							08:56:11</span>
-					</p>
 				</div>
 			</div>
-			<div class="row ms-3">
-				<hr class="m-3">
-				<div class="d-flex flex-wrap justify-content-center">
-					<div
-						class="col-xl-5 col-lg-6 col-md-6 d-flex justify-content-between align-items-center">
-						<div>
-							<img src="/images/hoctap1.png"
-								style="height: 150px; width: 150px;"
-								class="rounded-circle object-fit-cover" alt="...">
-						</div>
-						<div>
-							<label for="file-upload" class="btn btn-outline-primary ms-3">
-								Sửa ảnh đại diện </label> <input id="file-upload" type="file" />
-						</div>
-						<div class="vertical-divider me-3 d-none d-lg-block"
-							style="height: 100%; border-left: 1px solid grey;"></div>
+			<hr class="m-3">
+			<div>
+				<h3>Cá nhân</h3>
+				<div class="col-sm-5 col-10 mb-3 mt-3">
+					<div class="form-floating">
+						<input type="text" class="form-control" id="floatingInput"
+							ng-model="form.fullname"> <label for="floatingInput">Họ
+							và tên</label>
 					</div>
-					<div
-						class="col-xl-7 col-lg-6 col-md-6 d-flex align-items-center mt-3 ps-3">
-						<p class="">
-							Vui lòng chọn ảnh nhỏ hơn 5MB <br> Chọn hình ảnh phù hợp,
-							không phản cảm
-						</p>
+				</div>
+				<div class="col-sm-5 col-10 mb-3 mt-3">
+					<div class="form-floating">
+						<input type="tel" class="form-control" id="floatingInput2"
+							ng-model="form.phone"> <label for="floatingInput2">Số
+							điện thoại</label>
+					</div>
+				</div>
+				<div class="col-sm-5 col-10 mb-3 mt-3">
+					<div class="form-floating">
+						<select class="form-control" id="floatingInput3"
+							ng-model="form.gender">
+							<option value="true">Nam</option>
+							<option value="false">Nữ</option>
+						</select> <label for="floatingInput3">Giới tính</label>
+					</div>
+				</div>
+				<button class="btn btn-primary mt-2" ng-click="updateAccount()">Lưu
+					thay đổi</button>
 
-					</div>
-				</div>
-				<hr class="m-3">
-				<div>
-					<h3>Cá nhân</h3>
-					<div class=" col-sm-5 col-10 mb-3 mt-3">
-						<div class="form-floating ">
-							<input type="text" class="form-control" id="floatingInput">
-							<label for="floatingInput">Họ và tên</label>
-						</div>
-					</div>
-					<div class=" col-sm-5 col-10 mb-3 mt-3">
-						<div class="form-floating ">
-							<input type="text" class="form-control" id="floatingInput">
-							<label for="floatingInput">Số điện thoại</label>
-						</div>
-					</div>
-					<div class=" col-sm-5 col-10 mb-3 mt-3">
-						<div class="form-floating ">
-							<select class="form-control" id="floatingInput">
-								<option>Nam</option>
-								<option>Nữ</option>
-							</select> <label for="floatingInput">Giới tính</label>
-						</div>
-					</div>
-					<button class="btn btn-primary mt-2">Lưu thay đổi</button>
-				</div>
 			</div>
 		</div>
 	</div>
-	</div>
-
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
-
-</html>
+</div>
+</div>
+</div>
