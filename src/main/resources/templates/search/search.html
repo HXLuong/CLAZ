@@ -38,14 +38,14 @@
     <!-- Nhung SweetAlert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Css -->
-    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 <div th:replace="~{/component/header.html}"></div>
 <main>
     <main>
-        <div th:if="${products != null && !products.isEmpty()}" th:replace="~{/component/search.html}"></div>
-        <div th:if="${products == null || products.isEmpty()}" th:replace="~{/component/empty.html}"></div>
+		<div th:if="${searchProdut != null && !searchProdut.isEmpty()}" th:replace="~{/component/search.html}"></div>
+		<div th:unless="${searchProdut != null && !searchProdut.isEmpty()}" th:replace="~{/component/empty.html}"></div>
     </main>
 </main>
 <div id="backtop">
