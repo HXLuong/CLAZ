@@ -43,11 +43,10 @@
 <body>
 <div th:replace="~{/component/header.html}"></div>
 <main>
-    <main>
-        <div th:if="${products != null && !products.isEmpty()}" th:replace="~{/component/search.html}"></div>
-        <div th:if="${products == null || products.isEmpty()}" th:replace="~{/component/empty.html}"></div>
-    </main>
+    <div th:if="${session.searchProduct != null and #lists.size(session.searchProduct) > 0}" th:replace="~{/component/search.html}"></div>
+    <div th:if="${session.searchProduct == null or #lists.size(session.searchProduct) == 0}" th:replace="~{/component/empty.html}"></div>
 </main>
+
 <div id="backtop">
     <i class="bi bi-arrow-up"></i>
 </div>

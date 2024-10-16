@@ -1,6 +1,7 @@
 package com.claz.controllers;
 
 import com.claz.models.Product;
+import com.claz.serviceImpls.ProductServiceImpl;
 import com.claz.services.ProductService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,12 +10,29 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
 public class HomeController {
-
-
+	@Autowired
+	private ProductServiceImpl productService;
+	@GetMapping("/")
+	public String index(HttpSession session) {
+		if (session.getAttribute("searchProduct") == null) {
+			List<Product> pr = productService.findAll().stream().filter(e -> e.getCategory().getId() == 1).toList();
+			session.setAttribute("products", pr);
+			System.out.println("Sản phẩm tìm thấy: " + pr.size());
+			List<Product> pr2 = productService.findAll().stream().filter(e -> e.getCategory().getId() == 4).toList();
+			session.setAttribute("gamesteam", pr2);
+			List<Product> pr3 = productService.findAll().stream().filter(e -> e.getCategory().getId() == 2).toList();
+			session.setAttribute("lamviec", pr3);
+			List<Product> pr4 = productService.findAll().stream().filter(e -> e.getCategory().getId() == 3).toList();
+			session.setAttribute("hoctap", pr4);
+		}
+		session.setAttribute("page", "component/home");
+		return "index";
+	}
 	@RequestMapping("/cart-index")
     public String cart(Model model) {
 		model.addAttribute("page", "/cart/cart-index");

@@ -43,8 +43,15 @@
 <body>
 	<div th:replace="~{/component/header.html}"></div>
 
-	<!-- Body -->
-	<main th:replace="~{*{session.page}}"></main>
+	<!-- Body --><div th:replace="~{/component/home}"></div>
+	<main>
+		<!-- Kiểm tra nếu products không rỗng thì hiển thị search.html -->
+		<div th:if="${session.products != null and #lists.size(session.products) > 0}" th:replace="~{/component/search.html}"></div>
+
+		<!-- Nếu products rỗng thì hiển thị empty.html -->
+		<div th:if="${session.products == null or #lists.size(session.products) == 0}" th:replace="~{/component/empty.html}"></div>
+	</main>
+
 
 	<div id="backtop">
 		<i class="bi bi-arrow-up"></i>
