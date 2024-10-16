@@ -23,29 +23,37 @@ public class ProductController {
     @Autowired
     private ProductServiceImpl productService;
     
-    private final CategoryRepository categoryRepository;
+    @Autowired
+    private CategoryServiceImpl categoryServiceImpl;
 
     @GetMapping("/")
     public String index(HttpSession session,Model model) {
-        List<Product> pr = productService.findAll().stream().filter(e -> e.getCategory().getId() == 1).toList();
-        session.setAttribute("products", pr);
-        List<Product> pr2 = productService.findAll().stream().filter(e -> e.getCategory().getId() == 4).toList();
-        session.setAttribute("gamesteam", pr2);
-        List<Product> pr3 = productService.findAll().stream().filter(e -> e.getCategory().getId() == 2).toList();
-        session.setAttribute("lamviec", pr3);
-        List<Product> pr4 = productService.findAll().stream().filter(e -> e.getCategory().getId() == 3).toList();
-        session.setAttribute("hoctap", pr4);
-        List<Category> cate = categoryRepository.findAll();
-        model.addAttribute("cates", cate);
-        session.setAttribute("page", "component/home");
-        return "index";
+    	if (session.getAttribute("searchProduct") == null) {
+			List<Product> pr = productService.findAll().stream().filter(e -> e.getCategory().getId() == 1).toList();
+			session.setAttribute("products", pr);
+			System.out.println("Sản phẩm tìm thấy: " + pr.size());
+			List<Product> pr2 = productService.findAll().stream().filter(e -> e.getCategory().getId() == 4).toList();
+			session.setAttribute("gamesteam", pr2);
+			List<Product> pr3 = productService.findAll().stream().filter(e -> e.getCategory().getId() == 2).toList();
+			session.setAttribute("lamviec", pr3);
+			List<Product> pr4 = productService.findAll().stream().filter(e -> e.getCategory().getId() == 3).toList();
+			session.setAttribute("hoctap", pr4);
+			List<Category> cate = categoryServiceImpl.findAll();
+	        model.addAttribute("cates", cate);
+		}
+		session.setAttribute("page", "component/home");
+		return "index";
     }
 
     @PostMapping("/searchProduct")
     public String searchProduct(@RequestParam(name = "search", required = false) String search, HttpSession session) {
-        if(search != null || !search.isEmpty()) {
+        if(search != null && !search.isEmpty()) {
+            session.removeAttribute("products");
             session.setAttribute("searchProdut", productService.findBySearch(search));
+            return "search/search";
+        }else {
+            session.removeAttribute("searchProdut");
+            return "redirect:/";
         }
-        return "search/search";
     }
 }

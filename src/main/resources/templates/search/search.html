@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.thymeleaf.org">
 <head>
@@ -43,11 +44,10 @@
 <body>
 <div th:replace="~{/component/header.html}"></div>
 <main>
-    <main>
-		<div th:if="${searchProdut != null && !searchProdut.isEmpty()}" th:replace="~{/component/search.html}"></div>
-		<div th:unless="${searchProdut != null && !searchProdut.isEmpty()}" th:replace="~{/component/empty.html}"></div>
-    </main>
+    <div th:if="${session.searchProduct != null and #lists.size(session.searchProduct) > 0}" th:replace="~{/component/search.html}"></div>
+    <div th:if="${session.searchProduct == null or #lists.isEmpty(session.searchProduct)}" th:replace="~{/component/empty.html}"></div>
 </main>
+
 <div id="backtop">
     <i class="bi bi-arrow-up"></i>
 </div>
