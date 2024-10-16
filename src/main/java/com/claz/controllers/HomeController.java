@@ -2,8 +2,11 @@ package com.claz.controllers;
 
 import com.claz.models.Category;
 import com.claz.models.Product;
+import com.claz.models.Slide;
 import com.claz.repositories.CategoryRepository;
+import com.claz.services.CategoryService;
 import com.claz.services.ProductService;
+import com.claz.services.SlideService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,9 +26,12 @@ public class HomeController {
 	private ProductService productService;
 
 	@Autowired
-	private CategoryRepository categoryRepository;
+	private CategoryService categoryService;
 
-	@GetMapping("/")
+	@Autowired
+	private SlideService slideService;
+
+	@RequestMapping("/")
 	public String index(HttpSession session, Model model) {
 		List<Product> pr = productService.findAll().stream().filter(e -> e.getCategory().getId() == 1).toList();
 		session.setAttribute("products", pr);
@@ -35,8 +41,13 @@ public class HomeController {
 		session.setAttribute("lamviec", pr3);
 		List<Product> pr4 = productService.findAll().stream().filter(e -> e.getCategory().getId() == 3).toList();
 		session.setAttribute("hoctap", pr4);
-		List<Category> cate = categoryRepository.findAll();
+
+		List<Category> cate = categoryService.findAll();
 		model.addAttribute("cates", cate);
+
+		List<Slide> slide = slideService.findAll();
+		session.setAttribute("slides", slide);
+
 		session.setAttribute("page", "component/home");
 		return "index";
 	}
@@ -51,68 +62,68 @@ public class HomeController {
 	}
 
 	@RequestMapping("/cart-index")
-	public String cart(Model model) {
-		model.addAttribute("page", "/cart/cart-index");
+	public String cart(HttpSession session) {
+		session.setAttribute("page", "/cart/cart-index");
 		return "index";
 	}
 
 	@RequestMapping("/category")
-	public String danhmuc(Model model) {
-		model.addAttribute("page", "/category/category");
+	public String danhmuc(HttpSession session) {
+		session.setAttribute("page", "/category/category");
 		return "index";
 	}
 
 	@RequestMapping("/account")
-	public String upaccount(Model model) {
-		model.addAttribute("page", "/update_profile/account_profile");
+	public String upaccount(HttpSession session) {
+		session.setAttribute("page", "/update_profile/account_profile");
 		return "index";
 	}
 
 	@RequestMapping("/password")
-	public String uppass(Model model) {
-		model.addAttribute("page", "/update_profile/password_profile");
+	public String uppass(HttpSession session) {
+		session.setAttribute("page", "/update_profile/password_profile");
 		return "index";
 	}
 
 	@RequestMapping("/payment")
-	public String giaodich(Model model) {
-		model.addAttribute("page", "/update_profile/payment_profile");
+	public String giaodich(HttpSession session) {
+		session.setAttribute("page", "/update_profile/payment_profile");
 		return "index";
 	}
 
 	@RequestMapping("/order")
-	public String donhang(Model model) {
-		model.addAttribute("page", "/update_profile/order_profile");
+	public String donhang(HttpSession session) {
+		session.setAttribute("page", "/update_profile/order_profile");
 		return "index";
 	}
 
 	@RequestMapping("/comment")
-	public String binhluan(Model model) {
-		model.addAttribute("page", "/update_profile/comment_profile");
+	public String binhluan(HttpSession session) {
+		session.setAttribute("page", "/update_profile/comment_profile");
 		return "index";
 	}
 
 	@RequestMapping("/favorite")
-	public String sanphamyeuthich(Model model) {
-		model.addAttribute("page", "/update_profile/favorite_profile");
+	public String sanphamyeuthich(HttpSession session) {
+		session.setAttribute("page", "/update_profile/favorite_profile");
 		return "index";
 	}
 
 	@RequestMapping("/introduct")
-	public String gioithieu(Model model) {
-		model.addAttribute("page", "/update_profile/introduct_profile");
+	public String gioithieu(HttpSession session) {
+		session.setAttribute("page", "/update_profile/introduct_profile");
 		return "index";
 	}
 
 	@RequestMapping("/detailProduct")
-	public String detailProduct(Model model) {
-		model.addAttribute("page", "/detailProduct/detailProduct");
+	public String detailProduct(HttpSession session) {
+		session.setAttribute("page", "/detailProduct/detailProduct");
 		return "index";
 	}
 
 	@RequestMapping("/detail_profile")
-	public String detail_profile(Model model) {
-		model.addAttribute("page", "/update_profile/detail_profile");
+	public String detail_profile(HttpSession session) {
+		session.setAttribute("page", "/update_profile/detail_profile");
 		return "index";
 	}
 

@@ -75,7 +75,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().disable().cors().disable();
 
 		http.authorizeRequests().antMatchers("/order/**").authenticated().antMatchers("/admin/**").hasAnyRole("ADMIN")
-				.antMatchers("/cart-index").hasAnyRole("ADMIN", "USER", "GUEST").anyRequest().permitAll();
+				.antMatchers("/cart-index").hasAnyRole("Customer").anyRequest().permitAll();
 
 		http.formLogin().loginPage("/login").loginProcessingUrl("/security/login")
 				.defaultSuccessUrl("/login-success", false).failureUrl("/security/login/error");
