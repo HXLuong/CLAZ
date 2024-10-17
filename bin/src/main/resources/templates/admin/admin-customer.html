@@ -1,0 +1,82 @@
+<div class="content px-3 py-2" ng-app="customerApp"
+	ng-controller="customerCtrl">
+	<div class="container-fluid">
+		<!-- Content -->
+		<div>
+			<div class="mb-3">
+				<h4 class="fw-bold fs-3">Thêm mới khách hàng</h4>
+			</div>
+			<div class="row">
+				<form class="col-xs-12 col-lg-12 mt-5">
+					<div class="row">
+						<div class="col-md-12 col-lg-12 col-xl-4 text-center">
+							<label for="image"> <img
+								class="rounded-circle object-fit-cover"
+								ng-src="./images/{{form.image}}" width="300px" height="300px"
+								alt="Chọn ảnh">
+							</label> <input type="file" class="form-control" id="image"
+								onchange="angular.element(this).scope().imageChaged(this.files)"
+								hidden>
+						</div>
+						<div class="col-md-12 col-lg-12 col-xl-8">
+							<div class="row mb-3">
+								<div class="form-group col-sm-6">
+									<div>Tên đăng nhập:</div>
+									<input ng-model="form.username" class="form-control">
+								</div>
+								<div class="form-group col-sm-6">
+									<div>Họ và tên:</div>
+									<input ng-model="form.fullname" class="form-control">
+								</div>
+							</div>
+							<div class="row mb-3">
+								<div class="form-group col-sm-6">
+									<div>Mật khẩu:</div>
+									<input ng-model="form.password" class="form-control"
+										type="password">
+								</div>
+								<div class="form-group col-sm-6">
+									<div>Email:</div>
+									<input ng-model="form.email" class="form-control" type="email">
+								</div>
+							</div>
+							<div class="row mb-3">
+								<div class="form-group col-sm-6">
+									<div>Số điện thoại:</div>
+									<input ng-model="form.phone" class="form-control">
+								</div>
+								<div class="form-group col-sm-6">
+									<div>Giới tính:</div>
+									<select ng-model="form.gender" class="form-control">
+										<option value>Chọn giới tính</option>
+										<option value="true">Nam</option>
+										<option value="false">Nữ</option>
+									</select>
+								</div>
+							</div>
+							<div class="mb-3">
+								<div class="form-group">
+									<div>ngày tham gia:</div>
+									<input ng-model="form.created_at | date:'dd/MM/yyyy'"
+										ng-value="form.created_at | date:'dd/MM/yyyy'"
+										class="form-control" disabled>
+								</div>
+							</div>
+						</div>
+						<div class="mt-4 d-flex justify-content-center gap-3">
+							<button ng-click="create()" class="btn btn-outline-primary">
+								<i class="bi bi-plus-circle-fill"></i> Thêm
+							</button>
+							<button ng-click="reset()" class="btn btn-outline-info">
+								<i class="bi bi-arrow-clockwise"></i> Mới
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<a href="#" class="theme-toggle"> <i class="fa-regular fa-moon"></i>
+	<i class="fa-regular fa-sun"></i>
+</a>

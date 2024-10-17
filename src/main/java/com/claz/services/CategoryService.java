@@ -8,13 +8,13 @@ import com.claz.models.Category;
 
 public interface CategoryService {
 
-	List<Category> findAll();
-    
-	Optional<Category> findById(int id);
-	
-	Category create(Category category);
+    List<Category> findAll();
 
-	Category update(Category category);
+    Optional<Category> findById(int id);
 
-	void delete(int id);
+    Category create(Category category);
+
+    Category update(Category category);
+
+    void delete(int id);
 }

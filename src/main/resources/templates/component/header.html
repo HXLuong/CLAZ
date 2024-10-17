@@ -48,7 +48,8 @@
 					<i class="bi bi-person-circle text-white py-3 px-2 fs-1"></i>
 					<div class="pe-2 d-flex align-items-center">
 						<div class="text-white fs-6">
-							<a href="">Đăng Nhập</a> / <a href="">Đăng Ký</a>
+							<a href="@{/login}">Đăng Nhập</a> / <a href="@{/login}">Đăng
+								Ký</a>
 						</div>
 					</div>
 				</div>
@@ -121,14 +122,17 @@
 
 					<div
 						class="col-md-11 col-lg-10 d-flex gap-3 align-items-center justify-content-between py-3">
-						<form th:action="@{/searchProduct}" method="post" class="d-flex justify-content-center">
+						<form th:action="@{/searchProduct}" method="post"
+							class="d-flex justify-content-center">
 							<div class="py-3">
 								<div class="d-flex align-items-center">
-									<input class="rounded-start lh-lg border-white p-3 form_search" name="search"
-										   placeholder="Tìm kiếm" th:value="${session.search}" />
-									<button type="submit" class="btn btn-outline-light text-black d-flex align-items-center rounded-end btn_search ">
+									<input class="rounded-start lh-lg border-white p-3 form_search"
+										name="search" placeholder="Tìm kiếm"
+										th:value="${session.search}" /> <a href="#"
+										onclick="event.preventDefault(); this.closest('form').submit();"
+										class="text-white d-flex align-items-center rounded-end btn_search">
 										<i class="bi bi-search my-2 mx-3"></i>
-									</button>
+									</a>
 								</div>
 							</div>
 						</form>
@@ -138,9 +142,10 @@
 							<div class="d-md-block d-none">
 								<div class="d-flex">
 									<i class="bi bi-person-circle text-white pe-2 fs-1"></i>
-									<div class="d-flex align-items-center gap-2 text-white fs-6 fw-bold">
-										<a th:href="@{/login}">Đăng nhập</a>/<a
-											th:href="@{/login}">Đăng ký</a>
+									<div
+										class="d-flex align-items-center gap-2 text-white fs-6 fw-bold">
+										<a th:href="@{/login}">Đăng nhập</a>/<a th:href="@{/login}">Đăng
+											ký</a>
 									</div>
 								</div>
 							</div>
@@ -160,7 +165,7 @@
 								<ul class="dropdown-menu">
 									<li><a class="dropdown-item" href="/account">Quản lý
 											tài khoản</a></li>
-									<li><a class="dropdown-item" href="">Lịch sử đơn hàng</a></li>
+									<li><a class="dropdown-item" href="/order">Lịch sử đơn hàng</a></li>
 									<a class="dropdown-item" th:href="@{/security/logoff}">Đăng
 										Xuất</a>
 								</ul>
