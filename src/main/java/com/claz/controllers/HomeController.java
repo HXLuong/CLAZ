@@ -14,12 +14,11 @@ import java.util.List;
 @Controller
 public class HomeController {
 
-	
 	@RequestMapping("/cart-index")
-    public String cart(Model model) {
+	public String cart(Model model) {
 		model.addAttribute("page", "/cart/cart-index");
-        return "index";
-    }
+		return "index";
+	}
 
 	@RequestMapping("/category")
 	public String danhmuc(Model model) {
@@ -68,7 +67,7 @@ public class HomeController {
 		model.addAttribute("page", "/update_profile/introduct_profile");
 		return "index";
 	}
-	
+
 	@RequestMapping("/detailProduct")
 	public String detailProduct(Model model) {
 		model.addAttribute("page", "/detailProduct/detailProduct");
@@ -81,9 +80,9 @@ public class HomeController {
 		return "index";
 	}
 
-    public String login(Model model) {
-        return "/login/login";
-    }
+	public String login(Model model) {
+		return "/login/login";
+	}
 
 //	@RequestMapping("/instruct_createAccount")
 //	public String huongdantaotaikhoan(Model model) {
@@ -135,9 +134,13 @@ public class HomeController {
 		return "/instruct/security_instruct";
 	}
 
-
 	@RequestMapping("/signup_instruct")
 	public String signup_instruct(Model model) {
 		return "/instruct/signup_instruct";
+	}
+
+	@RequestMapping("/changepass")
+	public String changPass(Model model) {
+		return "/login/changePass";
 	}
 }
