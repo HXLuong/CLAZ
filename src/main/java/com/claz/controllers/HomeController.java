@@ -33,17 +33,19 @@ public class HomeController {
 
 	@RequestMapping("/")
 	public String index(HttpSession session, Model model) {
-		List<Product> pr = productService.findAll().stream().filter(e -> e.getCategory().getId() == 1).toList();
-		session.setAttribute("products", pr);
-		List<Product> pr2 = productService.findAll().stream().filter(e -> e.getCategory().getId() == 4).toList();
-		session.setAttribute("gamesteam", pr2);
-		List<Product> pr3 = productService.findAll().stream().filter(e -> e.getCategory().getId() == 2).toList();
-		session.setAttribute("lamviec", pr3);
-		List<Product> pr4 = productService.findAll().stream().filter(e -> e.getCategory().getId() == 3).toList();
-		session.setAttribute("hoctap", pr4);
+		if (session.getAttribute("searchProduct") == null) {
+			List<Product> pr = productService.findAll().stream().filter(e -> e.getCategory().getId() == 1).toList();
+			session.setAttribute("products", pr);
+			List<Product> pr2 = productService.findAll().stream().filter(e -> e.getCategory().getId() == 4).toList();
+			session.setAttribute("gamesteam", pr2);
+			List<Product> pr3 = productService.findAll().stream().filter(e -> e.getCategory().getId() == 2).toList();
+			session.setAttribute("lamviec", pr3);
+			List<Product> pr4 = productService.findAll().stream().filter(e -> e.getCategory().getId() == 3).toList();
+			session.setAttribute("hoctap", pr4);
 
-		List<Category> cate = categoryService.findAll();
-		model.addAttribute("cates", cate);
+			List<Category> cate = categoryService.findAll();
+			model.addAttribute("cates", cate);
+		}
 
 		List<Slide> slide = slideService.findAll();
 		session.setAttribute("slides", slide);
