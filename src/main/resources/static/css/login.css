@@ -219,6 +219,12 @@ button {
 	opacity: 0.8;
 }
 
+.modal-dialog {
+	display: flex;
+	align-items: center;
+	height: 100%; 
+}
+
 @media only screen and (max-width: 678px) {
 	.container {
 		min-height: 670px;
