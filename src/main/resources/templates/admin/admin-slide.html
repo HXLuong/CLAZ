@@ -1,0 +1,93 @@
+<div class="content px-3 py-2" ng-app="slideApp"
+	ng-controller="slideCtrl">
+	<div class="container-fluid">
+		<!-- Content -->
+		<div>
+			<div class="mb-3">
+				<h4 class="fw-bold fs-3">Thư viện ảnh slide trang web</h4>
+			</div>
+			<div class="row">
+				<form class="col-xs-12 col-lg-12 mt-3">
+					<div class="w-100">
+						<input type="hidden" ng-model="form.id">
+						<div class="w-50 mx-auto mb-3">
+							<label for="image"> <img class="rounded object-fit-cover"
+								ng-src="./images/{{form.image}}" width="100%"
+								alt="Chọn ảnh sản phẩm">
+							</label> <input type="file" class="form-control" id="image"
+								onchange="angular.element(this).scope().imageChaged(this.files)"
+								hidden>
+						</div>
+						<div class="w-50 mx-auto">
+							<div class="form-group">
+								<div>ngày tạo:</div>
+								<input ng-model="form.created_at | date:'dd/MM/yyyy'"
+									ng-value="form.created_at | date:'dd/MM/yyyy'"
+									class="form-control" disabled>
+							</div>
+						</div>
+						<div class="my-4 d-flex justify-content-center gap-3">
+							<button ng-click="create()" class="btn btn-outline-primary">
+								<i class="bi bi-plus-circle-fill"></i> Thêm
+							</button>
+							<button ng-click="update()" class="btn btn-outline-warning">
+								<i class="bi bi-box-arrow-up-right"></i> Cập nhật
+							</button>
+							<button ng-click="delete(form)" class="btn btn-outline-danger">
+								<i class="bi bi-trash3-fill"></i> Xóa
+							</button>
+							<button ng-click="reset()" class="btn btn-outline-info">
+								<i class="bi bi-arrow-clockwise"></i> Mới
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+
+			<div class="table-responsive">
+				<form action="" method="post" class="d-flex my-3">
+					<input class="rounded-start lh-lg border p-3 form_search"
+						type="search" placeholder="Tìm kiếm" /> <a href="#"
+						class="text-white d-flex align-items-center rounded-end btn_search">
+						<i class=" bi bi-search my-2 mx-3"></i>
+					</a>
+				</form>
+
+				<table class="table table-bordered text-center align-middle">
+					<thead>
+						<tr>
+							<th scope="col">STT</th>
+							<th scope="col">ID</th>
+							<th scope="col">Hình ảnh</th>
+							<th scope="col">Ngày tạo</th>
+							<th scope="col">Khác</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="item in items">
+							<td>{{$index + 1}}</td>
+							<th scope="col">{{item.id}}</th>
+							<td><img src="./images/{{item.image}}"
+								class="rounded object-fit-cover me-2" width="100%"
+								height="100px"></td>
+							<td>{{item.created_at | date:'dd/MM/yyyy'}}</td>
+							<td>
+								<button ng-click="edit(item)"
+									class="btn btn-outline-warning me-2" data-bs-toggle="modal"
+									data-bs-target="#staticBackdrop">
+									<i class="bi bi-box-arrow-up-right"></i> Chỉnh Sửa
+								</button>
+								<button ng-click="delete(item)" class="btn btn-outline-danger">
+									<i class="bi bi-trash3-fill"></i>
+								</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<a href="#" class="theme-toggle"> <i class="fa-regular fa-moon"></i>
+	<i class="fa-regular fa-sun"></i>
+</a>

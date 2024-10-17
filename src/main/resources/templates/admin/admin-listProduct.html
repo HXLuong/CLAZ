@@ -1,0 +1,154 @@
+<div class="content px-3 py-2">
+	<div class="container-fluid">
+		<!-- Content -->
+		<div>
+			<div class="mb-3">
+				<h4 class="fw-bold fs-3">Danh sách sản phẩm</h4>
+			</div>
+			<div class="table-responsive">
+				<form action="" method="post" class="d-flex my-3">
+					<input class="rounded-start lh-lg border p-3 form_search"
+						type="search" placeholder="Tìm kiếm" /> <a href="#"
+						class="text-white d-flex align-items-center rounded-end btn_search">
+						<i class=" bi bi-search my-2 mx-3"></i>
+					</a>
+				</form>
+
+				<table class="table table-bordered text-center align-middle">
+					<thead>
+						<tr>
+							<th scope="col">STT</th>
+							<th scope="col">Hình ảnh</th>
+							<th scope="col">Tên sản phẩm</th>
+							<th scope="col">Giá</th>
+							<th scope="col">Giảm giá</th>
+							<th scope="col">Số lượng</th>
+							<th scope="col">Danh mục</th>
+							<th scope="col">Thể loại</th>
+							<th scope="col">Ngày tạo</th>
+							<th scope="col">Khác</th>
+						</tr>
+					</thead>
+					<tbody>
+						<td>1</td>
+						<td><img src="./images/black myth wukong-13641.jpg"
+							class="rounded object-fit-cover me-2" width="100%" height="70px"></td>
+						<td>sssssssssssssssssssssssssssss</td>
+						<td>11111111111đ</td>
+						<td>20%</td>
+						<td>10000</td>
+						<td>Danh mục</td>
+						<td>Thể loại</td>
+						<td>11/10/2024</td>
+						<td scope="row">
+							<!-- Button trigger modal -->
+							<button type="button" class="btn btn-outline-warning me-2"
+								data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+								<i class="bi bi-box-arrow-up-right"></i> Chỉnh Sửa
+							</button>
+							<button ng-click="" class="btn btn-outline-danger">
+								<i class="bi bi-trash3-fill"></i>
+							</button> <!-- Modal -->
+							<div class="modal fade" id="staticBackdrop"
+								data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+								aria-labelledby="staticBackdropLabel" aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h1 class="modal-title fs-5" id="staticBackdropLabel">Cập
+												nhật sản phẩm</h1>
+											<button type="button" class="btn-close"
+												data-bs-dismiss="modal" aria-label="Close"></button>
+										</div>
+										<div class="modal-body">
+											<form class="col-xs-12 col-lg-12 mt-3">
+												<div class="row">
+													<input type="hidden" ng-model="form.id">
+													<div class="col-md-12 col-lg-12 text-center mb-3">
+														<label for="image"> <img
+															class="rounded object-fit-cover"
+															src="./images/black myth wukong-13641.jpg" width="100%"
+															alt="Chọn ảnh sản phẩm">
+														</label> <input type="file" class="form-control" id="image"
+															onchange="angular.element(this).scope().imageChaged(this.files)"
+															hidden>
+													</div>
+													<div class="col-md-12 col-lg-12">
+														<div class="row mb-3">
+															<div class="form-group col-sm-6">
+																<div>Tên sản phẩm:</div>
+																<input ng-model="form.username" class="form-control">
+															</div>
+															<div class="form-group col-sm-6">
+																<div>Giá sản phẩm:</div>
+																<input ng-model="form.name" class="form-control">
+															</div>
+														</div>
+														<div class="row mb-3">
+															<div class="form-group col-sm-6">
+																<div>Giảm giá:</div>
+																<input ng-model="form.password" class="form-control"
+																	type="text">
+															</div>
+															<div class="form-group col-sm-6">
+																<div>Số lượng:</div>
+																<input ng-model="form.email" class="form-control"
+																	type="text">
+															</div>
+														</div>
+														<div class="row mb-3">
+															<div class="form-group col-sm-6">
+																<div>Danh mục sản phẩm:</div>
+																<select class="form-control">
+																	<option>Giải trí</option>
+																	<option>Học tập</option>
+																</select>
+															</div>
+															<div class="form-group col-sm-6">
+																<div>Thể loại sản phẩm:</div>
+																<select class="form-control">
+																	<option>Giải trí</option>
+																	<option>Học tập</option>
+																</select>
+															</div>
+														</div>
+														<div class="mb-3">
+															<div class="form-group mb-3">
+																<div>Ngày tạo:</div>
+																<input ng-model="form.phone" class="form-control"
+																	disabled>
+															</div>
+															<div class="form-group">
+																<div>Mô tả:</div>
+																<textarea rows="5" class="form-control"></textarea>
+															</div>
+														</div>
+													</div>
+													<div class="mt-4 d-flex justify-content-center gap-3">
+														<button ng-click="" class="btn btn-outline-warning">
+															<i class="bi bi-box-arrow-up-right"></i> Cập nhật
+														</button>
+														<button ng-click="" class="btn btn-outline-danger">
+															<i class="bi bi-trash3-fill"></i> Xóa
+														</button>
+													</div>
+												</div>
+											</form>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary"
+												data-bs-dismiss="modal">Close</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</td>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<a href="#" class="theme-toggle"> <i class="fa-regular fa-moon"></i>
+	<i class="fa-regular fa-sun"></i>
+</a>
