@@ -187,4 +187,9 @@ public class HomeController {
 	public String signup_instruct(Model model) {
 		return "/instruct/signup_instruct";
 	}
+
+	@RequestMapping("/changepass")
+	public String changPass(Model model) {
+		return "/login/changePass";
+	}
 }

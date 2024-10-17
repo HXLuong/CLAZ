@@ -11,7 +11,7 @@ import com.claz.models.Customer;
 
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, String> {
-	Optional<Customer> findByUsername(String name);
+	Optional<Customer> findByUsername(String username);
 
 	@Query("select o from Customer o where o.fullname like ?1")
 	Customer handelFindByUserName(String username);
