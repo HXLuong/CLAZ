@@ -33,6 +33,12 @@ h4 {
 	color: var(--bs-emphasis-color);
 }
 
+.modal-center {
+	display: flex;
+	align-items: center;
+	height: 95%;
+}
+
 /* Layout for admin dashboard skeleton */
 .wrapper {
 	align-items: stretch;
