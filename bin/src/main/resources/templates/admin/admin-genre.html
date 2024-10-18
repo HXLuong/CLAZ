@@ -1,0 +1,42 @@
+<div class="content px-3 py-2" ng-app="genreApp"
+	ng-controller="genreCtrl">
+	<div class="container-fluid">
+		<!-- Content -->
+		<div>
+			<div class="mb-3">
+				<h4 class="fw-bold fs-3">Thêm mới thể loại sản phẩm</h4>
+			</div>
+			<div class="row">
+				<form class="col-xs-12 col-lg-12 mt-5">
+					<div class="row">
+						<input type="hidden" ng-model="form.id">
+						<div class="col-md-12 col-lg-12 col-xl-8 mx-auto">
+							<div class="mb-3">
+								<div class="form-group mb-3">
+									<div>Tên thể loại:</div>
+									<input ng-model="form.name" class="form-control">
+								</div>
+								<div class="form-group">
+									<div>Mô tả:</div>
+									<textarea ng-model="form.decription" rows="3"
+										class="form-control"></textarea>
+								</div>
+							</div>
+						</div>
+						<div class="mt-4 d-flex justify-content-center gap-3">
+							<button ng-click="create()" class="btn btn-outline-primary">
+								<i class="bi bi-plus-circle-fill"></i> Thêm
+							</button>
+							<button ng-click="reset()" class="btn btn-outline-info">
+								<i class="bi bi-arrow-clockwise"></i> Mới
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<a href="#" class="theme-toggle"> <i class="fa-regular fa-moon"></i>
+	<i class="fa-regular fa-sun"></i>
+</a>

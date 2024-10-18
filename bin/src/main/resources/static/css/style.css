@@ -1,3 +1,7 @@
+html {
+	scroll-behavior: smooth;
+}
+
 a {
 	color: inherit;
 	text-decoration: inherit;
@@ -35,6 +39,7 @@ blockquote, dd, dl, figure, h1, h2, h3, h4, h5, h6, hr, p, pre {
 }
 
 .btn_search {
+	height: 43px;
 	background-color: #0959cc;
 }
 
@@ -87,8 +92,8 @@ blockquote, dd, dl, figure, h1, h2, h3, h4, h5, h6, hr, p, pre {
 .bg-image {
 	background-image:
 		url(https://divineshop.vn/static/0de2668c294edf9d5fd8a8647b2c65b6.png);
-	height: 300px;
-	width: 100%;
+	height: 100%;
+	max-width: 100%;
 	background-repeat: no-repeat;
 	background-color: #000d21;
 }
@@ -110,6 +115,160 @@ blockquote, dd, dl, figure, h1, h2, h3, h4, h5, h6, hr, p, pre {
 	margin-top: -0.2rem !important;
 }
 
+.hot-product {
+	padding: 154px 0 35px;
+}
+
+.hot-text {
+	width: 30%;
+	border: 1px solid white;
+	border-radius: 40px
+}
+
+.icon-payment {
+	max-width: 100%;
+	height: 1.75rem;
+	margin: 10px;
+}
+
+.footer-btn:hover {
+	color: red;
+}
+
+.btn-rebuy {
+	display: flex;
+	justify-content: end
+}
+
+#backtop {
+	width: 50px;
+	height: 50px;
+	background-color: #2579f3;
+	color: #fff;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 50%;
+	position: fixed;
+	bottom: 40px;
+	right: 20px;
+	cursor: pointer;
+}
+
+/* Cart css */
+.cart-details {
+	text-align: center;
+}
+
+.cart-details img {
+	max-width: 100%;
+	height: auto;
+}
+
+.btn-banking {
+	background-color: #005baa;
+	color: white;
+}
+
+.btn-banking:hover {
+	background-color: #005baa;
+	color: white;
+	opacity: 0.8;
+}
+
+.btn-momo {
+	background-color: #ae2170;
+	color: white;
+}
+
+.btn-momo:hover {
+	background-color: #ae2170;
+	color: white;
+	opacity: 0.8;
+}
+
+.btn-quantity {
+	color: #374151;
+	text-decoration: none;
+	border: 1px solid #d1d5db;
+	height: 2rem;
+}
+
+.btn-quantity:hover {
+	color: #374151;
+	text-decoration: none;
+	border: 1px solid #d1d5db;
+}
+
+.tex-sale {
+	margin: 6px 0;
+	font-size: 14px;
+}
+
+.ss {
+	margin-top: 16px;
+}
+
+/* Update Profile Css */
+.vertical-divider {
+	height: 100%;
+	border-left: 1px solid grey;
+	/* Hoặc màu sắc và độ rộng khác */
+}
+
+.hover-underline {
+	text-decoration: none;
+}
+
+.hover-underline:hover {
+	text-decoration: underline;
+	/* Gạch chân khi hover */
+}
+
+.text-block {
+	display: block;
+}
+
+input[type="file"] {
+	display: none;
+}
+
+/* Detail Product */
+.img-showcase {
+	display: flex;
+	width: 100%;
+	transition: transform 0.8s ease-in-out;
+}
+
+.img-item a img {
+	width: 100%;
+	height: 80px;
+}
+
+.img-select {
+	width: 100%;
+}
+
+.img-item {
+	width: 25%;
+}
+
+span {
+	font-size: 15px;
+}
+
+.detailProduct {
+	padding-left: 20px;
+}
+
+.cart-btn {
+	display: flex;
+}
+
+.text-justify {
+	text-align: justify;
+}
+
 @media only screen and (max-width: 1200px) {
 	.parent1, .parent2 {
 		margin-top: 8px;
@@ -125,6 +284,9 @@ blockquote, dd, dl, figure, h1, h2, h3, h4, h5, h6, hr, p, pre {
 	}
 	.offcanvas-half {
 		width: 30% !important;
+	}
+	.hot-text {
+		width: 50%;
 	}
 }
 
@@ -144,6 +306,9 @@ blockquote, dd, dl, figure, h1, h2, h3, h4, h5, h6, hr, p, pre {
 	}
 	.offcanvas-half {
 		width: 40% !important;
+	}
+	.hot-text {
+		width: 70%;
 	}
 }
 
@@ -189,10 +354,33 @@ blockquote, dd, dl, figure, h1, h2, h3, h4, h5, h6, hr, p, pre {
 		width: 100%;
 		background-size: cover;
 	}
-	.bg-image {
-		width: 100%;
-		height: 100px !important;
-		background-size: contain;
+	.hot-text {
+		width: 90%;
+	}
+
+	/* Cart Css */
+	.product-name {
+		margin-top: 10px;
+	}
+	.product-content {
+		padding: 0;
+	}
+	.product-qty {
+		margin-left: 12px;
+	}
+	.ss {
+		margin-top: 0;
+	}
+
+	/* Detail Product */
+	.detailProduct {
+		padding-left: 0px;
+	}
+
+	/* Other */
+	.btn-rebuy {
+		display: flex;
+		justify-content: start;
 	}
 }
 
@@ -216,4 +404,21 @@ blockquote, dd, dl, figure, h1, h2, h3, h4, h5, h6, hr, p, pre {
 	.offcanvas-half {
 		width: 80% !important;
 	}
+
+	/* Detail Product */
+	.detailProduct {
+		padding-left: 0px;
+	}
+	.cart-btn {
+		display: flex;
+		justify-content: center;
+	}
+}
+
+.icon-search {
+	font-size: 1.6rem; /* Điều chỉnh kích thước icon tìm kiếm */
+}
+.nav-link {
+    line-height: 1.5; /*chỉnh khoảng cách giữa các hàng */
+    padding: 0.3rem 0; /*chỉnh padding*/
 }
