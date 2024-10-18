@@ -32,6 +32,9 @@ blockquote, dd, dl, figure, h1, h2, h3, h4, h5, h6, hr, p, pre {
 .navbg {
 	background-color: #2579f3;
 }
+.dropdown-toggle {
+    border: 0.5px solid #000 !important;
+}
 
 .arrow-gap {
 	margin-left: 90px !important;
@@ -417,4 +420,8 @@ span {
 
 .icon-search {
 	font-size: 1.6rem; /* Điều chỉnh kích thước icon tìm kiếm */
+}
+.nav-link {
+    line-height: 1.5; /*chỉnh khoảng cách giữa các hàng */
+    padding: 0.3rem 0; /*chỉnh padding*/
 }
