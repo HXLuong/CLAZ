@@ -1,281 +1,263 @@
 <div class="container ps-0">
-		<form class="mt-1">
-			<div class="row ms-3 me-1">
-				<div
-					class="col-lg-6 col-sm-12 d-flex flex-wrap mt-3 p-0 overflow-hidden">
-					<div class="img-showcase">
-						<img src="./images/black myth wukong-13641.jpg" class="rounded"
-							width="100%" alt=""> <img src="./images/slide-4.jpg"
-							width="100%" class="rounded" alt=""> <img
-							src="./images/slide-2.jpg" width="100%" class="rounded" alt="">
-						<img src="./images/slide-3.jpg" width="100%" class="rounded"
-							alt="">
-					</div>
-					<div class="img-select d-flex mt-1">
-						<div class="img-item p-1">
-							<a href="#" data-id="1"> <img
-								src="./images/black myth wukong-13641.jpg"
-								class="object-fit-cover" alt="">
-							</a>
-						</div>
-						<div class="img-item p-1">
-							<a href="#" data-id="2"> <img src="./images/slide-4.jpg"
-								class="object-fit-cover" alt="">
-							</a>
-						</div>
-						<div class="img-item p-1">
-							<a href="#" data-id="3"> <img src="./images/slide-2.jpg"
-								class="object-fit-cover" alt="">
-							</a>
-						</div>
-						<div class="img-item p-1">
-							<a href="#" data-id="4"> <img src="./images/slide-3.jpg"
-								class="object-fit-cover" alt="">
-							</a>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-6 col-sm-12 detailProduct">
-					<div class="mb-3 mt-3">
-						<span class="text-secondary">Sản phẩm</span> <br> <label
-							class="mt-1 fw-bold fs-4">Black Myth: Wukong - Tài khoản
-							Steam</label> <br> <label class="mt-2 fw-medium"><i
-							class="bi bi-box2"></i> Tình Trạng: <label class="text-success">Còn
-								Hàng</label> </label> <br> <label class="mt-2 fw-medium"> <i
-							class="bi bi-code-slash"></i> Mã Sản Phẩm: <label
-							class="text-secondary">black-myth-wukong</label>
-						</label> <br> <label class="mt-2 fw-medium"> <i
-							class="bi bi-tag"></i> Thể Loại: <label class="text-secondary">Action</label>
-						</label> <br> <label class="mt-2 fw-bold fs-5"> 900.000đ </label> <br>
-						<div class="d-flex align-items-center text-nowrap flex-nowrap">
-							<strike class=" text-body-tertiary fw-bold">1.000.000đ</strike>
-							&nbsp;<span
-								class="border border-danger rounded bg-danger text-white px-2 py-1">-62%</span>
-							</label>
-						</div>
-						<hr class="my-3">
-						<div>
-							<h6 class="fw-medium mb-2">Các sản phẩm liên quan</h6>
-							<div>
-								<a href="" class="btn btn-outline-primary me-2 mb-2"> Tài
-									khoản game </a> <a href=""
-									class="btn btn-outline-primary me-2 mb-2"> Thuê 1 ngày </a> <a
-									href="" class="btn btn-outline-primary me-2 mb-2"> Thuê 1
-									tuần </a> <a href="" class="btn btn-outline-primary me-2 mb-2">
-									Mua game </a> <a href="" class="btn btn-outline-primary me-2 mb-2">
-									Tài khoản game cũ </a>
-							</div>
-						</div>
-						<hr class="mt-2 mb-3">
-						<div class="cart-btn">
-							<a href="" class="btn btn-primary mb-3 me-3"
-								style="width: 13rem;"><i class="bi bi-credit-card-fill"></i>
-								<span class="fw-semibold">Mua Ngay</span></a> <a href=""
-								class="btn btn-outline-primary mb-3 fw-semibold"
-								style="width: 13rem;"><i class="bi bi-cart-plus fw-semibold"></i>
-								<span class="fw-semibold">Thêm Vào Giỏ</span></a>
-						</div>
-					</div>
-				</div>
-				<hr class="mt-4">
+	<div class="row ms-3 me-1" th:object="${session.item}">
+		<div
+			class="col-lg-6 col-sm-12 d-flex flex-wrap mt-3 p-0 overflow-hidden">
+			<div class="img-showcase">
+				<img th:each="i, iMG : ${session.galaries}" th:src="@{'/images/'+ ${i.image}}"
+					class="rounded" width="100%" alt="">
 			</div>
-		</form>
-	</div>
-	<div class="container mt-2">
-		<div class="row">
-			<h4 class="lh-lg fw-bold col-xl-3">Chi tiết sản phẩm</h4>
-			<div class="col-xl-9">
-				<div class="text-md-start mt-2 mb-4">
-					<p class="fs-6 text-justify">
-						<strong>Black Myth: Wukong</strong> là một game hành động nhập vai
-						(RPG) lấy cảm hứng từ thần thoại Trung Quốc. Câu chuyện dựa trên
-						"Tây Du Ký", một trong Tứ Đại Danh Tác của văn học Trung Quốc. Bạn
-						sẽ vào vai Nhân Vật Được Định Mệnh Chọn Lựa, đối mặt với những
-						thách thức và kỳ quan phía trước, khám phá sự thật bị che giấu
-						dưới tấm màn của một huyền thoại huy hoàng từ quá khứ.
-					</p>
+			<div class="img-select d-flex mt-1">
+				<div class="img-item p-1" th:each="i, iMG : ${session.galaries}">
+					<a href="#" th:data-id="${iMG.index +1}"> <img
+						th:src="@{'/images/'+ ${i.image}}" class="object-fit-cover" alt="">
+					</a>
 				</div>
-				<img
-					src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2358720/extras/SteamGIF_Scene.gif?t=1718690162"
-					class="w-75">
+			</div>
+		</div>
+		<div class="col-lg-6 col-sm-12 detailProduct">
+			<div class="mb-3 mt-3">
+				<span class="text-secondary">Sản phẩm</span> <br> <label
+					class="mt-1 fw-bold fs-4" th:text="*{name}"></label> <br> <label
+					class="mt-2 fw-medium"><i class="bi bi-box2"></i> Tình
+					Trạng: <label class="text-success" th:if="*{quantity} > 0">Còn
+						hàng</label> <label class="text-danger" th:if="*{quantity} == 0">Hết
+						hàng</label> </label> <br> <label class="mt-2 fw-medium"> <i
+					class="bi bi-code-slash"></i> Mã Sản Phẩm: <label
+					class="text-secondary" th:text="*{id}"></label>
+				</label> <br> <label class="mt-2 fw-medium d-flex gap-1"> <i
+					class="bi bi-tag"></i> Thể Loại:
+					<div th:each="g, iterStat : ${session.genreProducts}">
+						<a href="#" class="text-secondary" th:text="${g.name}"></a> <span
+							class="text-secondary" th:if="${!iterStat.last}">,</span>
+					</div>
+				</label> <label class="mt-2 fw-bold fs-5"
+					th:text="*{#numbers.formatDecimal(price * (1 - discount / 100), 0, 'COMMA', 0, 'POINT')} + 'đ'"></label>
+				<div class="d-flex align-items-center text-nowrap flex-nowrap"
+					th:if="*{discount} > 0">
+					<strike class=" text-body-tertiary fw-bold"
+						th:text="*{#numbers.formatDecimal(price, 0, 'COMMA', 0, 'POINT')} + 'đ'"></strike>
+					&nbsp;<span
+						class="border border-danger rounded bg-danger text-white px-2 py-1"
+						th:text="'-' + *{discount.intValue() + '%'}"></span> </label>
+				</div>
+				<div th:if="${session.searchProduct.size() > 1}">
+					<hr class="my-3">
+					<h6 class="fw-medium mb-2">Các sản phẩm liên quan</h6>
+					<div class="d-flex">
+						<div th:each="p : ${session.searchProduct}">
+							<a th:href="${p.id}" class="btn btn-outline-primary me-2 mb-2"
+								th:text="${p.name.contains('-') ? (p.name.split('-')[p.name.split('-').length - 1]) : p.name}"></a>
+						</div>
+					</div>
+				</div>
+				<hr class="mt-2 mb-3">
+				<div class="cart-btn">
+					<a href="" class="btn btn-primary mb-3 me-3" style="width: 13rem;"><i
+						class="bi bi-credit-card-fill"></i> <span class="fw-semibold">Mua
+							Ngay</span></a> <a href="" class="btn btn-outline-primary mb-3 fw-semibold"
+						style="width: 13rem;"><i class="bi bi-cart-plus fw-semibold"></i>
+						<span class="fw-semibold">Thêm Vào Giỏ</span></a>
+				</div>
+			</div>
+		</div>
+		<hr class="mt-4">
 
-				<div class="mt-2">
-					<h5 class="fw-medium">Khám Phá Vùng Đất Của Những Điều Kỳ Diệu</h5>
-					<p class="text-justify">
-						"Thế giới chưa thấy, nơi kỳ quan lấp lánh, <br> Và mỗi bước
-						đi, một cảnh mới trải dài."
-					</p>
-					<p class="text-justify">Bước vào một cõi huyền bí đầy những kỳ
-						quan và khám phá của thần thoại Trung Quốc cổ đại! Là Nhân Vật
-						Được Định Mệnh Chọn Lựa, bạn sẽ băng qua nhiều phong cảnh tuyệt
-						đẹp và độc đáo từ câu chuyện cổ điển, tạo nên một thiên anh hùng
-						ca về cuộc phiêu lưu được nhìn nhận theo một cách hoàn toàn mới.</p>
+		<div class="mt-2" th:utext="*{decription}">
+			<!-- <div class="row">
+				<h4 class="lh-lg fw-bold col-xl-3">Chi tiết sản phẩm</h4>
+				<div class="col-xl-9">
+					<div class="text-md-start mt-2 mb-2">
+						<p class="fs-6 text-justify">
+							<strong>Black Myth: Wukong</strong> là một game hành động nhập
+							vai (RPG) lấy cảm hứng từ thần thoại Trung Quốc. Câu chuyện dựa
+							trên "Tây Du Ký", một trong Tứ Đại Danh Tác của văn học Trung
+							Quốc. Bạn sẽ vào vai Nhân Vật Được Định Mệnh Chọn Lựa, đối mặt
+							với những thách thức và kỳ quan phía trước, khám phá sự thật bị
+							che giấu dưới tấm màn của một huyền thoại huy hoàng từ quá khứ.
+						</p>
+					</div>
 					<img
-						src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2358720/extras/SteamGIF_Boss.gif?t=1718690162"
+						src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2358720/extras/SteamGIF_Scene.gif?t=1718690162"
 						class="w-75">
+
+					<div class="mt-2">
+						<h5 class="fw-medium">Khám Phá Vùng Đất Của Những Điều Kỳ
+							Diệu</h5>
+						<p class="text-justify">
+							"Thế giới chưa thấy, nơi kỳ quan lấp lánh, <br> Và mỗi bước
+							đi, một cảnh mới trải dài."
+						</p>
+						<p class="text-justify mb-2">Bước vào một cõi huyền bí đầy những kỳ
+							quan và khám phá của thần thoại Trung Quốc cổ đại! Là Nhân Vật
+							Được Định Mệnh Chọn Lựa, bạn sẽ băng qua nhiều phong cảnh tuyệt
+							đẹp và độc đáo từ câu chuyện cổ điển, tạo nên một thiên anh hùng
+							ca về cuộc phiêu lưu được nhìn nhận theo một cách hoàn toàn mới.</p>
+						<img
+							src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2358720/extras/SteamGIF_Boss.gif?t=1718690162"
+							class="w-75">
+					</div>
 				</div>
 			</div>
-		</div>
-		<hr class="mt-4">
-		<div class="row">
-			<h4 class="lh-lg fw-bold col-xl-3">Chính sách bảo hành</h4>
-			<div class="col-xl-9">
-				<div class="mt-2">
-					<h5 class="fw-medium">Thời gian bảo hành</h5>
-					<p class="text-justify">- 1 ngày</p>
-					<h5 class="fw-medium">Cách thức bảo hành</h5>
-					<p class="text-justify">- Đổi mới sản phẩm khác nếu lỗi trong
-						quá trình sử dụng hoặc hoàn tiền nếu không có sản phẩm bảo hành. -
-						Không hỗ trợ bảo hành trong trường hợp khách hàng vi phạm chính
-						sách của Steam và khách hàng bán lại tài khoản. - Không hỗ trợ bảo
-						hành các sản phẩm game khác mà khách hàng mua vào tài khoản.</p>
+			<hr class="mt-4">
+			<div class="row">
+				<h4 class="lh-lg fw-bold col-xl-3">Chính sách bảo hành</h4>
+				<div class="col-xl-9">
+					<div class="mt-2">
+						<h5 class="fw-medium">Thời gian bảo hành</h5>
+						<p class="text-justify">- 1 ngày</p>
+						<h5 class="fw-medium">Cách thức bảo hành</h5>
+						<p class="text-justify">- Đổi mới sản phẩm khác nếu lỗi trong
+							quá trình sử dụng hoặc hoàn tiền nếu không có sản phẩm bảo hành.
+							- Không hỗ trợ bảo hành trong trường hợp khách hàng vi phạm chính
+							sách của Steam và khách hàng bán lại tài khoản. - Không hỗ trợ
+							bảo hành các sản phẩm game khác mà khách hàng mua vào tài khoản.</p>
+					</div>
 				</div>
 			</div>
-		</div>
-		<hr class="mt-4">
-		<div class="row">
-			<h4 class="lh-lg fw-bold col-xl-3">Câu hỏi thường gặp</h4>
-			<div class="col-xl-9">
-				<div class="mt-2">
-					<h6 class="fw-medium">1. Tôi có thể nhận game vào tài khoản
-						Steam có sẵn của tôi hay không?</h6>
-					<p class="text-justify">Dạ không ạ, đây là tài khoản Steam
-						Divine Shop đã tạo sẵn, sau khi mua bạn sẽ nhận được thông tin
-						đăng nhập gồm có tài khoản và mật khẩu để chơi game.</p>
-					<h6 class="fw-medium">2. Tôi có thể thuê bao nhiêu ngày?</h6>
-					<p class="text-justify">Số ngày thuê tối thiểu là 4 và không
-						giới hạn số ngày tối đa ạ.</p>
-					<h6 class="fw-medium">3. Tôi muốn thuê 10 ngày thì mua như thế
-						nào?</h6>
-					<p class="text-justify">
-						Bạn thêm sản phẩm vào giỏ hàng, sau đó vào <a
-							class="text-decoration-none" href="">giỏ hàng</a> và sửa số lượng
-						sản phẩm thành số ngày muốn thuê nhé.
-					</p>
-					<h6 class="fw-medium">4. Tôi có thể đổi thông tin tài khoản
-						trong lúc chơi không?</h6>
-					<p class="text-justify">Dạ không, bạn không được đổi thông tin
-						tài khoản ạ.</p>
-				</div>
-			</div>
-		</div>
-		<div class="fw-bold d-flex justify-content-end gap-2 my-2">
-			<span>Rating:</span> <span>4.9 <i
-				class=" bi bi-star-fill text-warning"></i></span> <span>(69 lượt
-				đánh giá)</span>
+			<hr class="mt-4">
+			<div class="row">
+				<h4 class="lh-lg fw-bold col-xl-3">Câu hỏi thường gặp</h4>
+				<div class="col-xl-9">
+					<div class="mt-2">
+						<h6 class="fw-medium">1. Tôi có thể nhận game vào tài khoản
+							Steam có sẵn của tôi hay không?</h6>
+						<p class="text-justify">Dạ không ạ, đây là tài khoản Steam
+							Divine Shop đã tạo sẵn, sau khi mua bạn sẽ nhận được thông tin
+							đăng nhập gồm có tài khoản và mật khẩu để chơi game.</p>
+						<h6 class="fw-medium">2. Tôi có thể thuê bao nhiêu ngày?</h6>
+						<p class="text-justify">Số ngày thuê tối thiểu là 4 và không
+							giới hạn số ngày tối đa ạ.</p>
+						<h6 class="fw-medium">3. Tôi muốn thuê 10 ngày thì mua như
+							thế nào?</h6>
+						<p class="text-justify">
+							Bạn thêm sản phẩm vào giỏ hàng, sau đó vào <a
+								class="text-decoration-none" href="">giỏ hàng</a> và sửa số
+							lượng sản phẩm thành số ngày muốn thuê nhé.
+						</p>
+						<h6 class="fw-medium">4. Tôi có thể đổi thông tin tài khoản
+							trong lúc chơi không?</h6>
+						<p class="text-justify">Dạ không, bạn không được đổi thông tin
+							tài khoản ạ.</p>
+					</div>
+				</div> 
+			</div> -->
 		</div>
 	</div>
+</div>
 
-	<div class="container mt-4">
-		<h4>Bình luận</h4>
-		<span>Thời gian phản hồi trung bình: 5 phút!</span>
-		<form action="">
-			<textarea class="mt-3 form-control"
-				placeholder="Nhập nội dung bình luận" rows="4"></textarea>
-			<div class="d-flex justify-content-end mt-3">
-				<button class="btn btn-outline-primary">
-					<i class="bi bi-send-fill"></i> Gửi bình luận
-				</button>
-			</div>
-		</form>
-		<div class="mt-3 d-flex">
-			<div class="me-3">
-				<img class="object-fit-cover rounded-circle" src="./images/1000.jpg"
-					width="70px" height="70px" alt="">
-			</div>
-			<div>
-				<h6 class="fw-bold">HXLuong</h6>
-				<span class="text-secondary">Bình luận vào 2024-08-29
-					23:11:34</span>
-				<p class="mb-2">thuê 1 tài khoản 1 ngày k được nữa ạ? Toàn tối
-					thiểu là 4 ko hở ad ơi</p>
-				<a class="text-decoration-none fw-bold" href="">Trả lời</a>
+<div class="container fw-bold d-flex justify-content-end gap-2 my-2">
+	<span>Rating:</span> <span>4.9 <i
+		class=" bi bi-star-fill text-warning"></i></span> <span>(69 lượt đánh
+		giá)</span>
+</div>
 
-				<div class="mt-3 d-flex">
-					<div class="me-3">
-						<img class="object-fit-cover rounded-circle"
-							src="./images/AntiVirus99k-61638.png" width="50px" height="50px"
-							alt="">
-					</div>
-					<div>
-						<span class="fw-bold me-2">AntiVirus</span> <span
-							class="text-secondary">2024-08-29 23:11:34</span>
-						<p class="mb-2">@HXLuong Dạ vâng đúng rùi bạn ạ</p>
-						<a class="text-decoration-none fw-bold" href="">Trả lời</a>
-					</div>
-				</div>
-			</div>
+<div class="container mt-4">
+	<h4>Bình luận</h4>
+	<span>Thời gian phản hồi trung bình: 5 phút!</span>
+	<form action="">
+		<textarea class="mt-3 form-control"
+			placeholder="Nhập nội dung bình luận" rows="4"></textarea>
+		<div class="d-flex justify-content-end mt-3">
+			<button class="btn btn-outline-primary">
+				<i class="bi bi-send-fill"></i> Gửi bình luận
+			</button>
 		</div>
-
-		<div class="mt-3 d-flex">
-			<div class="me-3">
-				<img class="object-fit-cover rounded-circle" src="./images/1000.jpg"
-					width="70px" height="70px" alt="">
-			</div>
-			<div>
-				<h6 class="fw-bold">HXLuong</h6>
-				<span class="text-secondary">Bình luận vào 2024-08-29
-					23:11:34</span>
-				<p class="mb-2">thuê 1 tài khoản 1 ngày k được nữa ạ? Toàn tối
-					thiểu là 4 ko hở ad ơi</p>
-				<a class="text-decoration-none fw-bold" href="">Trả lời</a>
-
-				<div class="mt-3 d-flex">
-					<div class="me-3">
-						<img class="object-fit-cover rounded-circle"
-							src="./images/AntiVirus99k-61638.png" width="50px" height="50px"
-							alt="">
-					</div>
-					<div>
-						<span class="fw-bold me-2">AntiVirus</span> <span
-							class="text-secondary">2024-08-29 23:11:34</span>
-						<p class="mb-2">@HXLuong Dạ vâng đúng rùi bạn ạ</p>
-						<a class="text-decoration-none fw-bold" href="">Trả lời</a>
-					</div>
-				</div>
-
-				<div class="mt-3 d-flex">
-					<div class="me-3">
-						<img class="object-fit-cover rounded-circle"
-							src="./images/AntiVirus99k-61638.png" width="50px" height="50px"
-							alt="">
-					</div>
-					<div>
-						<span class="fw-bold me-2">AntiVirus</span> <span
-							class="text-secondary">2024-08-29 23:11:34</span>
-						<p class="mb-2">@HXLuong Dạ vâng đúng rùi bạn ạ</p>
-						<a class="text-decoration-none fw-bold" href="">Trả lời</a>
-					</div>
-				</div>
-			</div>
+	</form>
+	<div class="mt-3 d-flex">
+		<div class="me-3">
+			<img class="object-fit-cover rounded-circle" src="./images/1000.jpg"
+				width="70px" height="70px" alt="">
 		</div>
+		<div>
+			<h6 class="fw-bold">HXLuong</h6>
+			<span class="text-secondary">Bình luận vào 2024-08-29 23:11:34</span>
+			<p class="mb-2">thuê 1 tài khoản 1 ngày k được nữa ạ? Toàn tối
+				thiểu là 4 ko hở ad ơi</p>
+			<a class="text-decoration-none fw-bold" href="">Trả lời</a>
 
-		<div class="mt-3 d-flex">
-			<div class="me-3">
-				<img class="object-fit-cover rounded-circle" src="./images/1000.jpg"
-					width="70px" height="70px" alt="">
-			</div>
-			<div>
-				<h6 class="fw-bold">HXLuong</h6>
-				<span class="text-secondary">Bình luận vào 2024-08-29
-					23:11:34</span>
-				<p class="mb-2">thuê 1 tài khoản 1 ngày k được nữa ạ? Toàn tối
-					thiểu là 4 ko hở ad ơi</p>
-				<a class="text-decoration-none fw-bold" href="">Trả lời</a>
-
-				<div class="mt-3 d-flex">
-					<div class="me-3">
-						<img class="object-fit-cover rounded-circle"
-							src="./images/AntiVirus99k-61638.png" width="50px" height="50px"
-							alt="">
-					</div>
-					<div>
-						<span class="fw-bold me-2">AntiVirus</span> <span
-							class="text-secondary">2024-08-29 23:11:34</span>
-						<p class="mb-2">@HXLuong Dạ vâng đúng rùi bạn ạ</p>
-						<a class="text-decoration-none fw-bold" href="">Trả lời</a>
-					</div>
+			<div class="mt-3 d-flex">
+				<div class="me-3">
+					<img class="object-fit-cover rounded-circle"
+						src="./images/AntiVirus99k-61638.png" width="50px" height="50px"
+						alt="">
+				</div>
+				<div>
+					<span class="fw-bold me-2">AntiVirus</span> <span
+						class="text-secondary">2024-08-29 23:11:34</span>
+					<p class="mb-2">@HXLuong Dạ vâng đúng rùi bạn ạ</p>
+					<a class="text-decoration-none fw-bold" href="">Trả lời</a>
 				</div>
 			</div>
 		</div>
 	</div>
+
+	<div class="mt-3 d-flex">
+		<div class="me-3">
+			<img class="object-fit-cover rounded-circle" src="./images/1000.jpg"
+				width="70px" height="70px" alt="">
+		</div>
+		<div>
+			<h6 class="fw-bold">HXLuong</h6>
+			<span class="text-secondary">Bình luận vào 2024-08-29 23:11:34</span>
+			<p class="mb-2">thuê 1 tài khoản 1 ngày k được nữa ạ? Toàn tối
+				thiểu là 4 ko hở ad ơi</p>
+			<a class="text-decoration-none fw-bold" href="">Trả lời</a>
+
+			<div class="mt-3 d-flex">
+				<div class="me-3">
+					<img class="object-fit-cover rounded-circle"
+						src="./images/AntiVirus99k-61638.png" width="50px" height="50px"
+						alt="">
+				</div>
+				<div>
+					<span class="fw-bold me-2">AntiVirus</span> <span
+						class="text-secondary">2024-08-29 23:11:34</span>
+					<p class="mb-2">@HXLuong Dạ vâng đúng rùi bạn ạ</p>
+					<a class="text-decoration-none fw-bold" href="">Trả lời</a>
+				</div>
+			</div>
+
+			<div class="mt-3 d-flex">
+				<div class="me-3">
+					<img class="object-fit-cover rounded-circle"
+						src="./images/AntiVirus99k-61638.png" width="50px" height="50px"
+						alt="">
+				</div>
+				<div>
+					<span class="fw-bold me-2">AntiVirus</span> <span
+						class="text-secondary">2024-08-29 23:11:34</span>
+					<p class="mb-2">@HXLuong Dạ vâng đúng rùi bạn ạ</p>
+					<a class="text-decoration-none fw-bold" href="">Trả lời</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="mt-3 d-flex">
+		<div class="me-3">
+			<img class="object-fit-cover rounded-circle" src="./images/1000.jpg"
+				width="70px" height="70px" alt="">
+		</div>
+		<div>
+			<h6 class="fw-bold">HXLuong</h6>
+			<span class="text-secondary">Bình luận vào 2024-08-29 23:11:34</span>
+			<p class="mb-2">thuê 1 tài khoản 1 ngày k được nữa ạ? Toàn tối
+				thiểu là 4 ko hở ad ơi</p>
+			<a class="text-decoration-none fw-bold" href="">Trả lời</a>
+
+			<div class="mt-3 d-flex">
+				<div class="me-3">
+					<img class="object-fit-cover rounded-circle"
+						src="./images/AntiVirus99k-61638.png" width="50px" height="50px"
+						alt="">
+				</div>
+				<div>
+					<span class="fw-bold me-2">AntiVirus</span> <span
+						class="text-secondary">2024-08-29 23:11:34</span>
+					<p class="mb-2">@HXLuong Dạ vâng đúng rùi bạn ạ</p>
+					<a class="text-decoration-none fw-bold" href="">Trả lời</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

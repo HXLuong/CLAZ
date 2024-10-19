@@ -240,6 +240,10 @@ input[type="file"] {
 	transition: transform 0.8s ease-in-out;
 }
 
+.img-showcase img {
+	height: 340px;
+}
+
 .img-item a img {
 	width: 100%;
 	height: 80px;
@@ -288,6 +292,9 @@ span {
 	.hot-text {
 		width: 50%;
 	}
+	.img-showcase img {
+		height: 100%;
+	}
 }
 
 @media only screen and (max-width: 992px) {
@@ -309,6 +316,9 @@ span {
 	}
 	.hot-text {
 		width: 70%;
+	}
+	.img-showcase img {
+		height: 360px;
 	}
 }
 
@@ -356,6 +366,9 @@ span {
 	}
 	.hot-text {
 		width: 90%;
+	}
+	.img-showcase img {
+		height: 360px;
 	}
 
 	/* Cart Css */

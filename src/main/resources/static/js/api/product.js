@@ -5,6 +5,7 @@ app.controller("productCtrl", function($scope, $http) {
 	$scope.cates = [];
 	$scope.genres = [];
 	$scope.genreProducts = [];
+	$scope.galaries = [];
 
 	// Hàm tạo ID ngẫu nhiên
 	$scope.generateRandomId = function(length) {
@@ -27,6 +28,9 @@ app.controller("productCtrl", function($scope, $http) {
 		})
 		$http.get("/rest/genre_products").then(resp => {
 			$scope.genreProducts = resp.data;
+		})
+		$http.get("/rest/galaries").then(resp => {
+			$scope.galaries = resp.data;
 		})
 
 		$scope.loadGenres();
@@ -89,7 +93,7 @@ app.controller("productCtrl", function($scope, $http) {
 	};
 
 	$scope.isValidDiscount = function(discount) {
-		const discountPattern = /^(100|[1-9][0-9]?)$/;
+		const discountPattern = /^(100|[1-9][0-9]|\d)$/;
 		return discountPattern.test(discount);
 	};
 
@@ -195,6 +199,21 @@ app.controller("productCtrl", function($scope, $http) {
 				});
 			}
 
+			// lưu ảnh sản phẩm vào thư viện ảnh
+			var ImageProduct = {
+				id: $scope.generateRandomId(6), // Tạo ID ngẫu nhiên cho genreProduct
+				image: $scope.form.image,
+				product: { id: resp.data.id }, // ID sản phẩm vừa tạo
+			};
+
+			$http.post(`/rest/galaries`, ImageProduct).then(re => {
+				$scope.session.galaries.unshift(re.data);
+				$scope.galaries.push(re.data);
+				console.log("Đã lưu ảnh thành công");
+			}).catch(error => {
+				console.log("Lỗi khi lưu ảnh", error);
+			});
+
 			$scope.reset();
 			Swal.fire({
 				icon: "success",
@@ -286,8 +305,17 @@ app.controller("productCtrl", function($scope, $http) {
 		});
 
 		Promise.all(deletePromises).then(() => {
-			// Cập nhật sản phẩm
-			return $http.put(`/rest/products/${item.id}`, item);
+			// Xóa các galaries hiện tại
+			const relatedGalaries = $scope.galaries.filter(gp => gp.product.id === item.id);
+			const deleteGalleryPromises = relatedGalaries.map(gp => {
+				return $http.delete(`/rest/galaries/${gp.id}`);
+			});
+
+			// Xóa tất cả các galaries liên quan
+			return Promise.all(deleteGalleryPromises).then(() => {
+				// Cập nhật sản phẩm
+				return $http.put(`/rest/products/${item.id}`, item);
+			});
 		}).then(resp => {
 			var index = $scope.items.findIndex(p => p.id == item.id);
 			$scope.items[index] = item;
@@ -316,6 +344,22 @@ app.controller("productCtrl", function($scope, $http) {
 					});
 				});
 			}
+
+			// Cập nhật ảnh sản phẩm vào thư viện ảnh
+			var ImageProduct = {
+				id: $scope.generateRandomId(6), // Tạo ID ngẫu nhiên cho genreProduct
+				image: $scope.form.image,
+				product: { id: resp.data.id }, // ID sản phẩm vừa tạo
+			};
+
+			$http.post(`/rest/galaries`, ImageProduct).then(re => {
+				$scope.session.galaries.unshift(re.data);
+				$scope.galaries.push(re.data);
+				console.log("Đã lưu ảnh thành công");
+			}).catch(error => {
+				console.log("Lỗi khi lưu ảnh", error);
+			});
+
 			$scope.reset();
 			Swal.fire({
 				icon: "success",
@@ -336,32 +380,40 @@ app.controller("productCtrl", function($scope, $http) {
 
 	$scope.delete = function(item) {
 		Swal.fire({
-			title: "Bạn có chắc muốn xoá sản phẩm này không?",
-			text: "Bạn sẽ không thể hoàn tác lại sản phẩm này!",
+			title: "Bạn có chắc chắn muốn xóa sản phẩm này không?",
+			text: "Bạn sẽ không thể hoàn tác lại hành động này!",
 			icon: "warning",
 			showCancelButton: true,
 			confirmButtonColor: "#3085d6",
 			cancelButtonColor: "#d33",
-			confirmButtonText: "Có, Xóa ngay!"
+			confirmButtonText: "Có, xóa ngay!"
 		}).then((result) => {
 			if (result.isConfirmed) {
 				// Tìm tất cả genreProducts liên quan đến sản phẩm này
 				const relatedGenreProducts = $scope.genreProducts.filter(gp => gp.product.id === item.id);
-
 				// Xóa tất cả genreProducts liên quan
 				const deletePromises = relatedGenreProducts.map(gp => {
 					return $http.delete(`/rest/genre_products/${gp.id}`);
 				});
 
 				Promise.all(deletePromises).then(() => {
-					// Sau khi đã xóa genreProducts, xóa sản phẩm
-					return $http.delete(`/rest/products/${item.id}`);
+					// Xóa các galaries hiện tại
+					const relatedGalaries = $scope.galaries.filter(gp => gp.product.id === item.id);
+					const deleteGalleryPromises = relatedGalaries.map(gp => {
+						return $http.delete(`/rest/galaries/${gp.id}`);
+					});
+
+					// Xóa tất cả các galaries liên quan
+					return Promise.all(deleteGalleryPromises).then(() => {
+						// Sau khi đã xóa genreProducts và galaries, xóa sản phẩm
+						return $http.delete(`/rest/products/${item.id}`);
+					});
 				}).then(resp => {
 					var index = $scope.items.findIndex(p => p.id == item.id);
 					$scope.items.splice(index, 1);
 					Swal.fire({
 						icon: "success",
-						title: "Xóa Thành công",
+						title: "Xóa thành công",
 						text: "Sản phẩm đã được xóa khỏi danh sách",
 					});
 					$('#staticBackdrop').modal('hide');
@@ -370,13 +422,12 @@ app.controller("productCtrl", function($scope, $http) {
 					Swal.fire({
 						icon: "error",
 						title: "Lỗi",
-						text: "Xóa sản phẩm gặp trục trặc",
+						text: "Có lỗi xảy ra khi xóa sản phẩm.",
 					});
 				});
 			}
 		});
-	}
-
+	};
 
 	$scope.imageChaged = function(files) {
 		var data = new FormData();

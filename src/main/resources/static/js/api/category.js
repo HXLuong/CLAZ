@@ -2,6 +2,9 @@ var app = angular.module("categoryApp", []);
 app.controller("categoryCtrl", function($scope, $http) {
 	$scope.form = {};
 	$scope.items = [];
+	$scope.products = [];
+	$scope.genreProducts = []; // Khai báo biến này nếu chưa có
+	$scope.galaries = [];
 
 	// Hàm tạo ID ngẫu nhiên
 	$scope.generateRandomId = function(length) {
@@ -19,6 +22,16 @@ app.controller("categoryCtrl", function($scope, $http) {
 		}).catch(error => {
 			console.log("Error", error);
 		})
+		$http.get("/rest/products").then(resp => {
+			$scope.products = resp.data;
+		})
+		$http.get("/rest/genre_products").then(resp => {
+			$scope.genreProducts = resp.data;
+		});
+		$http.get("/rest/galaries").then(resp => {
+			$scope.galaries = resp.data;
+		});
+
 	}
 	$scope.reset = function() {
 		$scope.form = {};
@@ -112,7 +125,7 @@ app.controller("categoryCtrl", function($scope, $http) {
 	$scope.delete = function(item) {
 		Swal.fire({
 			title: "Bạn có chắc muốn xoá danh mục sản phẩm này không?",
-			text: "Bạn sẽ không thể hoàn tác lại danh mục sản phẩm này!",
+			text: "Tất cả sản phẩm và các liên kết sẽ bị xóa!",
 			icon: "warning",
 			showCancelButton: true,
 			confirmButtonColor: "#3085d6",
@@ -120,15 +133,42 @@ app.controller("categoryCtrl", function($scope, $http) {
 			confirmButtonText: "Có, Xóa ngay!"
 		}).then((result) => {
 			if (result.isConfirmed) {
-				Swal.fire({
-					icon: "success",
-					title: "Xóa Thành công",
-					text: "Danh mục sản phẩm đã được xóa khỏi danh sách",
+				// Tìm tất cả Products liên quan
+				const relatedProducts = $scope.products.filter(p => p.category.id === item.id);
+
+				// Tạo các promise để xóa tất cả sản phẩm và liên kết
+				const deletePromises = relatedProducts.map(p => {
+					// Xóa genreProducts liên quan
+					const deleteGenrePromises = $scope.genreProducts
+						.filter(gp => gp.product.id === p.id)
+						.map(gp => $http.delete(`/rest/genre_products/${gp.id}`));
+
+					return Promise.all(deleteGenrePromises).then(() => {
+						// Xóa galaries liên quan
+						const deleteGalleryPromises = $scope.galaries
+							.filter(g => g.product.id === p.id)
+							.map(g => $http.delete(`/rest/galaries/${g.id}`));
+						return Promise.all(deleteGalleryPromises).then(() => {
+							// Sau khi đã xóa genreProducts và galaries, xóa sản phẩm
+							return $http.delete(`/rest/products/${p.id}`);
+						});
+					});
 				});
-				$http.delete(`/rest/categories/${item.id}`).then(resp => {
-					var index = $scope.items.findIndex(p => p.id == item.id);
-					$scope.items.splice(index, 1);
-					$scope.reset();
+
+				// Khi tất cả sản phẩm đã được xóa, xóa danh mục
+				Promise.all(deletePromises).then(() => {
+					return $http.delete(`/rest/categories/${item.id}`);
+				}).then(resp => {
+					const index = $scope.items.findIndex(p => p.id === item.id);
+					if (index !== -1) {
+						$scope.items.splice(index, 1);
+					}
+
+					Swal.fire({
+						icon: "success",
+						title: "Xóa Thành công",
+						text: "Danh mục sản phẩm và tất cả sản phẩm liên quan đã được xóa.",
+					});
 
 					$('#staticBackdrop').modal('hide');
 					$scope.load_all();
@@ -136,12 +176,13 @@ app.controller("categoryCtrl", function($scope, $http) {
 					Swal.fire({
 						icon: "error",
 						title: "Lỗi",
-						text: "Xóa danh mục sản phẩm gặp trục trặc",
+						text: "Có lỗi xảy ra khi xóa sản phẩm hoặc danh mục: " + (error.data ? error.data.message : error.message),
 					});
 				});
 			}
 		});
-	}
+	};
+
 
 	/*$scope.pager = {
 		page: 0,

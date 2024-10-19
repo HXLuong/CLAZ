@@ -1,10 +1,14 @@
 package com.claz.controllers;
 
 import com.claz.models.Category;
+import com.claz.models.Galary;
+import com.claz.models.GenreProduct;
 import com.claz.models.Product;
 import com.claz.models.Slide;
 import com.claz.repositories.CategoryRepository;
 import com.claz.services.CategoryService;
+import com.claz.services.GalaryService;
+import com.claz.services.GenreProductService;
 import com.claz.services.ProductService;
 import com.claz.services.SlideService;
 
@@ -12,11 +16,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
@@ -31,10 +37,16 @@ public class HomeController {
 	@Autowired
 	private SlideService slideService;
 
+	@Autowired
+	private GenreProductService genreProductService;
+
+	@Autowired
+	private GalaryService galaryService;
+
 	@RequestMapping("/")
 	public String index(HttpSession session, Model model) {
 		if (session.getAttribute("searchProduct") == null) {
-			List<Product> pr = productService.findAll().stream().filter(e -> e.getCategory().getId() == 1).toList();
+			List<Product> pr = productService.findAll();
 			session.setAttribute("products", pr);
 			List<Product> pr2 = productService.findAll().stream().filter(e -> e.getCategory().getId() == 4).toList();
 			session.setAttribute("gamesteam", pr2);
@@ -51,6 +63,28 @@ public class HomeController {
 		session.setAttribute("slides", slide);
 
 		session.setAttribute("page", "component/home");
+		return "index";
+	}
+
+	@RequestMapping("/{id}")
+	public String detailProduct(HttpSession session, @PathVariable("id") int id) {
+		Product item = productService.finById(id);
+		List<GenreProduct> genreProducts = genreProductService.findAllByproductId(id);
+		List<Galary> galaries = galaryService.findAllByproductId(id);
+		session.setAttribute("genreProducts", genreProducts);
+		session.setAttribute("galaries", galaries);
+		session.setAttribute("item", item);
+		session.setAttribute("page", "/detailProduct/detailProduct");
+
+		String itemName = item.getName();
+		if (itemName != null) {
+			int spaceIndex = itemName.indexOf(" "); // Tìm vị trí của dấu cách đầu tiên
+			if (spaceIndex != -1) {
+				itemName = itemName.substring(0, spaceIndex); // Lấy từ đầu đến trước dấu cách
+			}
+			// Nếu không có dấu cách, itemName sẽ giữ nguyên giá trị ban đầu
+		}
+		session.setAttribute("searchProduct", productService.findBySearch(itemName));
 		return "index";
 	}
 
@@ -114,12 +148,6 @@ public class HomeController {
 	@RequestMapping("/introduct")
 	public String gioithieu(HttpSession session) {
 		session.setAttribute("page", "/update_profile/introduct_profile");
-		return "index";
-	}
-
-	@RequestMapping("/detailProduct")
-	public String detailProduct(HttpSession session) {
-		session.setAttribute("page", "/detailProduct/detailProduct");
 		return "index";
 	}
 
