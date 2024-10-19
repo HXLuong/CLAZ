@@ -11,6 +11,8 @@ public interface GenreProductService {
 
 	Optional<GenreProduct> findById(int id);
 
+	List<GenreProduct> findAllByproductId(int Product_ID);
+
 	GenreProduct create(GenreProduct gp);
 
 	GenreProduct update(GenreProduct gp);

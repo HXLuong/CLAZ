@@ -40,4 +40,9 @@ public class GenreProductServiceImpl implements GenreProductService {
 	public void delete(int id) {
 		genreProductRepository.deleteById(id);
 	}
+
+	@Override
+	public List<GenreProduct> findAllByproductId(int Product_ID) {
+		return genreProductRepository.findAllByProductId(Product_ID);
+	}
 }
