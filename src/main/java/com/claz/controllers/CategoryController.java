@@ -31,19 +31,8 @@ public class CategoryController {
     private ProductServiceImpl productService;
     
     @Autowired
-    private CategoryServiceImpl categoryServiceImpl;
+    private CategoryService categoryServiceImpl;
     
-    
-    @GetMapping("/category")
-    public String danhmuc(Model model, HttpSession session, @RequestParam("p")Optional<Integer>p) {
-    	Pageable pageable = PageRequest.of(p.orElse(0), 8);
-    	Page<Product> allpr = productService.findAll(pageable);
-    	session.setAttribute("allproducts",allpr);
-        List<Category> cate = categoryServiceImpl.findAll();
-        session.setAttribute("cates", cate);
-        session.setAttribute("page", "/category/category");
-        return "index";
-    }
 	
 	@GetMapping("/category/{id}")
 	public String catebyID(Model model,HttpSession session, @PathVariable("id") int id) {

@@ -1,7 +1,8 @@
-var app = angular.module('slideApp', []);
-app.controller('slideCtrl', function($scope, $http) {
+var app = angular.module('galaryApp', []);
+app.controller('galaryCtrl', function($scope, $http) {
 	$scope.form = {};
 	$scope.items = [];
+	$scope.products = [];
 
 	// Hàm tạo ID ngẫu nhiên
 	$scope.generateRandomId = function(length) {
@@ -13,17 +14,20 @@ app.controller('slideCtrl', function($scope, $http) {
 	};
 
 	$scope.load_all = function() {
-		var url = `/rest/slides`;
+		var url = `/rest/galaries`;
 		$http.get(url).then(resp => {
 			$scope.items = resp.data;
 		}).catch(error => {
 			console.log("Error", error);
 		});
+		$http.get(`/rest/products`).then(resp => {
+			$scope.products = resp.data;
+		})
 	}
 	$scope.reset = function() {
 		$scope.form = {
 			created_at: new Date,
-			image: "dowloadSlide.png"
+			image: "dowloadProd.png"
 		};
 		$scope.key = null;
 	}
@@ -34,19 +38,18 @@ app.controller('slideCtrl', function($scope, $http) {
 
 	$scope.create = function() {
 		/*Validate*/
-		if ($scope.form.image == 'dowloadSlide.png') {
+		if ($scope.form.image == 'dowloadProd.png') {
 			Swal.fire({
 				title: "Lỗi",
-				text: "Vui lòng nhập chọn ảnh slide",
+				text: "Vui lòng nhập chọn ảnh sản phẩm",
 				icon: "error"
 			});
 			return;
 		}
-		
-		if ($scope.items.length > 17) {
+		if ($scope.form.product == null) {
 			Swal.fire({
 				title: "Lỗi",
-				text: "Số lượng slide đã tới giới hạn",
+				text: "Vui lòng chọn sản phẩm",
 				icon: "error"
 			});
 			return;
@@ -54,28 +57,29 @@ app.controller('slideCtrl', function($scope, $http) {
 
 		var item = angular.copy($scope.form);
 		item.id = $scope.generateRandomId(6);
-		var url = `/rest/slides`;
+		var url = `/rest/galaries`;
 		$http.post(url, item).then(resp => {
 			$scope.items.push(item);
 			console.log("Success", resp);
 			Swal.fire({
 				icon: "success",
 				title: "Thêm Thành công",
-				text: "Slide mới đã được thêm vào trang web",
+				text: "Ảnh sản phẩm mới đã được thêm vào danh sách",
 			});
+			$scope.load_all();
 			$scope.reset();
 		}).catch(error => {
 			Swal.fire({
 				icon: "error",
 				title: "Lỗi",
-				text: "Thêm mới slide gặp trục trặc",
+				text: "Thêm mới ảnh sản phẩm gặp trục trặc",
 			});
 		});
 	}
 
 	$scope.update = function() {
 		var item = angular.copy($scope.form);
-		var url = `/rest/slides/${$scope.form.id}`;
+		var url = `/rest/galaries/${$scope.form.id}`;
 		$http.put(url, item).then(resp => {
 			var index = $scope.items.findIndex(item => item.id == $scope.form.id);
 			$scope.items[index] = resp.data;
@@ -83,21 +87,23 @@ app.controller('slideCtrl', function($scope, $http) {
 			Swal.fire({
 				icon: "success",
 				title: "Cập nhật Thành công",
-				text: "Slide đã được cập nhật thành công",
+				text: "Ảnh sản phẩm đã được cập nhật thành công",
 			});
+			$scope.load_all();
+			$scope.reset();
 		}).catch(error => {
 			Swal.fire({
 				icon: "error",
 				title: "Lỗi",
-				text: "Cập nhật slide gặp trục trặc",
+				text: "Cập nhật ảnh sản phẩm gặp trục trặc",
 			});
 		});
 	}
 
 	$scope.delete = function(item) {
 		Swal.fire({
-			title: "Bạn có chắc muốn xoá slide này không?",
-			text: "Bạn sẽ không thể hoàn tác lại slide này!",
+			title: "Bạn có chắc muốn xoá ảnh sản phẩm này không?",
+			text: "Bạn sẽ không thể hoàn tác lại ảnh sản phẩm này!",
 			icon: "warning",
 			showCancelButton: true,
 			confirmButtonColor: "#3085d6",
@@ -108,9 +114,9 @@ app.controller('slideCtrl', function($scope, $http) {
 				Swal.fire({
 					icon: "success",
 					title: "Xóa Thành công",
-					text: "Slide đã được xóa khỏi trang web",
+					text: "Ảnh sản phẩm đã được xóa khỏi trang web",
 				});
-				$http.delete(`/rest/slides/${item.id}`).then(resp => {
+				$http.delete(`/rest/galaries/${item.id}`).then(resp => {
 					var index = $scope.items.findIndex(p => p.id == item.id);
 					$scope.items.splice(index, 1);
 					$scope.reset();
@@ -118,7 +124,7 @@ app.controller('slideCtrl', function($scope, $http) {
 					Swal.fire({
 						icon: "error",
 						title: "Lỗi",
-						text: "Xóa slide gặp trục trặc",
+						text: "Xóa ảnh sản phẩm gặp trục trặc",
 					});
 				});
 			}
