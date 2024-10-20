@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.claz.models.Product;
@@ -50,6 +53,31 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public void delete(int id) {
 		productRepository.deleteById(id);
+	}
+	
+	@Override
+    public List<Product> findByPrice(double minPrice, double maxPrice) {
+        return productRepository.findByPrice(minPrice, maxPrice);
+    }
+
+	@Override
+	public Page<Product> findbyDMandSort(int dm, Pageable pageable) {
+		return productRepository.findbyDMandSort(dm, pageable);
+	}
+	
+	@Override
+    public Page<Product> findByPricePage(double minPrice, double maxPrice, Pageable pageable) {
+        return productRepository.findByPricePage(minPrice, maxPrice,pageable);
+    }
+
+	@Override
+	public List<Product> fillbyprice(Sort sort) {
+		return productRepository.findAll(sort);
+	}
+
+	@Override
+	public Page<Product> findAll(Pageable pageable){
+		return productRepository.findAll(pageable);
 	}
 
 }

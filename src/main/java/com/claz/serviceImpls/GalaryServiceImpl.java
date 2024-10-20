@@ -10,10 +10,9 @@ import com.claz.models.Galary;
 import com.claz.repositories.GalaryRepository;
 import com.claz.services.GalaryService;
 
-
 @Service
 public class GalaryServiceImpl implements GalaryService {
-
+  
 	@Autowired
 	private GalaryRepository galaryRepository;
 

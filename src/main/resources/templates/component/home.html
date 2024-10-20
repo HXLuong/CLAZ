@@ -2,35 +2,13 @@
 	<div class="row">
 		<div class="col-xl-9 col-lg-12 col-md-12 col-sm-12 mt-3">
 			<div class="d-flex">
-				<ul class="navbar-nav border rounded px-3 d-xl-block d-none me-4"
-					style="width: 335px;">
-					<li class="nav-item"><a class="nav-link active fw-semibold"
-						aria-current="page" href="#"><i class="bi bi-dpad-fill"></i>
-							&nbsp;Giải Trí</a></li>
-					<li class="nav-item"><a class="nav-link active fw-semibold"
-						aria-current="page" href="#"><i class="bi bi-briefcase-fill"></i>
-							&nbsp;Làm Việc</a></li>
-					<li class="nav-item"><a class="nav-link active fw-semibold"
-						aria-current="page" href="#"><i class="bi bi-mortarboard-fill"></i>
-							&nbsp;Học Tập</a></li>
-					<li class="nav-item"><a class="nav-link active fw-semibold"
-						aria-current="page" href="#"><i class="bi bi-steam"></i>
-							&nbsp;Game Steam</a></li>
-					<li class="nav-item"><a class="nav-link active fw-semibold"
-						aria-current="page" href="#"><i class="bi bi-pencil-square"></i>
-							&nbsp;Edit Ảnh - Video</a></li>
-					<li class="nav-item"><a class="nav-link active fw-semibold"
-						aria-current="page" href="#"><i class="bi bi-windows"></i>
-							&nbsp;Window, Office</a></li>
-					<li class="nav-item"><a class="nav-link active fw-semibold"
-						aria-current="page" href="#"><i class="bi bi-google-play"></i>
-							&nbsp;Google Play, iTunes</a></li>
-					<li class="nav-item"></li>
-					<a class="nav-link active fw-semibold" aria-current="page" href="#"><i
-						class="bi bi-windows"></i> &nbsp;Window, Office</a>
+				<ul class="navbar-nav border rounded px-3 d-xl-block d-none me-4" style="width: 335px;">
+					<li class="nav-item" th:each="cate : ${cates}">
+						<a class="nav-link active fw-semibold" aria-current="page" th:href="@{/category/{id}(id=${cate.id})}">
+							<i class="bi bi-bookmark-heart-fill"></i>&nbsp;&nbsp;<span th:text="${cate.name}"></span>
+						</a>
 					</li>
 				</ul>
-
 				<div id="carouselExampleIndicators"
 					class="carousel slide carousel-fade caro" data-bs-ride="carousel"
 					data-bs-interval="2500">

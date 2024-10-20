@@ -12,7 +12,6 @@ import com.claz.services.GenreProductService;
 
 @Service
 public class GenreProductServiceImpl implements GenreProductService {
-
 	@Autowired
 	private GenreProductRepository genreProductRepository;
 

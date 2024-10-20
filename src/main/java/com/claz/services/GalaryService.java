@@ -19,3 +19,4 @@ public interface GalaryService {
 
 	void delete(int id);
 }
+
