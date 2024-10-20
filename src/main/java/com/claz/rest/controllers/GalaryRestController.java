@@ -50,4 +50,6 @@ public class GalaryRestController {
 	public void delete(@PathVariable("id") int id) {
 		gpro.delete(id);
 	}
+  
 }
+

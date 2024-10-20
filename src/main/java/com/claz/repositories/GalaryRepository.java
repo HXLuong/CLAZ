@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.claz.models.Galary;
 
+@Repository
 public interface GalaryRepository extends JpaRepository<Galary, Integer> {
 	@Query("SELECT g FROM Galary g WHERE g.product.id = ?1")
 	List<Galary> findAllByProductId(int Product_ID);
