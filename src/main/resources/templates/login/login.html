@@ -41,7 +41,6 @@
 		<div class="form-container sign-up">
 			<form id="registerForm" action="" method="post"
 				onsubmit="return false;">
-				<!-- Ngăn cách gửi form -->
 				<h1>Tạo Tài Khoản</h1>
 				<div class="social-icons">
 					<a href="/oauth2/authorization/google" class="icon btn_login"><i
@@ -66,8 +65,10 @@
 		</div>
 
 		<div class="form-container sign-in">
-			<form action="/security/login" method="post">
+			<form id="loginForm" class="login-form" action="/security/login"
+				method="post">
 				<h1>Đăng Nhập</h1>
+				[[${message}]]
 				<div class="social-icons">
 					<a href="/oauth2/authorization/google" class="icon btn_login"><i
 						class="fa-brands fa-google-plus-g"></i></a> <a
@@ -79,7 +80,8 @@
 					type="password" name="password" placeholder="Mật Khẩu"> <a
 					class="btn_login" href="#" data-bs-toggle="modal"
 					data-bs-target="#staticBackdrop">Quên Mật Khẩu?</a>
-				<button type="submit" class="btn_login">Đăng Nhập</button>
+				<button type="submit" class="btn_login" ng-click="login()">Đăng
+					Nhập</button>
 			</form>
 		</div>
 		<div class="toggle-container">

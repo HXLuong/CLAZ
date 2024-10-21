@@ -4,13 +4,16 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.claz.models.Customer;
 import com.claz.repositories.CustomerRepository;
@@ -34,11 +37,16 @@ public class SecurityController {
 
 	@RequestMapping("/login-success")
 	public String success(Model model) {
-
 		String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
 
-		Optional<Customer> customerOptional = customerService.getname(currentUsername);
+		String role = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst()
+				.map(grantedAuthority -> grantedAuthority.getAuthority()).orElse("");
 
+		if (role.equals("ROLE_ADMIN") || role.equals("ROLE_USER")) {
+			return "redirect:/admin";
+		}
+
+		Optional<Customer> customerOptional = customerService.getname(currentUsername);
 		if (customerOptional.isPresent()) {
 			String fullName = customerOptional.get().getFullname();
 			model.addAttribute("fullName", fullName);

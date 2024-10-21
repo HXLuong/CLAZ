@@ -3,6 +3,7 @@ package com.claz.repositories;
 import com.claz.models.Product;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,6 +32,4 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 	Page<Product> findByPricePage(double minPrice, double maxPrice,Pageable pageable);
 	
 	List<Product> findAll(Sort sort);
-
-
 }
