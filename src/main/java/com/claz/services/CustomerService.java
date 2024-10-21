@@ -24,4 +24,5 @@ public interface CustomerService {
 
 	void delete(String username);
 
+	long countTotalCustomers();
 }

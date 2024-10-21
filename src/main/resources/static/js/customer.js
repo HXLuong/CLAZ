@@ -5,6 +5,7 @@ app.controller('ctrl', function($scope, $http) {
 	$scope.cutomer = {};
 	$scope.error = '';
 	var element = angular.element(document.getElementById('container'));
+	
 	$scope.loadAccount = function() {
 		$http.get('/rest/customer/current').then(resp => {
 			$scope.form = resp.data || {};
@@ -285,5 +286,7 @@ app.controller('ctrl', function($scope, $http) {
 				});
 			});
 	};
+	
+
 	$scope.loadAccount();
 });

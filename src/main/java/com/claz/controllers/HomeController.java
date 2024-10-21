@@ -129,9 +129,9 @@ public class HomeController {
 		return "index";
 	}
 
-	public String login(Model model) {
-		return "/login/login";
-	}
+//	public String login(Model model) {
+//		return "/login/login";
+//	}
 
 //	@RequestMapping("/instruct_createAccount")
 //	public String huongdantaotaikhoan(Model model) {
@@ -191,5 +191,10 @@ public class HomeController {
 	@RequestMapping("/changepass")
 	public String changPass(Model model) {
 		return "/login/changePass";
+	}
+
+	@RequestMapping("/report")
+	public String report(Model model) {
+		return "/admin/Report";
 	}
 }

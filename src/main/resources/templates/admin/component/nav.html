@@ -1,18 +1,18 @@
-<nav class="navbar navbar-expand px-3 border-bottom">
+<nav class="navbar navbar-expand px-3 border-bottom"
+	xmlns:th="http://www.thymeleaf.org">
 	<button class="btn" id="sidebar-toggle" type="button">
 		<span class="navbar-toggler-icon"></span>
 	</button>
 	<div class="navbar-collapse navbar">
 		<ul class="navbar-nav">
 			<li class="nav-item dropdown"><a href="#"
-				data-bs-toggle="dropdown" class="nav-icon pe-md-0">
-				<span class="userName">HXLuong</span>
-				 <img
+				data-bs-toggle="dropdown" class="nav-icon pe-md-0"> <span
+					class="userName"> [[${#request.remoteUser}]] </span> <img
 					src="./images/profile.jpg" class="avatar img-fluid" alt="">
 			</a>
 				<div class="dropdown-menu dropdown-menu-end">
 					<a href="#" class="dropdown-item">Cập nhật hồ sơ</a> <a href="#"
-						class="dropdown-item">Đổi mật khẩu</a> <a href="#"
+						class="dropdown-item">Đổi mật khẩu</a> <a href="/security/logoff"
 						class="dropdown-item">Đăng xuất</a>
 				</div></li>
 		</ul>

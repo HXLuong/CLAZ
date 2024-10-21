@@ -1,7 +1,17 @@
 package com.claz.serviceImpls;
 
+import java.sql.Date;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.ZoneId;
+import java.time.format.TextStyle;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,11 +21,11 @@ import com.claz.repositories.ProductRepository;
 import com.claz.services.ProductService;
 
 @Service
-public class ProductServiceImpl implements ProductService{
+public class ProductServiceImpl implements ProductService {
 
 	@Autowired
-    private ProductRepository productRepository;
-	
+	private ProductRepository productRepository;
+
 	@Override
 	public List<Product> findAll() {
 		return productRepository.findAll();
@@ -24,7 +34,7 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public Product finById(int id) {
 		Optional<Product> product = productRepository.findById(id);
-        return product.orElse(null);
+		return product.orElse(null);
 	}
 
 	@Override
@@ -34,7 +44,7 @@ public class ProductServiceImpl implements ProductService{
 
 	@Override
 	public List<Product> findBySearch(String search) {
-			return productRepository.findByContentContaining(search);
+		return productRepository.findByContentContaining(search);
 	}
 
 	@Override
@@ -50,6 +60,40 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public void delete(int id) {
 		productRepository.deleteById(id);
+	}
+
+	@Override
+	public Map<String, Double> getRevenuePerMonth() {
+		List<Product> products = productRepository.findAll();
+
+		Map<String, Double> revenueMap = products.stream().collect(Collectors.groupingBy(product -> {
+			if (product.getCreated_at() != null) {
+				LocalDate date = product.getCreated_at().toLocalDate();
+				return date.getMonth().getDisplayName(TextStyle.FULL, Locale.forLanguageTag("vi"));
+			}
+			return null;
+		}, Collectors.summingDouble(product -> product.getTotal_Pay() != null ? product.getTotal_Pay() : 0.0)));
+		return revenueMap;
+	}
+
+	@Override
+	public long countTotalProduct() {
+		return productRepository.count();
+	}
+
+	@Override
+	public Map<String, Double> getRevenueByDateRange(LocalDate startDate, LocalDate endDate) {
+		List<Product> products = productRepository.findAll();
+		return products.stream()
+				.filter(p -> p.getCreated_at() != null && (p.getCreated_at().toLocalDate().isEqual(startDate)
+						|| p.getCreated_at().toLocalDate().isEqual(endDate)
+						|| (p.getCreated_at().toLocalDate().isAfter(startDate)
+								&& p.getCreated_at().toLocalDate().isBefore(endDate))))
+				.collect(Collectors.groupingBy(
+						product -> product.getCreated_at().toLocalDate().getMonth().getDisplayName(TextStyle.FULL,
+								Locale.forLanguageTag("vi")),
+						Collectors.summingDouble(
+								product -> product.getTotal_Pay() != null ? product.getTotal_Pay() : 0.0)));
 	}
 
 }

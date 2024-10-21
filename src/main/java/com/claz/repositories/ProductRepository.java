@@ -3,7 +3,9 @@ package com.claz.repositories;
 import com.claz.models.Product;
 
 import java.util.List;
+import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,6 +19,5 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
 	@Query("SELECT p FROM Product p WHERE p.Name LIKE %:querySearch%")
 	List<Product> findByContentContaining(@Param("querySearch") String querySearch);
-
 
 }

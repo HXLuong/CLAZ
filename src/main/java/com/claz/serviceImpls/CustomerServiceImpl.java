@@ -49,4 +49,9 @@ public class CustomerServiceImpl implements CustomerService {
 		return customerDAO.findByEmail(email);
 	}
 
+	@Override
+	public long countTotalCustomers() {
+		return customerDAO.count();
+	}
+
 }

@@ -3,7 +3,9 @@ package com.claz;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -26,13 +28,20 @@ import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import java.util.Arrays;
 
 import com.claz.models.Customer;
+import com.claz.models.Staff;
 import com.claz.services.CustomerService;
-import com.claz.models.Customer;
+import com.claz.services.StaffService;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+	@Bean
+	@Override
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+		return super.authenticationManagerBean();
+	}
 
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
@@ -41,6 +50,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private CustomerService customerService;
+
+	@Autowired
+	private StaffService StaffService;
+
 	@Autowired
 	private BCryptPasswordEncoder pe;
 
@@ -48,14 +61,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(username -> {
 			try {
+				Staff staff = StaffService.findByUsername(username).orElse(null);
+				if (staff != null) {
+					String role = staff.isRole() ? "ADMIN" : "USER";
+					return User.withUsername(username).password(staff.getPassword()).roles(role).accountExpired(false)
+							.accountLocked(false).credentialsExpired(false).disabled(false).build();
+				}
+			} catch (Exception e) {
+				throw new UsernameNotFoundException("Staff " + username + " not found");
+			}
+
+			try {
 				Customer user = customerService.findByUsername(username);
 				String pass = user.getPassword();
-//				String role = user.getRole().toString();
-				return User.withUsername(username).password(pass).roles("Customer").accountExpired(false)
-						.accountLocked(false).credentialsExpired(false).disabled(false) // Các tham số khác nếu cần
-						.build();
+				return User.withUsername(username).password(pass).roles("CUSTOMER") // Assign the CUSTOMER role
+						.accountExpired(false).accountLocked(false).credentialsExpired(false).disabled(false).build();
 			} catch (Exception e) {
-				throw new UsernameNotFoundException(username + "Not Found");
+				throw new UsernameNotFoundException("Customer " + username + " not found");
 			}
 		});
 	}
@@ -74,15 +96,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable().cors().disable();
 
-		http.authorizeRequests().antMatchers("/order/**").authenticated().antMatchers("/admin/**").hasAnyRole("ADMIN")
-				.antMatchers("/cart-index").hasAnyRole("Customer").anyRequest().permitAll();
+		http.authorizeRequests().antMatchers("/admin**").hasAnyRole("ADMIN", "USER").antMatchers("/order/**")
+				.authenticated().antMatchers("/cart-index").hasRole("CUSTOMER").anyRequest().permitAll();
 
 		http.formLogin().loginPage("/login").loginProcessingUrl("/security/login")
-				.defaultSuccessUrl("/login-success", false).failureUrl("/security/login/error");
+				.defaultSuccessUrl("/login-success", true).failureUrl("/security/login/error");
 
 		http.rememberMe().tokenValiditySeconds(86400);
 
-		http.exceptionHandling().accessDeniedPage("/unauthoried");
 		http.logout().logoutUrl("/security/logoff").logoutSuccessUrl("/logoff-success");
 
 		http.oauth2Login().loginPage("/security/login/form").defaultSuccessUrl("/security/login/success", true)
@@ -93,7 +114,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers(HttpMethod.OPTIONS);
 	}
-
-
 
 }

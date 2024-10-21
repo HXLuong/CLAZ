@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.claz.models.Customer;
 import com.claz.models.Staff;
 import com.claz.repositories.StaffRepository;
 import com.claz.services.StaffService;
@@ -43,6 +44,10 @@ public class StaffServiceImpl implements StaffService {
 	@Override
 	public Staff GetUsername(String username) {
 		return staffRepository.findByUsername(username).get();
+	}
+
+	public Optional<Staff> getname(String username) {
+		return staffRepository.findByUsername(username);
 	}
 
 }

@@ -2,8 +2,13 @@ package com.claz.rest.controllers;
 
 import java.util.List;
 import java.util.Optional;
+
+import javax.naming.AuthenticationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,8 +20,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.claz.SecurityConfig;
 import com.claz.models.Customer;
+import com.claz.models.LoginRequest;
 import com.claz.models.Staff;
 import com.claz.services.CustomerService;
 import com.claz.services.StaffService;
@@ -27,9 +32,6 @@ import com.claz.services.StaffService;
 public class CustomerRestController {
 	@Autowired
 	CustomerService customerService;
-
-	@Autowired
-	SecurityConfig securityConfig;
 
 	BCryptPasswordEncoder pe = new BCryptPasswordEncoder();
 
@@ -59,7 +61,6 @@ public class CustomerRestController {
 			return ResponseEntity.notFound().build();
 		}
 
-		// Cập nhật thông tin tài khoản
 		existingAccount.setFullname(updatedAccount.getFullname());
 		existingAccount.setEmail(updatedAccount.getEmail());
 		existingAccount.setPhone(updatedAccount.getPhone());
@@ -74,4 +75,5 @@ public class CustomerRestController {
 	public void delete(@PathVariable("username") String username) {
 		customerService.delete(username);
 	}
+
 }
