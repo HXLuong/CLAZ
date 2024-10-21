@@ -12,7 +12,6 @@ import com.claz.services.GenreProductService;
 
 @Service
 public class GenreProductServiceImpl implements GenreProductService {
-
 	@Autowired
 	private GenreProductRepository genreProductRepository;
 
@@ -39,5 +38,10 @@ public class GenreProductServiceImpl implements GenreProductService {
 	@Override
 	public void delete(int id) {
 		genreProductRepository.deleteById(id);
+	}
+
+	@Override
+	public List<GenreProduct> findAllByproductId(int Product_ID) {
+		return genreProductRepository.findAllByProductId(Product_ID);
 	}
 }

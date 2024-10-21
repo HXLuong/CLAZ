@@ -1,4 +1,5 @@
-<div class="content px-3 py-2">
+<div class="content px-3 py-2" ng-app="galaryApp"
+	ng-controller="galaryCtrl">
 	<div class="container-fluid">
 		<!-- Content -->
 		<div>
@@ -7,22 +8,21 @@
 			</div>
 			<div class="row">
 				<form class="col-xs-12 col-lg-12 mt-3">
-					<div class="row">
+					<div class="w-100">
 						<input type="hidden" ng-model="form.id">
-						<div class="col-md-12 col-lg-12 col-xl-4 text-center mb-3">
+						<div class="w-50 mx-auto mb-3">
 							<label for="image"> <img class="rounded object-fit-cover"
-								src="./images/black myth wukong-13641.jpg" width="100%"
+								ng-src="./images/{{form.image}}" width="100%"
 								alt="Chọn ảnh sản phẩm">
 							</label> <input type="file" class="form-control" id="image"
 								onchange="angular.element(this).scope().imageChaged(this.files)"
 								hidden>
 						</div>
-						<div class="col-md-12 col-lg-12 col-xl-8">
+						<div class="w-50 mx-auto">
 							<div class="form-group">
 								<div>Sản phẩm:</div>
-								<select class="form-control">
-									<option>Giải trí</option>
-									<option>Học tập</option>
+								<select ng-model="form.product.id" class="form-control">
+									<option ng-repeat="p in products" ng-value="p.id">{{p.name}}</option>
 								</select>
 							</div>
 						</div>
@@ -30,10 +30,10 @@
 							<button ng-click="create()" class="btn btn-outline-primary">
 								<i class="bi bi-plus-circle-fill"></i> Thêm
 							</button>
-							<button ng-click="" class="btn btn-outline-warning">
+							<button ng-click="update()" class="btn btn-outline-warning">
 								<i class="bi bi-box-arrow-up-right"></i> Cập nhật
 							</button>
-							<button ng-click="" class="btn btn-outline-danger">
+							<button ng-click="delete(form)" class="btn btn-outline-danger">
 								<i class="bi bi-trash3-fill"></i> Xóa
 							</button>
 							<button ng-click="reset()" class="btn btn-outline-info">
@@ -57,25 +57,33 @@
 					<thead>
 						<tr>
 							<th scope="col">STT</th>
+							<th scope="col">ID</th>
 							<th scope="col">Hình ảnh</th>
-							<th scope="col">Sản phẩm</th>
+							<th scope="col">ID sản phẩm</th>
+							<th scope="col">Tên sản phẩm</th>
 							<th scope="col">Khác</th>
 						</tr>
 					</thead>
 					<tbody>
-						<td>1</td>
-						<td><img src="./images/black myth wukong-13641.jpg"
-							class="rounded object-fit-cover me-2" width="100%" height="100px"></td>
-						<td>sssssssssssssssssssssssssssss</td>
-						<td>
-							<button type="button" class="btn btn-outline-warning me-2"
-								data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-								<i class="bi bi-box-arrow-up-right"></i> Chỉnh Sửa
-							</button>
-							<button ng-click="" class="btn btn-outline-danger">
-								<i class="bi bi-trash3-fill"></i>
-							</button>
-						</td>
+						<tr ng-repeat="item in items">
+							<td>{{$index + 1}}</td>
+							<td>{{item.id}}</td>
+							<td><img src="./images/{{item.image}}"
+								class="rounded object-fit-cover me-2" width="100%"
+								height="100px"></td>
+							<td>{{item.product.id}}</td>
+							<td>{{item.product.name}}</td>
+							<td class="d-flex justify-content-center gap-2">
+								<button ng-click="edit(item)"
+									class="btn btn-outline-warning me-2" data-bs-toggle="modal"
+									data-bs-target="#staticBackdrop">
+									<i class="bi bi-box-arrow-up-right"></i> Chỉnh Sửa
+								</button>
+								<button ng-click="delete(item)" class="btn btn-outline-danger">
+									<i class="bi bi-trash3-fill"></i>
+								</button>
+							</td>
+						</tr>
 					</tbody>
 				</table>
 			</div>

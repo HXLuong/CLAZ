@@ -56,18 +56,19 @@
 		<div class="row">
 			<div class="col-lg-3 col-md-4 col-6 list_product"
 				th:each="product : ${session.searchProdut}">
-				<a th:href="@{/product/{id}(id=${product.id})}"> <img
+				<a th:href="@{|/${product.id}|}"> <img
 					th:src="@{'/images/'+${product.image}}"
 					class="img-fluid mt-2 rounded" alt="Product Image" width="100%">
-				</a> <a th:href="@{/product/{id}(id=${product.id})}"
-					class="d-block mt-2 text_product" th:text="${product.name}"></a>
+				</a> <a th:href="@{|/${product.id}|}" class="d-block mt-2 text_product"
+					th:text="${product.name}"></a>
 				<h6 class="mt-2 mb-3 d-flex align-items-center fw-bold text_product">
 					<span
 						th:text="${#numbers.formatDecimal(product.price * (1 - product.discount / 100), 0, 'COMMA', 0, 'POINT')} + 'đ'"></span>
-					<strike class="mx-2 text-secondary"
+					<strike class="mx-2 text-secondary" th:if="${product.discount} > 0"
 						th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + 'đ'"></strike>
 					<span class="badge text-bg-danger text-white p-2"
-						th:text="${product.discount.intValue() + '%'}"></span>
+						th:if="${product.discount.intValue} > 0"
+						th:text="${'-' + product.discount.intValue() + '%'}"></span>
 				</h6>
 			</div>
 		</div>

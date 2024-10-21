@@ -77,16 +77,16 @@
 <nav aria-label="Page navigation example">
 	<ul class="pagination justify-content-center mt-4">
 		<li class="page-item">
-            <a class="page-link" th:href="@{/category(p=${0})}">First</a>
+            <a class="page-link" th:href="@{/category/pagidm(p=${0})}">First</a>
         </li>
 		<li class="page-item">
-            <a class="page-link" th:href="@{/category(p=${session.allproducts.number - 1 < 0 ? 0 : session.allproducts.number - 1})}">Previous</a>
+            <a class="page-link" th:href="@{/category/pagidm(p=${session.allproducts.number - 1 < 0 ? 0 : session.allproducts.number - 1})}">Previous</a>
         </li>
 		<li class="page-item">
-            <a class="page-link" th:href="@{/category(p=${session.allproducts.number + 1 > session.allproducts.totalPages - 1 ? session.allproducts.totalPages - 1 : session.allproducts.number + 1})}">Next</a>
+            <a class="page-link" th:href="@{/category/pagidm(p=${session.allproducts.number + 1 > session.allproducts.totalPages - 1 ? session.allproducts.totalPages - 1 : session.allproducts.number + 1})}">Next</a>
         </li>
 		<li class="page-item">
-            <a class="page-link" th:href="@{/category(p=${session.allproducts.totalPages - 1})}">Last</a>
+            <a class="page-link" th:href="@{/category/pagidm(p=${session.allproducts.totalPages - 1})}">Last</a>
         </li>
 	</ul>
 </nav>
