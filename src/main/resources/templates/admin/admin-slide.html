@@ -23,7 +23,7 @@
 								<div>ngày tạo:</div>
 								<input ng-model="form.created_at | date:'dd/MM/yyyy'"
 									ng-value="form.created_at | date:'dd/MM/yyyy'"
-									class="form-control" disabled>
+									class="form-control" readonly>
 							</div>
 						</div>
 						<div class="my-4 d-flex justify-content-center gap-3">
@@ -66,12 +66,12 @@
 					<tbody>
 						<tr ng-repeat="item in items">
 							<td>{{$index + 1}}</td>
-							<th scope="col">{{item.id}}</th>
+							<td>{{item.id}}</td>
 							<td><img src="./images/{{item.image}}"
 								class="rounded object-fit-cover me-2" width="100%"
 								height="100px"></td>
 							<td>{{item.created_at | date:'dd/MM/yyyy'}}</td>
-							<td>
+							<td class="d-flex justify-content-center gap-2">
 								<button ng-click="edit(item)"
 									class="btn btn-outline-warning me-2" data-bs-toggle="modal"
 									data-bs-target="#staticBackdrop">

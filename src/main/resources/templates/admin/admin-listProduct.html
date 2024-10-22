@@ -1,4 +1,5 @@
-<div class="content px-3 py-2">
+<div class="content px-3 py-2" ng-app="productApp"
+	ng-controller="productCtrl">
 	<div class="container-fluid">
 		<!-- Content -->
 		<div>
@@ -18,10 +19,12 @@
 					<thead>
 						<tr>
 							<th scope="col">STT</th>
+							<th scope="col">ID</th>
 							<th scope="col">Hình ảnh</th>
 							<th scope="col">Tên sản phẩm</th>
-							<th scope="col">Giá</th>
+							<th scope="col">Giá gốc</th>
 							<th scope="col">Giảm giá</th>
+							<th scope="col">Giá bán</th>
 							<th scope="col">Số lượng</th>
 							<th scope="col">Danh mục</th>
 							<th scope="col">Thể loại</th>
@@ -30,119 +33,165 @@
 						</tr>
 					</thead>
 					<tbody>
-						<td>1</td>
-						<td><img src="./images/black myth wukong-13641.jpg"
-							class="rounded object-fit-cover me-2" width="100%" height="70px"></td>
-						<td>sssssssssssssssssssssssssssss</td>
-						<td>11111111111đ</td>
-						<td>20%</td>
-						<td>10000</td>
-						<td>Danh mục</td>
-						<td>Thể loại</td>
-						<td>11/10/2024</td>
-						<td scope="row">
-							<!-- Button trigger modal -->
-							<button type="button" class="btn btn-outline-warning me-2"
-								data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-								<i class="bi bi-box-arrow-up-right"></i> Chỉnh Sửa
-							</button>
-							<button ng-click="" class="btn btn-outline-danger">
-								<i class="bi bi-trash3-fill"></i>
-							</button> <!-- Modal -->
-							<div class="modal fade" id="staticBackdrop"
-								data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-								aria-labelledby="staticBackdropLabel" aria-hidden="true">
-								<div class="modal-dialog">
-									<div class="modal-content">
-										<div class="modal-header">
-											<h1 class="modal-title fs-5" id="staticBackdropLabel">Cập
-												nhật sản phẩm</h1>
-											<button type="button" class="btn-close"
-												data-bs-dismiss="modal" aria-label="Close"></button>
-										</div>
-										<div class="modal-body">
-											<form class="col-xs-12 col-lg-12 mt-3">
-												<div class="row">
-													<input type="hidden" ng-model="form.id">
-													<div class="col-md-12 col-lg-12 text-center mb-3">
-														<label for="image"> <img
-															class="rounded object-fit-cover"
-															src="./images/black myth wukong-13641.jpg" width="100%"
-															alt="Chọn ảnh sản phẩm">
-														</label> <input type="file" class="form-control" id="image"
-															onchange="angular.element(this).scope().imageChaged(this.files)"
-															hidden>
+						<tr ng-repeat="item in items">
+							<td>{{$index + 1}}</td>
+							<td>{{item.id}}</td>
+							<td><img src="./images/{{item.image}}"
+								class="rounded object-fit-cover me-2" width="100%" height="100px"></td>
+							<td>{{item.name}}</td>
+							<td>{{item.price | number}}đ</td>
+							<td>{{item.discount}}%</td>
+							<td>{{ item.price * (1 - item.discount / 100) | number:0 }}đ</td>
+							<td>{{item.quantity}}</td>
+							<td>{{item.category.name}}</td>
+							<td><span
+								ng-repeat="g in genreProducts | filter:{ product: { id: item.id } }">
+									{{g.name}}<span ng-if="!$last">, </span>
+							</span></td>
+							<td>{{item.created_at | date:'dd/MM/yyyy'}}</td>
+							<td scope="row" class="d-flex justify-content-center gap-1">
+								<!-- Button trigger modal -->
+								<button ng-click="edit(item)" type="button"
+									class="btn btn-outline-warning me-2" data-bs-toggle="modal"
+									data-bs-target="#staticBackdrop">
+									<i class="bi bi-box-arrow-up-right"></i> Chỉnh Sửa
+								</button>
+								<button ng-click="delete(item)" class="btn btn-outline-danger">
+									<i class="bi bi-trash3-fill"></i>
+								</button> <!-- Modal -->
+								<div class="modal fade" id="staticBackdrop"
+									data-bs-backdrop="static" data-bs-keyboard="false"
+									tabindex="-1" aria-labelledby="staticBackdropLabel"
+									aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h1 class="modal-title fs-5" id="staticBackdropLabel">Cập
+													nhật sản phẩm</h1>
+												<button type="button" class="btn-close"
+													data-bs-dismiss="modal" aria-label="Close"></button>
+											</div>
+											<div class="modal-body">
+												<form class="col-xs-12 col-lg-12 mt-3">
+													<div class="row">
+														<input type="hidden" ng-model="form.id">
+														<div class="col-md-12 col-lg-12 text-center mb-3">
+															<label for="image"> <img
+																class="rounded object-fit-cover"
+																ng-src="./images/{{form.image}}" width="100%"
+																alt="Chọn ảnh sản phẩm">
+															</label> <input type="file" class="form-control" id="image"
+																onchange="angular.element(this).scope().imageChaged(this.files)"
+																hidden>
+														</div>
+														<div class="col-md-12 col-lg-12">
+															<div class="row mb-3">
+																<div class="form-group col-sm-6">
+																	<div>Tên sản phẩm:</div>
+																	<input ng-model="form.name" class="form-control">
+																</div>
+																<div class="form-group col-sm-6">
+																	<div>Giá sản phẩm:</div>
+																	<input ng-model="form.price" class="form-control">
+																</div>
+															</div>
+															<div class="row mb-3">
+																<div class="form-group col-sm-6">
+																	<div>Giảm giá:</div>
+																	<input ng-model="form.discount" class="form-control"
+																		type="text">
+																</div>
+																<div class="form-group col-sm-6">
+																	<div>Số lượng:</div>
+																	<input ng-model="form.quantity" class="form-control"
+																		type="text">
+																</div>
+															</div>
+															<div class="row mb-3">
+																<div class="form-group col-sm-6">
+																	<div>Danh mục sản phẩm:</div>
+																	<select ng-model="form.category.id"
+																		class="form-control">
+																		<option ng-repeat="c in cates" ng-value="c.id">{{c.name}}</option>
+																	</select>
+																</div>
+																<div class="form-group col-sm-6">
+																	<div>Thể loại sản phẩm:</div>
+																	<div class="d-flex input-group">
+																		<button class="input-group-text" type="button"
+																			ng-click="openGenreModal()">Chọn</button>
+																		<input type="text"
+																			ng-model="form.selectedGenresString"
+																			class="form-control" readonly>
+																	</div>
+																	<div class="modal fade" id="chooseGenre"
+																		data-bs-backdrop="static" data-bs-keyboard="false"
+																		tabindex="-1" aria-labelledby="chooseGenreLabel"
+																		aria-hidden="true">
+																		<div class="modal-dialog modal-center">
+																			<div class="modal-content">
+																				<div class="modal-header">
+																					<h1 class="modal-title fs-5" id="chooseGenreLabel">Chọn
+																						thể loại sản phẩm</h1>
+																					<button type="button" class="btn-close"
+																						data-bs-dismiss="modal" aria-label="Close"></button>
+																				</div>
+																				<div class="modal-body row">
+																					<form class="mt-3">
+																						<div class="col-3" ng-repeat="g in genres">
+																							<label> <input class="btn"
+																								type="checkbox" ng-model="g.selected">
+																								{{g.name}}
+																							</label>
+																						</div>
+																					</form>
+																				</div>
+																				<div class="modal-footer">
+																					<button type="button" class="btn btn-secondary"
+																						data-bs-dismiss="modal"
+																						ng-click="saveSelectedGenres()">Lưu</button>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+															<div class="mb-3">
+																<div class="form-group mb-3">
+																	<div>Ngày tạo:</div>
+																	<input ng-model="form.created_at | date:'dd/MM/yyyy'"
+																		ng-value="form.created_at | date:'dd/MM/yyyy'"
+																		class="form-control" readonly>
+																</div>
+																<div class="form-group">
+																	<div>Mô tả:</div>
+																	<textarea ng-model="form.decription" rows="5"
+																		class="form-control"></textarea>
+																</div>
+															</div>
+														</div>
+														<div class="mt-4 d-flex justify-content-center gap-3">
+															<button ng-click="update()"
+																class="btn btn-outline-warning">
+																<i class="bi bi-box-arrow-up-right"></i> Cập nhật
+															</button>
+															<button ng-click="delete(form)"
+																class="btn btn-outline-danger">
+																<i class="bi bi-trash3-fill"></i> Xóa
+															</button>
+														</div>
 													</div>
-													<div class="col-md-12 col-lg-12">
-														<div class="row mb-3">
-															<div class="form-group col-sm-6">
-																<div>Tên sản phẩm:</div>
-																<input ng-model="form.username" class="form-control">
-															</div>
-															<div class="form-group col-sm-6">
-																<div>Giá sản phẩm:</div>
-																<input ng-model="form.name" class="form-control">
-															</div>
-														</div>
-														<div class="row mb-3">
-															<div class="form-group col-sm-6">
-																<div>Giảm giá:</div>
-																<input ng-model="form.password" class="form-control"
-																	type="text">
-															</div>
-															<div class="form-group col-sm-6">
-																<div>Số lượng:</div>
-																<input ng-model="form.email" class="form-control"
-																	type="text">
-															</div>
-														</div>
-														<div class="row mb-3">
-															<div class="form-group col-sm-6">
-																<div>Danh mục sản phẩm:</div>
-																<select class="form-control">
-																	<option>Giải trí</option>
-																	<option>Học tập</option>
-																</select>
-															</div>
-															<div class="form-group col-sm-6">
-																<div>Thể loại sản phẩm:</div>
-																<select class="form-control">
-																	<option>Giải trí</option>
-																	<option>Học tập</option>
-																</select>
-															</div>
-														</div>
-														<div class="mb-3">
-															<div class="form-group mb-3">
-																<div>Ngày tạo:</div>
-																<input ng-model="form.phone" class="form-control"
-																	disabled>
-															</div>
-															<div class="form-group">
-																<div>Mô tả:</div>
-																<textarea rows="5" class="form-control"></textarea>
-															</div>
-														</div>
-													</div>
-													<div class="mt-4 d-flex justify-content-center gap-3">
-														<button ng-click="" class="btn btn-outline-warning">
-															<i class="bi bi-box-arrow-up-right"></i> Cập nhật
-														</button>
-														<button ng-click="" class="btn btn-outline-danger">
-															<i class="bi bi-trash3-fill"></i> Xóa
-														</button>
-													</div>
-												</div>
-											</form>
-										</div>
-										<div class="modal-footer">
-											<button type="button" class="btn btn-secondary"
-												data-bs-dismiss="modal">Close</button>
+												</form>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-secondary"
+													data-bs-dismiss="modal">Đóng</button>
+											</div>
 										</div>
 									</div>
 								</div>
-							</div>
-						</td>
+							</td>
+						</tr>
 					</tbody>
 				</table>
 			</div>

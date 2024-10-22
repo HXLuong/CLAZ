@@ -3,7 +3,6 @@ package com.claz.models;
 import java.util.Date;
 import java.util.List;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -22,14 +21,14 @@ public class Staff {
 	@Column(name = "username", updatable = false, nullable = false)
 	String username;
 	String fullname;
-    String password;
-    String email;
-    String phone;
-    String image;
-    boolean gender;
-    boolean role;
-    @Temporal(TemporalType.DATE)
-    @Column(name = "created_at")
-    Date created_at = new Date();
+	String password;
+	String email;
+	String phone;
+	String image;
+	boolean gender;
+	boolean role;
+	@Temporal(TemporalType.DATE)
+	@Column(name = "created_at")
+	Date created_at = new Date();
 
 }

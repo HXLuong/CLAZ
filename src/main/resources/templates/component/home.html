@@ -2,35 +2,13 @@
 	<div class="row">
 		<div class="col-xl-9 col-lg-12 col-md-12 col-sm-12 mt-3">
 			<div class="d-flex">
-				<ul class="navbar-nav border rounded px-3 d-xl-block d-none me-4"
-					style="width: 335px;">
-					<li class="nav-item"><a class="nav-link active fw-semibold"
-						aria-current="page" href="#"><i class="bi bi-dpad-fill"></i>
-							&nbsp;Giải Trí</a></li>
-					<li class="nav-item"><a class="nav-link active fw-semibold"
-						aria-current="page" href="#"><i class="bi bi-briefcase-fill"></i>
-							&nbsp;Làm Việc</a></li>
-					<li class="nav-item"><a class="nav-link active fw-semibold"
-						aria-current="page" href="#"><i class="bi bi-mortarboard-fill"></i>
-							&nbsp;Học Tập</a></li>
-					<li class="nav-item"><a class="nav-link active fw-semibold"
-						aria-current="page" href="#"><i class="bi bi-steam"></i>
-							&nbsp;Game Steam</a></li>
-					<li class="nav-item"><a class="nav-link active fw-semibold"
-						aria-current="page" href="#"><i class="bi bi-pencil-square"></i>
-							&nbsp;Edit Ảnh - Video</a></li>
-					<li class="nav-item"><a class="nav-link active fw-semibold"
-						aria-current="page" href="#"><i class="bi bi-windows"></i>
-							&nbsp;Window, Office</a></li>
-					<li class="nav-item"><a class="nav-link active fw-semibold"
-						aria-current="page" href="#"><i class="bi bi-google-play"></i>
-							&nbsp;Google Play, iTunes</a></li>
-					<li class="nav-item"></li>
-					<a class="nav-link active fw-semibold" aria-current="page" href="#"><i
-						class="bi bi-windows"></i> &nbsp;Window, Office</a>
+				<ul class="navbar-nav border rounded px-3 d-xl-block d-none me-4" style="width: 335px;">
+					<li class="nav-item" th:each="cate : ${cates}">
+						<a class="nav-link active fw-semibold" aria-current="page" th:href="@{/category/{id}(id=${cate.id})}">
+							<i class="bi bi-bookmark-heart-fill"></i>&nbsp;&nbsp;<span th:text="${cate.name}"></span>
+						</a>
 					</li>
 				</ul>
-
 				<div id="carouselExampleIndicators"
 					class="carousel slide carousel-fade caro" data-bs-ride="carousel"
 					data-bs-interval="2500">
@@ -117,18 +95,19 @@
 	<div class="row">
 		<div class="col-lg-3 col-md-4 col-6 list_product"
 			th:each="product : ${session.products}">
-			<a th:href="@{/product/{id}(id=${product.id})}"> <img
+			<a th:href="@{|/${product.id}|}"> <img
 				th:src="@{'/images/'+${product.image}}"
 				class="img-fluid mt-2 rounded" alt="Product Image" width="100%">
-			</a> <a th:href="@{/product/{id}(id=${product.id})}"
-				class="d-block mt-2 text_product" th:text="${product.name}"></a>
+			</a> <a th:href="@{|/${product.id}|}" class="d-block mt-2 text_product"
+				th:text="${product.name}"></a>
 			<h6 class="mt-2 mb-3 d-flex align-items-center fw-bold text_product">
 				<span
 					th:text="${#numbers.formatDecimal(product.price * (1 - product.discount / 100), 0, 'COMMA', 0, 'POINT')} + 'đ'"></span>
-				<strike class="mx-2 text-secondary"
+				<strike class="mx-2 text-secondary" th:if="${product.discount} > 0"
 					th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + 'đ'"></strike>
 				<span class="badge text-bg-danger text-white p-2"
-					th:text="${product.discount.intValue() + '%'}"></span>
+					th:if="${product.discount.intValue} > 0"
+					th:text="${'-' + product.discount.intValue() + '%'}"></span>
 			</h6>
 		</div>
 	</div>
@@ -254,16 +233,19 @@
 	<div class="row">
 		<div class="col-lg-3 col-md-4 col-6 list_product"
 			th:each="product : ${session.gamesteam}">
-			<a th:href="@{/product/{id}(id=${product.id})}"> <img
+			<a th:href="@{|/${product.id}|}"> <img
 				th:src="@{'/images/'+${product.image}}"
 				class="img-fluid mt-2 rounded" alt="Product Image" width="100%">
-			</a> <a th:href="@{/product/{id}(id=${product.id})}"
-				class="d-block mt-2 text_product" th:text="${product.name}"></a>
+			</a> <a th:href="@{|/${product.id}|}" class="d-block mt-2 text_product"
+				th:text="${product.name}"></a>
 			<h6 class="mt-2 mb-3 d-flex align-items-center fw-bold text_product">
-				<span th:text="${product.price} + 'đ'"></span> <strike
-					class="mx-2 text-secondary" th:text="${product.price} + 'đ'"></strike>
+				<span
+					th:text="${#numbers.formatDecimal(product.price * (1 - product.discount / 100), 0, 'COMMA', 0, 'POINT')} + 'đ'"></span>
+				<strike class="mx-2 text-secondary" th:if="${product.discount} > 0"
+					th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + 'đ'"></strike>
 				<span class="badge text-bg-danger text-white p-2"
-					th:text="${product.discount + '%'}"></span>
+					th:if="${product.discount.intValue} > 0"
+					th:text="${'-' + product.discount.intValue() + '%'}"></span>
 			</h6>
 		</div>
 	</div>
@@ -285,16 +267,19 @@
 	<div class="row">
 		<div class="col-lg-3 col-md-4 col-6 list_product"
 			th:each="product : ${session.hoctap}">
-			<a th:href="@{/product/{id}(id=${product.id})}"> <img
+			<a th:href="@{|/${product.id}|}"> <img
 				th:src="@{'/images/'+${product.image}}"
 				class="img-fluid mt-2 rounded" alt="Product Image" width="100%">
-			</a> <a th:href="@{/product/{id}(id=${product.id})}"
-				class="d-block mt-2 text_product" th:text="${product.name}"></a>
+			</a> <a th:href="@{|/${product.id}|}" class="d-block mt-2 text_product"
+				th:text="${product.name}"></a>
 			<h6 class="mt-2 mb-3 d-flex align-items-center fw-bold text_product">
-				<span th:text="${product.price} + 'đ'"></span> <strike
-					class="mx-2 text-secondary" th:text="${product.price} + 'đ'"></strike>
+				<span
+					th:text="${#numbers.formatDecimal(product.price * (1 - product.discount / 100), 0, 'COMMA', 0, 'POINT')} + 'đ'"></span>
+				<strike class="mx-2 text-secondary" th:if="${product.discount} > 0"
+					th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + 'đ'"></strike>
 				<span class="badge text-bg-danger text-white p-2"
-					th:text="${product.discount + '%'}"></span>
+					th:if="${product.discount.intValue} > 0"
+					th:text="${'-' + product.discount.intValue() + '%'}"></span>
 			</h6>
 		</div>
 	</div>
@@ -316,16 +301,19 @@
 	<div class="row">
 		<div class="col-lg-3 col-md-4 col-6 list_product"
 			th:each="product : ${session.lamviec}">
-			<a th:href="@{/product/{id}(id=${product.id})}"> <img
+			<a th:href="@{|/${product.id}|}"> <img
 				th:src="@{'/images/'+${product.image}}"
 				class="img-fluid mt-2 rounded" alt="Product Image" width="100%">
-			</a> <a th:href="@{/product/{id}(id=${product.id})}"
-				class="d-block mt-2 text_product" th:text="${product.name}"></a>
+			</a> <a th:href="@{|/${product.id}|}" class="d-block mt-2 text_product"
+				th:text="${product.name}"></a>
 			<h6 class="mt-2 mb-3 d-flex align-items-center fw-bold text_product">
-				<span th:text="${product.price} + 'đ'"></span> <strike
-					class="mx-2 text-secondary" th:text="${product.price} + 'đ'"></strike>
+				<span
+					th:text="${#numbers.formatDecimal(product.price * (1 - product.discount / 100), 0, 'COMMA', 0, 'POINT')} + 'đ'"></span>
+				<strike class="mx-2 text-secondary" th:if="${product.discount} > 0"
+					th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + 'đ'"></strike>
 				<span class="badge text-bg-danger text-white p-2"
-					th:text="${product.discount + '%'}"></span>
+					th:if="${product.discount.intValue} > 0"
+					th:text="${'-' + product.discount.intValue() + '%'}"></span>
 			</h6>
 		</div>
 	</div>
