@@ -94,8 +94,9 @@ public class ProductServiceImpl implements ProductService {
 	public Optional<Product> findById(int id) {
 		Optional<Product> product = productRepository.findById(id);
 		return product;
-}
-  @Override
+	}
+
+	@Override
 	public Map<String, Double> getRevenuePerMonth() {
 		List<Product> products = productRepository.findAll();
 
