@@ -1,8 +1,9 @@
 package com.claz.services;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,6 +33,12 @@ public interface ProductService {
 
 	void delete(int id);
 
+	Map<String, Double> getRevenuePerMonth();
+
+	long countTotalProduct();
+
+	Map<String, Double> getRevenueByDateRange(LocalDate startDate, LocalDate endDate);
+	
 	List<Product> findByPrice(double minPrice, double maxPrice);
 
 	Page<Product> findbyDMandSort(int dm, Pageable pageable);

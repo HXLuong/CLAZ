@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.claz.SecurityConfig;
 import com.claz.models.Staff;
 import com.claz.services.StaffService;
 
@@ -25,9 +24,6 @@ import com.claz.services.StaffService;
 public class StaffRestController {
 	@Autowired
 	StaffService staffService;
-
-	@Autowired
-	SecurityConfig securityConfig;
 
 	BCryptPasswordEncoder pe = new BCryptPasswordEncoder();
 

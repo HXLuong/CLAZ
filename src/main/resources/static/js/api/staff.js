@@ -17,6 +17,12 @@ app.controller('staffCtrl', function($scope, $http) {
 		};
 		$scope.key = null;
 	}
+	
+	$scope.loadAccount = function() {
+		$http.get('/rest/staffs/current').then(resp => {
+			$scope.form = resp.data || {};
+		});
+	};
 
 	$scope.edit = function(username) {
 		var url = `/rest/staffs/${username}`;
@@ -282,7 +288,7 @@ app.controller('staffCtrl', function($scope, $http) {
 			this.page = this.count - 1;
 		}
 	}*/
-
+	$scope.loadAccount();
 	$scope.load_all();
 	$scope.reset();
 });

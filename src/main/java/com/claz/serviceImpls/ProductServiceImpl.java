@@ -1,7 +1,17 @@
 package com.claz.serviceImpls;
 
+import java.sql.Date;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.ZoneId;
+import java.time.format.TextStyle;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -84,6 +94,39 @@ public class ProductServiceImpl implements ProductService {
 	public Optional<Product> findById(int id) {
 		Optional<Product> product = productRepository.findById(id);
 		return product;
+}
+  @Override
+	public Map<String, Double> getRevenuePerMonth() {
+		List<Product> products = productRepository.findAll();
+
+		Map<String, Double> revenueMap = products.stream().collect(Collectors.groupingBy(product -> {
+			if (product.getCreated_at() != null) {
+				LocalDate date = product.getCreated_at().toLocalDate();
+				return date.getMonth().getDisplayName(TextStyle.FULL, Locale.forLanguageTag("vi"));
+			}
+			return null;
+		}, Collectors.summingDouble(product -> product.getTotal_Pay() != null ? product.getTotal_Pay() : 0.0)));
+		return revenueMap;
+	}
+
+	@Override
+	public long countTotalProduct() {
+		return productRepository.count();
+	}
+
+	@Override
+	public Map<String, Double> getRevenueByDateRange(LocalDate startDate, LocalDate endDate) {
+		List<Product> products = productRepository.findAll();
+		return products.stream()
+				.filter(p -> p.getCreated_at() != null && (p.getCreated_at().toLocalDate().isEqual(startDate)
+						|| p.getCreated_at().toLocalDate().isEqual(endDate)
+						|| (p.getCreated_at().toLocalDate().isAfter(startDate)
+								&& p.getCreated_at().toLocalDate().isBefore(endDate))))
+				.collect(Collectors.groupingBy(
+						product -> product.getCreated_at().toLocalDate().getMonth().getDisplayName(TextStyle.FULL,
+								Locale.forLanguageTag("vi")),
+						Collectors.summingDouble(
+								product -> product.getTotal_Pay() != null ? product.getTotal_Pay() : 0.0)));
 	}
 
 }
