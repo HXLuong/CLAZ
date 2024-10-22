@@ -48,5 +48,4 @@ public class CustomerServiceImpl implements CustomerService {
 	public Optional<Customer> findByEmail(String email) {
 		return customerDAO.findByEmail(email);
 	}
-
 }

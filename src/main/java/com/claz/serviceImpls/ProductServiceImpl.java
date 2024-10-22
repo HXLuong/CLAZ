@@ -14,11 +14,11 @@ import com.claz.repositories.ProductRepository;
 import com.claz.services.ProductService;
 
 @Service
-public class ProductServiceImpl implements ProductService{
+public class ProductServiceImpl implements ProductService {
 
 	@Autowired
-    private ProductRepository productRepository;
-	
+	private ProductRepository productRepository;
+
 	@Override
 	public List<Product> findAll() {
 		return productRepository.findAll();
@@ -27,7 +27,7 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public Product finById(int id) {
 		Optional<Product> product = productRepository.findById(id);
-        return product.orElse(null);
+		return product.orElse(null);
 	}
 
 	@Override
@@ -37,7 +37,7 @@ public class ProductServiceImpl implements ProductService{
 
 	@Override
 	public List<Product> findBySearch(String search) {
-			return productRepository.findByContentContaining(search);
+		return productRepository.findByContentContaining(search);
 	}
 
 	@Override
@@ -54,21 +54,21 @@ public class ProductServiceImpl implements ProductService{
 	public void delete(int id) {
 		productRepository.deleteById(id);
 	}
-	
+
 	@Override
-    public List<Product> findByPrice(double minPrice, double maxPrice) {
-        return productRepository.findByPrice(minPrice, maxPrice);
-    }
+	public List<Product> findByPrice(double minPrice, double maxPrice) {
+		return productRepository.findByPrice(minPrice, maxPrice);
+	}
 
 	@Override
 	public Page<Product> findbyDMandSort(int dm, Pageable pageable) {
 		return productRepository.findbyDMandSort(dm, pageable);
 	}
-	
+
 	@Override
-    public Page<Product> findByPricePage(double minPrice, double maxPrice, Pageable pageable) {
-        return productRepository.findByPricePage(minPrice, maxPrice,pageable);
-    }
+	public Page<Product> findByPricePage(double minPrice, double maxPrice, Pageable pageable) {
+		return productRepository.findByPricePage(minPrice, maxPrice, pageable);
+	}
 
 	@Override
 	public List<Product> fillbyprice(Sort sort) {
@@ -76,8 +76,14 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public Page<Product> findAll(Pageable pageable){
+	public Page<Product> findAll(Pageable pageable) {
 		return productRepository.findAll(pageable);
+	}
+
+	@Override
+	public Optional<Product> findById(int id) {
+		Optional<Product> product = productRepository.findById(id);
+		return product;
 	}
 
 }

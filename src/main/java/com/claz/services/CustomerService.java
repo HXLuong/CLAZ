@@ -23,5 +23,4 @@ public interface CustomerService {
 	Customer update(Customer username);
 
 	void delete(String username);
-
 }
