@@ -7,6 +7,7 @@ import com.claz.models.Product;
 import com.claz.models.Slide;
 import com.claz.repositories.CategoryRepository;
 import com.claz.services.CategoryService;
+import com.claz.services.CustomerService;
 import com.claz.services.GalaryService;
 import com.claz.services.GenreProductService;
 import com.claz.services.ProductService;
@@ -83,11 +84,10 @@ public class HomeController {
 
 		String itemName = item.getName();
 		if (itemName != null) {
-			int spaceIndex = itemName.indexOf(" "); // Tìm vị trí của dấu cách đầu tiên
+			int spaceIndex = itemName.indexOf(" ");
 			if (spaceIndex != -1) {
-				itemName = itemName.substring(0, spaceIndex); // Lấy từ đầu đến trước dấu cách
+				itemName = itemName.substring(0, spaceIndex);
 			}
-			// Nếu không có dấu cách, itemName sẽ giữ nguyên giá trị ban đầu
 		}
 		session.setAttribute("searchProduct", productService.findBySearch(itemName));
 		return "index";
@@ -109,15 +109,15 @@ public class HomeController {
 	}
 
 	@RequestMapping("/category")
-	public String danhmuc(Model model, HttpSession session, @RequestParam("p")Optional<Integer>p) {
-    	Pageable pageable = PageRequest.of(p.orElse(0), 8);
-    	Page<Product> allpr = productService.findAll(pageable);
-    	session.setAttribute("allproducts",allpr);
-        List<Category> cate = categoryService.findAll();
-        session.setAttribute("cates", cate);
-        session.setAttribute("page", "/category/category");
-        return "index";
-    }
+	public String danhmuc(Model model, HttpSession session, @RequestParam("p") Optional<Integer> p) {
+		Pageable pageable = PageRequest.of(p.orElse(0), 8);
+		Page<Product> allpr = productService.findAll(pageable);
+		session.setAttribute("allproducts", allpr);
+		List<Category> cate = categoryService.findAll();
+		session.setAttribute("cates", cate);
+		session.setAttribute("page", "/category/category");
+		return "index";
+	}
 
 	@RequestMapping("/account")
 	public String upaccount(HttpSession session) {

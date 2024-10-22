@@ -2,8 +2,6 @@ package com.claz.controllers;
 
 import com.claz.models.Category;
 import com.claz.models.Product;
-import com.claz.serviceImpls.CategoryServiceImpl;
-import com.claz.serviceImpls.ProductServiceImpl;
 import com.claz.services.CategoryService;
 import com.claz.services.ProductService;
 
@@ -28,54 +26,53 @@ import java.util.Optional;
 @Controller
 public class CategoryController {
 	@Autowired
-    private ProductServiceImpl productService;
-    
-    @Autowired
-    private CategoryService categoryServiceImpl;
-    
-	
+	private ProductService productService;
+
+	@Autowired
+	private CategoryService categoryService;
+
 	@GetMapping("/category/{id}")
-	public String catebyID(Model model,HttpSession session, @PathVariable("id") int id) {
+	public String catebyID(Model model, HttpSession session, @PathVariable("id") int id) {
 		session.setAttribute("iddm", id);
 		return "redirect:/category/pagidm";
 	}
-	
+
 	@RequestMapping("/category/pagidm")
-	public String page(Model model,HttpSession session,@RequestParam("p")Optional<Integer>p) {
+	public String page(Model model, HttpSession session, @RequestParam("p") Optional<Integer> p) {
 		Pageable pageable = PageRequest.of(p.orElse(0), 8);
-		int id =  (int) session.getAttribute("iddm");
+		int id = (int) session.getAttribute("iddm");
 		Page<Product> getByDM = productService.findbyDMandSort(id, pageable);
-		session.setAttribute("allproducts",getByDM);
-		List<Category> cate = categoryServiceImpl.findAll();
+		session.setAttribute("allproducts", getByDM);
+		List<Category> cate = categoryService.findAll();
 		session.setAttribute("cates", cate);
 		session.setAttribute("page", "/category/CategoryChoose");
 		return "index";
 	}
-	
+
 	@PostMapping("/product/searchprice")
-    public String searchByPrice(Model model, @RequestParam("min") Optional<Double> min, 
-                                @RequestParam("max") Optional<Double> max, HttpSession session, @RequestParam("p")Optional<Integer>p) {
-        double minPrice = min.orElse(0.0);
-        System.out.println("aaa");
-        double maxPrice = max.orElse(Double.MAX_VALUE); 
-        List<Product> products = productService.findByPrice(minPrice, maxPrice);
-        session.setAttribute("allproducts", products);
-        session.setAttribute("minprice", minPrice);
-        session.setAttribute("maxprice", maxPrice);
-        List<Category> cate = categoryServiceImpl.findAll();
+	public String searchByPrice(Model model, @RequestParam("min") Optional<Double> min,
+			@RequestParam("max") Optional<Double> max, HttpSession session, @RequestParam("p") Optional<Integer> p) {
+		double minPrice = min.orElse(0.0);
+		System.out.println("aaa");
+		double maxPrice = max.orElse(Double.MAX_VALUE);
+		List<Product> products = productService.findByPrice(minPrice, maxPrice);
+		session.setAttribute("allproducts", products);
+		session.setAttribute("minprice", minPrice);
+		session.setAttribute("maxprice", maxPrice);
+		List<Category> cate = categoryService.findAll();
 		session.setAttribute("cates", cate);
-        session.setAttribute("page", "/category/CategoryPrice");
-        return "index";
-    }
-	
+		session.setAttribute("page", "/category/CategoryPrice");
+		return "index";
+	}
+
 	@RequestMapping("/sortsp")
-	public String sort(Model model,@RequestParam(required = false) String sort,HttpSession session) {
+	public String sort(Model model, @RequestParam(required = false) String sort, HttpSession session) {
 		List<Product> products = productService.findAll();
 		if ("asc".equals(sort)) {
-	        products.sort(Comparator.comparing(Product::getPrice)); // Sắp xếp giá từ thấp đến cao
-	    } else if ("desc".equals(sort)) {
-	        products.sort(Comparator.comparing(Product::getPrice).reversed()); // Sắp xếp giá từ cao đến thấp
-	    }
+			products.sort(Comparator.comparing(Product::getPrice)); // Sắp xếp giá từ thấp đến cao
+		} else if ("desc".equals(sort)) {
+			products.sort(Comparator.comparing(Product::getPrice).reversed()); // Sắp xếp giá từ cao đến thấp
+		}
 		session.setAttribute("allproducts", products);
 		session.setAttribute("page", "/category/CategorySort");
 		return "index";

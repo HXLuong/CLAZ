@@ -1,9 +1,6 @@
 package com.claz.models;
 
-import java.util.Date;
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 
@@ -24,10 +21,8 @@ public class Cart {
 	Double price;
 	int quantity;
 	String image;
-
-	@ManyToOne
-	@JoinColumn(name = "product_id")
-	Product product;
+	int productID;
+	Double discount;
 
 	@ManyToOne
 	@JoinColumn(name = "username")

@@ -3,8 +3,9 @@
 		<div
 			class="col-lg-6 col-sm-12 d-flex flex-wrap mt-3 p-0 overflow-hidden">
 			<div class="img-showcase">
-				<img th:each="i, iMG : ${session.galaries}" th:src="@{'/images/'+ ${i.image}}"
-					class="rounded" width="100%" alt="">
+				<img th:each="i, iMG : ${session.galaries}"
+					th:src="@{'/images/'+ ${i.image}}" class="rounded" width="100%"
+					alt="">
 			</div>
 			<div class="img-select d-flex mt-1">
 				<div class="img-item p-1" th:each="i, iMG : ${session.galaries}">
@@ -52,11 +53,17 @@
 				</div>
 				<hr class="mt-2 mb-3">
 				<div class="cart-btn">
-					<a href="" class="btn btn-primary mb-3 me-3" style="width: 13rem;"><i
-						class="bi bi-credit-card-fill"></i> <span class="fw-semibold">Mua
-							Ngay</span></a> <a href="" class="btn btn-outline-primary mb-3 fw-semibold"
-						style="width: 13rem;"><i class="bi bi-cart-plus fw-semibold"></i>
-						<span class="fw-semibold">Thêm Vào Giỏ</span></a>
+					<button class="btn btn-primary mb-3 me-3" style="width: 13rem;"
+						th:disabled="*{quantity} <= 0">
+						<i class="bi bi-credit-card-fill"></i> <span class="fw-semibold">Mua
+							Ngay</span>
+					</button>
+					<button th:attr="ng-click='addItem(\''+${id}+'\');'"
+						class="btn btn-outline-primary mb-3 fw-semibold"
+						style="width: 13rem;" th:disabled="*{quantity} <= 0">
+						<i class="bi bi-cart-plus fw-semibold"></i> <span
+							class="fw-semibold">Thêm Vào Giỏ</span>
+					</button>
 				</div>
 			</div>
 		</div>

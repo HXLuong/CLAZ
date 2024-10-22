@@ -64,21 +64,21 @@ public class ProductServiceImpl implements ProductService {
 	public void delete(int id) {
 		productRepository.deleteById(id);
 	}
-	
+
 	@Override
-    public List<Product> findByPrice(double minPrice, double maxPrice) {
-        return productRepository.findByPrice(minPrice, maxPrice);
-    }
+	public List<Product> findByPrice(double minPrice, double maxPrice) {
+		return productRepository.findByPrice(minPrice, maxPrice);
+	}
 
 	@Override
 	public Page<Product> findbyDMandSort(int dm, Pageable pageable) {
 		return productRepository.findbyDMandSort(dm, pageable);
 	}
-	
+
 	@Override
-    public Page<Product> findByPricePage(double minPrice, double maxPrice, Pageable pageable) {
-        return productRepository.findByPricePage(minPrice, maxPrice,pageable);
-    }
+	public Page<Product> findByPricePage(double minPrice, double maxPrice, Pageable pageable) {
+		return productRepository.findByPricePage(minPrice, maxPrice, pageable);
+	}
 
 	@Override
 	public List<Product> fillbyprice(Sort sort) {
@@ -86,11 +86,16 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Page<Product> findAll(Pageable pageable){
+	public Page<Product> findAll(Pageable pageable) {
 		return productRepository.findAll(pageable);
 	}
 
 	@Override
+	public Optional<Product> findById(int id) {
+		Optional<Product> product = productRepository.findById(id);
+		return product;
+}
+  @Override
 	public Map<String, Double> getRevenuePerMonth() {
 		List<Product> products = productRepository.findAll();
 
