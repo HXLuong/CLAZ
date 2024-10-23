@@ -1,0 +1,27 @@
+body {
+	background-color: #f8f9fa;
+}
+
+.chart-container {
+	position: relative;
+	margin: auto;
+	height: 400px;
+	width: 100%;
+}
+
+.dashboard-card {
+	border-radius: 10px;
+	transition: transform 0.2s; /* Hiệu ứng hover */
+}
+
+.dashboard-card:hover {
+	transform: scale(1.05); /* Phóng to nhẹ khi hover */
+}
+
+h2, h4 {
+	margin-bottom: 20px;
+}
+
+h5 {
+	margin-bottom: 10px;
+}

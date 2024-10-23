@@ -1,0 +1,95 @@
+<div class="container mt-4">
+	<h3 class="fw-bold">Danh Mục Sản Phẩm</h3>
+	<div class="row mt-3">
+		<div class="col-md-2 col-12 fill">
+			<div class="dropdown">
+  			<button class="btn border dropdown-toggle w-100 " data-bs-toggle="dropdown" aria-expanded="false">
+    		Danh Mục
+  			</button>
+  			<ul class="dropdown-menu">
+    			<li><a class="dropdown-item" th:each="cate : ${session.cates}" th:text="${cate.Decription}" th:href="@{/category/{id}(id=${cate.id})}"></a></li>
+  			</ul>
+			</div>
+		</div>
+		<div class="col-md-2 col-12 fill">
+			<div class="dropdown">
+  			<button class="btn border dropdown-toggle w-100 " data-bs-toggle="dropdown" aria-expanded="false">
+    		Thể Loại
+  			</button>
+  			<ul class="dropdown-menu">
+    			<li><a class="dropdown-item" th:each="cate : ${session.cates}" th:text="${cate.Name}" th:href="@{/category/{id}(id=${cate.id})}"></a></li>
+  			</ul>
+			</div>
+		</div>
+		<div class="col-md-5 col-12 fill">
+			<form th:action="@{/product/searchprice}" method="post"
+				class="d-flex justify-content-between giatien">
+				<span style="font-weight: 500;"
+					class="text-nowrap mt-2 me-2 d-sm-block d-none">Mức Giá</span>
+				<div class="form-group me-2">
+					<input name="min" placeholder="Min Price?"
+						class="form-control">
+				</div>
+				<span class="mt-2 me-2 d-sm-block d-none">-</span>
+				<div class="form-group">
+					<input name="max" placeholder="Max Price?"
+						class="form-control">
+				</div>
+				<button class="btn btn-primary" style="display: none;"><i class="bi bi-funnel"></i> Lọc</button>
+			</form>
+		</div>
+		<div class="col-md-2 col-12 fill">
+			<div class="dropdown">
+  			<button class="btn btn-danger dropdown-toggle w-100 " data-bs-toggle="dropdown" aria-expanded="false">
+    		Sắp Xếp
+  			</button>
+  			<ul class="dropdown-menu">
+    			<li><a class="dropdown-item" th:href="@{/sortsp?sort=desc}">Cao Đến Thấp</a></li>
+    			<li><a class="dropdown-item" th:href="@{/sortsp?sort=asc}">Thấp Đến Cao</a></li>
+  			</ul>
+			</div>
+		</div>
+		<div class="col-md-1 col-12 fill">
+			<button type="button" class="btn btn-primary">
+				<i class="bi bi-funnel"></i> Lọc
+			</button>
+		</div>
+	</div>
+</div>
+<div class="container mt-4">
+	<div class="row">
+			<div class="col-lg-3 col-md-4 col-6 list_product"
+				th:each="product : ${session.allproducts.content}">
+				<a th:href="@{/product/{id}(id=${product.id})}"> <img
+					th:src="@{'/images/'+${product.image}}"
+					class="img-fluid mt-2 rounded" alt="Product Image" width="100%">
+				</a> <a th:href="@{/product/{id}(id=${product.id})}"
+					class="d-block mt-2 text_product" th:text="${product.name}"></a>
+				<h6 class="mt-2 mb-3 d-flex align-items-center fw-bold text_product">
+					<span th:text="${product.price} + 'đ'"></span> <strike
+						class="mx-2 text-secondary" th:text="${product.price} + 'đ'"></strike>
+					<span class="badge text-bg-danger text-white p-2"
+						th:text="${product.discount + '%'}"></span>
+				</h6>
+			</div>
+		</div>
+</div>
+<nav aria-label="Page navigation example">
+	<ul class="pagination justify-content-center mt-4">
+		<li class="page-item">
+            <a class="page-link" th:href="@{/category/pagidm(p=${0})}">First</a>
+        </li>
+		<li class="page-item">
+            <a class="page-link" th:href="@{/category/pagidm(p=${session.allproducts.number - 1 < 0 ? 0 : session.allproducts.number - 1})}">Previous</a>
+        </li>
+		<li class="page-item">
+            <a class="page-link" th:href="@{/category/pagidm(p=${session.allproducts.number + 1 > session.allproducts.totalPages - 1 ? session.allproducts.totalPages - 1 : session.allproducts.number + 1})}">Next</a>
+        </li>
+		<li class="page-item">
+            <a class="page-link" th:href="@{/category/pagidm(p=${session.allproducts.totalPages - 1})}">Last</a>
+        </li>
+	</ul>
+</nav>
+<br>
+<br>
+</body>

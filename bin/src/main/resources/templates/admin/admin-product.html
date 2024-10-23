@@ -1,0 +1,119 @@
+<div class="content px-3 py-2" ng-app="productApp"
+	ng-controller="productCtrl">
+	<div class="container-fluid">
+		<!-- Content -->
+		<div>
+			<div class="mb-3">
+				<h4 class="fw-bold fs-3">Thêm mới sản phẩm</h4>
+			</div>
+			<div class="row">
+				<form class="col-xs-12 col-lg-12 mt-3">
+					<div class="row">
+						<input type="hidden" ng-model="form.id">
+						<div class="col-md-12 col-lg-12 col-xl-4 text-center mb-3">
+							<label for="image"> <img class="rounded object-fit-cover"
+								ng-src="./images/{{form.image}}" width="100%"
+								alt="Chọn ảnh sản phẩm">
+							</label> <input type="file" class="form-control" id="image"
+								onchange="angular.element(this).scope().imageChaged(this.files)"
+								hidden>
+						</div>
+						<div class="col-md-12 col-lg-12 col-xl-8">
+							<div class="row mb-3">
+								<div class="form-group col-sm-6">
+									<div>Tên sản phẩm:</div>
+									<input ng-model="form.name" class="form-control">
+								</div>
+								<div class="form-group col-sm-6">
+									<div>Giá sản phẩm:</div>
+									<input ng-model="form.price" class="form-control">
+								</div>
+							</div>
+							<div class="row mb-3">
+								<div class="form-group col-sm-6">
+									<div>Phần trăm giảm giá:</div>
+									<input ng-model="form.discount" class="form-control"
+										type="text">
+								</div>
+								<div class="form-group col-sm-6">
+									<div>Số lượng:</div>
+									<input ng-model="form.quantity" class="form-control"
+										type="text">
+								</div>
+							</div>
+							<div class="row mb-3">
+								<div class="form-group col-sm-6">
+									<div>Danh mục sản phẩm:</div>
+									<select ng-model="form.category.id" class="form-control">
+										<option ng-repeat="c in cates" ng-value="c.id">{{c.name}}</option>
+									</select>
+								</div>
+								<div class="form-group col-sm-6">
+									<div>Thể loại sản phẩm:</div>
+									<div class="d-flex input-group">
+										<button class="input-group-text" type="button"
+											data-bs-toggle="modal" data-bs-target="#chooseGenre">Chọn</button>
+										<input type="text" ng-model="form.selectedGenresString"
+											class="form-control" readonly>
+									</div>
+									<div class="modal fade" id="chooseGenre"
+										data-bs-backdrop="static" data-bs-keyboard="false"
+										tabindex="-1" aria-labelledby="chooseGenreLabel"
+										aria-hidden="true">
+										<div class="modal-dialog modal-center">
+											<div class="modal-content">
+												<div class="modal-header">
+													<h1 class="modal-title fs-5" id="chooseGenreLabel">Chọn
+														thể loại sản phẩm</h1>
+													<button type="button" class="btn-close"
+														data-bs-dismiss="modal" aria-label="Close"></button>
+												</div>
+												<div class="modal-body row">
+													<form class="mt-3">
+														<div class="col-3" ng-repeat="g in genres">
+															<label> <input class="btn" type="checkbox"
+																ng-model="g.selected"> {{g.name}}
+															</label>
+														</div>
+													</form>
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-secondary"
+														data-bs-dismiss="modal" ng-click="saveSelectedGenres()">Lưu</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="mb-3">
+								<div class="form-group mb-3">
+									<div>Ngày tạo:</div>
+									<input ng-model="form.created_at | date:'dd/MM/yyyy'"
+										ng-value="form.created_at | date:'dd/MM/yyyy'"
+										class="form-control" readonly>
+								</div>
+								<div class="form-group">
+									<div>Mô tả:</div>
+									<textarea ng-model="form.decription" rows="5"
+										class="form-control"></textarea>
+								</div>
+							</div>
+						</div>
+						<div class="mt-4 d-flex justify-content-center gap-3">
+							<button ng-click="create()" class="btn btn-outline-primary">
+								<i class="bi bi-plus-circle-fill"></i> Thêm
+							</button>
+							<button ng-click="reset()" class="btn btn-outline-info">
+								<i class="bi bi-arrow-clockwise"></i> Mới
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<a href="#" class="theme-toggle"> <i class="fa-regular fa-moon"></i>
+	<i class="fa-regular fa-sun"></i>
+</a>

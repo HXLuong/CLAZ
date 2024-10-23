@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Hướng dẫn nạp tiền</title>
+</head>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="./css/dashboard.css">
+<body>
+	<div th:replace="/instruct/menu_instruct.html"></div>
+	<div class="col-lg-7">
+		<div class="container">
+			<p class="fs-2 fw-bold mt-4">Hướng dẫn thanh toán</p>
+			<p class="fs-2 fw-bold mt-4" id="1">Bước 1:</p>
+			<p>Tìm kiếm và truy cập sản phẩm bạn muốn mua</p>
+			<p>
+				Nhấm <Strong>Mua Ngay</Strong> hoặc <Strong>Thêm vào giỏ</Strong>
+				nếu muốn mua thêm nhiều sản phẩm khác
+			</p>
+			<div class="d-flex justify-content-center">
+				<img src="/images/pic_payment2.avif"
+					class="img-fluid d-block rounded" alt="...">
+			</div>
+			<div class="bg-danger p-1 text-dark bg-opacity-25 rounded mt-3">
+				<div class="container">
+					<p class="mt-2">
+						<i class="bi bi-check-circle"></i> <Strong>Chú ý:</Strong> Một số
+						sản phẩm đặc biệt sẽ cần bạn điền thêm các thông tin cần thiết để
+						Shop có thể xử lý đơn hàng, các bạn cứ điền đủ thông tin nếu sản
+						phẩm có yêu cầu nhé.
+					</p>
+				</div>
+			</div>
+			<p class="fs-2 fw-bold mt-4" id="2">Bước 2:</p>
+			<p>Sau khi đã chọn được các sản phẩm cần mua, truy cập giỏ hàng
+				để tiến hành thanh toán.</p>
+			<div class="d-flex justify-content-center">
+				<img src="/images/pic_cart.avif" class="img-fluid d-block rounded"
+					alt="...">
+			</div>
+			<div class="bg-primary p-1 text-dark bg-opacity-25 rounded mt-3">
+				<div class="container">
+					<p class="mt-2">
+						<i class="bi bi-check-circle"></i> Bạn có thể lựa chọn tặng game
+						cho bạn bè và nhập Email của bạn mình (khi đó key game sẽ được gửi
+						tặng vào Email người bạn của bạn). Còn nếu muốn mua cho bản thân,
+						đơn giản bạn chỉ cần để mặc định và bỏ trống ô này.
+					</p>
+				</div>
+			</div>
+			<br> <img src="/images/pic_cart2.png"
+				class="img-fluid d-block rounded" alt="..."> <br>
+			<p>Nếu tài khoản của bạn không đủ Dcoin để thanh toán, hệ thống
+				sẽ yêu cầu bạn nạp thêm tiền.</p>
+			<div class="d-flex justify-content-center">
+				<img src="/images/pic_order.png" class="img-fluid d-block rounded"
+					style="max-width: 100%; width: 375px; height: auto" alt="...">
+			</div>
+			<p>
+				Click vào mục <Strong>Nạp thêm tiền</Strong> và chọn hình thức thanh
+				toán phù hợp nhất với bạn.
+			</p>
+			<nav aria-label="Page navigation example">
+				<ul class="pagination d-flex justify-content-between">
+					<li class="page-item w-100"><a
+						class="page-link btn btn-primary w-100 rounded p-3 d-flex justify-content-between">
+							<span class="text-start">Hướng dẫn nạp tiền</span> <span
+							class="text-end">></span>
+					</a></li>
+				</ul>
+			</nav>
+			<div class="bg-primary p-1 text-dark bg-opacity-25 rounded mt-3">
+				<div class="container">
+					<p class="mt-2">
+						<i class="bi bi-check-circle"></i> Ngoài ra bạn có thể chọn mua
+						hàng siêu tốc qua <Strong>Mobile Banking</Strong> hoặc <Strong>MoMo</Strong>
+						để hoàn thành đơn hàng 1 cách nhanh chóng.
+					</p>
+				</div>
+			</div>
+			<p class="fs-2 fw-bold mt-4" id="3">Bước 3:</p>
+			<p>
+				Sau khi đã nạp tiền thành công và nhận đủ số Dcoin để thanh toán,
+				quay lại trang giỏ hàng và bấm nút <Strong>Thanh toán bằng
+					số dư</Strong>
+			</p>
+
+			<div class="d-flex justify-content-center">
+				<img src="/images/pic_order2.avif" class="img-fluid d-block rounded"
+					alt="...">
+			</div>
+			<br>
+			<p>
+				Mặc định tài khoản của bạn sẽ được kích hoạt bảo mật 2 lớp khi thanh
+				toán. Hệ thống sẽ yêu cầu nhập mã xác thực được gửi về Email của
+				bạn. Bạn chỉ cần kiểm tra Email và nhập mã nhận được rồi ấn <Strong>Xác
+					Nhận</Strong>
+			</p>
+
+			<div class="d-flex justify-content-center">
+				<img src="/images/pic_order3.jpg" class="img-fluid d-block rounded"
+					alt="...">
+			</div>
+			<br>
+			<div class="d-flex justify-content-center">
+				<img src="/images/pic_order4.jpg" class="img-fluid d-block rounded"
+					alt="...">
+
+			</div>
+			<p class="fs-2 fw-bold mt-4" id="4">Bước 4:</p>
+			Bạn sẽ được chuyển đến trang đơn hàng, tại đây bạn sẽ thấy Key game.
+			Bạn hãy copy key game này và bấm vào nút <Strong>Nhập key</Strong>
+			(hoặc hướng dẫn sử dụng) để tiến hành nhận sản phẩm nhé. <br>
+			<div class="d-flex justify-content-center">
+				<img src="/images/pic_order5.avif" class="img-fluid d-block rounded"
+					alt="...">
+			</div>
+
+			<div class="bg-warning p-1 text-dark bg-opacity-25 rounded mt-3">
+				<div class="container">
+					<p class="mt-2">
+						<i class="bi bi-check-circle"></i> Sẽ có một số sản phẩm đặc biệt
+						cần thời gian xử lý, bạn hãy thường xuyên kiểm tra Email của mình.
+						Trong quá trình xử lý nhân viên sẽ thông báo với bạn qua Email.
+					</p>
+				</div>
+			</div>
+			<div class="bg-primary p-1 text-dark bg-opacity-25 rounded mt-3">
+				<div class="container">
+					<p class="mt-2">
+						<i class="bi bi-check-circle"></i> Với những sản phẩm cần thời
+						gian xử lý trên, tùy từng sản phẩm sẽ có thời gian cam kết tối đa
+						hoàn thành đơn hàng, nếu bạn đợi lâu hơn thời gian đó mà đơn hàng
+						chưa được xử lý, vui lòng inbox fanpage Divine Shop - Game bản
+						quyền để được nhân viên hỗ trợ nhé.
+					</p>
+				</div>
+			</div>
+		</div>
+		<nav aria-label="Page navigation example ">
+			<ul class="pagination d-flex justify-content-between">
+				<li class="page-item w-100"><a
+					class="page-link btn btn-primary w-100 rounded p-3 me-3 mt-5">Previous</a>
+				</li>
+				<li class=" ms-3 page-item w-100"><a
+					class="page-link btn btn-primary w-100 rounded p-3 mt-5" href="#">Next
+				</a></li>
+			</ul>
+		</nav>
+	</div>
+	<div class="col-lg-2 d-none d-lg-block  border-start fixed-sidebar"
+		style="border-color: black; border-width: 2px;">
+		<div style="font-size: 14px;">
+			<a href="#1" class="step-link">Bước 1</a> <a href="#2"
+				class="step-link">Bước 2</a> <a href="#3"
+				class="step-link active-step">Bước 3</a> <a href="#4"
+				class="step-link">Bước 4</a>
+		</div>
+	</div>
+
+</body>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+</html>

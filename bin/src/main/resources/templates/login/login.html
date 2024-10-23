@@ -18,6 +18,8 @@
 	integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
 	crossorigin="anonymous">
 <script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
 	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.js"></script>
@@ -39,7 +41,6 @@
 		<div class="form-container sign-up">
 			<form id="registerForm" action="" method="post"
 				onsubmit="return false;">
-				<!-- Ngăn cách gửi form -->
 				<h1>Tạo Tài Khoản</h1>
 				<div class="social-icons">
 					<a href="/oauth2/authorization/google" class="icon btn_login"><i
@@ -64,8 +65,10 @@
 		</div>
 
 		<div class="form-container sign-in">
-			<form action="/security/login" method="post">
+			<form id="loginForm" class="login-form" action="/security/login"
+				method="post">
 				<h1>Đăng Nhập</h1>
+				[[${message}]]
 				<div class="social-icons">
 					<a href="/oauth2/authorization/google" class="icon btn_login"><i
 						class="fa-brands fa-google-plus-g"></i></a> <a
@@ -77,7 +80,8 @@
 					type="password" name="password" placeholder="Mật Khẩu"> <a
 					class="btn_login" href="#" data-bs-toggle="modal"
 					data-bs-target="#staticBackdrop">Quên Mật Khẩu?</a>
-				<button type="submit" class="btn_login">Đăng Nhập</button>
+				<button type="submit" class="btn_login" ng-click="login()">Đăng
+					Nhập</button>
 			</form>
 		</div>
 		<div class="toggle-container">
@@ -90,7 +94,7 @@
 				</div>
 				<div class="toggle-panel toggle-right">
 					<h1>Xin Chào!</h1>
-					<p>Đăng ký thông tin cá nhân của bạn để sử dụng tất cả các tính 
+					<p>Đăng ký thông tin cá nhân của bạn để sử dụng tất cả các tính
 						năng của trang web</p>
 					<button class="hidden btn_login" id="register">Đăng Ký</button>
 				</div>
@@ -103,33 +107,101 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h1 class="modal-title fs-5">Quên mật khẩu</h1>
+					<h1 class="modal-title fs-5" id="staticBackdropLabel">Quên mật
+						khẩu</h1>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close"></button>
 				</div>
-				<form ng-submit="sendResetEmail()" novalidate>
-					<div class="mb-3">
-						<label for="email">Email:</label> <input type="email" id="email"
-							ng-model="form.email" class="form-control" required>
-						<div class="invalid-feedback"
-							ng-show="form.email.$error.required && form.submitted">
-							Email là bắt buộc.</div>
-						<div class="invalid-feedback"
-							ng-show="form.email.$error.email && form.submitted">Vui
-							lòng nhập địa chỉ email hợp lệ.</div>
-					</div>
-					<button type="submit" class="btn btn-outline-warning">Gửi
-						email xác nhận</button>
-				</form>
-
-
-
-
+				<div class="modal-body">
+					<!-- Form nhập Email -->
+					<form ng-submit="sendResetEmail()" class="col-xs-12 col-lg-12 mt-3"
+						ng-show="!emailSent">
+						<div class="row">
+							<div class="col-md-12 col-lg-12 col-xl-8 mx-auto">
+								<div class="mb-3">
+									<div class="form-group mb-3">
+										<div>Email:</div>
+										<input ng-model="form.email" class="form-control" type="email"
+											required>
+									</div>
+								</div>
+							</div>
+							<div class="d-flex justify-content-center gap-3">
+								<button class="btn btn-outline-warning">
+									<i class="bi bi-box-arrow-up-right"></i> Gửi đến Email
+								</button>
+							</div>
+						</div>
+					</form>
+					<form ng-submit="verifyCode()" class="col-xs-12 col-lg-12 mt-3"
+						ng-show="emailSent">
+						<div class="row">
+							<div class="col-md-12 col-lg-12 col-xl-8 mx-auto">
+								<div class="mb-3">
+									<div class="form-group mb-3">
+										<div>Mã xác nhận:</div>
+										<input ng-model="form.code" name="verificationCode"
+											class="form-control" type="text" required>
+									</div>
+									<div ng-if="errorMessage" class="text-danger">{{
+										errorMessage }}</div>
+								</div>
+							</div>
+							<div class="d-flex justify-content-center gap-3">
+								<button class="btn btn-outline-primary">
+									<i class="bi bi-check-circle"></i> Xác nhận mã
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>
 			</div>
-
-
 		</div>
 	</div>
+
+	<!-- Modal Thay Đổi Mật Khẩu -->
+	<div class="modal fade" id="changePassModal" data-bs-backdrop="static"
+		data-bs-keyboard="false" tabindex="-1"
+		aria-labelledby="changePassLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="changePassLabel">Thay Đổi Mật
+						Khẩu</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form ng-submit="resetPassword()" class="col-xs-12 col-lg-12 mt-3">
+						<div class="row">
+							<div class="col-md-12 col-lg-12 col-xl-8 mx-auto">
+								<div class="mb-3">
+									<div class="form-group mb-3">
+										<div>Mật khẩu mới:</div>
+										<input ng-model="form.password" class="form-control"
+											type="password" required>
+									</div>
+									<div class="form-group mb-3">
+										<div>Xác nhận mật khẩu:</div>
+										<input ng-model="form.confirmPassword" class="form-control"
+											type="password" required>
+									</div>
+									<div ng-if="errorMessage" class="text-danger">{{
+										errorMessage }}</div>
+								</div>
+							</div>
+							<div class="d-flex justify-content-center gap-3">
+								<button class="btn btn-outline-primary">
+									<i class="bi bi-check-circle"></i> Cập nhật mật khẩu
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<script src="./js/login.js"></script>
 </body>
 </html>

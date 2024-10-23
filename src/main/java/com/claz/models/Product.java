@@ -59,4 +59,5 @@ public class Product {
 	@JsonIgnore
 	@OneToMany(mappedBy = "product")
 	List<Rating> rating;
+	
 }

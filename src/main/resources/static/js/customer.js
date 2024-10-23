@@ -301,7 +301,7 @@ app.controller('ctrl', function($scope, $http) {
 
 
 	// Cart
-	$scope.loadCart = function() {
+	$scope.loadCart = function(product) {
 		$http.get(`/rest/carts/${$scope.username}`).then(resp => {
 			$scope.listItem = resp.data;
 			$scope.caculateTotal();
