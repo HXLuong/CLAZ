@@ -3,7 +3,9 @@ package com.claz.rest.controllers;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.claz.models.Customer;
 import com.claz.models.Staff;
 import com.claz.services.StaffService;
 
@@ -69,4 +72,64 @@ public class StaffRestController {
 	public void delete(@PathVariable("username") String username) {
 		staffService.delete(username);
 	}
+
+	@GetMapping("/current")
+	public ResponseEntity<Staff> getCurrentUser() {
+		String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+		Optional<Staff> customerOptional = staffService.getname(currentUsername);
+
+		if (customerOptional.isPresent()) {
+			return ResponseEntity.ok(customerOptional.get());
+		} else {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		}
+	}
+
+	@GetMapping("/showname")
+	public ResponseEntity<Staff> showname() {
+		String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+		Optional<Staff> customerOptional = staffService.getname(currentUsername);
+
+		if (customerOptional.isPresent()) {
+			return ResponseEntity.ok(customerOptional.get());
+		} else {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		}
+	}
+
+	@PutMapping("/current")
+	public ResponseEntity<Staff> updateUser(@RequestBody Customer customer) {
+		String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+		Optional<Staff> existingCustomerOptional = staffService.getname(currentUsername);
+
+		if (existingCustomerOptional.isPresent()) {
+			Staff existingCustomer = existingCustomerOptional.get();
+			existingCustomer.setEmail(customer.getEmail());
+			existingCustomer.setFullname(customer.getFullname());
+			existingCustomer.setPhone(customer.getPhone());
+			existingCustomer.setGender(customer.isGender());
+			existingCustomer.setPassword(pe.encode(customer.getPassword()));
+
+			Staff updatedCustomer = staffService.update(existingCustomer);
+			return ResponseEntity.ok(updatedCustomer);
+		} else {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		}
+	}
+
+	@PutMapping("/currentimg")
+	public ResponseEntity<Staff> updateUserImg(@RequestBody Staff Staff) {
+		String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+		Optional<Staff> existingCustomerOptional = staffService.getname(currentUsername);
+
+		if (existingCustomerOptional.isPresent()) {
+			Staff existingCustomer = existingCustomerOptional.get();
+			existingCustomer.setImage(Staff.getImage());
+			Staff updatedCustomer = staffService.update(existingCustomer);
+			return ResponseEntity.ok(updatedCustomer);
+		} else {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		}
+	}
+
 }
