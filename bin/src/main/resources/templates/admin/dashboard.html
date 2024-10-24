@@ -1,0 +1,78 @@
+<div class="content px-3 py-2" ng-app="app" ng-controller="ctrl">
+	<div class="container-fluid">
+		<div class="mb-3">
+			<h5 class="fw-bold fs-3">Dashboard</h5>
+		</div>
+
+		<div class="container mt-3">
+			<div class="row mb-4 text-center">
+				<div class="col-lg-3 col-md-6 col-6 mb-3">
+					<div
+						class="p-4 bg-primary text-white dashboard-card rounded shadow">
+						<h5>Tổng Doanh Thu</h5>
+						<p class="h5">{{ totalRevenue | number }} VNĐ</p>
+					</div>
+				</div>
+
+				<div class="col-lg-3 col-md-6 col-6 mb-3">
+					<div
+						class="p-4 bg-success text-white dashboard-card rounded shadow">
+						<h5>Tổng Người Dùng</h5>
+						<p class="h5">{{ totalUsers | number }}</p>
+					</div>
+				</div>
+
+				<div class="col-lg-3 col-md-6 col-6 mb-3">
+					<div
+						class="p-4 bg-success text-white dashboard-card rounded shadow">
+						<h5>Tổng Sản Phẩm</h5>
+						<p class="h5">{{ totalProduct | number }}</p>
+					</div>
+				</div>
+
+				<div class="col-lg-3 col-md-6 col-6 mb-3">
+					<div class="p-4 bg-info text-white dashboard-card rounded shadow">
+						<h5>Tổng Đơn Hàng</h5>
+						<p class="h5">1 / 1</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="flex-fill border-0">
+				<div class="py-4">
+					<div class="d-flex align-items-start">
+						<div class="flex-grow-1">
+							<div id="chartContainer">
+								<div id="myChart" style="max-width: 780px; height: 400px;"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-12 text-center">
+			<h5 class="mb-4">Chọn Thời Gian</h5>
+			<div class="input-group mb-3 justify-content-center"
+				style="max-width: 450px; margin: auto;">
+				<input type="date" ng-model="startDate" class="form-control me-2"
+					placeholder="Từ ngày" /> <span class="input-group-text">Đến</span>
+				<input type="date" ng-model="endDate" class="form-control ms-2"
+					placeholder="Đến ngày" />
+				<button class="btn btn-primary" ng-click="applyFilter()">Lọc</button>
+			</div>
+		</div>
+		<h4 class="mt-4 text-center">Biểu Đồ Doanh Thu Theo Tháng</h4>
+		<div class="chart-container">
+			<canvas id="revenueChart" width="400" height="500"></canvas>
+		</div>
+	</div>
+</div>
+<a href="#" class="theme-toggle"> <i class="fa-regular fa-moon"></i>
+	<i class="fa-regular fa-sun"></i>
+</a>
+<script src="/js/report.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

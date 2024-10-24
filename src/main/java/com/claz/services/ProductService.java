@@ -2,6 +2,7 @@ package com.claz.services;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.Map;
 
 import org.springframework.data.domain.Page;
@@ -14,11 +15,13 @@ import com.claz.models.Product;
 @Service
 public interface ProductService {
 
-List<Product> findAll();
-	
+	List<Product> findAll();
+
 	Page<Product> findAll(Pageable pageable);
 
 	Product finById(int id);
+
+	Optional<Product> findById(int id);
 
 	List<Product> findAllByCategoryId(int Category_ID);
 
@@ -37,10 +40,10 @@ List<Product> findAll();
 	Map<String, Double> getRevenueByDateRange(LocalDate startDate, LocalDate endDate);
 	
 	List<Product> findByPrice(double minPrice, double maxPrice);
-	
-	Page<Product> findbyDMandSort(int dm,Pageable pageable);
-	
-	Page<Product> findByPricePage(double minPrice, double maxPrice,Pageable pageable);
-	
+
+	Page<Product> findbyDMandSort(int dm, Pageable pageable);
+
+	Page<Product> findByPricePage(double minPrice, double maxPrice, Pageable pageable);
+
 	List<Product> fillbyprice(Sort sort);
 }

@@ -53,5 +53,4 @@ public class CustomerServiceImpl implements CustomerService {
 	public long countTotalCustomers() {
 		return customerDAO.count();
 	}
-
 }

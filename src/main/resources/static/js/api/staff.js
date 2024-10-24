@@ -1,6 +1,7 @@
 var app = angular.module('staffApp', []);
 app.controller('staffCtrl', function($scope, $http) {
 	$scope.form = {};
+	$scope.form2 = {};
 	$scope.items = [];
 	$scope.load_all = function() {
 		var url = `/rest/staffs`;
@@ -20,7 +21,7 @@ app.controller('staffCtrl', function($scope, $http) {
 	
 	$scope.loadAccount = function() {
 		$http.get('/rest/staffs/current').then(resp => {
-			$scope.form = resp.data || {};
+			$scope.form2 = resp.data || {};
 		});
 	};
 

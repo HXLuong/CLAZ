@@ -2,42 +2,52 @@
 	<h3 class="fw-bold">Danh Mục Sản Phẩm</h3>
 	<div class="row mt-3">
 		<div class="col-md-2 col-12 fill">
-			<select class="form-select" aria-label="Default select example">
-				<option selected>Danh Mục</option>
-				<option value="${cate.Decription}" th:each="cate : ${cates}" th:text="${cate.Decription}"></option>
-			</select>
+			<div class="dropdown">
+  			<button class="btn border dropdown-toggle w-100 " data-bs-toggle="dropdown" aria-expanded="false">
+    		Danh Mục
+  			</button>
+  			<ul class="dropdown-menu">
+    			<li><a class="dropdown-item" th:each="cate : ${session.cates}" th:text="${cate.Decription}" th:href="@{/category/{id}(id=${cate.id})}"></a></li>
+  			</ul>
+			</div>
 		</div>
 		<div class="col-md-2 col-12 fill">
-			<select class="form-select" aria-label="Default select example">
-				<option selected>Thể Loại</option>
-				<option value="${cate.name}" th:each="cate : ${cates}" th:text="${cate.name}"></option>
-			</select>
+			<div class="dropdown">
+  			<button class="btn border dropdown-toggle w-100 " data-bs-toggle="dropdown" aria-expanded="false">
+    		Thể Loại
+  			</button>
+  			<ul class="dropdown-menu">
+    			<li><a class="dropdown-item" th:each="cate : ${session.cates}" th:text="${cate.Name}" th:href="@{/category/{id}(id=${cate.id})}"></a></li>
+  			</ul>
+			</div>
 		</div>
 		<div class="col-md-5 col-12 fill">
-			<form action="/product/searchgia" method="post"
+			<form th:action="@{/product/searchprice}" method="post"
 				class="d-flex justify-content-between giatien">
 				<span style="font-weight: 500;"
 					class="text-nowrap mt-2 me-2 d-sm-block d-none">Mức Giá</span>
 				<div class="form-group me-2">
-					<input name="min" value="${param.min}" placeholder="Min Price?"
+					<input name="min" placeholder="Min Price?"
 						class="form-control">
 				</div>
 				<span class="mt-2 me-2 d-sm-block d-none">-</span>
 				<div class="form-group">
-					<input name="max" value="${param.max}" placeholder="Max Price?"
+					<input name="max" placeholder="Max Price?"
 						class="form-control">
 				</div>
-				<button class="btn btn-primary" style="display: none;">
-					<i class="bi bi-funnel"></i> Lọc
-				</button>
+				<button class="btn btn-primary" style="display: none;"><i class="bi bi-funnel"></i> Lọc</button>
 			</form>
 		</div>
 		<div class="col-md-2 col-12 fill">
-			<select class="form-select" aria-label="Default select example">
-				<option selected>Sắp xếp</option>
-				<option value="1">Thấp Đến Lớn</option>
-				<option value="2">Lớn Đến Thấp</option>
-			</select>
+			<div class="dropdown">
+  			<button class="btn btn-danger dropdown-toggle w-100 " data-bs-toggle="dropdown" aria-expanded="false">
+    		Sắp Xếp
+  			</button>
+  			<ul class="dropdown-menu">
+    			<li><a class="dropdown-item" th:href="@{/sortsp?sort=desc}">Cao Đến Thấp</a></li>
+    			<li><a class="dropdown-item" th:href="@{/sortsp?sort=asc}">Thấp Đến Cao</a></li>
+  			</ul>
+			</div>
 		</div>
 		<div class="col-md-1 col-12 fill">
 			<button type="button" class="btn btn-primary">
@@ -49,7 +59,7 @@
 <div class="container mt-4">
 	<div class="row">
 			<div class="col-lg-3 col-md-4 col-6 list_product"
-				th:each="product : ${allproducts}">
+				th:each="product : ${session.allproducts.content}">
 				<a th:href="@{/product/{id}(id=${product.id})}"> <img
 					th:src="@{'/images/'+${product.image}}"
 					class="img-fluid mt-2 rounded" alt="Product Image" width="100%">
@@ -66,18 +76,20 @@
 </div>
 <nav aria-label="Page navigation example">
 	<ul class="pagination justify-content-center mt-4">
-		<li class="page-item"><a class="page-link"
-			href="/product/page?p=0">First</a></li>
-		<li class="page-item"><a class="page-link"
-			href="/product/page?p=${(listproduct.number-1<0)?0:listproduct.number-1}">Previous</a></li>
-		<li class="page-item"><a class="page-link"
-			href="/product/page?p=${(listproduct.number+1>listproduct.totalPages-1)?listproduct.totalPages-1:listproduct.number+1}">Next</a>
-		</li>
-		<li class="page-item"><a class="page-link"
-			href="/product/page?p=${listproduct.totalPages-1}">Last</a></li>
+		<li class="page-item">
+            <a class="page-link" th:href="@{/category(p=${0})}">First</a>
+        </li>
+		<li class="page-item">
+            <a class="page-link" th:href="@{/category(p=${session.allproducts.number - 1 < 0 ? 0 : session.allproducts.number - 1})}">Previous</a>
+        </li>
+		<li class="page-item">
+            <a class="page-link" th:href="@{/category(p=${session.allproducts.number + 1 > session.allproducts.totalPages - 1 ? session.allproducts.totalPages - 1 : session.allproducts.number + 1})}">Next</a>
+        </li>
+		<li class="page-item">
+            <a class="page-link" th:href="@{/category(p=${session.allproducts.totalPages - 1})}">Last</a>
+        </li>
 	</ul>
 </nav>
 <br>
 <br>
-<!-- <%@include file="footer.jsp"%> -->
 </body>

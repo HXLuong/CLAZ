@@ -1,11 +1,15 @@
 package com.claz.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.claz.models.Staff;
+
 @Controller
 public class ManagerController {
+
 	@RequestMapping("/admin")
 	public String adm(Model model) {
 		model.addAttribute("page", "/admin/dashboard");
@@ -99,6 +103,18 @@ public class ManagerController {
 	@RequestMapping("/adminComment")
 	public String adminComment(Model model) {
 		model.addAttribute("page", "/admin/admin-comment");
+		return "/admin/admin-index";
+	}
+
+	@RequestMapping("/adminUpdateAccount")
+	public String adminUpdateAccount(Model model) {
+		model.addAttribute("page", "/admin/admin-updateAccount");
+		return "/admin/admin-index";
+	}
+
+	@RequestMapping("/adminUpdatePassword")
+	public String adminUpdatePassword(Model model) {
+		model.addAttribute("page", "/admin/admin-updatePassword");
 		return "/admin/admin-index";
 	}
 }
