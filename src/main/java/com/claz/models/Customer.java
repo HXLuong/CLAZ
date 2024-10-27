@@ -1,6 +1,6 @@
 package com.claz.models;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -29,9 +29,8 @@ public class Customer {
     String phone;
     String image;
     boolean gender;
-    @Temporal(TemporalType.DATE)
     @Column(name = "Created_at")
-    Date created_at = new Date();
+	LocalDateTime created_at = LocalDateTime.now();
     
     @JsonIgnore
     @OneToMany(mappedBy = "customer")

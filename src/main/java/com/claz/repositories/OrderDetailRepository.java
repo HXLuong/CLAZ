@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 
 import com.claz.models.OrderDetail;
 
-
 @Repository
 public interface OrderDetailRepository extends JpaRepository<OrderDetail, Integer> {
 }

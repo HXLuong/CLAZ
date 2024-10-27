@@ -1,5 +1,6 @@
 package com.claz.models;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -22,9 +23,9 @@ public class Order {
 	int id;
 	String status;
 	String paymentMethod;
-	@Temporal(TemporalType.DATE)
+	Double amount;
 	@Column(name = "created_at")
-	Date created_at = new Date();
+	LocalDateTime created_at = LocalDateTime.now();
 
 	@ManyToOne
 	@JoinColumn(name = "username")

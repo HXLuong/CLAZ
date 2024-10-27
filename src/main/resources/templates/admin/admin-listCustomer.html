@@ -44,7 +44,7 @@
 							<td>{{user.email}}</td>
 							<td>{{user.phone}}</td>
 							<td>{{user.gender ? 'Nam' : 'Nữ'}}</td>
-							<td>{{user.created_at | date:'dd/MM/yyyy'}}</td>
+							<td>{{user.created_at | date:'dd/MM/yyyy HH:mm:ss'}}</td>
 							<td scope="row" class="d-flex justify-content-center gap-2">
 								<!-- Button trigger modal -->
 								<button ng-click="edit(user.username)" type="button"
@@ -120,8 +120,9 @@
 															<div class="mb-3">
 																<div class="form-group">
 																	<div>ngày tham gia:</div>
-																	<input ng-model="form.created_at | date:'dd/MM/yyyy'"
-																		ng-value="form.created_at | date:'dd/MM/yyyy'"
+																	<input
+																		ng-model="form.created_at | date:'dd/MM/yyyy  HH:mm:ss'"
+																		ng-value="form.created_at | date:'dd/MM/yyyy  HH:mm:ss'"
 																		class="form-control" readonly>
 																</div>
 															</div>
