@@ -5,11 +5,12 @@ import com.claz.models.Galary;
 import com.claz.models.GenreProduct;
 import com.claz.models.Product;
 import com.claz.models.Slide;
-import com.claz.repositories.CategoryRepository;
 import com.claz.services.CategoryService;
 import com.claz.services.CustomerService;
 import com.claz.services.GalaryService;
 import com.claz.services.GenreProductService;
+import com.claz.services.OrderDetailService;
+import com.claz.services.OrderService;
 import com.claz.services.ProductService;
 import com.claz.services.SlideService;
 
@@ -19,7 +20,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,8 +28,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 import java.util.Optional;
 
-import java.util.UUID;
-
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -49,6 +48,15 @@ public class HomeController {
 	@Autowired
 	private GalaryService galaryService;
 
+	@Autowired
+	private OrderService orderService;
+
+	@Autowired
+	OrderDetailService orderDetailService;
+	
+	@Autowired
+	CustomerService customerService;
+
 	@RequestMapping("/")
 	public String index(HttpSession session, Model model) {
 		if (session.getAttribute("searchProduct") == null) {
@@ -60,10 +68,10 @@ public class HomeController {
 			session.setAttribute("lamviec", pr3);
 			List<Product> pr4 = productService.findAll().stream().filter(e -> e.getCategory().getId() == 3).toList();
 			session.setAttribute("hoctap", pr4);
-
-			List<Category> cate = categoryService.findAll();
-			model.addAttribute("cates", cate);
 		}
+
+		List<Category> cate = categoryService.findAll();
+		model.addAttribute("cates", cate);
 
 		List<Slide> slide = slideService.findAll();
 		session.setAttribute("slides", slide);
@@ -108,6 +116,20 @@ public class HomeController {
 		return "index";
 	}
 
+	@RequestMapping("/paymentSuccess")
+	public String paymentSuccess(HttpSession session, HttpServletRequest request) {
+		String username = request.getRemoteUser();
+		session.setAttribute("customers", customerService.findByUsername(username));
+		session.setAttribute("page", "/cart/paymentSuccess");
+		return "index";
+	}
+	
+	@RequestMapping("/paymentFail")
+	public String paymentFail(HttpSession session) {
+		session.setAttribute("page", "/cart/paymentFail");
+		return "index";
+	}
+
 	@RequestMapping("/category")
 	public String danhmuc(Model model, HttpSession session, @RequestParam("p") Optional<Integer> p) {
 		Pageable pageable = PageRequest.of(p.orElse(0), 8);
@@ -131,15 +153,26 @@ public class HomeController {
 		return "index";
 	}
 
-	@RequestMapping("/payment")
-	public String giaodich(HttpSession session) {
-		session.setAttribute("page", "/update_profile/payment_profile");
+	@RequestMapping("/order")
+	public String donhang(HttpSession session, HttpServletRequest request) {
+		String username = request.getRemoteUser();
+		session.setAttribute("orders", orderService.findByUsername(username));
+		session.setAttribute("page", "/update_profile/order_profile");
 		return "index";
 	}
 
-	@RequestMapping("/order")
-	public String donhang(HttpSession session) {
-		session.setAttribute("page", "/update_profile/order_profile");
+	@RequestMapping("/detail_profile")
+	public String detail_profile(HttpSession session, @RequestParam("id") int id) {
+		session.setAttribute("order", orderService.findById(id));
+		session.setAttribute("page", "/update_profile/detail_profile");
+		return "index";
+	}
+
+	@RequestMapping("/payment")
+	public String giaodich(HttpSession session, HttpServletRequest request) {
+		String username = request.getRemoteUser();
+		session.setAttribute("order", orderService.findOrderByUsername(username));
+		session.setAttribute("page", "/update_profile/payment_profile");
 		return "index";
 	}
 
@@ -158,12 +191,6 @@ public class HomeController {
 	@RequestMapping("/introduct")
 	public String gioithieu(HttpSession session) {
 		session.setAttribute("page", "/update_profile/introduct_profile");
-		return "index";
-	}
-
-	@RequestMapping("/detail_profile")
-	public String detail_profile(HttpSession session) {
-		session.setAttribute("page", "/update_profile/detail_profile");
 		return "index";
 	}
 
@@ -232,4 +259,3 @@ public class HomeController {
 	}
 
 }
-

@@ -60,19 +60,26 @@
 						<th>Sản phẩm</th>
 						<th>Tổng tiền</th>
 						<th>Trạng thái</th>
-						<th></th>
+						<th>Khác</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td>2024-10-02 14:59:34</td>
-						<td>7416909</td>
-						<td class="d-flex justify-content-between">Random Code Steam
-							<span>x1</span>
+					<tr th:each="order : ${session.orders}">
+						<td
+							th:text="${order.created_at.format(T(java.time.format.DateTimeFormatter).ofPattern('dd/MM/yyyy HH:mm:ss'))}"></td>
+						<td th:text="${'#' + order.id}"></td>
+						<td>
+							<div class="d-flex justify-content-between"
+								th:each="detail:${order.orderDetails}" th:object="${detail}">
+								<span>[[*{product.name}]]</span> <span>x[[*{quantity}]]</span>
+							</div>
 						</td>
-						<td>9.000đ</td>
-						<td class="text-success">Đã xử lý</td>
-						<td><a href="" class="text-decoration-none text-primary">Chi tiết</a></td>
+						<td
+							th:text="${#numbers.formatDecimal(order.amount / 100, 0,
+							'COMMA', 0, 'POINT') + 'đ'}"></td>
+						<td class="text-success" th:text="${order.status}"></td>
+						<td><a th:href="@{'/detail_profile?id='+ ${order.id}}"
+							class="text-decoration-none text-primary">Chi tiết</a></td>
 					</tr>
 				</tbody>
 			</table>

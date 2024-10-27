@@ -7,11 +7,13 @@ import com.claz.models.Order;
 
 public interface OrderService {
 
-//	Order createOrder(Customer customer);
+	Order createOrder(int id, String status, String paymentMethod, Double amount, Customer customer);
 
 	List<Order> findByCustomer(Customer customer);
 
 	List<Order> findByUsername(String username);
+
+	List<Object[]> findOrderByUsername(String username);
 
 	Order findById(int id);
 

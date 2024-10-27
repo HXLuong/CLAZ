@@ -1,7 +1,6 @@
 package com.claz.models;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -32,10 +31,9 @@ public class Product {
 	int Total_Rating;
 	int Total_Stars;
 
-//	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "Created_at")
-//	Date Created_at = new Date();
-	LocalDateTime Created_at;
+	LocalDateTime created_at = LocalDateTime.now();
+	
 	@ManyToOne
 	@JoinColumn(name = "Category_ID")
 	Category category;
