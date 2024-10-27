@@ -86,7 +86,7 @@ app.controller('adminCtrl', function($scope, $http) {
 				.then(resp => {
 					$scope.form = resp.data;
 					Swal.fire({
-						title: "Success",
+						title: "Thành công",
 						text: "Sửa mật khẩu thành công",
 						icon: "success"
 					});

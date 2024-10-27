@@ -6,8 +6,8 @@
 		<ul class="navbar-nav">
 			<li class="nav-item dropdown"><a href="#"
 				data-bs-toggle="dropdown" class="nav-icon pe-md-0"> <span
-					class="userName"> [[${#request.remoteUser}]] </span> <img
-					src="./images/profile.jpg" class="avatar img-fluid" alt="">
+					class="userName"> [[${fullname}]]</span> <img
+					th:src="${image}" class="avatar img-fluid" alt="">
 			</a>
 				<div class="dropdown-menu dropdown-menu-end">
 					<a href="/adminUpdateAccount" class="dropdown-item">Cập nhật hồ
