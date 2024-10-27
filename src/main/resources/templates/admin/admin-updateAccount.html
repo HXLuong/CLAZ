@@ -2,7 +2,7 @@
 	ng-app="adminApp" ng-controller="adminCtrl">
 
 	<div class="container row">
-		<h5 class="fw-bold mb-4">Thay đổi thông tin tài khoản</h5>
+		<h4 class="fw-bold mb-4">Thay đổi thông tin tài khoản</h4>
 		<div class="col-6 col-sm-6 col-lg-4 col-md-4">
 			<p class="">
 				Tên đăng nhập <span class="fw-bold text-block">:
@@ -35,7 +35,12 @@
 		<div class="col-6 col-sm-6 col-lg-4 col-md-4">
 			<p class="">
 				Ngày tham gia <span class="fw-bold text-block">: {{
-					form.created_at | date:'dd/MM/yyyy' }}</span>
+					form.created_at | date:'dd/MM/yyyy HH:mm:ss' }}</span>
+			</p>
+		</div>
+		<div class="col-6 col-sm-6 col-lg-4 col-md-4">
+			<p class="">
+				Chức vụ <span class="fw-bold text-block">: {{ form.role ? 'Quản lý' : 'Nhân viên' }}</span>
 			</p>
 		</div>
 	</div>
@@ -43,11 +48,10 @@
 	<div class="container row">
 		<hr class="m-3">
 		<div class="d-flex flex-wrap justify-content-center">
-			<div
-				class="col-xl-5 col-lg-6 col-md-6 d-flex justify-content-center align-items-center">
+			<div class="col-xl-5 col-lg-6 col-md-6 d-flex align-items-center">
 				<div>
 					<img src="/images/{{form.image}}"
-						style="height: 150px; width: 150px;"
+						style="height: 250px; width: 250px;"
 						class="rounded-circle object-fit-cover" alt="...">
 				</div>
 				<div>
