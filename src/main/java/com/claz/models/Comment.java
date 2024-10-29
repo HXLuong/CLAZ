@@ -20,7 +20,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "comment")
 public class Comment implements Serializable {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "Comment_ID", updatable = false, nullable = false)
 	private int id;
 
@@ -37,6 +36,5 @@ public class Comment implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "Username")
 	private Customer customer;
-
 
 }

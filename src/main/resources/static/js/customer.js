@@ -408,6 +408,14 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 		}
 	}
 
+	$scope.generateRandomId = function(length) {
+		let result = '';
+		for (let i = 0; i < length; i++) {
+			result += Math.floor(Math.random() * 10);
+		}
+		return result;
+	};
+	
 	$scope.submitComment = function(commentContent, productId) {
 	    if (!$scope.username) {
 	        Swal.fire({
@@ -417,8 +425,10 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 	        });
 	        return;
 	    }
-
+		var item = angular.copy($scope.form);
+		item.id = $scope.generateRandomId(6);
 	    const commentDTO = {
+			id: item.id,
 	        productId: productId,
 	        content: commentContent,
 	        username: $scope.username
@@ -475,8 +485,11 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 	        });
 	        return;
 	    }
-
+		var item = angular.copy($scope.form);
+		item.id = $scope.generateRandomId(6);
+		
 	    const replyDTO = {
+			id: item.id,
 	        commentId: commentId,
 	        content: replyContent,
 	        username: $scope.username

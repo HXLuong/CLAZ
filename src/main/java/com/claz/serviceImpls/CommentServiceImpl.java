@@ -45,6 +45,7 @@ public class CommentServiceImpl implements CommentService {
 		Customer customer = customerService.findByUsername(commentDTO.getUsername());
 
 		Comment comment = new Comment();
+		comment.setId(commentDTO.getId());
 		comment.setContent(commentDTO.getContent());
 		comment.setProduct(product);
 		comment.setCustomer(customer);
