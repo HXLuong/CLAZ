@@ -1,3 +1,79 @@
+<head>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+</head>
+<style>
+	.chatbox {
+		position: fixed;
+		bottom: 70px; /* Điều chỉnh chiều cao để di chuyển lên */
+		right: 20px;
+		margin-bottom: 40px;
+		z-index: 1000;
+	}
+
+	.chat-toggle {
+		background-color: #007bff; /* Màu nền của nút chat */
+		color: white;
+		border: none;
+		border-radius: 50%;
+		padding: 15px;
+		cursor: pointer;
+		font-size: 20px;
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	}
+
+	.chat-window {
+		position: absolute;
+		bottom: 50px; /* Đặt khoảng cách từ đáy */
+		right: 0;
+		width: 300px; /* Chiều rộng của cửa sổ chat */
+		background-color: white;
+		border: 1px solid #ccc;
+		border-radius: 8px;
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+		display: flex;
+		flex-direction: column;
+	}
+
+	.chat-header {
+		background-color: #007bff;
+		color: white;
+		padding: 10px;
+		border-top-left-radius: 8px;
+		border-top-right-radius: 8px;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.chat-body {
+		flex: 1;
+		padding: 10px;
+		overflow-y: auto;
+		max-height: 300px;
+	}
+
+	.chat-footer {
+		display: flex;
+		padding: 10px;
+	}
+
+	.chat-footer input {
+		flex: 1;
+		padding: 8px;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+	}
+
+	.chat-close {
+		background: none;
+		border: none;
+		color: white;
+		font-size: 18px;
+		cursor: pointer;
+	}
+
+</style>
 <div class="container">
 	<div class="row">
 		<div class="col-xl-9 col-lg-12 col-md-12 col-sm-12 mt-3">
@@ -323,3 +399,66 @@
 	<hr>
 	<br> <br>
 </div>
+<div id="chatbox" class="chatbox">
+	<button id="chat-toggle" class="chat-toggle">
+		<i class="fas fa-comments"></i> <!-- Biểu tượng chat -->
+	</button>
+	<div class="chat-window" id="chat-window" style="display: none;">
+		<div class="chat-header">
+			<span>Chatbot</span>
+			<button id="chat-close" class="chat-close">&times;</button>
+		</div>
+		<div class="chat-body">
+			<!-- Nội dung chat sẽ hiển thị ở đây -->
+			<div id="chat-content"></div>
+		</div>
+		<div class="chat-footer">
+			<input type="text" id="chat-input" placeholder="Nhập tin nhắn...">
+			<button id="send-message">Gửi</button>
+		</div>
+	</div>
+</div>
+<script>
+	function toggleChat() {
+		const chatWindow = document.getElementById("chatWindow");
+		chatWindow.style.display = chatWindow.style.display === "none" ? "block" : "none";
+	}
+
+	async function sendMessage() {
+		const userInput = document.getElementById("userInput");
+		const chatBody = document.getElementById("chatBody");
+
+		if (userInput.value.trim() === "") return;
+
+		// Hiển thị tin nhắn người dùng
+		const userMessage = document.createElement("div");
+		userMessage.className = "user-message";
+		userMessage.innerText = userInput.value;
+		chatBody.appendChild(userMessage);
+
+		// Gửi yêu cầu tới API ChatGPT
+		const responseMessage = document.createElement("div");
+		responseMessage.className = "bot-message";
+		responseMessage.innerText = "Đang trả lời...";
+		chatBody.appendChild(responseMessage);
+
+		// API ChatGPT
+		try {
+			const response = await fetch("/api/chat", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ message: userInput.value })
+			});
+			const data = await response.json();
+
+			// Cập nhật phản hồi của ChatGPT
+			responseMessage.innerText = data.reply;
+		} catch (error) {
+			responseMessage.innerText = "Có lỗi xảy ra. Vui lòng thử lại.";
+		}
+
+		userInput.value = "";  // Xóa nội dung nhập
+		chatBody.scrollTop = chatBody.scrollHeight;  // Tự động cuộn xuống cuối
+	}
+
+</script>
