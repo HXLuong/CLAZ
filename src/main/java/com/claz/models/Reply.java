@@ -15,7 +15,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "reply")
 public class Reply implements Serializable {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "Reply_ID", updatable = false, nullable = false)
 	private int id;
 

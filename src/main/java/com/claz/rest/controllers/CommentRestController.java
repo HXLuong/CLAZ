@@ -35,7 +35,7 @@ public class CommentRestController {
 
 	@Autowired
 	private ProductService productService;
-	
+
 	@Autowired
 	CustomerService customerService;
 
@@ -64,26 +64,23 @@ public class CommentRestController {
 		return new ResponseEntity<>(comments, HttpStatus.OK);
 	}
 
-
-	
 	@GetMapping("/{commentId}/replies")
 	public ResponseEntity<List<Reply>> getReplies(@PathVariable int commentId) {
-	    List<Reply> replies = commentService.getReplies(commentId);
-	    return ResponseEntity.ok(replies);
+		List<Reply> replies = commentService.getReplies(commentId);
+		return ResponseEntity.ok(replies);
 	}
-
 
 	@PostMapping("/{commentId}/replies")
 	public ResponseEntity<Reply> addReply(@PathVariable int commentId, @RequestBody ReplyDTO replyDTO) {
 		Comment comment = new Comment();
 		comment.setId(commentId);
-
 		Reply reply = new Reply();
 		reply.setContent(replyDTO.getContent());
 
 		Customer customer = customerService.findByUsername(replyDTO.getUsername());
 		reply.setCustomer(customer);
 		reply.setComment(comment);
+		reply.setId(replyDTO.getId());
 
 		Reply savedReply = commentService.saveReply(reply);
 

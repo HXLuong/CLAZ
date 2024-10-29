@@ -62,7 +62,7 @@ app.controller("categoryCtrl", function($scope, $http) {
 		}
 
 		var item = angular.copy($scope.form);
-		item.id = $scope.generateRandomId(6); // Tạo ID ngẫu nhiên 6 chữ số
+		item.id = $scope.generateRandomId(6);
 		$http.post(`/rest/categories`, item).then(resp => {
 			$scope.items.push(resp.data);
 			$scope.reset();
@@ -81,7 +81,6 @@ app.controller("categoryCtrl", function($scope, $http) {
 	}
 
 	$scope.update = function() {
-		/*Validate*/
 		if (!$scope.form.name) {
 			Swal.fire({
 				title: "Lỗi",
