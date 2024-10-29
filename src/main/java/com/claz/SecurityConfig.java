@@ -74,8 +74,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			try {
 				Customer user = customerService.findByUsername(username);
 				String pass = user.getPassword();
-				return User.withUsername(username).password(pass).roles("CUSTOMER") // Assign the CUSTOMER role
-						.accountExpired(false).accountLocked(false).credentialsExpired(false).disabled(false).build();
+				return User.withUsername(username).password(pass).roles("CUSTOMER").accountExpired(false)
+						.accountLocked(false).credentialsExpired(false).disabled(false).build();
 			} catch (Exception e) {
 				throw new UsernameNotFoundException("Customer " + username + " not found");
 			}

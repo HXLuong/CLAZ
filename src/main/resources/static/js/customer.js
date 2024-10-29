@@ -1,15 +1,17 @@
 var app = angular.module('app', ['ngRoute']);
-app.controller('ctrl', function($scope, $http) {
+app.controller('ctrl', function($scope, $http, $routeParams) {
 	$scope.items = [];
 	$scope.form = {};
 	$scope.cutomer = {};
 	$scope.error = '';
 	$scope.products = [];
-
+	$scope.comments = [];
 	$scope.listItem = [];
 	$scope.username = "";
 	$scope.totalPrice = 0;
 	$scope.totalQuantity = 0;
+	$scope.replyContent = ''; 
+	$scope.commentLimit = 3; 
 
 	var element = angular.element(document.getElementById('container'));
 
@@ -405,6 +407,124 @@ app.controller('ctrl', function($scope, $http) {
 			$scope.totalQuantity += $scope.listItem[i].quantity;
 		}
 	}
+
+	$scope.submitComment = function(commentContent, productId) {
+	    if (!$scope.username) {
+	        Swal.fire({
+	            icon: "error",
+	            title: "Lỗi",
+	            text: "Bạn cần đăng nhập để bình luận.",
+	        });
+	        return;
+	    }
+
+	    const commentDTO = {
+	        productId: productId,
+	        content: commentContent,
+	        username: $scope.username
+	    };
+
+	    $http.post('/comments/add', commentDTO)
+	    .then(resp => {
+	        $scope.commentContent = ''; 
+	        Swal.fire({
+	            icon: "success",
+	            title: "Thành công",
+	            text: "Bình luận đã được thêm.",
+	        });
+	        $scope.loadComments(); 
+	    })
+	    .catch(err => {
+	        console.error('Lỗi khi thêm bình luận:', err);
+	        Swal.fire({
+	            icon: "error",
+	            title: "Lỗi",
+	            text: "Có lỗi xảy ra khi thêm bình luận.",
+	        });
+	    });
+	};
+
+
+	$scope.loadComments = function() {
+	    $http.get(`/comments/comments`)
+	    .then(resp => {
+	        $scope.comments = resp.data;
+	    })
+	    .catch(err => {
+	        console.error('Lỗi khi tải bình luận:', err);
+	    });
+	};
+
+	$scope.replies = {};
+
+	$scope.loadReplies = function(commentId) {
+	    $http.get(`/comments/${commentId}/replies`)
+	    .then(function(response) {
+	        $scope.replies[commentId] = response.data;
+	    });
+	};
+
+
+
+	$scope.addReply = function(commentId, replyContent) {
+	    if (!$scope.username) {
+	        Swal.fire({
+	            icon: "error",
+	            title: "Lỗi",
+	            text: "Bạn cần đăng nhập để phản hồi.",
+	        });
+	        return;
+	    }
+
+	    const replyDTO = {
+	        commentId: commentId,
+	        content: replyContent,
+	        username: $scope.username
+	    };
+
+	    $http.post(`/comments/${commentId}/replies`, replyDTO)
+	    .then(resp => {
+	        $scope.loadReplies(commentId);
+	        $scope.replyContent = '';
+	        Swal.fire({
+	            icon: "success",
+	            title: "Thành công",
+	            text: "Phản hồi đã được thêm.",
+	        });
+			const commentItem = $scope.comments.find(c => c.id === commentId);
+			    if (commentItem) commentItem.showReplyInput = false;
+	    })
+	    .catch(err => {
+	        Swal.fire({
+	            icon: "error",
+	            title: "Lỗi",
+	            text: "Có lỗi xảy ra khi thêm phản hồi.",
+	        });
+	    });
+	};
+
+
+	$scope.showMoreComments = function() {
+	    $scope.commentLimit += 6; 
+	};
+	
+
+
+	$scope.toggleReplyInput = function(commentItem, reply) {
+	    commentItem.showReplyInput = !commentItem.showReplyInput;
+
+	    if (commentItem.showReplyInput) {
+	        $scope.replyContent = reply && reply.customer.fullname 
+	            ? '@' + reply.customer.fullname + ' ' 
+	            : (commentItem.customer.fullname ? '@' + commentItem.customer.fullname + ' ' : '');
+	    } else {
+	        $scope.replyContent = '';
+	    }
+	};
+
+
+	$scope.loadReplies(); 
+	$scope.loadComments(); 
 
 	$scope.paymentByVNPay = function() {
 		const requestData = {

@@ -1,5 +1,6 @@
 package com.claz.models;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -18,7 +19,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "customer")
-public class Customer {
+public class Customer implements Serializable {
 
 	@Id
 	@Column(name = "Username", updatable = false, nullable = false)
@@ -30,7 +31,7 @@ public class Customer {
     String image;
     boolean gender;
     @Column(name = "Created_at")
-	LocalDateTime created_at = LocalDateTime.now();
+	  LocalDateTime created_at = LocalDateTime.now();
     
     @JsonIgnore
     @OneToMany(mappedBy = "customer")
@@ -54,5 +55,4 @@ public class Customer {
 			this.username = RandomStringUtils.randomAlphanumeric(8);
 		}
 	}
-
 }

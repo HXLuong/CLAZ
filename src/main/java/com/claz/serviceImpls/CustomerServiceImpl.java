@@ -1,6 +1,7 @@
 package com.claz.serviceImpls;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +36,9 @@ public class CustomerServiceImpl implements CustomerService {
 		customerDAO.deleteById(id);
 	}
 
-	@Override
 	public Customer findByUsername(String username) {
-		return customerDAO.findById(username).get();
+		return customerDAO.findByUsername(username)
+				.orElseThrow(() -> new NoSuchElementException("Customer not found with username: " + username));
 	}
 
 	public Optional<Customer> getname(String username) {
@@ -53,4 +54,5 @@ public class CustomerServiceImpl implements CustomerService {
 	public long countTotalCustomers() {
 		return customerDAO.count();
 	}
+
 }

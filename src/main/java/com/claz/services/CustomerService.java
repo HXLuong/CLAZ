@@ -12,7 +12,7 @@ public interface CustomerService {
 
 	List<Customer> findAll();
 
-	Customer findByUsername(String username);
+	Customer findByUsername(String customer);
 
 	Optional<Customer> getname(String username);
 
@@ -23,6 +23,7 @@ public interface CustomerService {
 	Customer update(Customer username);
 
 	void delete(String username);
-  
+
 	long countTotalCustomers();
+
 }

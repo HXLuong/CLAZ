@@ -1,42 +1,37 @@
 package com.claz.models;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "comment")
-public class Comment implements Serializable {
+@Data
+@Table(name = "reply")
+public class Reply implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "Comment_ID", updatable = false, nullable = false)
+	@Column(name = "Reply_ID", updatable = false, nullable = false)
 	private int id;
 
+	@Column(name = "Content")
 	private String content;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "created_at")
-	private Date created_at = new Date();
+	private Date createdAt = new Date();
 
 	@ManyToOne
-	@JoinColumn(name = "Product_ID")
-	private Product product;
+	@JoinColumn(name = "Comment_ID")
+	private Comment comment;
 
 	@ManyToOne
 	@JoinColumn(name = "Username")
 	private Customer customer;
-
 
 }
