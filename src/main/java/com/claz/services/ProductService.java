@@ -38,7 +38,7 @@ public interface ProductService {
 	long countTotalProduct();
 
 	Map<String, Double> getRevenueByDateRange(LocalDate startDate, LocalDate endDate);
-	
+
 	List<Product> findByPrice(double minPrice, double maxPrice);
 
 	Page<Product> findbyDMandSort(int dm, Pageable pageable);
@@ -46,4 +46,5 @@ public interface ProductService {
 	Page<Product> findByPricePage(double minPrice, double maxPrice, Pageable pageable);
 
 	List<Product> fillbyprice(Sort sort);
+
 }

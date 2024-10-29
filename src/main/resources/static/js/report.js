@@ -1,6 +1,6 @@
-var app = angular.module('app', ['ngRoute']);
+var app = angular.module('reportApp', ['ngRoute']);
 
-app.controller('ctrl', function($scope, $http) {
+app.controller('reportCtrl', function($scope, $http) {
 
     $scope.totalRevenue = 0;
     $scope.totalUsers = 0;

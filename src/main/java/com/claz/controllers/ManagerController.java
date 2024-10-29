@@ -12,9 +12,7 @@ public class ManagerController {
 
 	@RequestMapping("/admin")
 	public String adm(Model model) {
-		Staff staff = null;
 		model.addAttribute("page", "/admin/dashboard");
-		model.addAttribute("image", staff.getImage());
 		return "/admin/admin-index";
 	}
 

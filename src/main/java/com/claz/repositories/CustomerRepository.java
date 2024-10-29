@@ -14,7 +14,7 @@ public interface CustomerRepository extends JpaRepository<Customer, String> {
 	Optional<Customer> findByUsername(String username);
 
 	@Query("select o from Customer o where o.fullname like ?1")
-	Customer handelFindByUserName(String username);
+	Customer handelFindByUserName(Customer username);
 
 	@Query("select o from Customer o where o.email like ?1")
 	Optional<Customer> findByEmail(String username);

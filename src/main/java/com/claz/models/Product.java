@@ -1,5 +1,6 @@
 package com.claz.models;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -16,7 +17,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "product")
-public class Product {
+public class Product implements Serializable {
 
 	@Id
 	@Column(name = "Product_ID", updatable = false, nullable = false)

@@ -80,6 +80,7 @@ public class HomeController {
 		session.setAttribute("genreProducts", genreProducts);
 		session.setAttribute("galaries", galaries);
 		session.setAttribute("item", item);
+		session.setAttribute("productId", item.getId());
 		session.setAttribute("page", "/detailProduct/detailProduct");
 
 		String itemName = item.getName();
@@ -232,4 +233,3 @@ public class HomeController {
 	}
 
 }
-
