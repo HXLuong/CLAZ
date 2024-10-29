@@ -17,8 +17,8 @@ public class OrderDetail {
 	int id;
 	Double price;
     int quantity;
-    Double total_price;
-    String decription;
+    Double discount;
+    String keyProduct;
     
     @ManyToOne
     @JoinColumn(name = "order_id")

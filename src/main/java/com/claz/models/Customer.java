@@ -1,7 +1,7 @@
 package com.claz.models;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -25,30 +25,29 @@ public class Customer implements Serializable {
 	@Column(name = "Username", updatable = false, nullable = false)
 	String username;
 	String fullname;
-	String password;
-	String email;
-	String phone;
-	String image;
-	boolean gender;
-	@Temporal(TemporalType.DATE)
-	@Column(name = "Created_at")
-	Date created_at = new Date();
-
-	@JsonIgnore
-	@OneToMany(mappedBy = "customer")
-	List<Order> orders;
-
-	@JsonIgnore
-	@OneToMany(mappedBy = "customer")
-	List<Cart> cart;
-
-	@JsonIgnore
-	@OneToMany(mappedBy = "customer")
-	List<Comment> comment;
-
-	@JsonIgnore
-	@OneToMany(mappedBy = "customer")
-	List<Rating> rating;
+    String password;
+    String email;
+    String phone;
+    String image;
+    boolean gender;
+    @Column(name = "Created_at")
+	  LocalDateTime created_at = LocalDateTime.now();
+    
+    @JsonIgnore
+    @OneToMany(mappedBy = "customer")
+    List<Order> orders;
+    
+    @JsonIgnore
+    @OneToMany(mappedBy = "customer")
+    List<Cart> cart;
+    
+    @JsonIgnore
+    @OneToMany(mappedBy = "customer")
+    List<Comment> comment;
+    
+    @JsonIgnore
+    @OneToMany(mappedBy = "customer")
+    List<Rating> rating;
 
 	@PrePersist
 	public void prePersist() {

@@ -1,0 +1,15 @@
+<div class="container">
+	<div class="cart-details w-100 mb-5">
+		<img aria-hidden="true" alt="cat-in-box"
+			src="./images/paymentSucess.png" />
+		<h3 class="fw-bold text-muted-custom">Thanh toán thành công</h3>
+		<div th:each="cus : ${session.customers}">
+			<p class="text-muted-custom mt-2">Email chi tiết đơn hàng đã được
+				gửi tới [[${cus.email}]]</p>
+			<p class="text-muted-custom mt-2">
+				Hoặc bạn có thể xem lịch sử đơn hàng <a class="text-primary" href="/order">Tại đây!</a>
+			</p>
+		</div>
+	</div>
+</div>
+

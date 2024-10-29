@@ -59,15 +59,15 @@
 						<th>Thời gian</th>
 						<th>Mô tả</th>
 						<th>Số tiền</th>
-						<th>Số dư</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td>2024-10-02 15:00:45</td>
-						<td>Nạp tiền qua VNPay. Mã giao dịch #2094527</td>
-						<td class="text-success">9.000đ</td>
-						<td>9.000đ</td>
+					<tr th:each="order : ${session.order}">
+						<td th:text="${order[0].format(T(java.time.format.DateTimeFormatter).ofPattern('dd/MM/yyyy
+								HH:mm:ss'))}"></td>
+						<td>[[${order[1]}]]. Mã giao dịch [[${'#' + order[2]}]]</td>
+						<td class="text-success">[[*{#numbers.formatDecimal((order[3]
+							* (1 - order[5] / 100)) * order[4], 0, 'COMMA', 0, 'POINT')}]]đ</td>
 					</tr>
 				</tbody>
 			</table>

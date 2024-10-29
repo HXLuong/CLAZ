@@ -14,7 +14,7 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 	$scope.commentLimit = 3; 
 
 	var element = angular.element(document.getElementById('container'));
-	
+
 	$scope.loadAccount = function() {
 		$http.get('/rest/customer/current').then(resp => {
 			$scope.form = resp.data || {};
@@ -297,7 +297,7 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 				});
 			});
 	};
-	
+
 
 	$scope.loadAccount();
 
@@ -367,6 +367,7 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 			console.error('Lỗi khi thêm sản phẩm:', err);
 		});
 	};
+
 	$scope.deleteItem = function(itemID) {
 		Swal.fire({
 			title: "Bạn có chắc muốn xoá sản phẩm này khỏi giỏ hàng không?",
@@ -524,5 +525,35 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 
 	$scope.loadReplies(); 
 	$scope.loadComments(); 
+
+	$scope.paymentByVNPay = function() {
+		const requestData = {
+			totalPrice: $scope.totalPrice,
+			username: $scope.username
+		};
+
+		if ($scope.totalPrice > 21000000) {
+			Swal.fire({
+				title: "Lỗi",
+				text: "Đơn hàng của bạn không được vượt quá 21,000,000đ",
+				icon: "warning"
+			});
+			return;
+		}
+
+		$http.post('/rest/carts/pay', requestData)
+			.then(function(response) {
+				console.log('Dữ liệu phản hồi:', response.data);
+				if (response.data) {
+					window.location.href = response.data; // Chuyển hướng tới URL thanh toán
+				} else {
+					alert('Không nhận được URL thanh toán. Vui lòng thử lại.');
+				}
+			})
+			.catch(function(error) {
+				console.error('Lỗi khi thực hiện thanh toán:', error);
+				alert('Có lỗi xảy ra trong quá trình thanh toán. Vui lòng thử lại.');
+			});
+	}
 
 });

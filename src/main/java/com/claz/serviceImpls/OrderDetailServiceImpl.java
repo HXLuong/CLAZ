@@ -35,5 +35,4 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 	public List<OrderDetail> findAll() {
 		return orderDetailRepository.findAll();
 	}
-
 }
