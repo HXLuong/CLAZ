@@ -8,6 +8,7 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 	$scope.comments = [];
 	$scope.listItem = [];
 	$scope.username = "";
+	$scope.email = "";
 	$scope.totalPrice = 0;
 	$scope.totalQuantity = 0;
 	$scope.replyContent = ''; 
@@ -20,6 +21,7 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 		$http.get('/rest/customer/current').then(resp => {
 			$scope.form = resp.data || {};
 			$scope.username = resp.data.username;
+			$scope.email = resp.data.email;
 			$scope.loadCart();
 		});
 	};
@@ -52,6 +54,7 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 			});
 			return;
 		}
+
 		if (!$scope.form.username) {
 			Swal.fire({
 				title: "Lỗi",
@@ -86,7 +89,13 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 			});
 			element.removeClass('active');
 			$scope.reset();
-		})
+		}).catch(err => {
+			Swal.fire({
+				title: "Lỗi",
+				text: "Username hoặc Email đã tồn tại. Vui lòng sử dụng Username hoặc Email khác",
+				icon: "error"
+			});
+		});
 	};
 	$scope.updateAccount = function() {
 		if (!$scope.form.phone || !$scope.isValidPhone($scope.form.phone)) {
@@ -137,7 +146,13 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 					text: "Sửa mật khẩu thành công",
 					icon: "success"
 				});
-			})
+			}).catch(err => {
+				Swal.fire({
+					title: "Lỗi",
+					text: "Email đã tồn tại. Vui lòng sử dụng Email khác",
+					icon: "error"
+				});
+			});
 	};
 	$scope.imageChaged = function(files) {
 		var data = new FormData();
@@ -170,6 +185,7 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 				console.log(error);
 			});
 	};
+
 	$scope.emailSent = false;
 	$scope.sendResetEmail = function() {
 		if (!$scope.isValidEmail($scope.form.email)) {
@@ -333,6 +349,7 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 
 	$scope.loadProducts();
 
+	// Thêm giỏ hàng
 	$scope.addItem = function(productID) {
 		if (!$scope.username) {
 			Swal.fire({
@@ -363,6 +380,71 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 				title: "Thành công",
 				text: "Sản phẩm đã được thêm vào giỏ hàng",
 			});
+			$scope.loadCart();
+		}).catch(err => {
+			console.error('Lỗi khi thêm sản phẩm:', err);
+		});
+	};
+
+	// Mua ngay
+	$scope.buyNow = function(productID) {
+		if (!$scope.username) {
+			Swal.fire({
+				icon: "error",
+				title: "Bạn chưa đăng nhập",
+				text: "Vui lòng đăng nhập trước khi thêm sản phẩm.",
+			});
+			return;
+		}
+		$http.post(`/rest/carts/add?productID=${productID}&username=${$scope.username}`).then(resp => {
+			const item = $scope.listItem.find(item => item.productID === productID);
+			const product = $scope.products.find(p => p.id === productID);
+			if (item) {
+				item.quantity += 1;
+				if (item.quantity > product.quantity) {
+					Swal.fire({
+						icon: "warning",
+						title: "Không thể thêm sản phẩm trong giỏ hàng",
+						text: "Số lượng sản phẩm đã đến giới hạn",
+					});
+					item.quantity = product.quantity;
+					return;
+				}
+			}
+			$scope.caculateTotal();
+			window.location.href = 'cart-index';
+			$scope.loadCart();
+		}).catch(err => {
+			console.error('Lỗi khi thêm sản phẩm:', err);
+		});
+	};
+
+	// Tăng số lượng giỏ hàng
+	$scope.increaseQty = function(productID) {
+		if (!$scope.username) {
+			Swal.fire({
+				icon: "error",
+				title: "Bạn chưa đăng nhập",
+				text: "Vui lòng đăng nhập trước khi thêm sản phẩm.",
+			});
+			return;
+		}
+		$http.post(`/rest/carts/add?productID=${productID}&username=${$scope.username}`).then(resp => {
+			const item = $scope.listItem.find(item => item.productID === productID);
+			const product = $scope.products.find(p => p.id === productID);
+			if (item) {
+				item.quantity += 1;
+				if (item.quantity > product.quantity) {
+					Swal.fire({
+						icon: "warning",
+						title: "Không thể thêm sản phẩm trong giỏ hàng",
+						text: "Số lượng sản phẩm đã đến giới hạn",
+					});
+					item.quantity = product.quantity;
+					return;
+				}
+			}
+			$scope.caculateTotal();
 			$scope.loadCart();
 		}).catch(err => {
 			console.error('Lỗi khi thêm sản phẩm:', err);
@@ -738,6 +820,7 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 				console.error('Lỗi khi thực hiện thanh toán:', error);
 				alert('Có lỗi xảy ra trong quá trình thanh toán. Vui lòng thử lại.');
 			});
+
 	}
 
 

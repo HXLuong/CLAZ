@@ -50,4 +50,9 @@ public class StaffServiceImpl implements StaffService {
 		return staffRepository.findByUsername(username);
 	}
 
+	@Override
+	public Optional<Staff> findByEmail(String email) {
+		return staffRepository.findByEmail(email);
+	}
+
 }

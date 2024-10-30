@@ -1,13 +1,19 @@
 package com.claz.controllers;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.claz.models.Order;
 import com.claz.models.Staff;
+import com.claz.services.OrderDetailService;
+import com.claz.services.OrderService;
 import com.claz.services.StaffService;
 import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 
@@ -15,6 +21,12 @@ import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 public class ManagerController {
 	@Autowired
 	StaffService staffService;
+	
+	@Autowired
+	private OrderService orderService;
+
+	@Autowired
+	OrderDetailService orderDetailService;
 
 	@RequestMapping("/admin")
 	public String adm(Model model, HttpServletRequest request) {
@@ -103,13 +115,16 @@ public class ManagerController {
 	@RequestMapping("/adminListOrder")
 	public String adminListOrder(Model model, HttpServletRequest request) {
 		nav(model, request);
+		List<Order> orders = orderService.findAll();
+		model.addAttribute("orders", orders);
 		model.addAttribute("page", "/admin/admin-listOrder");
 		return "/admin/admin-index";
 	}
 
 	@RequestMapping("/adminOrderDetail")
-	public String adminOrderDetail(Model model, HttpServletRequest request) {
+	public String adminOrderDetail(Model model, HttpServletRequest request, @RequestParam("id") int id) {
 		nav(model, request);
+		model.addAttribute("order", orderService.findById(id));
 		model.addAttribute("page", "/admin/admin-orderDetail");
 		return "/admin/admin-index";
 	}

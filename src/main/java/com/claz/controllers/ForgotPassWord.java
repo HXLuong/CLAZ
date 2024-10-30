@@ -135,10 +135,4 @@ public class ForgotPassWord {
 		}
 	}
 
-	@GetMapping("/rest/customer/check-email")
-	public ResponseEntity<Optional<Customer>> checkEmailExists(@RequestParam String email) {
-		Optional<Customer> exists = customerService.findByEmail(email);
-		return ResponseEntity.ok(exists);
-	}
-
 }

@@ -52,7 +52,7 @@
 									class="form-control text-center text-primary btn-quantity"
 									ng-model="item.quantity">
 								<button class="btn btn-quantity pt-1"
-									ng-click="addItem(item.productID)">+</button>
+									ng-click="increaseQty(item.productID)">+</button>
 
 							</div>
 						</div>
@@ -94,10 +94,11 @@
 					| number:0}}đ</span>
 			</p>
 
-			<p class="mb-2 text-center text-secondary">Thanh Toán,
-				Không cần nạp tiền</p>
+			<p class="mb-2 text-center text-secondary">Thanh Toán, Không cần
+				nạp tiền</p>
 
-			<button ng-click="paymentByVNPay()" class="btn w-100 mb-3 btn-banking">
+			<button ng-click="paymentByVNPay()"
+				class="btn w-100 mb-3 btn-banking">
 				<img class="me-2"
 					src="https://cdn.divineshop.vn/static/ed4044413ba8489903d4f27bac88aa02.svg"
 					alt="icon" width="30px" height="30px"> Mua siêu tốc với VNPay
