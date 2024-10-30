@@ -72,18 +72,18 @@
 		<div class="mt-2" th:utext="*{decription}"></div>
 	</div>
 </div>
-
 <div class="container fw-bold d-flex justify-content-end gap-2 my-2">
 	<span>Rating:</span> <span>4.9 <i
 		class="bi bi-star-fill text-warning"></i></span> <span>(69 lượt đánh
 		giá)</span>
 </div>
+
 <div class="container mt-4">
 	<h4>Bình luận</h4>
 	<span>Thời gian phản hồi trung bình: 5 phút!</span>
 
 	<form ng-submit="submitComment(commentContent, productId)">
-		<textarea ng-model="commentContent" class="mt-3 form-control"
+		<textarea ng-model="commentContent.new" class="mt-3 form-control"
 			placeholder="Nhập nội dung bình luận" rows="4" required></textarea>
 		<div class="d-flex justify-content-end mt-3">
 			<button type="submit" class="btn btn-outline-primary">
@@ -97,41 +97,90 @@
 
 	<div ng-repeat="commentItem in comments | limitTo: commentLimit"
 		ng-init="loadReplies(commentItem.id)" class="mt-3 d-flex flex-column">
-
 		<div class="d-flex">
 			<div class="me-3">
 				<img class="object-fit-cover rounded-circle"
 					ng-src="./images/{{commentItem.customer.image}}" width="70px"
 					height="70px" alt="">
 			</div>
-			<div>
+
+			<div class="flex-grow-1">
 				<h6 class="fw-bold">{{commentItem.customer.fullname}}</h6>
 				<span class="text-secondary">Bình luận vào ngày
 					{{commentItem.created_at | date:'dd/MM/yyyy HH:mm:ss'}}</span>
-				<p>{{commentItem.content}}</p>
+
+				<div ng-if="!commentItem.isEditing">
+					<p>{{commentItem.content}}</p>
+				</div>
+
+				<div ng-if="commentItem.isEditing">
+					<textarea ng-model="commentContent" class="form-control"
+						placeholder="Nhập nội dung bình luận..."></textarea>
+					<div class="mt-2">
+						<button class="btn btn-primary"
+							ng-click="submitComment(commentContent, productId)">Lưu</button>
+						<button class="btn btn-secondary"
+							ng-click="cancelEdit(commentItem)">Hủy</button>
+					</div>
+				</div>
 				<a class="text-decoration-none fw-bold text-primary"
 					ng-click="toggleReplyInput(commentItem, null)"
 					href="javascript:void(0)">Trả lời</a>
 			</div>
+			<div class="dropdown mt-3 ms-1" ng-hide="commentItem.customer.username !== username">
+				<span class="three-dots" id="dropdownMenuButton"
+					data-bs-toggle="dropdown" aria-haspopup="true"
+					aria-expanded="false">...</span>
+
+				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+					<a class="dropdown-item" ng-click="editComment(commentItem)">Chỉnh
+						sửa</a> <a class="dropdown-item" ng-click="deleteComment(commentItem)">Xóa</a>
+				</div>
+			</div>
 		</div>
 
-		<div class="ms-5 mt-2">
-			<div ng-repeat="reply in replies[commentItem.id]"
-				class="d-flex align-items-start mb-2">
+		<div class="ms-5 mt-2" ng-repeat="reply in replies[commentItem.id]">
+			<div class="d-flex align-items-start mb-2">
 				<div class="me-2">
 					<img class="object-fit-cover rounded-circle"
 						ng-src="./images/{{reply.customer.image}}" width="50px"
 						height="50px" alt="">
 				</div>
-				<div>
+				<div class="flex-grow-1">
 					<span class="fw-bold me-2">{{ reply.customer.fullname }}</span> <span
 						class="text-secondary">{{ reply.createdAt |
 						date:'dd/MM/yyyy HH:mm:ss' }}</span>
-					<p class="mb-2">{{ reply.content }}</p>
-					<a class="text-decoration-none fw-bold text-primary"
-						ng-click="toggleReplyInput(commentItem, reply)"
-						href="javascript:void(0)">Trả lời</a>
+
+					<div ng-show="!reply.isEditing">
+						<p class="mb-2">{{ reply.content }}</p>
+						<a class="text-decoration-none fw-bold text-primary"
+							ng-click="toggleReplyInput(commentItem, reply)"
+							href="javascript:void(0)">Trả lời</a>
+					</div>
+
+					<div ng-show="reply.isEditing">
+						<textarea ng-model="replyContent[reply.id]" class="form-control"
+							placeholder="Nhập nội dung phản hồi..." rows="2" required></textarea>
+						<div class="mt-2">
+							<button class="btn btn-primary"
+								ng-click="updateReply(reply.id, replyContent[reply.id])">Lưu</button>
+							<button class="btn btn-secondary" ng-click="cancelReply(reply)">Hủy</button>
+						</div>
+					</div>
+
 				</div>
+
+				<div class="dropdown mt-1"
+					ng-hide="reply.customer.username !== username">
+					<span class="three-dots" id="dropdownMenuButton"
+						data-bs-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false">...</span>
+					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+						<a class="dropdown-item" ng-click="toggleReplyEdit(reply)">Chỉnh
+							sửa</a> <a class="dropdown-item" ng-click="deleteReply(reply)">Xóa</a>
+					</div>
+				</div>
+
 			</div>
 		</div>
 
@@ -150,10 +199,12 @@
 		</div>
 	</div>
 
-
 	<div class="d-flex justify-content-center mt-3">
 		<button class="btn btn-outline-secondary"
-			ng-click="showMoreComments()" ng-if="comments.length > commentLimit">
-			Xem thêm bình luận</button>
+			ng-click="showMoreComments()" ng-if="comments.length > commentLimit">Xem
+			thêm bình luận</button>
 	</div>
 </div>
+
+<link rel="stylesheet" href="./css/dots.css">
+

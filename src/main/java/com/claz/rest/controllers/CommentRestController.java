@@ -1,6 +1,7 @@
 package com.claz.rest.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 
@@ -8,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.claz.models.Comment;
 import com.claz.models.CommentDTO;
 import com.claz.models.Customer;
+import com.claz.models.GenreProduct;
 import com.claz.models.Product;
 import com.claz.models.Reply;
 import com.claz.models.ReplyDTO;
@@ -53,6 +57,26 @@ public class CommentRestController {
 		}
 	}
 
+	@GetMapping("{id}")
+	public ResponseEntity<Comment> getOne(@PathVariable("id") int id) {
+		Optional<Comment> optionalComment = commentService.findById(id);
+		if (optionalComment.isPresent()) {
+			return ResponseEntity.ok(optionalComment.get());
+		} else {
+			return ResponseEntity.notFound().build();
+		}
+	}
+
+	@PutMapping("/{id}")
+	public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody CommentDTO commentDTO) {
+		Optional<Comment> optionalComment = commentService.findById(id);
+		Comment existingComment = optionalComment.get();
+		existingComment.setContent(commentDTO.getContent());
+		commentService.update(existingComment);
+
+		return new ResponseEntity<>(existingComment, HttpStatus.OK);
+	}
+
 	@GetMapping("/comments")
 	public ResponseEntity<List<Comment>> getCommentsByProductId(HttpSession session) {
 		Integer productId = (Integer) session.getAttribute("productId");
@@ -85,6 +109,45 @@ public class CommentRestController {
 		Reply savedReply = commentService.saveReply(reply);
 
 		return ResponseEntity.ok(savedReply);
+	}
+
+	@DeleteMapping("{id}")
+	public ResponseEntity<?> delete(@PathVariable("id") int id) {
+		List<Reply> replies = commentService.getReplies(id);
+
+		for (Reply reply : replies) {
+			commentService.deleteReply(reply.getId());
+		}
+		commentService.delete(id);
+
+		return ResponseEntity.ok().build();
+	}
+
+	@PutMapping("/replies/{id}")
+	public ResponseEntity<?> updateReply(@PathVariable("id") int id, @RequestBody ReplyDTO replyDTO) {
+		Optional<Reply> optionalReply = commentService.findByIdReply(id);
+		if (!optionalReply.isPresent()) {
+			return ResponseEntity.notFound().build();
+		}
+		Reply existingReply = optionalReply.get();
+		existingReply.setContent(replyDTO.getContent());
+		commentService.updateReply(existingReply);
+
+		return ResponseEntity.ok(existingReply);
+	}
+
+	@DeleteMapping("/replies/{id}")
+	public ResponseEntity<?> deleteReply(@PathVariable("id") int id) {
+		try {
+			Optional<Reply> reply = commentService.findByIdReply(id);
+			if (reply != null) {
+				commentService.deleteReply(id);
+				return ResponseEntity.ok().build();
+			}
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Reply not found");
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting reply");
+		}
 	}
 
 }
