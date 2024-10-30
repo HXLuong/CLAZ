@@ -1,10 +1,9 @@
-var app = angular.module('staffApp', []);
-app.controller('staffCtrl', function($scope, $http) {
+var app = angular.module('customerApp', []);
+app.controller('customerCtrl', function($scope, $http) {
 	$scope.form = {};
-	$scope.form2 = {};
 	$scope.items = [];
 	$scope.load_all = function() {
-		var url = `/rest/staffs`;
+		var url = `/rest/customers`;
 		$http.get(url).then(resp => {
 			$scope.items = resp.data;
 		}).catch(error => {
@@ -18,15 +17,8 @@ app.controller('staffCtrl', function($scope, $http) {
 		};
 		$scope.key = null;
 	}
-
-	$scope.loadAccount = function() {
-		$http.get('/rest/staffs/current').then(resp => {
-			$scope.form2 = resp.data || {};
-		});
-	};
-
 	$scope.edit = function(username) {
-		var url = `/rest/staffs/${username}`;
+		var url = `/rest/customers/${username}`;
 		$http.get(url).then(resp => {
 			$scope.form = resp.data;
 			console.log("Success", resp);
@@ -34,19 +26,15 @@ app.controller('staffCtrl', function($scope, $http) {
 			console.log("Error", error);
 		});
 	}
-
 	$scope.isValidEmail = function(email) {
 		const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 		return emailPattern.test(email);
 	};
-
 	$scope.isValidPhone = function(phone) {
 		const phonePattern = /^(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})$/;
 		return phonePattern.test(phone);
 	};
-
 	$scope.create = function() {
-
 		/*Validate*/
 		if (!$scope.form.username) {
 			Swal.fire({
@@ -96,18 +84,9 @@ app.controller('staffCtrl', function($scope, $http) {
 			});
 			return;
 		}
-		if ($scope.form.role == null) {
-			Swal.fire({
-				title: "Lỗi",
-				text: "Vui lòng chọn chức vụ",
-				icon: "error"
-			});
-			return;
-		}
 
 		var item = angular.copy($scope.form);
-		item.role = $scope.form.role;
-		var url = `/rest/staffs`;
+		var url = `/rest/customers`;
 		$http.post(url, item).then(resp => {
 			$scope.items.push(item);
 			console.log("Success", resp);
@@ -176,17 +155,8 @@ app.controller('staffCtrl', function($scope, $http) {
 			});
 			return;
 		}
-		if ($scope.form.role == null) {
-			Swal.fire({
-				title: "Lỗi",
-				text: "Vui lòng chọn chức vụ",
-				icon: "error"
-			});
-			return;
-		}
-
 		var item = angular.copy($scope.form);
-		var url = `/rest/staffs/${$scope.form.username}`;
+		var url = `/rest/customers/${$scope.form.username}`;
 		$http.put(url, item).then(resp => {
 			var index = $scope.items.findIndex(item => item.username == $scope.form.username);
 			$scope.items[index] = resp.data;
@@ -206,7 +176,6 @@ app.controller('staffCtrl', function($scope, $http) {
 			});
 		});
 	}
-
 	$scope.delete = function(username) {
 		Swal.fire({
 			title: "Bạn có chắc muốn xoá tài khoản này không?",
@@ -223,12 +192,11 @@ app.controller('staffCtrl', function($scope, $http) {
 					title: "Xóa Thành công",
 					text: "Tài khoản đã được xóa khỏi danh sách",
 				});
-				var url = `/rest/staffs/${username}`;
+				var url = `/rest/customers/${username}`;
 				$http.delete(url).then(resp => {
 					var index = $scope.items.findIndex(item => item.username == username);
 					$scope.items.splice(index, 1);
 					$scope.reset();
-
 					$('#staticBackdrop').modal('hide');
 					$scope.load_all();
 				}).catch(error => {
@@ -240,9 +208,7 @@ app.controller('staffCtrl', function($scope, $http) {
 				});
 			}
 		});
-
 	}
-
 	$scope.imageChaged = function(files) {
 		var data = new FormData();
 		data.append('file', files[0]);
@@ -259,7 +225,6 @@ app.controller('staffCtrl', function($scope, $http) {
 			});
 		})
 	}
-
 	/*$scope.pager = {
 		page: 0,
 		size: 3,
@@ -289,7 +254,6 @@ app.controller('staffCtrl', function($scope, $http) {
 			this.page = this.count - 1;
 		}
 	}*/
-	$scope.loadAccount();
 	$scope.load_all();
 	$scope.reset();
 });

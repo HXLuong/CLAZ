@@ -136,6 +136,10 @@ a.sidebar-link {
 	opacity: 0.8;
 }
 
+.btn_color {
+	color: var(--bs-emphasis-color);
+}
+
 @media ( min-width :768px) {
 	.content {
 		max-width: auto;

@@ -53,7 +53,8 @@
 				</div>
 				<hr class="mt-2 mb-3">
 				<div class="cart-btn">
-					<button class="btn btn-primary mb-3 me-3" style="width: 13rem;"
+					<button th:attr="ng-click='buyNow(\''+${id}+'\');'"
+						class="btn btn-primary mb-3 me-3" style="width: 13rem;"
 						th:disabled="*{quantity} <= 0">
 						<i class="bi bi-credit-card-fill"></i> <span class="fw-semibold">Mua
 							Ngay</span>

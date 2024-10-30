@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.claz.models.Customer;
 import com.claz.models.Staff;
 
 @Service
@@ -24,5 +23,7 @@ public interface StaffService {
 	void delete(String username);
 
 	Optional<Staff> getname(String username);
+	
+	Optional<Staff> findByEmail(String email);
 
 }

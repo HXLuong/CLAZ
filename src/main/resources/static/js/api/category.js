@@ -3,7 +3,7 @@ app.controller("categoryCtrl", function($scope, $http) {
 	$scope.form = {};
 	$scope.items = [];
 	$scope.products = [];
-	$scope.genreProducts = []; // Khai báo biến này nếu chưa có
+	$scope.genreProducts = []; 
 	$scope.galaries = [];
 
 	// Hàm tạo ID ngẫu nhiên

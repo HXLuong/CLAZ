@@ -98,6 +98,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		http.authorizeRequests().antMatchers("/admin**").hasAnyRole("ADMIN", "USER").antMatchers("/order/**")
 				.authenticated().antMatchers("/cart-index").hasRole("CUSTOMER").anyRequest().permitAll();
+		
+//		http.authorizeRequests().antMatchers("/cart-index").hasRole("CUSTOMER").anyRequest().permitAll();
 
 		http.formLogin().loginPage("/login").loginProcessingUrl("/security/login")
 				.defaultSuccessUrl("/login-success", true).failureUrl("/security/login/error");

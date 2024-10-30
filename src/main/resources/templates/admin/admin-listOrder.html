@@ -1,6 +1,5 @@
 <div class="content px-3 py-2">
 	<div class="container-fluid">
-		<!-- Content -->
 		<div>
 			<div class="mb-3">
 				<h4 class="fw-bold fs-3">Danh sách hóa đơn</h4>
@@ -18,25 +17,32 @@
 					<thead>
 						<tr>
 							<th scope="col">STT</th>
+							<th scope="col">Mã hóa đơn</th>
 							<th scope="col">Người mua</th>
 							<th scope="col">Trạng thái</th>
 							<th scope="col">Phương thức thanh toán</th>
+							<th scope="col">Tổng tiền</th>
 							<th scope="col">Ngày mua</th>
 							<th scope="col">Khác</th>
 						</tr>
 					</thead>
 					<tbody>
-						<td>1</td>
-						<td>Záp đẹp try</td>
-						<td class="text-success">Đã xử lý</td>
-						<td>VNPAY</td>
-						<td>11/10/2024</td>
-						<td scope="row">
-							<!-- Button trigger modal -->
-							<a href="/adminOrderDetail" type="button" class="btn btn-outline-primary me-2">
-								<i class="bi bi-box-arrow-up-right"></i> Chi tiết
-							</a>
-						</td>
+						<tr th:each="order, iterStat : ${orders}">
+							<td th:text="${iterStat.index + 1}"></td>
+							<td th:text="${'#' + order.id}"></td>
+							<td th:text="${order.customer.fullname}"></td>
+							<td th:text="${order.status}"></td>
+							<td th:text="${order.paymentMethod}"></td>
+							<td
+								th:text="${#numbers.formatDecimal(order.amount / 100, 0,
+							'COMMA', 0, 'POINT') + 'đ'}"></td>
+							<td
+								th:text="${order.created_at.format(T(java.time.format.DateTimeFormatter).ofPattern('dd/MM/yyyy HH:mm:ss'))}"></td>
+							<td><a th:href="@{'/adminOrderDetail?id='+ ${order.id}}"
+								class="btn btn-outline-primary me-2"> <i
+									class="bi bi-box-arrow-up-right"></i> Chi tiết
+							</a></td>
+						</tr>
 					</tbody>
 				</table>
 			</div>
