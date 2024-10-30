@@ -1,6 +1,7 @@
 package com.claz.repositories;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -13,7 +14,8 @@ public interface CommentRepository extends JpaRepository<Comment, Integer> {
 	List<Comment> findByProductId(int productId);
 
 	Comment save(CommentDTO comment);
-	
+
 	List<Comment> findByProductId(Integer productId);
 
+	Optional<Comment> findById(Integer id);
 }

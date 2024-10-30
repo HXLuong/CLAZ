@@ -53,7 +53,6 @@ public class CommentServiceImpl implements CommentService {
 		return commentRepository.save(comment);
 	}
 
-	@Override
 	public Comment update(Comment comment) {
 		return commentRepository.save(comment);
 	}
@@ -81,4 +80,28 @@ public class CommentServiceImpl implements CommentService {
 	public List<Reply> getReplies(int commentId) {
 		return replyRepository.findByCommentId(commentId);
 	}
+
+	@Override
+	public Optional<Comment> findById(int id) {
+		return commentRepository.findById(id);
+	}
+
+	public void delete(int id) {
+		commentRepository.deleteById(id);
+	}
+
+	public void deleteReply(int id) {
+		replyRepository.deleteById(id);
+	}
+
+	@Override
+	public Reply updateReply(Reply Reply) {
+		return replyRepository.save(Reply);
+	}
+
+	@Override
+	public Optional<Reply> findByIdReply(int id) {
+		return replyRepository.findById(id);
+	}
+
 }
