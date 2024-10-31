@@ -31,7 +31,6 @@ public class SecurityController {
 
 	@RequestMapping("/login")
 	public String login(Model model) {
-		model.addAttribute("message", "Vui Lòng đăng nhập");
 		return "/login/login";
 	}
 
@@ -62,7 +61,7 @@ public class SecurityController {
 	@RequestMapping("/security/login/error")
 	public String error(Model md) {
 		md.addAttribute("message", "Tên đăng nhập hoặc mật khẩu không đúng");
-		return "redirect:/login";
+		return "/login/login";
 	}
 
 	@GetMapping("/security/login/success")
