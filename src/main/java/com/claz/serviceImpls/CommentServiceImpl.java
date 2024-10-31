@@ -14,7 +14,7 @@ import com.claz.models.Customer;
 import com.claz.models.Product;
 import com.claz.models.Reply;
 import com.claz.repositories.CommentRepository;
-import com.claz.repositories.replyRepository;
+import com.claz.repositories.ReplyRepository;
 import com.claz.services.CommentService;
 import com.claz.services.CustomerService;
 import com.claz.services.ProductService;
@@ -32,7 +32,7 @@ public class CommentServiceImpl implements CommentService {
 	private CustomerService customerService;
 
 	@Autowired
-	private replyRepository replyRepository;
+	private ReplyRepository replyRepository;
 
 	@Autowired
 	private HttpSession httpSession;

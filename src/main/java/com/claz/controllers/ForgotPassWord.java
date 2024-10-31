@@ -85,6 +85,7 @@ public class ForgotPassWord {
 					"Mã xác nhận của bạn là: " + randomCode);
 			return ResponseEntity.ok(new SuccessResponse("Mã xác nhận đã được gửi đến email của bạn.", randomCode));
 		} catch (UsernameNotFoundException e) {
+			System.out.println("ssssssssss " + mail);
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse("Email không tồn tại."));
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -11,8 +11,8 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 	$scope.email = "";
 	$scope.totalPrice = 0;
 	$scope.totalQuantity = 0;
-	$scope.replyContent = ''; 
-	$scope.commentLimit = 3; 
+	$scope.replyContent = '';
+	$scope.commentLimit = 3;
 	$scope.replyContent = {};
 
 	var element = angular.element(document.getElementById('container'));
@@ -36,7 +36,9 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 		const phonePattern = /^(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})$/;
 		return phonePattern.test(phone);
 	};
-	$scope.create = function() {
+
+	$scope.emailSentAccount = false;
+	$scope.sendCreateMail = function() {
 		$scope.form = $scope.form || {};
 		if (!$scope.form.fullname) {
 			Swal.fire({
@@ -79,24 +81,99 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 			});
 			return;
 		}
-		var item = angular.copy($scope.form);
-		$http.post(`/rest/customer`, item).then(resp => {
-			$scope.items.push(resp.data);
-			Swal.fire({
-				title: "Good job!",
-				text: "Đăng ký thành công",
-				icon: "success"
+
+		// Send Mail
+		const data = {
+			sendmail: $scope.form.email
+		};
+
+		Swal.fire({
+			icon: "success",
+			title: "Mã xác nhận đang được gửi",
+			text: "Vui lòng chờ trong giây lát.",
+			showConfirmButton: false,
+		});
+
+		$http.post('/rest/customer/send/mail', data)
+			.then(resp => {
+				$scope.emailSentAccount = true;
+				Swal.fire({
+					title: "Thành công",
+					text: "Mã xác nhận đã được gửi. Vui lòng kiểm tra hộp thư của bạn.",
+					icon: "success"
+				});
+				$('#VerifyCreateAccount').modal('show');
+			})
+			.catch(error => {
+				console.error("Error:", error);
+				let errorMessage = "Có lỗi xảy ra khi gửi email.";
+				if (error.data) {
+					errorMessage = error.data.error;
+				}
+				Swal.fire({
+					title: "Lỗi",
+					text: errorMessage,
+					icon: "error"
+				});
+				$scope.emailSentAccount = false;
 			});
-			element.removeClass('active');
-			$scope.reset();
-		}).catch(err => {
+	};
+
+	$scope.CreateAccount = function() {
+		const verificationData = {
+			email: $scope.form.email,
+			code: $scope.form.code
+		};
+		if (!verificationData.email || !verificationData.code) {
 			Swal.fire({
 				title: "Lỗi",
-				text: "Username hoặc Email đã tồn tại. Vui lòng sử dụng Username hoặc Email khác",
+				text: "Vui lòng nhập đầy đủ email và mã xác nhận.",
 				icon: "error"
 			});
-		});
+			return;
+		}
+		$http.post('/rest/customer/verify/code', verificationData)
+			.then(response => {
+				Swal.fire({
+					title: "Thành công",
+					text: "Mã xác nhận chính xác!",
+					icon: "success"
+				}).then(() => {
+					$('#VerifyCreateAccount').modal('hide');
+					
+					var item = angular.copy($scope.form);
+					$http.post(`/rest/customer`, item).then(resp => {
+						$scope.items.push(resp.data);
+						Swal.fire({
+							title: "Good job!",
+							text: "Đăng ký thành công",
+							icon: "success"
+						});
+						element.removeClass('active');
+						$scope.reset();
+					}).catch(err => {
+						Swal.fire({
+							title: "Lỗi",
+							text: "Username hoặc Email đã tồn tại. Vui lòng sử dụng Username hoặc Email khác",
+							icon: "error"
+						});
+					});
+				});
+			})
+			.catch(error => {
+				console.error("Error:", error);
+				let errorMessage = "Mã xác nhận không chính xác.";
+				if (error && error.data && error.data.error) {
+					errorMessage = error.data.error;
+				}
+				Swal.fire({
+					title: "Lỗi",
+					text: errorMessage,
+					icon: "error"
+				});
+			});
 	};
+
 	$scope.updateAccount = function() {
 		if (!$scope.form.phone || !$scope.isValidPhone($scope.form.phone)) {
 			Swal.fire({
@@ -230,6 +307,7 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 				$scope.emailSent = false;
 			});
 	};
+
 	$scope.verifyCode = function() {
 		const verificationData = {
 			email: $scope.form.email,
@@ -491,6 +569,8 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 		}
 	}
 
+
+	// Comment
 	$scope.generateRandomId = function(length) {
 		let result = '';
 		for (let i = 0; i < length; i++) {
@@ -498,300 +578,302 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 		}
 		return result;
 	};
-	
+
 	$scope.editComment = function(commentItem) {
-	commentItem.isEditing = true;  
-	$scope.commentContent = commentItem.content; 
-	$scope.commentId = commentItem.id; 
+		commentItem.isEditing = true;
+		$scope.commentContent = commentItem.content;
+		$scope.commentId = commentItem.id;
 	};
 
 
 	$scope.cancelEdit = function(commentItem) {
-	    commentItem.isEditing = false;  
+		commentItem.isEditing = false;
 	};
-	
+
 	$scope.toggleReplyEdit = function(reply) {
-	    reply.isEditing = !reply.isEditing;
-	    if (reply.isEditing) {
-	        $scope.replyContent[reply.id] = reply.content;
-	    } else {
-	        delete $scope.replyContent[reply.id];
-	    }
+		reply.isEditing = !reply.isEditing;
+		if (reply.isEditing) {
+			$scope.replyContent[reply.id] = reply.content;
+		} else {
+			delete $scope.replyContent[reply.id];
+		}
 	};
 
 	$scope.cancelReply = function(reply) {
-	    reply.isEditing = false;  
+		reply.isEditing = false;
 	};
 
-
-
 	$scope.submitComment = function(commentContent, productId) {
-	    if (!$scope.username) {
-	        Swal.fire({
-	            icon: "error",
-	            title: "Lỗi",
-	            text: "Bạn cần đăng nhập để bình luận.",
-	        });
-	        return;
-	    }
-	    if ($scope.commentId) { 
-	        $http.get(`/comments/${$scope.commentId}`)
-	            .then(resp => {
-	                const existingComment = resp.data;
-	                existingComment.content = commentContent; 
-	                $http.put(`/comments/${existingComment.id}`, existingComment) 
-	                    .then(resp => {
-	                        $scope.commentContent = ''; 
-	                        $scope.commentId = null; 
-	                        Swal.fire({
-	                            icon: "success",
-	                            title: "Thành công",
-	                            text: "Bình luận đã được cập nhật.",
-	                        });
-	                        $scope.loadComments(); 
-	                    })
-	                    .catch(err => {
-	                        console.error('Lỗi khi cập nhật bình luận:', err);
-	                        Swal.fire({
-	                            icon: "error",
-	                            title: "Lỗi",
-	                            text: "Có lỗi xảy ra khi cập nhật bình luận.",
-	                        });
-	                    });
-	            })
-	            .catch(err => {
-	                console.error('Lỗi khi lấy bình luận:', err);
-	                Swal.fire({
-	                    icon: "error",
-	                    title: "Lỗi",
-	                    text: "Có lỗi xảy ra khi lấy bình luận.",
-	                });
-	            });
-	    } else {
-	        var item = angular.copy($scope.form);
-	        item.id = $scope.generateRandomId(6);
-	        const commentDTO = {
-	            id: item.id,
-	            productId: productId,
-	            content: commentContent.new,
-	            username: $scope.username
-	        };
-	        $http.post('/comments/add', commentDTO) 
-	            .then(resp => {
-	                $scope.commentContent = '';
-	                Swal.fire({
-	                    icon: "success",
-	                    title: "Thành công",
-	                    text: "Bình luận đã được thêm.",
-	                });
-	                $scope.loadComments(); 
-	            })
-	            .catch(err => {
-	                console.error('Lỗi khi thêm bình luận:', err);
-	                Swal.fire({
-	                    icon: "error",
-	                    title: "Lỗi",
-	                    text: "Có lỗi xảy ra khi thêm bình luận.",
-	                });
-	            });
-	    }
+		if (!$scope.username) {
+			Swal.fire({
+				icon: "error",
+				title: "Lỗi",
+				text: "Bạn cần đăng nhập để bình luận.",
+			});
+			return;
+		}
+		if ($scope.commentId) {
+			$http.get(`/comments/${$scope.commentId}`)
+				.then(resp => {
+					const existingComment = resp.data;
+					existingComment.content = commentContent;
+					$http.put(`/comments/${existingComment.id}`, existingComment)
+						.then(resp => {
+							$scope.commentContent = '';
+							$scope.commentId = null;
+							Swal.fire({
+								icon: "success",
+								title: "Thành công",
+								text: "Bình luận đã được cập nhật.",
+							});
+							$scope.loadComments();
+						})
+						.catch(err => {
+							console.error('Lỗi khi cập nhật bình luận:', err);
+							Swal.fire({
+								icon: "error",
+								title: "Lỗi",
+								text: "Có lỗi xảy ra khi cập nhật bình luận.",
+							});
+						});
+				})
+				.catch(err => {
+					console.error('Lỗi khi lấy bình luận:', err);
+					Swal.fire({
+						icon: "error",
+						title: "Lỗi",
+						text: "Có lỗi xảy ra khi lấy bình luận.",
+					});
+				});
+		} else {
+			var item = angular.copy($scope.form);
+			item.id = $scope.generateRandomId(6);
+			const commentDTO = {
+				id: item.id,
+				productId: productId,
+				content: commentContent.new,
+				username: $scope.username
+			};
+			$http.post('/comments/add', commentDTO)
+				.then(resp => {
+					$scope.commentContent = '';
+					Swal.fire({
+						icon: "success",
+						title: "Thành công",
+						text: "Bình luận đã được thêm.",
+					});
+					$scope.loadComments();
+				})
+				.catch(err => {
+					console.error('Lỗi khi thêm bình luận:', err);
+					Swal.fire({
+						icon: "error",
+						title: "Lỗi",
+						text: "Có lỗi xảy ra khi thêm bình luận.",
+					});
+				});
+		}
 	};
 
 	$scope.deleteComment = function(item) {
-	    Swal.fire({
-	        title: "Bạn có chắc muốn xóa bình luận này không?",
-	        text: "Bạn sẽ không thể hoàn tác lại bình luận này!",
-	        icon: "warning",
-	        showCancelButton: true,
-	        confirmButtonColor: "#3085d6",
-	        cancelButtonColor: "#d33",
-	        confirmButtonText: "Có, Xóa ngay!"
-	    }).then((result) => {
-	        if (result.isConfirmed) {
-	            $http.delete(`/comments/${item.id}`)
-	                .then(resp => {
-	                    var index = $scope.comments.findIndex(c => c.id == item.id);
-	                    if (index > -1) {
-	                        $scope.comments.splice(index, 1);
-	                    }
-	                    Swal.fire({
-	                        icon: "success",
-	                        title: "Xóa thành công",
-	                        text: "Bình luận và các phản hồi đã được xóa.",
-	                    });
-	                }).catch(error => {
-	                    Swal.fire({
-	                        icon: "error",
-	                        title: "Lỗi",
-	                        text: "Có lỗi xảy ra khi xóa bình luận.",
-	                    });
-	                });
-	        }
-	    });
+		Swal.fire({
+			title: "Bạn có chắc muốn xóa bình luận này không?",
+			text: "Bạn sẽ không thể hoàn tác lại bình luận này!",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Có, Xóa ngay!"
+		}).then((result) => {
+			if (result.isConfirmed) {
+				$http.delete(`/comments/${item.id}`)
+					.then(resp => {
+						var index = $scope.comments.findIndex(c => c.id == item.id);
+						if (index > -1) {
+							$scope.comments.splice(index, 1);
+						}
+						Swal.fire({
+							icon: "success",
+							title: "Xóa thành công",
+							text: "Bình luận và các phản hồi đã được xóa.",
+						});
+					}).catch(error => {
+						Swal.fire({
+							icon: "error",
+							title: "Lỗi",
+							text: "Có lỗi xảy ra khi xóa bình luận.",
+						});
+					});
+			}
+		});
 	};
 
-
 	$scope.loadComments = function() {
-	    $http.get(`/comments/comments`)
-	    .then(resp => {
-	        $scope.comments = resp.data;
-	    })
-	    .catch(err => {
-	        console.error('Lỗi khi tải bình luận:', err);
-	    });
+		$http.get(`/comments/comments`)
+			.then(resp => {
+				$scope.comments = resp.data;
+			})
+			.catch(err => {
+				console.error('Lỗi khi tải bình luận:', err);
+			});
 	};
 
 	$scope.replies = {};
 
 	$scope.loadReplies = function(commentId) {
-	    $http.get(`/comments/${commentId}/replies`)
-	    .then(function(response) {
-	        $scope.replies[commentId] = response.data;
-	    });
+		$http.get(`/comments/${commentId}/replies`)
+			.then(function(response) {
+				$scope.replies[commentId] = response.data;
+			});
 	};
 
 
 
 	$scope.addReply = function(commentId, replyContent) {
-	    if (!$scope.username) {
-	        Swal.fire({
-	            icon: "error",
-	            title: "Lỗi",
-	            text: "Bạn cần đăng nhập để phản hồi.",
-	        });
-	        return;
-	    }
+		if (!$scope.username) {
+			Swal.fire({
+				icon: "error",
+				title: "Lỗi",
+				text: "Bạn cần đăng nhập để phản hồi.",
+			});
+			return;
+		}
 		var item = angular.copy($scope.form);
 		item.id = $scope.generateRandomId(6);
-		
-	    const replyDTO = {
+
+		const replyDTO = {
 			id: item.id,
-	        commentId: commentId,
-	        content: replyContent,
-	        username: $scope.username
-	    };
+			commentId: commentId,
+			content: replyContent,
+			username: $scope.username
+		};
 
-	    $http.post(`/comments/${commentId}/replies`, replyDTO)
-	    .then(resp => {
-	        $scope.loadReplies(commentId);
-	        $scope.replyContent = '';
-	        Swal.fire({
-	            icon: "success",
-	            title: "Thành công",
-	            text: "Phản hồi đã được thêm.",
-	        });
-			const commentItem = $scope.comments.find(c => c.id === commentId);
-			    if (commentItem) commentItem.showReplyInput = false;
-	    })
-	    .catch(err => {
-	        Swal.fire({
-	            icon: "error",
-	            title: "Lỗi",
-	            text: "Có lỗi xảy ra khi thêm phản hồi.",
-	        });
-	    });
+		$http.post(`/comments/${commentId}/replies`, replyDTO)
+			.then(resp => {
+				$scope.loadReplies(commentId);
+				$scope.replyContent = '';
+				Swal.fire({
+					icon: "success",
+					title: "Thành công",
+					text: "Phản hồi đã được thêm.",
+				});
+				const commentItem = $scope.comments.find(c => c.id === commentId);
+				if (commentItem) commentItem.showReplyInput = false;
+			})
+			.catch(err => {
+				Swal.fire({
+					icon: "error",
+					title: "Lỗi",
+					text: "Có lỗi xảy ra khi thêm phản hồi.",
+				});
+			});
 	};
-	
+
 	$scope.updateReply = function(replyId, replyContent) {
-	    if (!$scope.username) {
-	        Swal.fire({
-	            icon: "error",
-	            title: "Lỗi",
-	            text: "Bạn cần đăng nhập để cập nhật phản hồi.",
-	        });
-	        return;
-	    }
+		if (!$scope.username) {
+			Swal.fire({
+				icon: "error",
+				title: "Lỗi",
+				text: "Bạn cần đăng nhập để cập nhật phản hồi.",
+			});
+			return;
+		}
 
-	    const replyDTO = {
-	        id: replyId, 
-	        content: replyContent,
-	        username: $scope.username 
-	    };
+		const replyDTO = {
+			id: replyId,
+			content: replyContent,
+			username: $scope.username
+		};
 
-	    $http.put(`/comments/replies/${replyId}`, replyDTO)
-	    .then(resp => {
-	        let commentId;
-	        for (let key in $scope.replies) {
-	            if ($scope.replies[key].some(reply => reply.id === replyId)) {
-	                commentId = key;
-	                break;
-	            }
-	        }
+		$http.put(`/comments/replies/${replyId}`, replyDTO)
+			.then(resp => {
+				let commentId;
+				for (let key in $scope.replies) {
+					if ($scope.replies[key].some(reply => reply.id === replyId)) {
+						commentId = key;
+						break;
+					}
+				}
 
-	        if (commentId) {
-	            $scope.loadReplies(commentId);
-	        }
+				$scope.loadReplies();
+				$scope.loadComments();
 
-	        $scope.replyContent = ''; 
-	        Swal.fire({
-	            icon: "success",
-	            title: "Thành công",
-	            text: "Phản hồi đã được cập nhật.",
-	        });
+				Swal.fire({
+					icon: "success",
+					title: "Thành công",
+					text: "Phản hồi đã được cập nhật.",
+				});
 
-	    })
-	    .catch(err => {
-	        Swal.fire({
-	            icon: "error",
-	            title: "Lỗi",
-	            text: "Có lỗi xảy ra khi cập nhật phản hồi.",
-	        });
-	    });
+			})
+			.catch(err => {
+				Swal.fire({
+					icon: "error",
+					title: "Lỗi",
+					text: "Có lỗi xảy ra khi cập nhật phản hồi.",
+				});
+			});
 	};
-	
+
 	$scope.deleteReply = function(reply) {
-	    Swal.fire({
-	        title: "Bạn có chắc muốn xóa phản hồi này không?",
-	        text: "Bạn sẽ không thể hoàn tác lại phản hồi này!",
-	        icon: "warning",
-	        showCancelButton: true,
-	        confirmButtonColor: "#3085d6",
-	        cancelButtonColor: "#d33",
-	        confirmButtonText: "Có, Xóa ngay!"
-	    }).then((result) => {
-	        if (result.isConfirmed) {
-	            $http.delete(`/comments/replies/${reply.id}`)
-	                .then(resp => {
-	                    Swal.fire({
-	                        icon: "success",
-	                        title: "Xóa thành công",
-	                        text: "Phản hồi đã được xóa.",
-	                    });
-	                    $scope.loadComments();
-	                }).catch(error => {
-	                    Swal.fire({
-	                        icon: "error",
-	                        title: "Lỗi",
-	                        text: "Có lỗi xảy ra khi xóa phản hồi.",
-	                    });
-	                });
-	        }
-	    });
+		Swal.fire({
+			title: "Bạn có chắc muốn xóa phản hồi này không?",
+			text: "Bạn sẽ không thể hoàn tác lại phản hồi này!",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Có, Xóa ngay!"
+		}).then((result) => {
+			if (result.isConfirmed) {
+				$http.delete(`/comments/replies/${reply.id}`)
+					.then(resp => {
+						Swal.fire({
+							icon: "success",
+							title: "Xóa thành công",
+							text: "Phản hồi đã được xóa.",
+						});
+						$scope.loadComments();
+					}).catch(error => {
+						Swal.fire({
+							icon: "error",
+							title: "Lỗi",
+							text: "Có lỗi xảy ra khi xóa phản hồi.",
+						});
+					});
+			}
+		});
 	};
 
-	
 	$scope.showMoreComments = function() {
-	    $scope.commentLimit += 6; 
+		$scope.commentLimit += 6;
 	};
-	
-
 
 	$scope.toggleReplyInput = function(commentItem, reply) {
-	    commentItem.showReplyInput = !commentItem.showReplyInput;
+		if (!$scope.username) {
+			Swal.fire({
+				icon: "error",
+				title: "Lỗi",
+				text: "Bạn cần đăng nhập để có thể trả lời.",
+			});
+			return;
+		}
 
-	    if (commentItem.showReplyInput) {
-	        $scope.replyContent = reply && reply.customer.fullname 
-	            ? '@' + reply.customer.fullname + ' ' 
-	            : (commentItem.customer.fullname ? '@' + commentItem.customer.fullname + ' ' : '');
-	    } else {
-	        $scope.replyContent = '';
-	    }
+		commentItem.showReplyInput = !commentItem.showReplyInput;
+
+		if (commentItem.showReplyInput) {
+			$scope.replyContent = reply && reply.customer.fullname
+				? '@' + reply.customer.fullname + ' '
+				: (commentItem.customer.fullname ? '@' + commentItem.customer.fullname + ' ' : '');
+		} else {
+			$scope.replyContent = '';
+		}
 	};
 
+	$scope.loadReplies();
+	$scope.loadComments();
 
-	$scope.loadReplies(); 
-	$scope.loadComments(); 
 
+	// Payment VNPay
 	$scope.paymentByVNPay = function() {
 		const requestData = {
 			totalPrice: $scope.totalPrice,

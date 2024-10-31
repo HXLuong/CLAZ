@@ -2,6 +2,13 @@ var app = angular.module('customerApp', []);
 app.controller('customerCtrl', function($scope, $http) {
 	$scope.form = {};
 	$scope.items = [];
+	$scope.carts = [];
+	$scope.comments = [];
+	$scope.rating = [];
+	$scope.replies = [];
+	$scope.orders = [];
+	$scope.orderDetails = [];
+	
 	$scope.load_all = function() {
 		var url = `/rest/customers`;
 		$http.get(url).then(resp => {
