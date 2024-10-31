@@ -6,6 +6,7 @@ import com.claz.models.GenreProduct;
 import com.claz.models.Product;
 import com.claz.models.Slide;
 import com.claz.services.CategoryService;
+import com.claz.services.CommentService;
 import com.claz.services.CustomerService;
 import com.claz.services.GalaryService;
 import com.claz.services.GenreProductService;
@@ -55,10 +56,13 @@ public class HomeController {
 	OrderDetailService orderDetailService;
 	
 	@Autowired
+	CommentService commentService;
+	
+	@Autowired
 	CustomerService customerService;
 
 	@RequestMapping("/")
-	public String index(HttpSession session, Model model) {
+	public String index(HttpSession session, Model model, @RequestParam(defaultValue = "8") int productsMore) {
 		if (session.getAttribute("searchProduct") == null) {
 			List<Product> pr = productService.findAll();
 			session.setAttribute("products", pr);
@@ -75,7 +79,8 @@ public class HomeController {
 
 		List<Slide> slide = slideService.findAll();
 		session.setAttribute("slides", slide);
-
+		
+		session.setAttribute("productsMore", productsMore);
 		session.setAttribute("page", "component/home");
 		return "index";
 	}
@@ -178,31 +183,14 @@ public class HomeController {
 	}
 
 	@RequestMapping("/comment")
-	public String binhluan(HttpSession session) {
+	public String binhluan(HttpSession session, HttpServletRequest request) {
+		String username = request.getRemoteUser();
+		session.setAttribute("comments", commentService.findByUsername(username));
+		session.setAttribute("replies", commentService.findByUsernameReply(username));
 		session.setAttribute("page", "/update_profile/comment_profile");
 		return "index";
 	}
 
-	@RequestMapping("/favorite")
-	public String sanphamyeuthich(HttpSession session) {
-		session.setAttribute("page", "/update_profile/favorite_profile");
-		return "index";
-	}
-
-	@RequestMapping("/introduct")
-	public String gioithieu(HttpSession session) {
-		session.setAttribute("page", "/update_profile/introduct_profile");
-		return "index";
-	}
-
-//	public String login(Model model) {
-//		return "/login/login";
-//	}
-
-//	@RequestMapping("/instruct_createAccount")
-//	public String huongdantaotaikhoan(Model model) {
-//		return "/instruct/instruct_createAccount";
-//	}
 
 	@RequestMapping("/cart_instruct")
 	public String cart_instruct(Model model) {

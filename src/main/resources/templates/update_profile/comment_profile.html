@@ -43,12 +43,23 @@
 					<tr class="align-middle">
 						<th>Thời gian</th>
 						<th>Nội dung</th>
+						<th>Khác</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td>2024-10-02 14:59:34</td>
-						<td>sssssssssssssssssssssssssssss</td>
+					<tr th:each="comment : ${session.comments}">
+						<td
+							th:text="${comment.created_at.format(T(java.time.format.DateTimeFormatter).ofPattern('dd/MM/yyyy HH:mm:ss'))}"></td>
+						<td th:text="${comment.content}"></td>
+						<td><a th:href="@{|/${comment.product.id}|}"
+							class="text-decoration-none text-primary">Chi tiết</a></td>
+					</tr>
+					<tr th:each="reply : ${session.replies}">
+						<td
+							th:text="${reply.created_at.format(T(java.time.format.DateTimeFormatter).ofPattern('dd/MM/yyyy HH:mm:ss'))}"></td>
+						<td th:text="${reply.content}"></td>
+						<td><a th:href="@{|/${reply.comment.product.id}|}"
+							class="text-decoration-none text-primary">Chi tiết</a></td>
 					</tr>
 				</tbody>
 			</table>

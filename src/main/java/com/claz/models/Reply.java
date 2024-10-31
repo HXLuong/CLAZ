@@ -1,6 +1,7 @@
 package com.claz.models;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.*;
@@ -21,9 +22,8 @@ public class Reply implements Serializable {
 	@Column(name = "Content")
 	private String content;
 
-	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "created_at")
-	private Date createdAt = new Date();
+	LocalDateTime created_at = LocalDateTime.now();
 
 	@ManyToOne
 	@JoinColumn(name = "Comment_ID")
