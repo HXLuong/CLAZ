@@ -94,7 +94,8 @@
 <div class="container mt-2">
 	<div class="row">
 		<div class="col-lg-3 col-md-4 col-6 list_product"
-			th:each="product : ${session.products}">
+			th:each="product, p : ${session.products}"
+			th:if="${p.index < session.productsMore}">
 			<a th:href="@{|/${product.id}|}"> <img
 				th:src="@{'/images/'+${product.image}}"
 				class="img-fluid mt-2 rounded" alt="Product Image" width="100%">
@@ -109,6 +110,13 @@
 					th:if="${product.discount.intValue} > 0"
 					th:text="${'-' + product.discount.intValue() + '%'}"></span>
 			</h6>
+		</div>
+		<div class="d-flex justify-content-center">
+			<a
+				th:href="@{/(productsMore=${session.productsMore + 8})}"
+				class="text-primary my-2 fw-medium"
+				th:if="${session.products.size() > session.productsMore}">Xem
+				thêm</a>
 		</div>
 	</div>
 </div>

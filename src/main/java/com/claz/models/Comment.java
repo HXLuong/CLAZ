@@ -1,6 +1,7 @@
 package com.claz.models;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,9 +26,8 @@ public class Comment implements Serializable {
 
 	private String content;
 
-	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "created_at")
-	private Date created_at = new Date();
+	LocalDateTime created_at = LocalDateTime.now();
 
 	@ManyToOne
 	@JoinColumn(name = "Product_ID")

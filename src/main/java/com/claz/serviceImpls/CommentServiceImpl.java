@@ -104,4 +104,14 @@ public class CommentServiceImpl implements CommentService {
 		return replyRepository.findById(id);
 	}
 
+	@Override
+	public List<Comment> findByUsername(String username) {
+		return commentRepository.findByCustomerUsername(username);
+	}
+
+	@Override
+	public List<Reply> findByUsernameReply(String username) {
+		return replyRepository.findByCustomerUsername(username);
+	}
+
 }

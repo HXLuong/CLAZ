@@ -12,7 +12,7 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 	$scope.totalPrice = 0;
 	$scope.totalQuantity = 0;
 	$scope.replyContent = '';
-	$scope.commentLimit = 3;
+	$scope.commentLimit = 5;
 	$scope.replyContent = {};
 
 	var element = angular.element(document.getElementById('container'));
@@ -845,7 +845,7 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 	};
 
 	$scope.showMoreComments = function() {
-		$scope.commentLimit += 6;
+		$scope.commentLimit += 5;
 	};
 
 	$scope.toggleReplyInput = function(commentItem, reply) {
