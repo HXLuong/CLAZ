@@ -1,12 +1,7 @@
 package com.claz.serviceImpls;
 
-import java.sql.Date;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.Month;
-import java.time.ZoneId;
 import java.time.format.TextStyle;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -19,8 +14,20 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.claz.models.Comment;
+import com.claz.models.Galary;
+import com.claz.models.GenreProduct;
+import com.claz.models.OrderDetail;
 import com.claz.models.Product;
+import com.claz.models.Rating;
+import com.claz.models.Reply;
+import com.claz.repositories.CommentRepository;
+import com.claz.repositories.GalaryRepository;
+import com.claz.repositories.GenreProductRepository;
+import com.claz.repositories.OrderDetailRepository;
 import com.claz.repositories.ProductRepository;
+import com.claz.repositories.RatingRepository;
+import com.claz.repositories.ReplyRepository;
 import com.claz.services.ProductService;
 
 @Service
@@ -28,6 +35,24 @@ public class ProductServiceImpl implements ProductService {
 
 	@Autowired
 	private ProductRepository productRepository;
+
+	@Autowired
+	private GenreProductRepository genreProductRepository;
+
+	@Autowired
+	private GalaryRepository galaryRepository;
+
+	@Autowired
+	private OrderDetailRepository orderDetailRepository;
+
+	@Autowired
+	private CommentRepository commentRepository;
+
+	@Autowired
+	private ReplyRepository replyRepository;
+
+	@Autowired
+	private RatingRepository ratingRepository;
 
 	@Override
 	public List<Product> findAll() {
@@ -62,6 +87,35 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public void delete(int id) {
+		List<OrderDetail> orderDetails = orderDetailRepository.findByProductId(id);
+		for (OrderDetail orderDetail : orderDetails) {
+			orderDetailRepository.delete(orderDetail);
+		}
+
+		List<Galary> galaries = galaryRepository.findAllByProductId(id);
+		for (Galary galary : galaries) {
+			galaryRepository.delete(galary);
+		}
+
+		List<GenreProduct> genreProducts = genreProductRepository.findAllByProductId(id);
+		for (GenreProduct genreProduct : genreProducts) {
+			genreProductRepository.delete(genreProduct);
+		}
+
+		List<Comment> comments = commentRepository.findByProductId(id);
+		for (Comment comment : comments) {
+			List<Reply> replies = replyRepository.findByCommentId(comment.getId());
+			for (Reply reply : replies) {
+				replyRepository.delete(reply);
+			}
+			commentRepository.delete(comment);
+		}
+
+		List<Rating> ratings = ratingRepository.findByProductId(id);
+		for (Rating rating : ratings) {
+			ratingRepository.delete(rating);
+		}
+
 		productRepository.deleteById(id);
 	}
 
@@ -128,6 +182,22 @@ public class ProductServiceImpl implements ProductService {
 								Locale.forLanguageTag("vi")),
 						Collectors.summingDouble(
 								product -> product.getTotal_Pay() != null ? product.getTotal_Pay() : 0.0)));
+	}
+
+	@Override
+	public List<Product> findByHot() {
+		return productRepository.findByHot();
+	}
+
+	@Override
+	public List<Product> findByBestSeller(int purchases) {
+		return productRepository.findByPurchasesGreaterThan(purchases);
+	}
+
+	@Override
+	public List<Product> findProducts(Integer categoryId, Integer genreId, Double minPrice, Double maxPrice,
+			String sort) {
+		return productRepository.findByFilters(categoryId, genreId, minPrice, maxPrice, sort);
 	}
 
 }

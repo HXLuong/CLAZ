@@ -66,10 +66,4 @@ public class OrderServiceImpl implements OrderService {
 		order.setCreated_at(now);
 		return orderRepository.save(order);
 	}
-
-	@Override
-	public List<Object[]> findOrderByUsername(String username) {
-		return orderRepository.findOrderByUsername(username);
-	}
-
 }

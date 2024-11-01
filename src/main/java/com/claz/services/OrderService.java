@@ -13,8 +13,6 @@ public interface OrderService {
 
 	List<Order> findByUsername(String username);
 
-	List<Object[]> findOrderByUsername(String username);
-
 	Order findById(int id);
 
 	List<Order> findAll();

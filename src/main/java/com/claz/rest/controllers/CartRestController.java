@@ -153,6 +153,7 @@ public class CartRestController {
 				if (newQuantity >= 0) {
 					System.out.println(product.getQuantity());
 					product.setQuantity(newQuantity);
+					product.setPurchases(product.getPurchases() + cart.getQuantity());
 					productService.update(product);
 				} else {
 					throw new IllegalArgumentException(product.getName());

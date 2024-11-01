@@ -3,13 +3,19 @@
 		<div
 			class="col-lg-6 col-sm-12 d-flex flex-wrap mt-3 p-0 overflow-hidden">
 			<div class="img-showcase">
-				<img th:each="i, iMG : ${session.galaries}"
+				<img th:src="@{'/images/'+ *{image}}" class="rounded" width="100%"
+					alt=""> <img th:each="i, iMG : ${session.galaries}"
 					th:src="@{'/images/'+ ${i.image}}" class="rounded" width="100%"
 					alt="">
 			</div>
 			<div class="img-select d-flex mt-1">
+				<div class="img-item p-1">
+					<a href="#" th:data-id="1"> <img
+						th:src="@{'/images/'+ *{image}}" class="object-fit-cover" alt="">
+					</a>
+				</div>
 				<div class="img-item p-1" th:each="i, iMG : ${session.galaries}">
-					<a href="#" th:data-id="${iMG.index +1}"> <img
+					<a href="#" th:data-id="${(iMG.index +1) + 1}"> <img
 						th:src="@{'/images/'+ ${i.image}}" class="object-fit-cover" alt="">
 					</a>
 				</div>
@@ -71,6 +77,84 @@
 		<hr class="mt-4">
 
 		<div class="mt-2" th:utext="*{decription}"></div>
+		<!-- <div class="row">
+				<h4 class="lh-lg fw-bold col-xl-3">Chi tiết sản phẩm</h4>
+				<div class="col-xl-9">
+					<div class="text-md-start mt-2 mb-2">
+						<p class="fs-6 text-justify">
+							<strong>Black Myth: Wukong</strong> là một game hành động nhập
+							vai (RPG) lấy cảm hứng từ thần thoại Trung Quốc. Câu chuyện dựa
+							trên "Tây Du Ký", một trong Tứ Đại Danh Tác của văn học Trung
+							Quốc. Bạn sẽ vào vai Nhân Vật Được Định Mệnh Chọn Lựa, đối mặt
+							với những thách thức và kỳ quan phía trước, khám phá sự thật bị
+							che giấu dưới tấm màn của một huyền thoại huy hoàng từ quá khứ.
+						</p>
+					</div>
+					<img
+						src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2358720/extras/SteamGIF_Scene.gif?t=1718690162"
+						class="w-75">
+
+					<div class="mt-2">
+						<h5 class="fw-medium">Khám Phá Vùng Đất Của Những Điều Kỳ
+							Diệu</h5>
+						<p class="text-justify">
+							"Thế giới chưa thấy, nơi kỳ quan lấp lánh, <br> Và mỗi bước
+							đi, một cảnh mới trải dài."
+						</p>
+						<p class="text-justify mb-2">Bước vào một cõi huyền bí đầy những kỳ
+							quan và khám phá của thần thoại Trung Quốc cổ đại! Là Nhân Vật
+							Được Định Mệnh Chọn Lựa, bạn sẽ băng qua nhiều phong cảnh tuyệt
+							đẹp và độc đáo từ câu chuyện cổ điển, tạo nên một thiên anh hùng
+							ca về cuộc phiêu lưu được nhìn nhận theo một cách hoàn toàn mới.</p>
+						<img
+							src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2358720/extras/SteamGIF_Boss.gif?t=1718690162"
+							class="w-75">
+					</div>
+				</div>
+			</div>
+			<hr class="mt-4">
+			<div class="row">
+				<h4 class="lh-lg fw-bold col-xl-3">Chính sách bảo hành</h4>
+				<div class="col-xl-9">
+					<div class="mt-2">
+						<h5 class="fw-medium">Thời gian bảo hành</h5>
+						<p class="text-justify">- 1 ngày</p>
+						<h5 class="fw-medium">Cách thức bảo hành</h5>
+						<p class="text-justify">- Đổi mới sản phẩm khác nếu lỗi trong
+							quá trình sử dụng hoặc hoàn tiền nếu không có sản phẩm bảo hành.
+							- Không hỗ trợ bảo hành trong trường hợp khách hàng vi phạm chính
+							sách của Steam và khách hàng bán lại tài khoản. - Không hỗ trợ
+							bảo hành các sản phẩm game khác mà khách hàng mua vào tài khoản.</p>
+					</div>
+				</div>
+			</div>
+			<hr class="mt-4">
+			<div class="row">
+				<h4 class="lh-lg fw-bold col-xl-3">Câu hỏi thường gặp</h4>
+				<div class="col-xl-9">
+					<div class="mt-2">
+						<h6 class="fw-medium">1. Tôi có thể nhận game vào tài khoản
+							Steam có sẵn của tôi hay không?</h6>
+						<p class="text-justify">Dạ không ạ, đây là tài khoản Steam
+							Divine Shop đã tạo sẵn, sau khi mua bạn sẽ nhận được thông tin
+							đăng nhập gồm có tài khoản và mật khẩu để chơi game.</p>
+						<h6 class="fw-medium">2. Tôi có thể thuê bao nhiêu ngày?</h6>
+						<p class="text-justify">Số ngày thuê tối thiểu là 4 và không
+							giới hạn số ngày tối đa ạ.</p>
+						<h6 class="fw-medium">3. Tôi muốn thuê 10 ngày thì mua như
+							thế nào?</h6>
+						<p class="text-justify">
+							Bạn thêm sản phẩm vào giỏ hàng, sau đó vào <a
+								class="text-decoration-none" href="">giỏ hàng</a> và sửa số
+							lượng sản phẩm thành số ngày muốn thuê nhé.
+						</p>
+						<h6 class="fw-medium">4. Tôi có thể đổi thông tin tài khoản
+							trong lúc chơi không?</h6>
+						<p class="text-justify">Dạ không, bạn không được đổi thông tin
+							tài khoản ạ.</p>
+					</div>
+				</div> 
+			</div> -->
 	</div>
 </div>
 <div class="container fw-bold d-flex justify-content-end gap-2 my-2">

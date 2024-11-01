@@ -64,8 +64,13 @@
 							<th scope="col">Khác</th>
 						</tr>
 					</thead>
-					<tbody>
-						<tr ng-repeat="item in items">
+					<tbody ng-repeat="(productName, group) in groupedItems">
+						<tr>
+							<td colspan="6">
+								<h4 class="m-0 fw-bold">{{productName}}</h4>
+							</td>
+						</tr>
+						<tr ng-repeat="item in group">
 							<td>{{$index + 1}}</td>
 							<td>{{item.id}}</td>
 							<td><img src="./images/{{item.image}}"
