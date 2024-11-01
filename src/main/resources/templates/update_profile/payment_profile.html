@@ -63,11 +63,12 @@
 				</thead>
 				<tbody>
 					<tr th:each="order : ${session.order}">
-						<td th:text="${order[0].format(T(java.time.format.DateTimeFormatter).ofPattern('dd/MM/yyyy
-								HH:mm:ss'))}"></td>
-						<td>[[${order[1]}]]. Mã giao dịch [[${'#' + order[2]}]]</td>
-						<td class="text-success">[[*{#numbers.formatDecimal((order[3]
-							* (1 - order[5] / 100)) * order[4], 0, 'COMMA', 0, 'POINT')}]]đ</td>
+						<td
+							th:text="${order.created_at.format(T(java.time.format.DateTimeFormatter).ofPattern('dd/MM/yyyy HH:mm:ss'))}"></td>
+						<td
+							th:text="${order.paymentMethod} + ' - Mã giao dịch #' + ${order.id}"></td>
+						<td class="text-success"
+							th:text="${#numbers.formatDecimal(order.amount / 100, 0, 'COMMA', 0, 'POINT')} + 'đ'"></td>
 					</tr>
 				</tbody>
 			</table>

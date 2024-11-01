@@ -28,6 +28,7 @@
 							<th scope="col">Số lượng</th>
 							<th scope="col">Danh mục</th>
 							<th scope="col">Thể loại</th>
+							<th scope="col">Hot</th>
 							<th scope="col">Ngày tạo</th>
 							<th scope="col">Khác</th>
 						</tr>
@@ -37,7 +38,8 @@
 							<td>{{$index + 1}}</td>
 							<td>{{item.id}}</td>
 							<td><img src="./images/{{item.image}}"
-								class="rounded object-fit-cover me-2" width="100%" height="100px"></td>
+								class="rounded object-fit-cover me-2" width="100%"
+								height="100px"></td>
 							<td>{{item.name}}</td>
 							<td>{{item.price | number}}đ</td>
 							<td>{{item.discount}}%</td>
@@ -48,6 +50,8 @@
 								ng-repeat="g in genreProducts | filter:{ product: { id: item.id } }">
 									{{g.name}}<span ng-if="!$last">, </span>
 							</span></td>
+							<td><span ng-if="item.hot" class="badge bg-success">Yes</span>
+								<span ng-if="!item.hot" class="badge bg-danger">No</span></td>
 							<td>{{item.created_at | date:'dd/MM/yyyy HH:mm:ss'}}</td>
 							<td scope="row" class="d-flex justify-content-center gap-1">
 								<!-- Button trigger modal -->
@@ -156,13 +160,24 @@
 																	</div>
 																</div>
 															</div>
-															<div class="mb-3">
-																<div class="form-group mb-3">
+															<div class="row mb-3">
+																<div class="form-group col-sm-6">
 																	<div>Ngày tạo:</div>
-																	<input ng-model="form.created_at | date:'dd/MM/yyyy HH:mm:ss'"
+																	<input
+																		ng-model="form.created_at | date:'dd/MM/yyyy HH:mm:ss'"
 																		ng-value="form.created_at | date:'dd/MM/yyyy HH:mm:ss'"
 																		class="form-control" readonly>
 																</div>
+																<div class="form-group col-sm-6">
+																	<div>Sản phẩm nổi bật:</div>
+																	<div class="form-check form-switch">
+																		<input style="width: 80px; height: 35px"
+																			ng-model="form.hot" class="form-check-input"
+																			type="checkbox" role="switch">
+																	</div>
+																</div>
+															</div>
+															<div class="mb-3">
 																<div class="form-group">
 																	<div>Mô tả:</div>
 																	<textarea ng-model="form.decription" rows="5"

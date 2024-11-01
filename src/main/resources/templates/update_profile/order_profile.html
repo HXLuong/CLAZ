@@ -70,9 +70,14 @@
 						<td th:text="${'#' + order.id}"></td>
 						<td>
 							<div class="d-flex justify-content-between"
-								th:each="detail:${order.orderDetails}" th:object="${detail}">
-								<span>[[*{product.name}]]</span> <span>x[[*{quantity}]]</span>
+								th:if="${order.orderDetails != null && !order.orderDetails.isEmpty()}"
+								th:each="detail : ${order.orderDetails}" th:object="${detail}">
+								<span th:text="${detail.product.name}"></span> <span>x<span
+									th:text="${detail.quantity}"></span></span>
 							</div>
+							<div
+								th:if="${order.orderDetails == null || order.orderDetails.isEmpty()}"
+								class="text-danger">Sản phẩm đã bị xóa khỏi trang web</div>
 						</td>
 						<td
 							th:text="${#numbers.formatDecimal(order.amount / 100, 0,

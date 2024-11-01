@@ -112,8 +112,7 @@
 			</h6>
 		</div>
 		<div class="d-flex justify-content-center">
-			<a
-				th:href="@{/(productsMore=${session.productsMore + 8})}"
+			<a th:href="@{/(productsMore=${session.productsMore + 8})}"
 				class="text-primary my-2 fw-medium"
 				th:if="${session.products.size() > session.productsMore}">Xem
 				thêm</a>
@@ -161,64 +160,50 @@
 <div class="wrapper my-4">
 	<div class="bg-image">
 		<div class="container hot-product">
-			<div class="row mx-1">
-				<div class="col-xl-10 col-8">
-					<div class="d-flex justify-content-center hot-text py-2 px-3">
-						<i class="bi bi-graph-up-arrow fs-4 me-2 text-danger"></i>
-						<h4 class="fw-bolder text-white text-truncate">#Sản phẩm bán
-							chạy nhất</h4>
+			<div class="container">
+				<div class="row mx-1">
+					<div class="col-xl-10 col-8 p-0">
+						<div class="d-flex justify-content-center hot-text py-2 px-3">
+							<i class="bi bi-graph-up-arrow fs-4 me-2 text-danger"></i>
+							<h4 class="fw-bolder text-white text-truncate">#Sản phẩm bán
+								chạy nhất</h4>
+						</div>
+					</div>
+					<div class="col-xl-2 col-4 d-flex justify-content-end p-0">
+						<a href="" class="btn btn-primary " style="height: 40px;">Khám
+							Phá</a>
 					</div>
 				</div>
-				<div class="col-xl-2 col-4 d-flex justify-content-end">
-					<a href="" class="btn btn-primary " style="height: 40px;">Khám
-						Phá</a>
-				</div>
-			</div>
 
-			<div class="row mt-4">
-				<div class="col-lg-3 col-md-4 col-6 list_product">
-					<a href=""> <img src="./images/black myth wukong-13641.jpg"
-						class="img-fluid mt-2 rounded" alt="Right Image 2" width="100%">
-					</a> <a href="" class="d-block mt-2 text_product text-white">Black
-						Myth: Wukong Black Black Myth: Wukong Black</a>
-					<h6
-						class="mt-2 mb-3 d-flex align-items-center fw-bold text_product text-white">
-						122.000.000đ<strike class="mx-2 text-secondary">221.000.000đ</strike><span
-							class="badge text-bg-danger text-white p-2">-62%</span>
-					</h6>
-				</div>
-				<div class="col-lg-3 col-md-4 col-6 list_product">
-					<a href=""> <img src="./images/black myth wukong-13641.jpg"
-						class="img-fluid mt-2 rounded" alt="Right Image 2" width="100%">
-					</a> <a href="" class="d-block mt-2 text_product text-white">Black
-						Myth: Wukong Black Black Myth: Wukong Black</a>
-					<h6
-						class="mt-2 mb-3 d-flex align-items-center fw-bold text_product text-white">
-						122.000.000đ<strike class="mx-2 text-secondary">221.000.000đ</strike><span
-							class="badge text-bg-danger text-white p-2">-62%</span>
-					</h6>
-				</div>
-				<div class="col-lg-3 col-md-4 col-6 list_product">
-					<a href=""> <img src="./images/black myth wukong-13641.jpg"
-						class="img-fluid mt-2 rounded" alt="Right Image 2" width="100%">
-					</a> <a href="" class="d-block mt-2 text_product text-white">Black
-						Myth: Wukong Black Black Myth: Wukong Black</a>
-					<h6
-						class="mt-2 mb-3 d-flex align-items-center fw-bold text_product text-white">
-						122.000.000đ<strike class="mx-2 text-secondary">221.000.000đ</strike><span
-							class="badge text-bg-danger text-white p-2">-62%</span>
-					</h6>
-				</div>
-				<div class="col-lg-3 col-md-4 col-6 list_product">
-					<a href=""> <img src="./images/black myth wukong-13641.jpg"
-						class="img-fluid mt-2 rounded" alt="Right Image 2" width="100%">
-					</a> <a href="" class="d-block mt-2 text_product text-white">Black
-						Myth: Wukong Black Black Myth: Wukong Black</a>
-					<h6
-						class="mt-2 mb-3 d-flex align-items-center fw-bold text_product text-white">
-						122.000.000đ<strike class="mx-2 text-secondary">221.000.000đ</strike><span
-							class="badge text-bg-danger text-white p-2">-62%</span>
-					</h6>
+				<div class="row mt-4">
+					<div class="col-lg-3 col-md-4 col-6 list_product"
+						th:each="product, p : ${session.productBestSellers}"
+						th:if="${p.index < session.productsBest}">
+						<a th:href="@{|/${product.id}|}"> <img
+							th:src="@{'/images/'+${product.image}}"
+							class="img-fluid mt-2 rounded" alt="Product Image" width="100%">
+						</a> <a th:href="@{|/${product.id}|}"
+							class="d-block mt-2 text_product text-white"
+							th:text="${product.name}"></a>
+						<h6
+							class="mt-2 mb-3 d-flex align-items-center fw-bold text_product text-white">
+							<span
+								th:text="${#numbers.formatDecimal(product.price * (1 - product.discount / 100), 0, 'COMMA', 0, 'POINT')} + 'đ'"></span>
+							<strike class="mx-2 text-secondary"
+								th:if="${product.discount} > 0"
+								th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + 'đ'"></strike>
+							<span class="badge text-bg-danger text-white p-2"
+								th:if="${product.discount.intValue} > 0"
+								th:text="${'-' + product.discount.intValue() + '%'}"></span>
+						</h6>
+					</div>
+					<div class="d-flex justify-content-center border-bottom border-secondary">
+						<a th:href="@{/(productsBest=${session.productsBest + 8})}"
+							class="text-white my-2 fw-medium"
+							th:if="${session.products.size() > session.productsBest}">Xem
+							thêm</a>
+					</div>
+					<hr>
 				</div>
 			</div>
 		</div>

@@ -17,6 +17,7 @@ app.controller('galaryCtrl', function($scope, $http) {
 		var url = `/rest/galaries`;
 		$http.get(url).then(resp => {
 			$scope.items = resp.data;
+			$scope.groupItems();
 		}).catch(error => {
 			console.log("Error", error);
 		});
@@ -119,6 +120,7 @@ app.controller('galaryCtrl', function($scope, $http) {
 				$http.delete(`/rest/galaries/${item.id}`).then(resp => {
 					var index = $scope.items.findIndex(p => p.id == item.id);
 					$scope.items.splice(index, 1);
+					$scope.load_all();
 					$scope.reset();
 				}).catch(error => {
 					Swal.fire({
@@ -147,6 +149,23 @@ app.controller('galaryCtrl', function($scope, $http) {
 			});
 		})
 	}
+
+	// Hàm phân nhóm sản phẩm theo tên
+	$scope.groupedItems = {};
+
+	$scope.groupItems = function() {
+		$scope.groupedItems = {};
+		angular.forEach($scope.items, function(item) {
+			const productName = item.product ? item.product.name : "Không có tên sản phẩm";
+			if (!$scope.groupedItems[productName]) {
+				$scope.groupedItems[productName] = [];
+			}
+			$scope.groupedItems[productName].push(item);
+		});
+	};
+
+	// Gọi hàm phân nhóm khi controller được khởi tạo
+	$scope.groupItems();
 
 	/*$scope.pager = {
 		page: 0,

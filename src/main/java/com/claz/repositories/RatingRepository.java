@@ -12,4 +12,7 @@ import com.claz.models.Rating;
 public interface RatingRepository extends JpaRepository<Rating, Integer> {
 	@Query("SELECT r FROM Rating r WHERE r.customer.username=?1")
 	List<Rating> findByCustomerUsername(String username);
+	
+	@Query("SELECT r FROM Rating r WHERE r.product.id=?1")
+	List<Rating> findByProductId(int id);
 }

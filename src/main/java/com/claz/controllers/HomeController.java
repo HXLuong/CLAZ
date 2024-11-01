@@ -2,6 +2,7 @@ package com.claz.controllers;
 
 import com.claz.models.Category;
 import com.claz.models.Galary;
+import com.claz.models.Genre;
 import com.claz.models.GenreProduct;
 import com.claz.models.Product;
 import com.claz.models.Slide;
@@ -10,6 +11,7 @@ import com.claz.services.CommentService;
 import com.claz.services.CustomerService;
 import com.claz.services.GalaryService;
 import com.claz.services.GenreProductService;
+import com.claz.services.GenreService;
 import com.claz.services.OrderDetailService;
 import com.claz.services.OrderService;
 import com.claz.services.ProductService;
@@ -54,18 +56,24 @@ public class HomeController {
 
 	@Autowired
 	OrderDetailService orderDetailService;
-	
+
 	@Autowired
 	CommentService commentService;
-	
+
 	@Autowired
 	CustomerService customerService;
 
+	@Autowired
+	private GenreService genreService;
+
 	@RequestMapping("/")
-	public String index(HttpSession session, Model model, @RequestParam(defaultValue = "8") int productsMore) {
+	public String index(HttpSession session, Model model, @RequestParam(defaultValue = "8") int productsMore,
+			@RequestParam(defaultValue = "8") int productsBest) {
 		if (session.getAttribute("searchProduct") == null) {
-			List<Product> pr = productService.findAll();
-			session.setAttribute("products", pr);
+			List<Product> prHot = productService.findByHot();
+			session.setAttribute("products", prHot);
+			List<Product> prBestSeller = productService.findByBestSeller(10);
+			session.setAttribute("productBestSellers", prBestSeller);
 			List<Product> pr2 = productService.findAll().stream().filter(e -> e.getCategory().getId() == 4).toList();
 			session.setAttribute("gamesteam", pr2);
 			List<Product> pr3 = productService.findAll().stream().filter(e -> e.getCategory().getId() == 2).toList();
@@ -79,8 +87,9 @@ public class HomeController {
 
 		List<Slide> slide = slideService.findAll();
 		session.setAttribute("slides", slide);
-		
+
 		session.setAttribute("productsMore", productsMore);
+		session.setAttribute("productsBest", productsBest);
 		session.setAttribute("page", "component/home");
 		return "index";
 	}
@@ -116,6 +125,23 @@ public class HomeController {
 		return "index";
 	}
 
+	@PostMapping("/searchProductFilter")
+	public String searchProductFilter(HttpSession session, @RequestParam(required = false) Integer categoryId,
+			@RequestParam(required = false) Integer genreId, @RequestParam(required = false) Double minPrice,
+			@RequestParam(required = false) Double maxPrice, @RequestParam(required = false) String sort) {
+		List<Product> products = productService.findProducts(categoryId, genreId, minPrice, maxPrice, sort);
+		session.setAttribute("searchProdut", products);
+
+		List<Genre> genres = genreService.findAll();
+		List<Category> cates = categoryService.findAll();
+
+		session.setAttribute("cates", cates);
+		session.setAttribute("genres", genres);
+
+		session.setAttribute("page", "search/search");
+		return "index";
+	}
+
 	@RequestMapping("/cart-index")
 	public String cart(HttpSession session) {
 		session.setAttribute("page", "/cart/cart-index");
@@ -129,7 +155,7 @@ public class HomeController {
 		session.setAttribute("page", "/cart/paymentSuccess");
 		return "index";
 	}
-	
+
 	@RequestMapping("/paymentFail")
 	public String paymentFail(HttpSession session) {
 		session.setAttribute("page", "/cart/paymentFail");
@@ -177,7 +203,7 @@ public class HomeController {
 	@RequestMapping("/payment")
 	public String giaodich(HttpSession session, HttpServletRequest request) {
 		String username = request.getRemoteUser();
-		session.setAttribute("order", orderService.findOrderByUsername(username));
+		session.setAttribute("order", orderService.findByUsername(username));
 		session.setAttribute("page", "/update_profile/payment_profile");
 		return "index";
 	}
@@ -190,7 +216,6 @@ public class HomeController {
 		session.setAttribute("page", "/update_profile/comment_profile");
 		return "index";
 	}
-
 
 	@RequestMapping("/cart_instruct")
 	public String cart_instruct(Model model) {

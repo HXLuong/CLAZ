@@ -27,7 +27,8 @@ public class Product implements Serializable {
 	int Quantity;
 	String Decription;
 	Double Discount;
-	int Hot;
+	boolean Hot;
+	int Purchases;
 	Double Total_Pay;
 	int Total_Rating;
 	int Total_Stars;

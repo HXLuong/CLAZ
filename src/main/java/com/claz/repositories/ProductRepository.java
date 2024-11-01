@@ -24,12 +24,30 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
 	@Query("SELECT p FROM Product p WHERE p.Price BETWEEN ?1 AND ?2")
 	List<Product> findByPrice(double minPrice, double maxPrice);
-	
+
 	@Query("SELECT o FROM Product o where o.category.id=?1")
-	Page<Product> findbyDMandSort(int dm,Pageable pageable);
-	
+	Page<Product> findbyDMandSort(int dm, Pageable pageable);
+
 	@Query("SELECT p FROM Product p WHERE p.Price BETWEEN ?1 AND ?2")
-	Page<Product> findByPricePage(double minPrice, double maxPrice,Pageable pageable);
-	
+	Page<Product> findByPricePage(double minPrice, double maxPrice, Pageable pageable);
+
 	List<Product> findAll(Sort sort);
+
+	@Query("SELECT p FROM Product p WHERE p.Hot=true")
+	List<Product> findByHot();
+
+	@Query("SELECT p FROM Product p WHERE p.Purchases >= ?1")
+	List<Product> findByPurchasesGreaterThan(int purchases);
+
+	@Query("SELECT p FROM Product p WHERE (:categoryId IS NULL OR p.category.id = :categoryId) "
+			+ "AND (:genreId IS NULL OR EXISTS (SELECT 1 FROM GenreProduct gp WHERE gp.product.id = p.id AND gp.genre.id = :genreId)) "
+			+ "AND (:minPrice IS NULL OR (p.Price * (1 - p.Discount / 100)) >= :minPrice) "
+			+ "AND (:maxPrice IS NULL OR (p.Price * (1 - p.Discount / 100)) <= :maxPrice) "
+			+ "ORDER BY CASE WHEN :sort = 'price_asc' THEN (p.Price * (1 - p.Discount / 100)) END ASC, "
+			+ "CASE WHEN :sort = 'price_desc' THEN (p.Price * (1 - p.Discount / 100)) END DESC, "
+			+ "CASE WHEN :sort = 'name_asc' THEN p.Name END ASC, "
+			+ "CASE WHEN :sort = 'name_desc' THEN p.Name END DESC")
+	List<Product> findByFilters(@Param("categoryId") Integer categoryId, @Param("genreId") Integer genreId,
+			@Param("minPrice") Double minPrice, @Param("maxPrice") Double maxPrice, @Param("sort") String sort);
+
 }

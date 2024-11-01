@@ -13,4 +13,7 @@ import com.claz.models.OrderDetail;
 public interface OrderDetailRepository extends JpaRepository<OrderDetail, Integer> {
 	@Query("SELECT od FROM OrderDetail od WHERE od.order.id=?1")
 	List<OrderDetail> findByOrderId(int id);
+	
+	@Query("SELECT od FROM OrderDetail od WHERE od.product.id=?1")
+	List<OrderDetail> findByProductId(int id);
 }
