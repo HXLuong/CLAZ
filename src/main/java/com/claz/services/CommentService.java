@@ -1,5 +1,6 @@
 package com.claz.services;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,8 +32,12 @@ public interface CommentService {
 	Reply updateReply(Reply Reply);
 
 	Optional<Reply> findByIdReply(int id);
-	
+
 	List<Comment> findByUsername(String username);
-	
+
 	List<Reply> findByUsernameReply(String username);
+
+	List<Comment> filterComments(String content, LocalDateTime fromDate, LocalDateTime toDate, String username);
+
+	List<Reply> filterReplies(String content, LocalDateTime fromDate, LocalDateTime toDate, String username);
 }

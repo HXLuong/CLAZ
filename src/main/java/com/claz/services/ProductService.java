@@ -52,4 +52,6 @@ public interface ProductService {
 	List<Product> findByBestSeller(int purchases);
 	
 	List<Product> findProducts(Integer categoryId, Integer genreId, Double minPrice, Double maxPrice, String sort);
+	
+	List<Product> findAllByGenreId(int Genre_ID);
 }

@@ -50,4 +50,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 	List<Product> findByFilters(@Param("categoryId") Integer categoryId, @Param("genreId") Integer genreId,
 			@Param("minPrice") Double minPrice, @Param("maxPrice") Double maxPrice, @Param("sort") String sort);
 
+	@Query("SELECT p FROM Product p JOIN p.genreProducts gp WHERE gp.genre.id = :genreId")
+	List<Product> findAllByGenreId(@Param("genreId") int genreId);
 }
