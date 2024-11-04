@@ -249,14 +249,6 @@ input[type="file"] {
 	height: 80px;
 }
 
-.img-select {
-	width: 100%;
-}
-
-.img-item {
-	width: 25%;
-}
-
 span {
 	font-size: 15px;
 }
@@ -368,7 +360,7 @@ span {
 		width: 90%;
 	}
 	.img-showcase img {
-		height: 360px;
+		height: 100%;
 	}
 
 	/* Cart Css */

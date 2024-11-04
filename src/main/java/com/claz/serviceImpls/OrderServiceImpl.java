@@ -1,5 +1,6 @@
 package com.claz.serviceImpls;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -65,5 +66,17 @@ public class OrderServiceImpl implements OrderService {
 		order.setCustomer(customer);
 		order.setCreated_at(now);
 		return orderRepository.save(order);
+	}
+
+	@Override
+	public List<Order> filterOrders(Integer orderId, Double amountFrom, Double amountTo, LocalDateTime fromDate,
+			LocalDateTime toDate, String username) {
+		return orderRepository.filterOrders(orderId, amountFrom, amountTo, fromDate, toDate, username);
+	}
+
+	@Override
+	public List<Order> filterPayments(String paymentMethod, Double amountFrom, Double amountTo,
+			LocalDateTime fromDate, LocalDateTime toDate, String username) {
+		return orderRepository.filterPayments(paymentMethod, amountFrom, amountTo, fromDate, toDate, username);
 	}
 }

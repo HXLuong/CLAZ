@@ -200,4 +200,9 @@ public class ProductServiceImpl implements ProductService {
 		return productRepository.findByFilters(categoryId, genreId, minPrice, maxPrice, sort);
 	}
 
+	@Override
+	public List<Product> findAllByGenreId(int Genre_ID) {
+		return productRepository.findAllByGenreId(Genre_ID);
+	}
+
 }

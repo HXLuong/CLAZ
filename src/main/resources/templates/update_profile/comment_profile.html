@@ -9,34 +9,34 @@
 			<hr class="my-3">
 		</div>
 
-		<div class="container row">
+		<form action="/filterComment" method="post" class="container row">
 
 			<div class="col-xl-4 col-lg-4 col-md-4 col-12 mt-2">
 				<div class="form-floating">
-					<input type="text" class="form-control" id="pwd"
-						placeholder="Enter password" name="pswd"> <label for="pwd">Nội
-						dung</label>
+					<input type="text" class="form-control" id="content" name="content">
+					<label for="content">Nội dung</label>
 				</div>
 			</div>
 			<div class="col-xl-3 col-lg-4 col-md-4 col-6 mt-2">
 				<div class="form-floating">
-					<input type="date" class="form-control" id="tn" name="pswd">
-					<label for="tn">Từ ngày</label>
+					<input type="date" class="form-control" id="fromDate"
+						name="fromDate"> <label for="fromDate">Từ ngày</label>
 				</div>
 			</div>
 			<div class="col-xl-3 col-lg-4 col-md-4 col-6 mt-2">
 				<div class="form-floating">
-					<input type="date" class="form-control" id="dn" name="pswd">
-					<label for="dn">Đến ngày</label>
+					<input type="date" class="form-control" id="toDate" name="toDate">
+					<label for="toDate">Đến ngày</label>
 				</div>
 			</div>
 			<div
 				class="col-xl-2 col-lg-4 col-md-4 col-12 d-flex align-items-center">
-				<button type="button" class="btn btn-primary mt-2">
+				<button type="submit" class="btn btn-primary mt-2">
 					<i class="bi bi-funnel"></i> Lọc
 				</button>
 			</div>
-		</div>
+		</form>
+
 		<div class="container">
 			<table class="table table-bordered mt-2 ">
 				<thead>
@@ -63,6 +63,12 @@
 					</tr>
 				</tbody>
 			</table>
+		</div>
+
+		<div class="text-center my-4"
+			th:if="${#lists.isEmpty(session.comments) && #lists.isEmpty(session.replies)}">
+			<h2 class="h4 font-bold mb-2 text-danger">Không có bình luận phù
+				hợp với tìm kiếm!</h2>
 		</div>
 	</div>
 </div>

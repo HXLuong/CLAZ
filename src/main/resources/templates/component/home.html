@@ -6,7 +6,7 @@
 					style="width: 335px;">
 					<li class="nav-item" th:each="cate : ${cates}"><a
 						class="nav-link active fw-semibold" aria-current="page"
-						th:href="@{/category/{id}(id=${cate.id})}"> <span
+						th:href="@{'/category?id='+ ${cate.id}}"> <span
 							th:text="${cate.name}"></span>
 					</a></li>
 				</ul>
@@ -86,7 +86,7 @@
 				theo xu hướng mà có thể bạn sẽ thích</h6>
 		</div>
 		<div class="col-xl-2 col-4 d-flex justify-content-end">
-			<a href="" class="btn btn-primary " style="height: 40px;">Khám
+			<a href="/prHot" class="btn btn-primary " style="height: 40px;">Khám
 				Phá</a>
 		</div>
 	</div>
@@ -170,8 +170,8 @@
 						</div>
 					</div>
 					<div class="col-xl-2 col-4 d-flex justify-content-end p-0">
-						<a href="" class="btn btn-primary " style="height: 40px;">Khám
-							Phá</a>
+						<a href="/prBestSeller" class="btn btn-primary "
+							style="height: 40px;">Khám Phá</a>
 					</div>
 				</div>
 
@@ -197,10 +197,11 @@
 								th:text="${'-' + product.discount.intValue() + '%'}"></span>
 						</h6>
 					</div>
-					<div class="d-flex justify-content-center border-bottom border-secondary">
+					<div
+						class="d-flex justify-content-center border-bottom border-secondary">
 						<a th:href="@{/(productsBest=${session.productsBest + 8})}"
 							class="text-white my-2 fw-medium"
-							th:if="${session.products.size() > session.productsBest}">Xem
+							th:if="${session.productBestSellers.size() > session.productsBest}">Xem
 							thêm</a>
 					</div>
 					<hr>
@@ -218,15 +219,16 @@
 				đang chờ bạn</h6>
 		</div>
 		<div class="col-md-6 d-flex justify-content-end col-4">
-			<button type="button" class="btn btn-primary " style="height: 40px;">Khám
-				Phá</button>
+			<a th:href="@{/category?id=4}" class="btn btn-primary "
+				style="height: 40px;">Khám Phá</a>
 		</div>
 	</div>
 </div>
 <div class="container mt-2">
 	<div class="row">
 		<div class="col-lg-3 col-md-4 col-6 list_product"
-			th:each="product : ${session.gamesteam}">
+			th:each="product, p : ${session.gamesteam}"
+			th:if="${p.index < session.productsSteam}">
 			<a th:href="@{|/${product.id}|}"> <img
 				th:src="@{'/images/'+${product.image}}"
 				class="img-fluid mt-2 rounded" alt="Product Image" width="100%">
@@ -242,6 +244,12 @@
 					th:text="${'-' + product.discount.intValue() + '%'}"></span>
 			</h6>
 		</div>
+	</div>
+	<div class="d-flex justify-content-center">
+		<a th:href="@{/(productsSteam=${session.productsSteam + 8})}"
+			class="text-primary my-2 fw-medium"
+			th:if="${session.gamesteam.size() > session.productsSteam}">Xem
+			thêm</a>
 	</div>
 </div>
 <div class="container mt-2">
@@ -252,15 +260,16 @@
 			<h4 class="fw-bolder">Học Tập</h4>
 		</div>
 		<div class="col-md-6 d-flex justify-content-end col-4">
-			<button type="button" class="btn btn-primary " style="height: 40px;">Khám
-				Phá</button>
+			<a th:href="@{/category?id=3}" class="btn btn-primary "
+				style="height: 40px;">Khám Phá</a>
 		</div>
 	</div>
 </div>
 <div class="container mt-2">
 	<div class="row">
 		<div class="col-lg-3 col-md-4 col-6 list_product"
-			th:each="product : ${session.hoctap}">
+			th:each="product, p : ${session.hoctap}"
+			th:if="${p.index < session.productsStudy}">
 			<a th:href="@{|/${product.id}|}"> <img
 				th:src="@{'/images/'+${product.image}}"
 				class="img-fluid mt-2 rounded" alt="Product Image" width="100%">
@@ -276,6 +285,11 @@
 					th:text="${'-' + product.discount.intValue() + '%'}"></span>
 			</h6>
 		</div>
+	</div>
+	<div class="d-flex justify-content-center">
+		<a th:href="@{/(productsStudy=${session.productsStudy + 8})}"
+			class="text-primary my-2 fw-medium"
+			th:if="${session.hoctap.size() > session.productsStudy}">Xem thêm</a>
 	</div>
 </div>
 <div class="container mt-2">
@@ -286,15 +300,16 @@
 			<h4 class="fw-bolder">Làm việc</h4>
 		</div>
 		<div class="col-md-6 d-flex justify-content-end col-4">
-			<button type="button" class="btn btn-primary " style="height: 40px;">Khám
-				Phá</button>
+			<a th:href="@{/category?id=2}" class="btn btn-primary "
+				style="height: 40px;">Khám Phá</a>
 		</div>
 	</div>
 </div>
 <div class="container mt-2">
 	<div class="row">
 		<div class="col-lg-3 col-md-4 col-6 list_product"
-			th:each="product : ${session.lamviec}">
+			th:each="product, p : ${session.lamviec}"
+			th:if="${p.index < session.productsWork}">
 			<a th:href="@{|/${product.id}|}"> <img
 				th:src="@{'/images/'+${product.image}}"
 				class="img-fluid mt-2 rounded" alt="Product Image" width="100%">
@@ -311,7 +326,11 @@
 			</h6>
 		</div>
 	</div>
-	<br>
+	<div class="d-flex justify-content-center">
+		<a th:href="@{/(productsWork=${session.productsWork + 8})}"
+			class="text-primary my-2 fw-medium"
+			th:if="${session.lamviec.size() > session.productsWork}">Xem thêm</a>
+	</div>
 	<hr>
-	<br> <br>
+	<br>
 </div>

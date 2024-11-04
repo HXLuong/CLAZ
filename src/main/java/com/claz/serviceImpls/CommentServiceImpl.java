@@ -1,5 +1,6 @@
 package com.claz.serviceImpls;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -112,6 +113,16 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public List<Reply> findByUsernameReply(String username) {
 		return replyRepository.findByCustomerUsername(username);
+	}
+
+	@Override
+	public List<Comment> filterComments(String content, LocalDateTime fromDate, LocalDateTime toDate, String username) {
+		return commentRepository.filterComments(content, fromDate, toDate, username);
+	}
+
+	@Override
+	public List<Reply> filterReplies(String content, LocalDateTime fromDate, LocalDateTime toDate, String username) {
+		return replyRepository.filterReplies(content, fromDate, toDate, username);
 	}
 
 }

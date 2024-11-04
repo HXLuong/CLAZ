@@ -8,17 +8,23 @@
 					th:src="@{'/images/'+ ${i.image}}" class="rounded" width="100%"
 					alt="">
 			</div>
-			<div class="img-select d-flex mt-1">
-				<div class="img-item p-1">
+			<div
+				class="img-select d-flex flex-nowrap mt-1 w-100 overflow-x-scroll m-0"
+				th:if="${not #lists.isEmpty(session.galaries)}">
+				<div class="img-item p-1 col-xl-3 col-lg-4 col-md-3 col-sm-4 col-6">
 					<a href="#" th:data-id="1"> <img
 						th:src="@{'/images/'+ *{image}}" class="object-fit-cover" alt="">
 					</a>
 				</div>
-				<div class="img-item p-1" th:each="i, iMG : ${session.galaries}">
+				<div class="img-item p-1 col-xl-3 col-lg-4 col-md-3 col-sm-4 col-6"
+					th:each="i, iMG : ${session.galaries}">
 					<a href="#" th:data-id="${(iMG.index +1) + 1}"> <img
 						th:src="@{'/images/'+ ${i.image}}" class="object-fit-cover" alt="">
 					</a>
 				</div>
+			</div>
+			<div class="w-100 mt-1 d-flex justify-content-center text-body-tertiary fw-medium" th:if="${#lists.isEmpty(session.galaries)}">
+				<span>Sản phẩm chỉ có 1 ảnh</span>
 			</div>
 		</div>
 		<div class="col-lg-6 col-sm-12 detailProduct">
@@ -34,7 +40,7 @@
 				</label><br> <label class="mt-2 fw-medium d-flex gap-1"> <i
 					class="bi bi-tag"></i> Thể Loại:
 					<div th:each="g, iterStat : ${session.genreProducts}">
-						<a href="#" class="text-secondary" th:text="${g.name}"></a> <span
+						<a th:href="@{'/genre?id='+ ${g.genre.id}}" class="text-secondary" th:text="${g.name}"></a> <span
 							class="text-secondary" th:if="${!iterStat.last}">,</span>
 					</div>
 				</label> <label class="mt-2 fw-bold fs-5"
