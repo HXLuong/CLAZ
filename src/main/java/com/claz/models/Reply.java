@@ -2,8 +2,6 @@ package com.claz.models;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
-
 import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,5 +30,8 @@ public class Reply implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "Username")
 	private Customer customer;
-
+	
+	@ManyToOne
+	@JoinColumn(name = "Username_Staff")
+	private Staff staff;
 }

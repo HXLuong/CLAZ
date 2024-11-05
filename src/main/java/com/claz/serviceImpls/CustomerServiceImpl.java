@@ -95,8 +95,7 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	public Customer findByUsername(String username) {
-		return customerDAO.findByUsername(username)
-				.orElseThrow(() -> new NoSuchElementException("Customer not found with username: " + username));
+		return customerDAO.findByUsername(username).get();
 	}
 
 	public Optional<Customer> getname(String username) {

@@ -23,7 +23,9 @@
 					</a>
 				</div>
 			</div>
-			<div class="w-100 mt-1 d-flex justify-content-center text-body-tertiary fw-medium" th:if="${#lists.isEmpty(session.galaries)}">
+			<div
+				class="w-100 mt-1 d-flex justify-content-center text-body-tertiary fw-medium"
+				th:if="${#lists.isEmpty(session.galaries)}">
 				<span>Sản phẩm chỉ có 1 ảnh</span>
 			</div>
 		</div>
@@ -40,8 +42,9 @@
 				</label><br> <label class="mt-2 fw-medium d-flex gap-1"> <i
 					class="bi bi-tag"></i> Thể Loại:
 					<div th:each="g, iterStat : ${session.genreProducts}">
-						<a th:href="@{'/genre?id='+ ${g.genre.id}}" class="text-secondary" th:text="${g.name}"></a> <span
-							class="text-secondary" th:if="${!iterStat.last}">,</span>
+						<a th:href="@{'/genre?id='+ ${g.genre.id}}" class="text-secondary"
+							th:text="${g.name}"></a> <span class="text-secondary"
+							th:if="${!iterStat.last}">,</span>
 					</div>
 				</label> <label class="mt-2 fw-bold fs-5"
 					th:text="*{#numbers.formatDecimal(price * (1 - discount / 100), 0, 'COMMA', 0, 'POINT')} + 'đ'"></label>
@@ -233,16 +236,21 @@
 		</div>
 
 		<div class="ms-5 mt-2"
-			ng-repeat="reply in replies[commentItem.id] | orderBy:'-createdAt'">
+			ng-repeat="reply in replies[commentItem.id] | orderBy:'created_at'">
 			<div class="d-flex align-items-start mb-2">
 				<div class="me-2">
-					<img class="object-fit-cover rounded-circle"
+					<img class="object-fit-cover rounded-circle" ng-if="reply.customer"
 						ng-src="./images/{{reply.customer.image}}" width="50px"
-						height="50px" alt="">
+						height="50px" alt=""> <img
+						class="object-fit-cover rounded-circle" ng-if="!reply.customer"
+						ng-src="./images/{{reply.staff.image}}" width="50px" height="50px"
+						alt="">
 				</div>
 				<div class="flex-grow-1">
-					<span class="fw-bold me-2">{{ reply.customer.fullname }}</span> <span
-						class="text-secondary">{{ reply.createdAt |
+					<span class="fw-bold me-2" ng-if="reply.customer">{{
+						reply.customer.fullname }}</span> <span class="fw-bold me-2"
+						ng-if="!reply.customer">{{ reply.staff.fullname }}</span> <span
+						class="text-secondary">{{ reply.created_at |
 						date:'dd/MM/yyyy HH:mm:ss' }}</span>
 
 					<div ng-show="!reply.isEditing">
@@ -299,6 +307,3 @@
 			thêm các bình luận khác</a>
 	</div>
 </div>
-
-<link rel="stylesheet" href="./css/dots.css">
-
