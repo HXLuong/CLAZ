@@ -140,7 +140,7 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 					icon: "success"
 				}).then(() => {
 					$('#VerifyCreateAccount').modal('hide');
-					
+
 					var item = angular.copy($scope.form);
 					$http.post(`/rest/customer`, item).then(resp => {
 						$scope.items.push(resp.data);
@@ -727,8 +727,6 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 			});
 	};
 
-
-
 	$scope.addReply = function(commentId, replyContent) {
 		if (!$scope.username) {
 			Swal.fire({
@@ -861,9 +859,15 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 		commentItem.showReplyInput = !commentItem.showReplyInput;
 
 		if (commentItem.showReplyInput) {
-			$scope.replyContent = reply && reply.customer.fullname
-				? '@' + reply.customer.fullname + ' '
-				: (commentItem.customer.fullname ? '@' + commentItem.customer.fullname + ' ' : '');
+			if (reply) {
+				if (reply.customer) {
+					$scope.replyContent = '@' + reply.customer.fullname + ' ';
+				} else if (reply.staff) {
+					$scope.replyContent = '@' + reply.staff.fullname + ' ';
+				}
+			} else {
+				$scope.replyContent = (commentItem.customer.fullname ? '@' + commentItem.customer.fullname + ' ' : '');
+			}
 		} else {
 			$scope.replyContent = '';
 		}
