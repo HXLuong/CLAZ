@@ -74,10 +74,27 @@
 	</div>
 </div>
 <div class="container fw-bold d-flex justify-content-end gap-2 my-2">
-	<span>Rating:</span> <span>4.9 <i
-		class="bi bi-star-fill text-warning"></i></span> <span>(69 lượt đánh
-		giá)</span>
+	<span>Rating:</span> <span>{{ averageRating }} <i
+		class="bi bi-star-fill text-warning"></i></span> <span>( {{
+		totalRatings }} lượt đánh giá)</span>
 </div>
+<div class="container text-center">
+	<!-- Show rating form only if the user has not rated and can rate again -->
+	<div ng-show="!hasRated && canRateAgain">
+		<h3>Đánh giá sản phẩm</h3>
+		<div class="star-rating d-flex justify-content-center mt-1">
+			<span class="star fs-1" ng-repeat="n in [1, 2, 3, 4, 5]"
+				data-value="{{n}}" ng-click="setRating(n)"
+				ng-class="{'selected': ratingValue >= n}">★</span>
+		</div>
+		<div class="mt-1">
+			<p id="rating-result">Bạn đã đánh giá: {{ ratingValue }}/5</p>
+		</div>
+		<button class="btn btn-outline-primary mt-2"
+			ng-click="addRating(productId)">Gửi đánh giá</button>
+	</div>
+</div>
+
 
 <div class="container mt-4">
 	<h4>Bình luận</h4>
@@ -128,7 +145,8 @@
 					ng-click="toggleReplyInput(commentItem, null)"
 					href="javascript:void(0)">Trả lời</a>
 			</div>
-			<div class="dropdown mt-3 ms-1" ng-hide="commentItem.customer.username !== username">
+			<div class="dropdown mt-3 ms-1"
+				ng-hide="commentItem.customer.username !== username">
 				<span class="three-dots" id="dropdownMenuButton"
 					data-bs-toggle="dropdown" aria-haspopup="true"
 					aria-expanded="false">...</span>

@@ -1,5 +1,6 @@
 package com.claz.models;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -20,9 +21,8 @@ public class Rating {
 	@Column(name = "Rating_ID", updatable = false, nullable = false)
 	int id;
 	int number_Stars;
-	@Temporal(TemporalType.DATE)
 	@Column(name = "created_at")
-	Date created_at = new Date();
+	LocalDateTime createdAt;
 
 	@ManyToOne
 	@JoinColumn(name = "product_id")
