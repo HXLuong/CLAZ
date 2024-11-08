@@ -24,7 +24,7 @@ public class Order {
 	String status;
 	String paymentMethod;
 	Double amount;
-	@Column(name = "created_at")
+	@Column(name = "Created_at")
 	LocalDateTime created_at = LocalDateTime.now();
 
 	@ManyToOne

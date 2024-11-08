@@ -112,4 +112,9 @@ public class CustomerServiceImpl implements CustomerService {
 		return customerDAO.count();
 	}
 
+	@Override
+	public Customer findByUsernameOrEmail(String usernameOrEmail) {
+		return customerDAO.findByUsernameOrEmail(usernameOrEmail);
+	}
+
 }

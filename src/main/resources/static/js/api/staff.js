@@ -45,13 +45,23 @@ app.controller('staffCtrl', function($scope, $http) {
 		return phonePattern.test(phone);
 	};
 
+	$scope.isValidPassword = function(password) {
+		const passwordRegex = /^(?=.*[\d!@#$%^&*()_+{}\[\]:;"'<>,.?/-])[A-Za-z\d!@#$%^&*()_+{}\[\]:;"'<>,.?/-]{8,}$/;
+		return passwordRegex.test(password);
+	};
+
+	$scope.isValidUsername = function(username) {
+		const usernameRegex = /[^a-zA-Z0-9]/;
+		return usernameRegex.test(username);
+	};
+
 	$scope.create = function() {
 
 		/*Validate*/
-		if (!$scope.form.username) {
+		if (!$scope.form.username || $scope.form.username.length < 8 || $scope.isValidUsername($scope.form.username)) {
 			Swal.fire({
 				title: "Lỗi",
-				text: "Vui lòng nhập tên đăng nhập",
+				text: "Tên đăng nhập phải có ít nhất 8 ký tự và không chứa ký tự đặc biệt",
 				icon: "error"
 			});
 			return;
@@ -64,10 +74,10 @@ app.controller('staffCtrl', function($scope, $http) {
 			});
 			return;
 		}
-		if (!$scope.form.password || $scope.form.password.length < 6) {
+		if (!$scope.form.password || !$scope.isValidPassword($scope.form.password)) {
 			Swal.fire({
 				title: "Lỗi",
-				text: "Đăng ký không thành công. Mật khẩu phải có ít nhất 6 ký tự",
+				text: "Mật khẩu phải có ít nhất 8 ký tự, bao gồm ít nhất 1 số hoặc 1 ký tự đặc biệt.",
 				icon: "error"
 			});
 			return;
@@ -128,10 +138,10 @@ app.controller('staffCtrl', function($scope, $http) {
 
 	$scope.update = function() {
 		/*Validate*/
-		if (!$scope.form.username) {
+		if (!$scope.form.username || $scope.form.username.length < 8 || $scope.isValidUsername($scope.form.username)) {
 			Swal.fire({
 				title: "Lỗi",
-				text: "Vui lòng nhập tên đăng nhập",
+				text: "Tên đăng nhập phải có ít nhất 8 ký tự và không chứa ký tự đặc biệt",
 				icon: "error"
 			});
 			return;
@@ -144,10 +154,10 @@ app.controller('staffCtrl', function($scope, $http) {
 			});
 			return;
 		}
-		if (!$scope.form.password || $scope.form.password.length < 6) {
+		if (!$scope.form.password || !$scope.isValidPassword($scope.form.password)) {
 			Swal.fire({
 				title: "Lỗi",
-				text: "Đăng ký không thành công. Mật khẩu phải có ít nhất 6 ký tự",
+				text: "Mật khẩu phải có ít nhất 8 ký tự, bao gồm ít nhất 1 số hoặc 1 ký tự đặc biệt.",
 				icon: "error"
 			});
 			return;
@@ -260,35 +270,18 @@ app.controller('staffCtrl', function($scope, $http) {
 		})
 	}
 
-	/*$scope.pager = {
-		page: 0,
-		size: 3,
-		get items() {
-			var start = this.page * this.size;
-			return $scope.items.slice(start, start + this.size);
-		},
-		get count() {
-			return Math.ceil(1.0 * $scope.items.length / this.size);
-		},
-		first() {
-			this.page = 0;
-		},
-		prev() {
-			this.page--;
-			if (this.page < 0) {
-				this.last();
-			}
-		},
-		next() {
-			this.page++;
-			if (this.page >= this.count) {
-				this.first();
-			}
-		},
-		last() {
-			this.page = this.count - 1;
+	// Hàm sắp xếp
+	$scope.sortColumn = 'id';
+	$scope.reverse = false;
+	$scope.sortBy = function(column) {
+		if ($scope.sortColumn === column) {
+			$scope.reverse = !$scope.reverse;
+		} else {
+			$scope.sortColumn = column;
+			$scope.reverse = false;
 		}
-	}*/
+	};
+	
 	$scope.loadAccount();
 	$scope.load_all();
 	$scope.reset();

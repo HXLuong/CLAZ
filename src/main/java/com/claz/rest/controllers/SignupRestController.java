@@ -155,7 +155,6 @@ public class SignupRestController {
 			return ResponseEntity
 					.ok(new SuccessResponse("Mã xác nhận đã được gửi đến email của bạn.", String.valueOf(randomCode)));
 		} catch (UsernameNotFoundException e) {
-			System.out.println("ssssssssss " + mail);
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse("Email không tồn tại."));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -170,11 +169,9 @@ public class SignupRestController {
 		String sessionEmail = (String) request.getSession().getAttribute("email");
 		String sessionCode = (String) request.getSession().getAttribute("code");
 		if (sessionEmail == null || sessionCode == null) {
-			System.out.println("ssssssssss " + sessionCode);
 			return ResponseEntity.badRequest().body(new ErrorResponse("Không tìm thấy mã xác nhận."));
 		}
 		if (sessionEmail.equals(verificationRequest.getEmail()) && sessionCode.equals(verificationRequest.getCode())) {
-			System.out.println("ssssssssss " + sessionCode);
 			return ResponseEntity.ok(new SuccessResponse("Mã xác nhận chính xác.", ""));
 		} else {
 			return ResponseEntity.badRequest().body(new ErrorResponse("Mã xác nhận không chính xác."));

@@ -42,7 +42,7 @@ app.controller('slideCtrl', function($scope, $http) {
 			});
 			return;
 		}
-		
+
 		if ($scope.items.length > 17) {
 			Swal.fire({
 				title: "Lỗi",
@@ -141,6 +141,18 @@ app.controller('slideCtrl', function($scope, $http) {
 			});
 		})
 	}
+
+	// Hàm sắp xếp
+	$scope.sortColumn = 'id';
+	$scope.reverse = false;
+	$scope.sortBy = function(column) {
+		if ($scope.sortColumn === column) {
+			$scope.reverse = !$scope.reverse;
+		} else {
+			$scope.sortColumn = column;
+			$scope.reverse = false;
+		}
+	};
 
 	/*$scope.pager = {
 		page: 0,

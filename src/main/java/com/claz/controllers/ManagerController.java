@@ -156,6 +156,13 @@ public class ManagerController {
 		model.addAttribute("page", "/admin/admin-updatePassword");
 		return "/admin/admin-index";
 	}
+	
+	@RequestMapping("/statisticRevenue")
+	public String statisticRevenue(Model model, HttpServletRequest request) {
+		nav(model, request);
+		model.addAttribute("page", "/admin/statistics_Revenue");
+		return "/admin/admin-index";
+	}
 
 	public void nav(Model model, HttpServletRequest request) {
 		String username = request.getRemoteUser();

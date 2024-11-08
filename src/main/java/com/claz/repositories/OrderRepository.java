@@ -37,4 +37,12 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 			@Param("amountTo") Double amountTo, @Param("fromDate") LocalDateTime fromDate,
 			@Param("toDate") LocalDateTime toDate, @Param("username") String username);
 
+	@Query("SELECT o FROM Order o WHERE o.created_at > :created_at")
+	List<Order> findByCreatedAtAfter(@Param("created_at") LocalDateTime created_at);
+
+	@Query("SELECT COUNT(o) FROM Order o WHERE o.created_at > :created_at")
+	Integer countByCreatedAtAfter(LocalDateTime created_at);
+
+	@Query("SELECT o.customer, COUNT(o) FROM Order o GROUP BY o.customer")
+	List<Object[]> findAllCustomersWithOrderCount();
 }

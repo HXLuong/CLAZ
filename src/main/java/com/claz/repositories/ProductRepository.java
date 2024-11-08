@@ -52,4 +52,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
 	@Query("SELECT p FROM Product p JOIN p.genreProducts gp WHERE gp.genre.id = :genreId")
 	List<Product> findAllByGenreId(@Param("genreId") int genreId);
+	
+	@Query("SELECT SUM(p.Quantity) FROM Product p")
+    int getTotalProductQuantity();
 }
