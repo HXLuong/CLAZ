@@ -37,6 +37,16 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 		return phonePattern.test(phone);
 	};
 
+	$scope.isValidPassword = function(password) {
+		const passwordRegex = /^(?=.*[\d!@#$%^&*()_+{}\[\]:;"'<>,.?/-])[A-Za-z\d!@#$%^&*()_+{}\[\]:;"'<>,.?/-]{8,}$/;
+		return passwordRegex.test(password);
+	};
+
+	$scope.isValidUsername = function(username) {
+		const usernameRegex = /[^a-zA-Z0-9]/;
+		return usernameRegex.test(username);
+	};
+
 	$scope.emailSentAccount = false;
 	$scope.sendCreateMail = function() {
 		$scope.form = $scope.form || {};
@@ -57,18 +67,18 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 			return;
 		}
 
-		if (!$scope.form.username) {
+		if (!$scope.form.username || $scope.form.username.length < 8 || $scope.isValidUsername($scope.form.username)) {
 			Swal.fire({
 				title: "Lỗi",
-				text: "Vui lòng nhập tên đăng nhập.",
+				text: "Tên đăng nhập phải có ít nhất 8 ký tự và không chứa ký tự đặc biệt",
 				icon: "error"
 			});
 			return;
 		}
-		if (!$scope.form.password || $scope.form.password.length < 6) {
+		if (!$scope.form.password || !$scope.isValidPassword($scope.form.password)) {
 			Swal.fire({
 				title: "Lỗi",
-				text: "Đăng ký không thành công. Mật khẩu phải có ít nhất 6 ký tự.",
+				text: "Mật khẩu phải có ít nhất 8 ký tự, bao gồm ít nhất 1 số hoặc 1 ký tự đặc biệt.",
 				icon: "error"
 			});
 			return;
@@ -195,11 +205,10 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 		}
 	};
 	$scope.updateAccountPass = function() {
-		if ($scope.form.password.length < 6) {
-			$scope.error = 'Mật khẩu phải có ít nhất 6 ký tự';
+		if (!$scope.form.password || !$scope.isValidPassword($scope.form.password)) {
 			Swal.fire({
 				title: "Lỗi",
-				text: "Mật khẩu phải có ít nhất 6 ký tự.",
+				text: "Mật khẩu phải có ít nhất 8 ký tự, bao gồm ít nhất 1 số hoặc 1 ký tự đặc biệt.",
 				icon: "error"
 			});
 			return;
@@ -219,7 +228,7 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 			.then(resp => {
 				$scope.form = resp.data;
 				Swal.fire({
-					title: "Success",
+					title: "Thành công",
 					text: "Sửa mật khẩu thành công",
 					icon: "success"
 				});

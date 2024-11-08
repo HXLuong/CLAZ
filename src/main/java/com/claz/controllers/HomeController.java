@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -122,26 +123,21 @@ public class HomeController {
 		return "index";
 	}
 
-	@PostMapping("/searchProduct")
-	public String searchProduct(@RequestParam(name = "search", required = false) String search, Model model,
-			HttpSession session) {
-		if (search != null || !search.isEmpty()) {
-			session.setAttribute("searchProdut", productService.findBySearch(search));
-		}
-		List<Category> cate = categoryService.findAll();
-		model.addAttribute("cates", cate);
-		session.setAttribute("page", "search/search");
-		return "index";
-	}
-
-	@PostMapping("/searchProductFilter")
-	public String searchProductFilter(HttpSession session, Model model,
+	@GetMapping("/search")
+	public String searchProductFilter(@RequestParam(required = false) String search, HttpSession session, Model model,
 			@RequestParam(required = false) Integer categoryId, @RequestParam(required = false) Integer genreId,
 			@RequestParam(required = false) Double minPrice, @RequestParam(required = false) Double maxPrice,
 			@RequestParam(required = false) String sort) {
-		List<Product> products = productService.findProducts(categoryId, genreId, minPrice, maxPrice, sort);
-		session.setAttribute("searchProdut", products);
+		if (search == null || search.trim().isEmpty()) {
+			search = ""; 
+		}
 
+		if (!search.isEmpty()) {
+			session.setAttribute("searchProduct", productService.findBySearch(search));
+		} else {
+			List<Product> products = productService.findProducts(categoryId, genreId, minPrice, maxPrice, sort);
+			session.setAttribute("searchProduct", products); 
+		}
 		List<Genre> genres = genreService.findAll();
 		List<Category> cates = categoryService.findAll();
 
@@ -179,7 +175,7 @@ public class HomeController {
 		return "index";
 	}
 
-	@RequestMapping("/category")
+	@GetMapping("/category")
 	public String danhmuc(Model model, @RequestParam(required = false) Integer id, HttpSession session,
 			@RequestParam(required = false) Integer categoryId, @RequestParam(required = false) Integer genreId,
 			@RequestParam(required = false) Double minPrice, @RequestParam(required = false) Double maxPrice,

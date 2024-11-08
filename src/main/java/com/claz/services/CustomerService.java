@@ -25,5 +25,7 @@ public interface CustomerService {
 	void delete(String username);
 
 	long countTotalCustomers();
+	
+	Customer findByUsernameOrEmail(String usernameOrEmail);
 
 }

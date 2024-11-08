@@ -5,6 +5,8 @@ app.controller("commentCtrl", function($scope, $http) {
 	$scope.username = "";
 	$scope.replyContent = '';
 	$scope.replyContent = {};
+	$scope.sortColumn = 'created_at';
+	$scope.reverse = true;
 
 	// Hàm tạo ID ngẫu nhiên
 	$scope.generateRandomId = function(length) {
@@ -234,6 +236,23 @@ app.controller("commentCtrl", function($scope, $http) {
 		} else {
 			$scope.replyContent = '';
 		}
+	};
+
+	// Hàm để sắp xếp
+	$scope.sortBy = function(column) {
+		if ($scope.sortColumn === column) {
+			$scope.reverse = !$scope.reverse;
+		} else {
+			$scope.sortColumn = column;
+			$scope.reverse = false;
+		}
+	};
+
+	$scope.getSortClass = function(column) {
+		if ($scope.sortColumn === column) {
+			return $scope.reverse ? 'sort-desc' : 'sort-asc';
+		}
+		return '';
 	};
 
 	$scope.loadReplies();

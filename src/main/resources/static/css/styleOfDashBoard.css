@@ -160,6 +160,10 @@ a.sidebar-link {
 	background-color: rgba(1, 123, 255, 0.1);
 }
 
+table th {
+	cursor: pointer;
+}
+
 @media ( min-width :768px) {
 	.content {
 		max-width: auto;
