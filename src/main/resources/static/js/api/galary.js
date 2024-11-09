@@ -17,6 +17,7 @@ app.controller('galaryCtrl', function($scope, $http) {
 		var url = `/rest/galaries`;
 		$http.get(url).then(resp => {
 			$scope.items = resp.data;
+			$scope.groupItems();
 		}).catch(error => {
 			console.log("Error", error);
 		});
@@ -119,6 +120,7 @@ app.controller('galaryCtrl', function($scope, $http) {
 				$http.delete(`/rest/galaries/${item.id}`).then(resp => {
 					var index = $scope.items.findIndex(p => p.id == item.id);
 					$scope.items.splice(index, 1);
+					$scope.load_all();
 					$scope.reset();
 				}).catch(error => {
 					Swal.fire({
@@ -148,35 +150,33 @@ app.controller('galaryCtrl', function($scope, $http) {
 		})
 	}
 
-	/*$scope.pager = {
-		page: 0,
-		size: 3,
-		get items() {
-			var start = this.page * this.size;
-			return $scope.items.slice(start, start + this.size);
-		},
-		get count() {
-			return Math.ceil(1.0 * $scope.items.length / this.size);
-		},
-		first() {
-			this.page = 0;
-		},
-		prev() {
-			this.page--;
-			if (this.page < 0) {
-				this.last();
+	// Hàm phân nhóm sản phẩm theo tên
+	$scope.groupedItems = {};
+
+	$scope.groupItems = function() {
+		$scope.groupedItems = {};
+		angular.forEach($scope.items, function(item) {
+			const productName = item.product ? item.product.name : "Không có tên sản phẩm";
+			if (!$scope.groupedItems[productName]) {
+				$scope.groupedItems[productName] = [];
 			}
-		},
-		next() {
-			this.page++;
-			if (this.page >= this.count) {
-				this.first();
-			}
-		},
-		last() {
-			this.page = this.count - 1;
+			$scope.groupedItems[productName].push(item);
+		});
+	};
+
+	$scope.groupItems();
+
+	// Hàm sắp xếp
+	$scope.sortColumn = 'id';
+	$scope.reverse = false;
+	$scope.sortBy = function(column) {
+		if ($scope.sortColumn === column) {
+			$scope.reverse = !$scope.reverse;
+		} else {
+			$scope.sortColumn = column;
+			$scope.reverse = false;
 		}
-	}*/
+	};
 
 	$scope.load_all();
 	$scope.reset();

@@ -1,8 +1,7 @@
 package com.claz.models;
 
 import java.io.Serializable;
-import java.util.Date;
-
+import java.time.LocalDateTime;
 import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,9 +20,8 @@ public class Reply implements Serializable {
 	@Column(name = "Content")
 	private String content;
 
-	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "created_at")
-	private Date createdAt = new Date();
+	LocalDateTime created_at = LocalDateTime.now();
 
 	@ManyToOne
 	@JoinColumn(name = "Comment_ID")
@@ -32,5 +30,8 @@ public class Reply implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "Username")
 	private Customer customer;
-
+	
+	@ManyToOne
+	@JoinColumn(name = "Username_Staff")
+	private Staff staff;
 }

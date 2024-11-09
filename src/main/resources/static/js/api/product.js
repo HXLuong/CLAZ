@@ -199,21 +199,6 @@ app.controller("productCtrl", function($scope, $http) {
 				});
 			}
 
-			// lưu ảnh sản phẩm vào thư viện ảnh
-			var ImageProduct = {
-				id: $scope.generateRandomId(6), // Tạo ID ngẫu nhiên cho genreProduct
-				image: $scope.form.image,
-				product: { id: resp.data.id }, // ID sản phẩm vừa tạo
-			};
-
-			$http.post(`/rest/galaries`, ImageProduct).then(re => {
-				$scope.session.galaries.unshift(re.data);
-				$scope.galaries.push(re.data);
-				console.log("Đã lưu ảnh thành công");
-			}).catch(error => {
-				console.log("Lỗi khi lưu ảnh", error);
-			});
-
 			$scope.reset();
 			Swal.fire({
 				icon: "success",
@@ -305,17 +290,7 @@ app.controller("productCtrl", function($scope, $http) {
 		});
 
 		Promise.all(deletePromises).then(() => {
-			// Xóa các galaries hiện tại
-			const relatedGalaries = $scope.galaries.filter(gp => gp.product.id === item.id);
-			const deleteGalleryPromises = relatedGalaries.map(gp => {
-				return $http.delete(`/rest/galaries/${gp.id}`);
-			});
-
-			// Xóa tất cả các galaries liên quan
-			return Promise.all(deleteGalleryPromises).then(() => {
-				// Cập nhật sản phẩm
-				return $http.put(`/rest/products/${item.id}`, item);
-			});
+			return $http.put(`/rest/products/${item.id}`, item);
 		}).then(resp => {
 			var index = $scope.items.findIndex(p => p.id == item.id);
 			$scope.items[index] = item;
@@ -344,21 +319,6 @@ app.controller("productCtrl", function($scope, $http) {
 					});
 				});
 			}
-
-			// Cập nhật ảnh sản phẩm vào thư viện ảnh
-			var ImageProduct = {
-				id: $scope.generateRandomId(6), // Tạo ID ngẫu nhiên cho genreProduct
-				image: $scope.form.image,
-				product: { id: resp.data.id }, // ID sản phẩm vừa tạo
-			};
-
-			$http.post(`/rest/galaries`, ImageProduct).then(re => {
-				$scope.session.galaries.unshift(re.data);
-				$scope.galaries.push(re.data);
-				console.log("Đã lưu ảnh thành công");
-			}).catch(error => {
-				console.log("Lỗi khi lưu ảnh", error);
-			});
 
 			$scope.reset();
 			Swal.fire({
@@ -389,26 +349,7 @@ app.controller("productCtrl", function($scope, $http) {
 			confirmButtonText: "Có, xóa ngay!"
 		}).then((result) => {
 			if (result.isConfirmed) {
-				// Tìm tất cả genreProducts liên quan đến sản phẩm này
-				const relatedGenreProducts = $scope.genreProducts.filter(gp => gp.product.id === item.id);
-				// Xóa tất cả genreProducts liên quan
-				const deletePromises = relatedGenreProducts.map(gp => {
-					return $http.delete(`/rest/genre_products/${gp.id}`);
-				});
-
-				Promise.all(deletePromises).then(() => {
-					// Xóa các galaries hiện tại
-					const relatedGalaries = $scope.galaries.filter(gp => gp.product.id === item.id);
-					const deleteGalleryPromises = relatedGalaries.map(gp => {
-						return $http.delete(`/rest/galaries/${gp.id}`);
-					});
-
-					// Xóa tất cả các galaries liên quan
-					return Promise.all(deleteGalleryPromises).then(() => {
-						// Sau khi đã xóa genreProducts và galaries, xóa sản phẩm
-						return $http.delete(`/rest/products/${item.id}`);
-					});
-				}).then(resp => {
+				$http.delete(`/rest/products/${item.id}`).then(resp => {
 					var index = $scope.items.findIndex(p => p.id == item.id);
 					$scope.items.splice(index, 1);
 					Swal.fire({
@@ -446,36 +387,17 @@ app.controller("productCtrl", function($scope, $http) {
 		})
 	}
 
-	/*$scope.pager = {
-		page: 0,
-		size: 4,
-		get items() {
-			var start = this.page * this.size;
-			return $scope.items.slice(start, start + this.size);
-		},
-		get count() {
-			return Math.ceil(1.0 * $scope.items.length / this.size);
-		},
-		first() {
-			this.page = 0;
-		},
-		prev() {
-			this.page--;
-			if (this.page < 0) {
-				this.last();
-			}
-		},
-		next() {
-			this.page++;
-			if (this.page >= this.count) {
-				this.first();
-			}
-		},
-		last() {
-			this.page = this.count - 1;
+	// Hàm sắp xếp
+	$scope.sortColumn = 'id';
+	$scope.reverse = false;
+	$scope.sortBy = function(column) {
+		if ($scope.sortColumn === column) {
+			$scope.reverse = !$scope.reverse;
+		} else {
+			$scope.sortColumn = column;
+			$scope.reverse = false;
 		}
-	}*/
-
+	};
 
 	$scope.load_all();
 	$scope.reset();

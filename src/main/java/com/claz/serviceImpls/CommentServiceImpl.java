@@ -1,5 +1,6 @@
 package com.claz.serviceImpls;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,7 +15,7 @@ import com.claz.models.Customer;
 import com.claz.models.Product;
 import com.claz.models.Reply;
 import com.claz.repositories.CommentRepository;
-import com.claz.repositories.replyRepository;
+import com.claz.repositories.ReplyRepository;
 import com.claz.services.CommentService;
 import com.claz.services.CustomerService;
 import com.claz.services.ProductService;
@@ -32,7 +33,7 @@ public class CommentServiceImpl implements CommentService {
 	private CustomerService customerService;
 
 	@Autowired
-	private replyRepository replyRepository;
+	private ReplyRepository replyRepository;
 
 	@Autowired
 	private HttpSession httpSession;
@@ -102,6 +103,26 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public Optional<Reply> findByIdReply(int id) {
 		return replyRepository.findById(id);
+	}
+
+	@Override
+	public List<Comment> findByUsername(String username) {
+		return commentRepository.findByCustomerUsername(username);
+	}
+
+	@Override
+	public List<Reply> findByUsernameReply(String username) {
+		return replyRepository.findByCustomerUsername(username);
+	}
+
+	@Override
+	public List<Comment> filterComments(String content, LocalDateTime fromDate, LocalDateTime toDate, String username) {
+		return commentRepository.filterComments(content, fromDate, toDate, username);
+	}
+
+	@Override
+	public List<Reply> filterReplies(String content, LocalDateTime fromDate, LocalDateTime toDate, String username) {
+		return replyRepository.filterReplies(content, fromDate, toDate, username);
 	}
 
 }

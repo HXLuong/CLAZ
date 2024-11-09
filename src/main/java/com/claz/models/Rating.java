@@ -21,8 +21,14 @@ public class Rating {
 	@Column(name = "Rating_ID", updatable = false, nullable = false)
 	int id;
 	int number_Stars;
+<<<<<<< HEAD
 	@Column(name = "created_at")
 	LocalDateTime createdAt;
+=======
+
+	@Column(name = "created_at")
+	LocalDateTime created_at = LocalDateTime.now();
+>>>>>>> abb2f9bd68225994a1d661327f725013cc17c6ac
 
 	@ManyToOne
 	@JoinColumn(name = "product_id")

@@ -6,7 +6,7 @@
 					style="width: 335px;">
 					<li class="nav-item" th:each="cate : ${cates}"><a
 						class="nav-link active fw-semibold" aria-current="page"
-						th:href="@{/category/{id}(id=${cate.id})}"> <span
+						th:href="@{'/category?id='+ ${cate.id}}"> <span
 							th:text="${cate.name}"></span>
 					</a></li>
 				</ul>
@@ -86,7 +86,7 @@
 				theo xu hướng mà có thể bạn sẽ thích</h6>
 		</div>
 		<div class="col-xl-2 col-4 d-flex justify-content-end">
-			<a href="" class="btn btn-primary " style="height: 40px;">Khám
+			<a href="/prHot" class="btn btn-primary " style="height: 40px;">Khám
 				Phá</a>
 		</div>
 	</div>
@@ -94,8 +94,13 @@
 <div class="container mt-2">
 	<div class="row">
 		<div class="col-lg-3 col-md-4 col-6 list_product"
+<<<<<<< HEAD
 			th:each="product, iterStat : ${session.products}">
 			<!-- Giới hạn 8 sản phẩm th:if="${iterStat.index < 8}" -->
+=======
+			th:each="product, p : ${session.products}"
+			th:if="${p.index < session.productsMore}">
+>>>>>>> abb2f9bd68225994a1d661327f725013cc17c6ac
 			<a th:href="@{|/${product.id}|}"> <img
 				th:src="@{'/images/'+${product.image}}"
 				class="img-fluid mt-2 rounded" alt="Product Image" width="100%">
@@ -111,6 +116,12 @@
 					th:text="${'-' + product.discount.intValue() + '%'}"></span>
 			</h6>
 		</div>
+		<div class="d-flex justify-content-center">
+			<a th:href="@{/(productsMore=${session.productsMore + 8})}"
+				class="text-primary my-2 fw-medium"
+				th:if="${session.products.size() > session.productsMore}">Xem
+				thêm</a>
+		</div>
 	</div>
 </div>
 
@@ -120,34 +131,37 @@
 	<h4 class="mt-4 fw-bolder">Từ Khóa Nổi Bật</h4>
 	<div class="row mt-4">
 		<div class="col-md-2 col-4 list_keyword">
-			<button type="button" class="btn rounded text-white fw-semibold"
+			<a href="/search?search=Làm+Việc"
+				class="btn rounded text-white fw-semibold d-flex align-items-center justify-content-center"
 				style="width: 100%; height: 65px; background-color: #3d5b81;">Làm
-				Việc</button>
+				Việc</a>
 		</div>
 		<div class="col-md-2 col-4 list_keyword">
-			<button type="button" class="btn rounded text-white fw-semibold"
+			<a href="/search?search=Giải+Trí"
+				class="btn rounded text-white fw-semibold d-flex align-items-center justify-content-center"
 				style="width: 100%; height: 65px; background-color: #98c0d9;">Giải
-				Trí</button>
+				Trí</a>
 		</div>
 		<div class="col-md-2 col-4 list_keyword">
-			<button type="button" class="btn rounded text-white fw-semibold"
+			<a href="/search?search=Học+Tập"
+				class="btn rounded text-white fw-semibold d-flex align-items-center justify-content-center"
 				style="width: 100%; height: 65px; background-color: #ee6b4d;">Học
-				Tập</button>
+				Tập</a>
 		</div>
 		<div class="col-md-2 col-4 list_keyword">
-			<button type="button"
-				class="btn rounded text-white fw-semibold noibat"
-				style="width: 100%; height: 65px; background-color: #293241;">Spotify</button>
+			<a href="/search?search=Spotify"
+				class="btn rounded text-white fw-semibold noibat d-flex align-items-center justify-content-center"
+				style="width: 100%; height: 65px; background-color: #293241;">Spotify</a>
 		</div>
 		<div class="col-md-2 col-4 list_keyword">
-			<button type="button"
-				class="btn  rounded text-white fw-semibold noibat"
-				style="width: 100%; height: 65px; background-color: #545a66;">Wallet</button>
+			<a href="/search?search=Wallet"
+				class="btn  rounded text-white fw-semibold noibat d-flex align-items-center justify-content-center"
+				style="width: 100%; height: 65px; background-color: #545a66;">Wallet</a>
 		</div>
 		<div class="col-md-2 col-4 list_keyword">
-			<button type="button"
-				class="btn rounded text-white fw-semibold noibat"
-				style="width: 100%; height: 65px; background-color: #757c86;">Youtube</button>
+			<a href="/search?search=Youtube"
+				class="btn rounded text-white fw-semibold noibat d-flex align-items-center justify-content-center"
+				style="width: 100%; height: 65px; background-color: #757c86;">Youtube</a>
 		</div>
 	</div>
 </div>
@@ -155,64 +169,51 @@
 <div class="wrapper my-4">
 	<div class="bg-image">
 		<div class="container hot-product">
-			<div class="row mx-1">
-				<div class="col-xl-10 col-8">
-					<div class="d-flex justify-content-center hot-text py-2 px-3">
-						<i class="bi bi-graph-up-arrow fs-4 me-2 text-danger"></i>
-						<h4 class="fw-bolder text-white text-truncate">#Sản phẩm bán
-							chạy nhất</h4>
+			<div class="container">
+				<div class="row mx-1">
+					<div class="col-xl-10 col-8 p-0">
+						<div class="d-flex justify-content-center hot-text py-2 px-3">
+							<i class="bi bi-graph-up-arrow fs-4 me-2 text-danger"></i>
+							<h4 class="fw-bolder text-white text-truncate">#Sản phẩm bán
+								chạy nhất</h4>
+						</div>
+					</div>
+					<div class="col-xl-2 col-4 d-flex justify-content-end p-0">
+						<a href="/prBestSeller" class="btn btn-primary "
+							style="height: 40px;">Khám Phá</a>
 					</div>
 				</div>
-				<div class="col-xl-2 col-4 d-flex justify-content-end">
-					<a href="" class="btn btn-primary " style="height: 40px;">Khám
-						Phá</a>
-				</div>
-			</div>
 
-			<div class="row mt-4">
-				<div class="col-lg-3 col-md-4 col-6 list_product">
-					<a href=""> <img src="./images/black myth wukong-13641.jpg"
-						class="img-fluid mt-2 rounded" alt="Right Image 2" width="100%">
-					</a> <a href="" class="d-block mt-2 text_product text-white">Black
-						Myth: Wukong Black Black Myth: Wukong Black</a>
-					<h6
-						class="mt-2 mb-3 d-flex align-items-center fw-bold text_product text-white">
-						122.000.000đ<strike class="mx-2 text-secondary">221.000.000đ</strike><span
-							class="badge text-bg-danger text-white p-2">-62%</span>
-					</h6>
-				</div>
-				<div class="col-lg-3 col-md-4 col-6 list_product">
-					<a href=""> <img src="./images/black myth wukong-13641.jpg"
-						class="img-fluid mt-2 rounded" alt="Right Image 2" width="100%">
-					</a> <a href="" class="d-block mt-2 text_product text-white">Black
-						Myth: Wukong Black Black Myth: Wukong Black</a>
-					<h6
-						class="mt-2 mb-3 d-flex align-items-center fw-bold text_product text-white">
-						122.000.000đ<strike class="mx-2 text-secondary">221.000.000đ</strike><span
-							class="badge text-bg-danger text-white p-2">-62%</span>
-					</h6>
-				</div>
-				<div class="col-lg-3 col-md-4 col-6 list_product">
-					<a href=""> <img src="./images/black myth wukong-13641.jpg"
-						class="img-fluid mt-2 rounded" alt="Right Image 2" width="100%">
-					</a> <a href="" class="d-block mt-2 text_product text-white">Black
-						Myth: Wukong Black Black Myth: Wukong Black</a>
-					<h6
-						class="mt-2 mb-3 d-flex align-items-center fw-bold text_product text-white">
-						122.000.000đ<strike class="mx-2 text-secondary">221.000.000đ</strike><span
-							class="badge text-bg-danger text-white p-2">-62%</span>
-					</h6>
-				</div>
-				<div class="col-lg-3 col-md-4 col-6 list_product">
-					<a href=""> <img src="./images/black myth wukong-13641.jpg"
-						class="img-fluid mt-2 rounded" alt="Right Image 2" width="100%">
-					</a> <a href="" class="d-block mt-2 text_product text-white">Black
-						Myth: Wukong Black Black Myth: Wukong Black</a>
-					<h6
-						class="mt-2 mb-3 d-flex align-items-center fw-bold text_product text-white">
-						122.000.000đ<strike class="mx-2 text-secondary">221.000.000đ</strike><span
-							class="badge text-bg-danger text-white p-2">-62%</span>
-					</h6>
+				<div class="row mt-4">
+					<div class="col-lg-3 col-md-4 col-6 list_product"
+						th:each="product, p : ${session.productBestSellers}"
+						th:if="${p.index < session.productsBest}">
+						<a th:href="@{|/${product.id}|}"> <img
+							th:src="@{'/images/'+${product.image}}"
+							class="img-fluid mt-2 rounded" alt="Product Image" width="100%">
+						</a> <a th:href="@{|/${product.id}|}"
+							class="d-block mt-2 text_product text-white"
+							th:text="${product.name}"></a>
+						<h6
+							class="mt-2 mb-3 d-flex align-items-center fw-bold text_product text-white">
+							<span
+								th:text="${#numbers.formatDecimal(product.price * (1 - product.discount / 100), 0, 'COMMA', 0, 'POINT')} + 'đ'"></span>
+							<strike class="mx-2 text-secondary"
+								th:if="${product.discount} > 0"
+								th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + 'đ'"></strike>
+							<span class="badge text-bg-danger text-white p-2"
+								th:if="${product.discount.intValue} > 0"
+								th:text="${'-' + product.discount.intValue() + '%'}"></span>
+						</h6>
+					</div>
+					<div
+						class="d-flex justify-content-center border-bottom border-secondary">
+						<a th:href="@{/(productsBest=${session.productsBest + 8})}"
+							class="text-white my-2 fw-medium"
+							th:if="${session.productBestSellers.size() > session.productsBest}">Xem
+							thêm</a>
+					</div>
+					<hr>
 				</div>
 			</div>
 		</div>
@@ -227,15 +228,16 @@
 				đang chờ bạn</h6>
 		</div>
 		<div class="col-md-6 d-flex justify-content-end col-4">
-			<button type="button" class="btn btn-primary " style="height: 40px;">Khám
-				Phá</button>
+			<a th:href="@{/category?id=4}" class="btn btn-primary "
+				style="height: 40px;">Khám Phá</a>
 		</div>
 	</div>
 </div>
 <div class="container mt-2">
 	<div class="row">
 		<div class="col-lg-3 col-md-4 col-6 list_product"
-			th:each="product : ${session.gamesteam}">
+			th:each="product, p : ${session.gamesteam}"
+			th:if="${p.index < session.productsSteam}">
 			<a th:href="@{|/${product.id}|}"> <img
 				th:src="@{'/images/'+${product.image}}"
 				class="img-fluid mt-2 rounded" alt="Product Image" width="100%">
@@ -251,6 +253,12 @@
 					th:text="${'-' + product.discount.intValue() + '%'}"></span>
 			</h6>
 		</div>
+	</div>
+	<div class="d-flex justify-content-center">
+		<a th:href="@{/(productsSteam=${session.productsSteam + 8})}"
+			class="text-primary my-2 fw-medium"
+			th:if="${session.gamesteam.size() > session.productsSteam}">Xem
+			thêm</a>
 	</div>
 </div>
 <div class="container mt-2">
@@ -261,15 +269,16 @@
 			<h4 class="fw-bolder">Học Tập</h4>
 		</div>
 		<div class="col-md-6 d-flex justify-content-end col-4">
-			<button type="button" class="btn btn-primary " style="height: 40px;">Khám
-				Phá</button>
+			<a th:href="@{/category?id=3}" class="btn btn-primary "
+				style="height: 40px;">Khám Phá</a>
 		</div>
 	</div>
 </div>
 <div class="container mt-2">
 	<div class="row">
 		<div class="col-lg-3 col-md-4 col-6 list_product"
-			th:each="product : ${session.hoctap}">
+			th:each="product, p : ${session.hoctap}"
+			th:if="${p.index < session.productsStudy}">
 			<a th:href="@{|/${product.id}|}"> <img
 				th:src="@{'/images/'+${product.image}}"
 				class="img-fluid mt-2 rounded" alt="Product Image" width="100%">
@@ -285,6 +294,11 @@
 					th:text="${'-' + product.discount.intValue() + '%'}"></span>
 			</h6>
 		</div>
+	</div>
+	<div class="d-flex justify-content-center">
+		<a th:href="@{/(productsStudy=${session.productsStudy + 8})}"
+			class="text-primary my-2 fw-medium"
+			th:if="${session.hoctap.size() > session.productsStudy}">Xem thêm</a>
 	</div>
 </div>
 <div class="container mt-2">
@@ -295,15 +309,16 @@
 			<h4 class="fw-bolder">Làm việc</h4>
 		</div>
 		<div class="col-md-6 d-flex justify-content-end col-4">
-			<button type="button" class="btn btn-primary " style="height: 40px;">Khám
-				Phá</button>
+			<a th:href="@{/category?id=2}" class="btn btn-primary "
+				style="height: 40px;">Khám Phá</a>
 		</div>
 	</div>
 </div>
 <div class="container mt-2">
 	<div class="row">
 		<div class="col-lg-3 col-md-4 col-6 list_product"
-			th:each="product : ${session.lamviec}">
+			th:each="product, p : ${session.lamviec}"
+			th:if="${p.index < session.productsWork}">
 			<a th:href="@{|/${product.id}|}"> <img
 				th:src="@{'/images/'+${product.image}}"
 				class="img-fluid mt-2 rounded" alt="Product Image" width="100%">
@@ -320,7 +335,11 @@
 			</h6>
 		</div>
 	</div>
-	<br>
+	<div class="d-flex justify-content-center">
+		<a th:href="@{/(productsWork=${session.productsWork + 8})}"
+			class="text-primary my-2 fw-medium"
+			th:if="${session.lamviec.size() > session.productsWork}">Xem thêm</a>
+	</div>
 	<hr>
-	<br> <br>
+	<br>
 </div>

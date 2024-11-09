@@ -9,48 +9,48 @@
 			<hr class="my-3">
 		</div>
 
-		<div class="row container">
+		<form action="/filterOrder" method="post" class="row container">
 
 			<div class="col-xl-2 col-lg-4 col-md-4 col-12 mt-2">
 				<div class="form-floating">
-					<input type="text" class="form-control" id="pwd"
-						placeholder="Enter password" name="pswd"> <label for="pwd">Mã
-						đơn hàng</label>
+					<input type="text" class="form-control" id="orderId" name="orderId">
+					<label for="orderId">Mã đơn hàng</label>
 				</div>
 			</div>
 			<div class="col-xl-2 col-lg-4 col-md-4 col-6 mt-2">
 				<div class="form-floating">
-					<input type="text" class="form-control" id="stt"
-						placeholder="Enter password" name="pswd"> <label for="stt">Số
+					<input type="number" min="0" step="10000" class="form-control"
+						id="amountFrom" name="amountFrom"> <label for="amountFrom">Số
 						tiền từ</label>
 				</div>
 			</div>
 			<div class="col-xl-2 col-lg-4 col-md-4 col-6 mt-2">
 				<div class="form-floating">
-					<input type="text" class="form-control" id="std"
-						placeholder="Enter password" name="pswd"> <label for="std">Số
+					<input type="number" min="0" step="10000" class="form-control"
+						id="amountTo" name="amountTo"> <label for="amountTo">Số
 						tiền đến</label>
 				</div>
 			</div>
 			<div class="col-xl-2 col-lg-4 col-md-4 col-6 mt-2">
 				<div class="form-floating">
-					<input type="date" class="form-control" id="tn" name="pswd">
-					<label for="tn">Từ ngày</label>
+					<input type="date" class="form-control" id="fromDate"
+						name="fromDate"> <label for="fromDate">Từ ngày</label>
 				</div>
 			</div>
 			<div class="col-xl-2 col-lg-4 col-md-4 col-6 mt-2">
 				<div class="form-floating">
-					<input type="date" class="form-control" id="dn" name="pswd">
-					<label for="dn">Đến ngày</label>
+					<input type="date" class="form-control" id="toDate" name="toDate">
+					<label for="toDate">Đến ngày</label>
 				</div>
 			</div>
 			<div
 				class="col-xl-2 col-lg-4 col-md-4 col-12 d-flex align-items-center">
-				<button type="button" class="btn btn-primary mt-2">
+				<button type="submit" class="btn btn-primary mt-2">
 					<i class="bi bi-funnel"></i> Lọc
 				</button>
 			</div>
-		</div>
+		</form>
+
 		<div class="container">
 			<table class="table table-bordered mt-2 ">
 				<thead>
@@ -70,9 +70,14 @@
 						<td th:text="${'#' + order.id}"></td>
 						<td>
 							<div class="d-flex justify-content-between"
-								th:each="detail:${order.orderDetails}" th:object="${detail}">
-								<span>[[*{product.name}]]</span> <span>x[[*{quantity}]]</span>
+								th:if="${order.orderDetails != null && !order.orderDetails.isEmpty()}"
+								th:each="detail : ${order.orderDetails}" th:object="${detail}">
+								<span th:text="${detail.product.name}"></span> <span>x<span
+									th:text="${detail.quantity}"></span></span>
 							</div>
+							<div
+								th:if="${order.orderDetails == null || order.orderDetails.isEmpty()}"
+								class="text-danger">Sản phẩm đã bị xóa khỏi trang web</div>
 						</td>
 						<td
 							th:text="${#numbers.formatDecimal(order.amount / 100, 0,

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.claz.models.Category;
 import com.claz.models.Comment;
 import com.claz.models.CommentDTO;
 import com.claz.models.Customer;
@@ -25,9 +26,11 @@ import com.claz.models.GenreProduct;
 import com.claz.models.Product;
 import com.claz.models.Reply;
 import com.claz.models.ReplyDTO;
+import com.claz.models.Staff;
 import com.claz.services.CommentService;
 import com.claz.services.CustomerService;
 import com.claz.services.ProductService;
+import com.claz.services.StaffService;
 
 @CrossOrigin
 @RestController
@@ -42,6 +45,14 @@ public class CommentRestController {
 
 	@Autowired
 	CustomerService customerService;
+
+	@Autowired
+	StaffService staffService;
+
+	@GetMapping()
+	public List<Comment> getAll() {
+		return commentService.findAll();
+	}
 
 	@PostMapping("/add")
 	public ResponseEntity<?> create(@RequestBody CommentDTO commentDTO, HttpSession session) {
@@ -103,6 +114,23 @@ public class CommentRestController {
 
 		Customer customer = customerService.findByUsername(replyDTO.getUsername());
 		reply.setCustomer(customer);
+		reply.setComment(comment);
+		reply.setId(replyDTO.getId());
+
+		Reply savedReply = commentService.saveReply(reply);
+
+		return ResponseEntity.ok(savedReply);
+	}
+
+	@PostMapping("/{commentId}/Staffreplies")
+	public ResponseEntity<Reply> addStaffReply(@PathVariable int commentId, @RequestBody ReplyDTO replyDTO) {
+		Comment comment = new Comment();
+		comment.setId(commentId);
+		Reply reply = new Reply();
+		reply.setContent(replyDTO.getContent());
+
+		Staff staff = staffService.GetUsername(replyDTO.getUsername_staff());
+		reply.setStaff(staff);
 		reply.setComment(comment);
 		reply.setId(replyDTO.getId());
 

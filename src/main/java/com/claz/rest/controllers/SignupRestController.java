@@ -4,11 +4,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Random;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,8 +23,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.claz.jwt.EmailService;
 import com.claz.models.Customer;
+import com.claz.models.ErrorResponse;
+import com.claz.models.SendMail;
 import com.claz.models.Staff;
+import com.claz.models.SuccessResponse;
+import com.claz.models.VerificationRequest;
 import com.claz.services.CustomerService;
 import com.claz.services.StaffService;
 
@@ -36,6 +45,9 @@ public class SignupRestController {
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+
+	@Autowired
+	EmailService emailService;
 
 	@GetMapping("/current")
 	public ResponseEntity<Customer> getCurrentUser() {
@@ -127,13 +139,42 @@ public class SignupRestController {
 		}
 	}
 
-//	@PostMapping
-//	public ResponseEntity<Customer> create(@RequestBody Customer customer) {
-//		customer.setImage("user.png");
-//		String encodedPassword = passwordEncoder.encode(customer.getPassword());
-//		customer.setPassword(encodedPassword);
-//		Customer savedCustomer = customerService.createAccount(customer);
-//		return ResponseEntity.status(HttpStatus.CREATED).body(savedCustomer);
-//	}
+	@PostMapping("/send/mail")
+	public ResponseEntity<?> sendMail(HttpServletRequest request, @RequestBody SendMail mail) {
+		if (mail.getSendmail() == null || mail.getSendmail().isEmpty()) {
+			return ResponseEntity.badRequest().body(new ErrorResponse("Email không hợp lệ."));
+		}
+		try {
+			Random random = new Random();
+			int randomCode = 100000 + random.nextInt(900000);
 
+			request.getSession().setAttribute("email", mail.getSendmail());
+			request.getSession().setAttribute("code", String.valueOf(randomCode));
+			emailService.sendSimpleEmail(mail.getSendmail(), "Mã xác nhận đăng ký tài khoản CLAZ Shop",
+					"Mã xác nhận của bạn là: " + randomCode);
+			return ResponseEntity
+					.ok(new SuccessResponse("Mã xác nhận đã được gửi đến email của bạn.", String.valueOf(randomCode)));
+		} catch (UsernameNotFoundException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse("Email không tồn tại."));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(new ErrorResponse("Có lỗi xảy ra khi gửi email."));
+		}
+	}
+
+	@PostMapping("/verify/code")
+	public ResponseEntity<?> verifyCode(HttpServletRequest request,
+			@RequestBody VerificationRequest verificationRequest) {
+		String sessionEmail = (String) request.getSession().getAttribute("email");
+		String sessionCode = (String) request.getSession().getAttribute("code");
+		if (sessionEmail == null || sessionCode == null) {
+			return ResponseEntity.badRequest().body(new ErrorResponse("Không tìm thấy mã xác nhận."));
+		}
+		if (sessionEmail.equals(verificationRequest.getEmail()) && sessionCode.equals(verificationRequest.getCode())) {
+			return ResponseEntity.ok(new SuccessResponse("Mã xác nhận chính xác.", ""));
+		} else {
+			return ResponseEntity.badRequest().body(new ErrorResponse("Mã xác nhận không chính xác."));
+		}
+	}
 }

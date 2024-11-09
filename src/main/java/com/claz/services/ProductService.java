@@ -46,5 +46,12 @@ public interface ProductService {
 	Page<Product> findByPricePage(double minPrice, double maxPrice, Pageable pageable);
 
 	List<Product> fillbyprice(Sort sort);
+	
+	List<Product> findByHot();
 
+	List<Product> findByBestSeller(int purchases);
+	
+	List<Product> findProducts(Integer categoryId, Integer genreId, Double minPrice, Double maxPrice, String sort);
+	
+	List<Product> findAllByGenreId(int Genre_ID);
 }
