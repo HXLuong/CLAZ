@@ -601,19 +601,12 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 	};
 
 	$scope.toggleReplyEdit = function(reply) {
-<<<<<<< HEAD
-	    reply.isEditing = !reply.isEditing;
-	    if (reply.isEditing) {
-	        $scope.replyContent[reply.id] = reply.content;
-	    } 
-=======
 		reply.isEditing = !reply.isEditing;
 		if (reply.isEditing) {
 			$scope.replyContent[reply.id] = reply.content;
 		} else {
 			delete $scope.replyContent[reply.id];
 		}
->>>>>>> abb2f9bd68225994a1d661327f725013cc17c6ac
 	};
 
 	$scope.cancelReply = function(reply) {
@@ -799,24 +792,6 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 			content: replyContent,
 			username: $scope.username
 		};
-
-<<<<<<< HEAD
-	    $http.put(`/comments/replies/${replyId}`, replyDTO)
-	    .then(resp => {
-	        let commentId;
-	        for (let key in $scope.replies) {
-	            if ($scope.replies[key].some(reply => reply.id === replyId)) {
-	                commentId = key;
-	                break;
-	            }
-	        }
-			$scope.loadComments();
-	        Swal.fire({
-	            icon: "success",
-	            title: "Thành công",
-	            text: "Phản hồi đã được cập nhật.",
-	        });
-=======
 		$http.put(`/comments/replies/${replyId}`, replyDTO)
 			.then(resp => {
 				let commentId;
@@ -835,8 +810,6 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 					title: "Thành công",
 					text: "Phản hồi đã được cập nhật.",
 				});
->>>>>>> abb2f9bd68225994a1d661327f725013cc17c6ac
-
 			})
 			.catch(err => {
 				Swal.fire({
@@ -883,16 +856,6 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 
 	$scope.toggleReplyInput = function(commentItem, reply) {
 		if (!$scope.username) {
-<<<<<<< HEAD
-			        Swal.fire({
-			            icon: "error",
-			            title: "Lỗi",
-			            text: "Bạn cần đăng nhập để cập nhật phản hồi.",
-			        });
-			        return;
-			    }
-	    commentItem.showReplyInput = !commentItem.showReplyInput;
-=======
 			Swal.fire({
 				icon: "error",
 				title: "Lỗi",
@@ -900,7 +863,6 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 			});
 			return;
 		}
->>>>>>> abb2f9bd68225994a1d661327f725013cc17c6ac
 
 		commentItem.showReplyInput = !commentItem.showReplyInput;
 
@@ -923,7 +885,6 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 	$scope.loadComments();
 
 
-<<<<<<< HEAD
 	
 	$scope.ratingValue = 0;
 	$scope.hasRated = false;
@@ -1029,9 +990,7 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 
 		$scope.loadRating();
 		
-=======
 	// Payment VNPay
->>>>>>> abb2f9bd68225994a1d661327f725013cc17c6ac
 	$scope.paymentByVNPay = function() {
 		const requestData = {
 			totalPrice: $scope.totalPrice,

@@ -20,7 +20,6 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 	@Query("SELECT o FROM Order o WHERE o.customer.username=?1")
 	List<Order> findByUsername(String username);
 
-<<<<<<< HEAD
 	@Query("SELECT o.created_at, o.paymentMethod, od.id, od.price, od.quantity, od.discount FROM Order o inner join OrderDetail od on o.id = od.order.id where o.customer.username = ?1")
 	List<Object[]> findOrderByUsername(String username);
 
@@ -30,7 +29,6 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 //	@Query("UPDATE Order o SET o.orderStatus = :status WHERE o.id = :id")
 //	void updateOrderStatus(@Param("id") Long id, @Param("status") OrderStatus status);
 
-=======
 	@Query("SELECT o FROM Order o WHERE (:orderId IS NULL OR o.id = :orderId) "
 			+ "AND (:amountFrom IS NULL OR o.amount >= :amountFrom) "
 			+ "AND (:amountTo IS NULL OR o.amount <= :amountTo) "
@@ -57,5 +55,4 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 
 	@Query("SELECT o.customer, COUNT(o) FROM Order o GROUP BY o.customer")
 	List<Object[]> findAllCustomersWithOrderCount();
->>>>>>> abb2f9bd68225994a1d661327f725013cc17c6ac
 }

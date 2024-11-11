@@ -21,9 +21,6 @@ public interface OrderService {
 
 	int totalOrder();
 
-<<<<<<< HEAD
-
-=======
 	List<Order> filterOrders(Integer orderId, Double amountFrom, Double amountTo, LocalDateTime fromDate,
 			LocalDateTime toDate, String username);
 
@@ -39,5 +36,5 @@ public interface OrderService {
 	long getTotalCustomers();
 
 	List<Map<String, Object>> getAllCustomersWithOrderCount();
->>>>>>> abb2f9bd68225994a1d661327f725013cc17c6ac
+
 }

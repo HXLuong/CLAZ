@@ -90,9 +90,6 @@ public class OrderServiceImpl implements OrderService {
 		return orderRepository.filterOrders(orderId, amountFrom, amountTo, fromDate, toDate, username);
 	}
 
-<<<<<<< HEAD
-
-=======
 	@Override
 	public List<Order> filterPayments(String paymentMethod, Double amountFrom, Double amountTo, LocalDateTime fromDate,
 			LocalDateTime toDate, String username) {
@@ -148,5 +145,4 @@ public class OrderServiceImpl implements OrderService {
 
 		return customerOrderCounts;
 	}
->>>>>>> abb2f9bd68225994a1d661327f725013cc17c6ac
 }
