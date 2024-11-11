@@ -119,6 +119,7 @@ public class HomeController {
 				itemName = itemName.substring(0, spaceIndex);
 			}
 		}
+		session.setAttribute("productDisplayCount", 8);
 		session.setAttribute("searchProduct", productService.findBySearch(itemName));
 		return "index";
 	}

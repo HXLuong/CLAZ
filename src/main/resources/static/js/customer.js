@@ -23,6 +23,7 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 			$scope.username = resp.data.username;
 			$scope.email = resp.data.email;
 			$scope.loadCart();
+			$scope.checkIfRated();
 		});
 	};
 	$scope.reset = function() {
@@ -791,7 +792,6 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 			content: replyContent,
 			username: $scope.username
 		};
-
 		$http.put(`/comments/replies/${replyId}`, replyDTO)
 			.then(resp => {
 				let commentId;
@@ -810,7 +810,6 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 					title: "Thành công",
 					text: "Phản hồi đã được cập nhật.",
 				});
-
 			})
 			.catch(err => {
 				Swal.fire({
@@ -886,6 +885,111 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 	$scope.loadComments();
 
 
+	
+	$scope.ratingValue = 0;
+	$scope.hasRated = false;
+	$scope.canRateAgain = false;
+	
+	$scope.canRate = false;
+	
+	$scope.checkPurchaseStatus = function(callback) {
+		    $http.get('/ratings/checkPurchaseStatus', {
+		        params: { username: $scope.username }
+		    }).then(function(response) {
+		        console.log("Purchase Status Response: ", response.data); 
+		        $scope.canRate = response.data; 
+		        if (callback) callback();
+		    });
+		};
+		
+		$scope.checkIfRated = function() {
+		    $http.get('/ratings/checkIfRated', {
+		        params: { username: $scope.username }
+		    }).then(function(response) {
+		        console.log("Check If Rated Response: ", response.data);
+		        
+		        $scope.hasRated = response.data.hasRated;
+		        $scope.canRateAgain = response.data.canRateAgain;
+
+
+		        if (!$scope.hasRated) {
+		            $scope.checkPurchaseStatus(); 
+		        }
+		    }).catch(err => {
+		        console.error('Error checking if rated:', err);
+		    });
+		};
+
+		$scope.setRating = function(value) {
+		    $scope.ratingValue = value;
+		};
+
+		$scope.addRating = function(productId) {
+		    $scope.checkPurchaseStatus(() => {
+		        if ($scope.ratingValue <= 0) {
+		            Swal.fire({
+		                icon: "error",
+		                title: "Lỗi",
+		                text: "Bạn cần chọn một đánh giá để tiếp tục.",
+		            });
+		            return;
+		        }
+
+		        const ratingDTO = {
+		            id: $scope.generateRandomId(6),
+		            productId: productId,
+		            numberStars: $scope.ratingValue,
+		            username: $scope.username
+		        };
+
+		        $http.post('/ratings/add', ratingDTO)
+		            .then(resp => {
+		                Swal.fire({
+		                    icon: "success",
+		                    title: "Thành công",
+		                    text: "Đánh giá đã được thêm.",
+		                });
+		                $scope.loadRating(); 
+		                $scope.checkIfRated(); 
+		                $scope.ratingValue = 0; 
+		            })
+		            .catch(err => {
+		                console.error('Lỗi khi thêm đánh giá:', err);
+		                Swal.fire({
+		                    icon: "error",
+		                    title: "Lỗi",
+		                    text: "Có lỗi xảy ra khi thêm đánh giá.",
+		                });
+		            });
+		    });
+		};
+
+		$scope.rating = [];
+		$scope.loadRating = function() {
+		    $http.get(`/ratings/rating`)
+		        .then(resp => {
+		            $scope.rating = resp.data;
+		            $scope.calculateTotalAndAverageRatings();
+		        });
+		};
+
+		$scope.calculateTotalAndAverageRatings = function() {
+		    if ($scope.rating.length === 0) {
+		        $scope.totalRatings = 0;
+		        $scope.averageRating = 0;
+		        return;
+		    }
+
+		    let total = 0;
+		    $scope.rating.forEach(function(rating) {
+		        total += rating.number_Stars; 
+		    });
+		    $scope.totalRatings = $scope.rating.length;
+		    $scope.averageRating = (total / $scope.rating.length).toFixed(1); 
+		};
+
+		$scope.loadRating();
+		
 	// Payment VNPay
 	$scope.paymentByVNPay = function() {
 		const requestData = {
@@ -906,7 +1010,7 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 			.then(function(response) {
 				console.log('Dữ liệu phản hồi:', response.data);
 				if (response.data) {
-					window.location.href = response.data; // Chuyển hướng tới URL thanh toán
+					window.location.href = response.data;
 				} else {
 					alert('Không nhận được URL thanh toán. Vui lòng thử lại.');
 				}
@@ -917,6 +1021,4 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 			});
 
 	}
-
-
 });

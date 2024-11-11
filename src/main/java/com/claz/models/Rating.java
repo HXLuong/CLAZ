@@ -21,10 +21,8 @@ public class Rating {
 	@Column(name = "Rating_ID", updatable = false, nullable = false)
 	int id;
 	int number_Stars;
-
 	@Column(name = "created_at")
 	LocalDateTime created_at = LocalDateTime.now();
-
 	@ManyToOne
 	@JoinColumn(name = "product_id")
 	Product product;
