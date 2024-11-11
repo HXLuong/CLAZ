@@ -36,4 +36,5 @@ public interface OrderService {
 	long getTotalCustomers();
 
 	List<Map<String, Object>> getAllCustomersWithOrderCount();
+
 }

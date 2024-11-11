@@ -91,14 +91,8 @@ app.controller('reportCtrl', function($scope, $http) {
             });
     };
 
-    // Áp dụng bộ lọc
     $scope.applyFilter = function() {
-        if (!$scope.startDate || !$scope.endDate) {
-            console.warn("Vui lòng chọn khoảng thời gian hợp lệ.");
-            return;
-        }
 
-        // Định dạng ngày
         var start = new Date($scope.startDate).toISOString().split("T")[0]; // YYYY-MM-DD
         var end = new Date($scope.endDate).toISOString().split("T")[0];
 

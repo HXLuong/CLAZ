@@ -16,15 +16,15 @@ public class OrderDetail {
 	@Column(name = "OrderDetail_ID", updatable = false, nullable = false)
 	int id;
 	Double price;
-    int quantity;
-    Double discount;
-    String keyProduct;
-    
-    @ManyToOne
-    @JoinColumn(name = "order_id")
-    Order order;
-    
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    Product product;
+	int quantity;
+	Double discount;
+	String keyProduct;
+
+	@ManyToOne
+	@JoinColumn(name = "order_id")
+	Order order;
+
+	@ManyToOne
+	@JoinColumn(name = "product_id")
+	Product product;
 }
