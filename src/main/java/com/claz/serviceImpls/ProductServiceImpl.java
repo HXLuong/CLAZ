@@ -205,4 +205,9 @@ public class ProductServiceImpl implements ProductService {
 		return productRepository.findAllByGenreId(Genre_ID);
 	}
 
+	@Override
+	public List<Product> findProductsWithDiscount() {
+		return productRepository.findProductsWithDiscount();
+	}
+
 }

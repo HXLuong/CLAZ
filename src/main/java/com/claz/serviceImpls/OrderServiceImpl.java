@@ -145,4 +145,18 @@ public class OrderServiceImpl implements OrderService {
 
 		return customerOrderCounts;
 	}
+
+	@Override
+	public Order save(Order order) {
+		return orderRepository.save(order);
+	}
+
+	@Override
+	public List<Order> searchOrders(String keyword) {
+		if (keyword == null || keyword.isEmpty()) {
+			return orderRepository.findAll();
+		}
+		return orderRepository.searchOrders(keyword);
+	}
+
 }

@@ -186,7 +186,7 @@ public class HomeController {
 		if (categoryId != null || genreId != null) {
 			products = productService.findProducts(categoryId, genreId, minPrice, maxPrice, sort);
 		} else if (id != null) {
-			products = productService.findAllByCategoryId(id); // Only call if id is not null
+			products = productService.findAllByCategoryId(id); 
 		} else {
 			products = productService.findProducts(categoryId, genreId, minPrice, maxPrice, sort);
 		}
@@ -200,16 +200,6 @@ public class HomeController {
 		session.setAttribute("searchProdut", products);
 		model.addAttribute("title", "Danh Mục Sản Phẩm");
 		session.setAttribute("page", "/category/category");
-		return "index";
-	}
-
-	@RequestMapping("/genre")
-	public String theloai(Model model, HttpSession session, @RequestParam("id") int id) {
-		List<Product> productsByGenreId = productService.findAllByGenreId(id);
-		List<Category> cates = categoryService.findAll();
-		model.addAttribute("cates", cates);
-		session.setAttribute("searchProdut", productsByGenreId);
-		session.setAttribute("page", "search/search");
 		return "index";
 	}
 
@@ -231,6 +221,17 @@ public class HomeController {
 		List<Product> prBestSeller = productService.findByBestSeller(10);
 		session.setAttribute("searchProdut", prBestSeller);
 		model.addAttribute("title", "Sản Phẩm Bán Chạy Nhất");
+		session.setAttribute("page", "/category/category");
+		return "index";
+	}
+	
+	@RequestMapping("/prSale")
+	public String prSale(Model model, HttpSession session) {
+		List<Category> cates = categoryService.findAll();
+		model.addAttribute("cates", cates);
+		List<Product> prSale = productService.findProductsWithDiscount();
+		session.setAttribute("searchProdut", prSale);
+		model.addAttribute("title", "Sản Phẩm Khuyến mãi");
 		session.setAttribute("page", "/category/category");
 		return "index";
 	}

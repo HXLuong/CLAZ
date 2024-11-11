@@ -4,10 +4,14 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.data.repository.query.Param;
+
 import com.claz.models.Customer;
 import com.claz.models.Order;
 
 public interface OrderService {
+
+	Order save(Order order);
 
 	Order createOrder(int id, String status, String paymentMethod, Double amount, Customer customer);
 
@@ -37,4 +41,5 @@ public interface OrderService {
 
 	List<Map<String, Object>> getAllCustomersWithOrderCount();
 
+	List<Order> searchOrders(String keyword);
 }
