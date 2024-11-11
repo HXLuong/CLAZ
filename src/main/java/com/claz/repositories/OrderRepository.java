@@ -45,4 +45,9 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 
 	@Query("SELECT o.customer, COUNT(o) FROM Order o GROUP BY o.customer")
 	List<Object[]> findAllCustomersWithOrderCount();
+
+	@Query("SELECT o FROM Order o WHERE " + "(CAST(o.id AS string) LIKE %:keyword% OR " + "o.status LIKE %:keyword% OR "
+			+ "o.paymentMethod LIKE %:keyword% OR " + "o.customer.fullname LIKE %:keyword% OR "
+			+ "CAST(o.amount AS string) LIKE %:keyword%)")
+	List<Order> searchOrders(@Param("keyword") String keyword);
 }

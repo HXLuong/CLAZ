@@ -1,12 +1,20 @@
 package com.claz.controllers;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -21,7 +29,7 @@ import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 public class ManagerController {
 	@Autowired
 	StaffService staffService;
-	
+
 	@Autowired
 	private OrderService orderService;
 
@@ -121,6 +129,34 @@ public class ManagerController {
 		return "/admin/admin-index";
 	}
 
+	@GetMapping("/updateOrder")
+	public String updateOrderStatus(@RequestParam("orderId") int orderId, Model model, HttpServletRequest request) {
+		nav(model, request);
+		Order order = orderService.findById(orderId);
+
+		if (order != null) {
+			order.setStatus("Đã được hủy");
+			order.setAmount(0.0);
+			orderService.save(order);
+		}
+		List<Order> orders = orderService.findAll();
+		model.addAttribute("orders", orders);
+		model.addAttribute("page", "/admin/admin-listOrder");
+
+		return "/admin/admin-index";
+	}
+
+	@GetMapping("/searchOrder")
+	public String searchOrders(Model model, @RequestParam(required = false) String keyword,
+			HttpServletRequest request) {
+		nav(model, request);
+		List<Order> orders = orderService.searchOrders(keyword);
+		model.addAttribute("orders", orders);
+		model.addAttribute("keyword", keyword);
+		model.addAttribute("page", "/admin/admin-listOrder");
+		return "/admin/admin-index";
+	}
+
 	@RequestMapping("/adminOrderDetail")
 	public String adminOrderDetail(Model model, HttpServletRequest request, @RequestParam("id") int id) {
 		nav(model, request);
@@ -156,7 +192,7 @@ public class ManagerController {
 		model.addAttribute("page", "/admin/admin-updatePassword");
 		return "/admin/admin-index";
 	}
-	
+
 	@RequestMapping("/statisticRevenue")
 	public String statisticRevenue(Model model, HttpServletRequest request) {
 		nav(model, request);
