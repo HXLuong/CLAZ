@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.claz.repositories.CustomerRepository;
 import com.claz.repositories.OrderDetailRepository;
 import com.claz.services.CustomerService;
 import com.claz.services.ProductService;
@@ -28,47 +29,35 @@ public class BurnChartRestController {
 	@Autowired
 	CustomerService customerService;
 
-	@GetMapping("/api/revenue")
-	public Map<String, Double> getRevenuePerMonth() {
-		return productService.getRevenuePerMonth();
-	}
-
-	@GetMapping("/api/revenue/total")
-	public Double getTotalRevenue() {
-		Map<String, Double> revenueMap = productService.getRevenuePerMonth();
-		return revenueMap.values().stream().mapToDouble(Double::doubleValue).sum();
-	}
-
-	@GetMapping("/api/customer/total")
-	public long getTotalUsers() {
-		return customerService.countTotalCustomers();
-	}
-
-	@GetMapping("/api/product/total")
-	public long getTotalProduct() {
-		return productService.countTotalProduct();
-	}
-
-	@GetMapping("/api/revenue/filter")
-	public Map<String, Double> getRevenueByDateRange(@RequestParam("start") String start,
-			@RequestParam("end") String end) {
-		try {
-			LocalDate startDate = LocalDate.parse(start);
-			LocalDate endDate = LocalDate.parse(end);
-			return productService.getRevenueByDateRange(startDate, endDate);
-		} catch (DateTimeParseException e) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Ngày tháng không hợp lệ", e);
-		} catch (Exception e) {
-			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Có lỗi xảy ra trong server", e);
-		}
-	}
-
 	@Autowired
 	private OrderDetailRepository orderDetailRepository;
 
-	@GetMapping("/api")
-	public ResponseEntity<?> getDailyRevenueByYear(@RequestParam("year") int year) {
-		List<Map<String, Object>> revenueData = orderDetailRepository.findDailyRevenueByYear(year);
+	@Autowired
+	private CustomerRepository customerRepository;
+
+	@GetMapping("/api/revenue/product")
+	public ResponseEntity<List<Map<String, Object>>> getProductRevenue() {
+		try {
+			List<Map<String, Object>> revenueData = orderDetailRepository.getProductRevenue();
+			return ResponseEntity.ok(revenueData);
+		} catch (Exception e) {
+			return ResponseEntity.status(500).body(null);
+		}
+	}
+
+	@GetMapping("/api/user/registrations/monthly")
+	public ResponseEntity<List<Map<String, Object>>> getMonthlyUserRegistrations() {
+		try {
+			List<Map<String, Object>> registrationData = customerRepository.getMonthlyUserRegistrations();
+			return ResponseEntity.ok(registrationData);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+		}
+	}
+
+	@GetMapping("/api/revenue/monthly")
+	public ResponseEntity<List<Map<String, Object>>> getAnnualRevenue(@RequestParam int year) {
+		List<Map<String, Object>> revenueData = orderDetailRepository.getMonthlyRevenueByYear(year);
 		return ResponseEntity.ok(revenueData);
 	}
 }
