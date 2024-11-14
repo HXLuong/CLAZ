@@ -19,7 +19,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 	@Query("SELECT p FROM Product p WHERE p.category.id=?1")
 	List<Product> findAllByCategoryId(int Category_ID);
 
-	@Query("SELECT p FROM Product p WHERE p.Name LIKE %:querySearch%")
+	@Query("SELECT p FROM Product p WHERE p.Name LIKE %:querySearch% OR p.category.name LIKE %:querySearch%")
 	List<Product> findByContentContaining(@Param("querySearch") String querySearch);
 
 	@Query("SELECT p FROM Product p WHERE p.Price BETWEEN ?1 AND ?2")

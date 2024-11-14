@@ -1,5 +1,6 @@
 package com.claz.serviceImpls;
 
+import java.awt.print.Pageable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import com.claz.models.Category;
@@ -152,11 +154,15 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<Order> searchOrders(String keyword) {
+	public Page<Order> searchOrders(String keyword, org.springframework.data.domain.Pageable pageable) {
 		if (keyword == null || keyword.isEmpty()) {
-			return orderRepository.findAll();
+			return orderRepository.findAll(pageable);
 		}
-		return orderRepository.searchOrders(keyword);
+		return orderRepository.searchOrders(keyword, pageable);
 	}
 
+	@Override
+	public Page<Order> findAllOrdersSorted(org.springframework.data.domain.Pageable pageable) {
+		return orderRepository.findAllOrdersSorted(pageable);
+	}
 }

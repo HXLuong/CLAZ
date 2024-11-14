@@ -285,6 +285,17 @@ span {
 	background-color: rgba(1, 123, 255, 0.1);
 }
 
+.star {
+	font-size: 40px;
+	color: gray; 
+	cursor: pointer;
+	transition: color 0.3s;
+}
+
+.star.selected {
+	color: gold; 
+}
+
 @media only screen and (max-width: 1200px) {
 	.parent1, .parent2 {
 		margin-top: 8px;

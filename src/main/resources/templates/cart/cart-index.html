@@ -13,7 +13,7 @@
 		<div class="col-xl-8 col-lg-8 col-md-12 p-4">
 			<div class="d-flex align-items-center gap-2">
 				<h4 class="fw-bold">Giỏ hàng</h4>
-				<span>(1 sản phẩm)</span>
+				<span>({{totalQuantity}} sản phẩm)</span>
 			</div>
 
 			<div class="row border rounded p-3 mt-3" ng-repeat="item in listItem">
@@ -50,7 +50,8 @@
 									ng-click="updateItem(item.id)">-</button>
 								<input type="text"
 									class="form-control text-center text-primary btn-quantity"
-									ng-model="item.quantity">
+									ng-model="item.quantity" ng-change="onQuantityChange(item)"
+									min="1">
 								<button class="btn btn-quantity pt-1"
 									ng-click="increaseQty(item.productID)">+</button>
 

@@ -4,7 +4,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.data.repository.query.Param;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.claz.models.Customer;
 import com.claz.models.Order;
@@ -22,6 +23,8 @@ public interface OrderService {
 	Order findById(int id);
 
 	List<Order> findAll();
+	
+	Page<Order> findAllOrdersSorted(Pageable pageable);
 
 	int totalOrder();
 
@@ -41,5 +44,5 @@ public interface OrderService {
 
 	List<Map<String, Object>> getAllCustomersWithOrderCount();
 
-	List<Order> searchOrders(String keyword);
+	Page<Order> searchOrders(String keyword, Pageable pageable);
 }

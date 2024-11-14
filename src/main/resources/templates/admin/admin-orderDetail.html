@@ -19,7 +19,9 @@
 									tạo:
 									[[*{created_at.format(T(java.time.format.DateTimeFormatter).ofPattern('dd/MM/yyyy
 									HH:mm:ss'))}]]</span> <span style="display: block;" class="mt-2">Trạng
-									thái đơn hàng: <span class="text-success fw-bold">[[*{status}]]</span>
+									thái đơn hàng: <span class="text-danger fw-bold"
+									th:if="*{status == 'Đã được hủy'}">[[*{status}]]</span> <span
+									class="text-success fw-bold" th:if="*{status == 'Đã xử lý'}">[[*{status}]]</span>
 								</span> <span style="display: block;" class="mt-2">Người nhận:
 									[[*{customer.email}]]</span>
 							</div>
@@ -30,9 +32,14 @@
 							<span class="fw-bold">Giá trị đơn hàng</span>
 						</div>
 						<div class="d-flex justify-content-between">
-							<span>Tổng giá trị đơn hàng</span> <span style="display: block;"
-								class="">[[*{#numbers.formatDecimal(amount / 100, 0,
-								'COMMA', 0, 'POINT')}]]đ</span>
+							<span>Tổng giá trị đơn hàng</span> <span th:if="*{amount > 0}">[[*{#numbers.formatDecimal(amount
+								/ 100, 0, 'COMMA', 0, 'POINT')}]]đ</span>
+							<div
+								th:if="*{orderDetails != null && !orderDetails.isEmpty() && amount == 0}"
+								th:each="detail:*{orderDetails}" th:object="${detail}">
+								<span>[[*{#numbers.formatDecimal((price * (1 - discount /
+									100)) * quantity, 0, 'COMMA', 0, 'POINT')}]]đ</span>
+							</div>
 						</div>
 					</div>
 				</div>

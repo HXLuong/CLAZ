@@ -28,7 +28,7 @@
 					</thead>
 					<tbody>
 						<tr
-							ng-repeat="item in items | filter:searchQuery | orderBy:sortColumn:reverse">
+							ng-repeat="item in pager.items | filter:searchQuery | orderBy:sortColumn:reverse">
 							<td>{{$index + 1}}</td>
 							<td>{{item.id}}</td>
 							<td>{{item.name}}</td>
@@ -96,6 +96,22 @@
 						</tr>
 					</tbody>
 				</table>
+			</div>
+			<div class="text-center">
+				<button ng-click="pager.first()" class="btn btn-outline-danger">
+					<i class="bi bi-caret-left-square"></i></i>
+				</button>
+				<button ng-click="pager.prev()" class="btn btn-outline-primary">
+					<i class="bi bi-caret-left"></i></i>
+				</button>
+				<button class="btn btn-outline-success">{{pager.page + 1}}
+					of {{pager.count}}</button>
+				<button ng-click="pager.next()" class="btn btn-outline-primary">
+					<i class="bi bi-caret-right"></i></i>
+				</button>
+				<button ng-click="pager.last()" class="btn btn-outline-danger">
+					<i class="bi bi-caret-right-square"></i></i>
+				</button>
 			</div>
 		</div>
 	</div>

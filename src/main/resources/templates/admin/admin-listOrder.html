@@ -39,9 +39,16 @@
 								th:text="${order.status}"></span> <span class="text-success"
 								th:if="${order.status == 'Đã xử lý'}" th:text="${order.status}"></span></td>
 							<td th:text="${order.paymentMethod}"></td>
-							<td
+							<td><span th:if="${order.amount > 0}"
 								th:text="${#numbers.formatDecimal(order.amount / 100, 0,
-							'COMMA', 0, 'POINT') + 'đ'}"></td>
+							'COMMA', 0, 'POINT') + 'đ'}"></span>
+								<div
+									th:if="${order.orderDetails != null && !order.orderDetails.isEmpty() && order.amount == 0}"
+									th:each="detail : ${order.orderDetails}" th:object="${detail}">
+									<span
+										th:text="${#numbers.formatDecimal((detail.product.price * (1 - detail.product.discount / 100)) * detail.quantity, 0,
+							'COMMA', 0, 'POINT') + 'đ'}"></span>
+								</div></td>
 							<td
 								th:text="${order.created_at.format(T(java.time.format.DateTimeFormatter).ofPattern('dd/MM/yyyy HH:mm:ss'))}"></td>
 							<td><a th:href="@{'/adminOrderDetail?id='+ ${order.id}}"
@@ -54,6 +61,30 @@
 						</tr>
 					</tbody>
 				</table>
+			</div>
+
+			<div class="text-center">
+				<a th:classappend="${currentPage == 0} ? 'disabled'"
+					class="btn btn-outline-danger" th:href="@{/adminListOrder(page=0)}">
+					<i class="bi bi-caret-left-square"></i></i>
+				</a> <a th:classappend="${currentPage == 0} ? 'disabled'"
+					class="btn btn-outline-primary"
+					th:href="@{/adminListOrder(page=${currentPage - 1})}"> <i
+					class="bi bi-caret-left"></i></i>
+				</a>
+				<button class="btn btn-outline-success">
+					<span th:text="${currentPage + 1}"></span> of <span
+						th:text="${totalPages}"></span>
+				</button>
+				<a th:classappend="${currentPage == totalPages - 1} ? 'disabled'"
+					class="btn btn-outline-primary"
+					th:href="@{/adminListOrder(page=${currentPage + 1})}"> <i
+					class="bi bi-caret-right"></i></i>
+				</a> <a th:classappend="${currentPage == totalPages - 1} ? 'disabled'"
+					class="btn btn-outline-danger"
+					th:href="@{/adminListOrder(page=${totalPages - 1})}"> <i
+					class="bi bi-caret-right-square"></i></i>
+				</a>
 			</div>
 		</div>
 	</div>

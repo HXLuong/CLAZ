@@ -25,4 +25,5 @@ public interface RatingService {
 
 	boolean hasUserRatedProduct(String username, Integer productId);
 
+	Optional<Rating> findUserRatedProduct(int productId, String username);
 }
