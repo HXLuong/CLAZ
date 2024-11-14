@@ -79,10 +79,21 @@
 								th:if="${order.orderDetails == null || order.orderDetails.isEmpty()}"
 								class="text-danger">Sản phẩm đã bị xóa khỏi trang web</div>
 						</td>
-						<td
+						<td><span th:if="${order.amount > 0}"
 							th:text="${#numbers.formatDecimal(order.amount / 100, 0,
-							'COMMA', 0, 'POINT') + 'đ'}"></td>
-						<td class="text-success" th:text="${order.status}"></td>
+							'COMMA', 0, 'POINT') + 'đ'}"></span>
+							<div class="d-flex justify-content-between"
+								th:if="${order.orderDetails != null && !order.orderDetails.isEmpty() && order.amount == 0}"
+								th:each="detail : ${order.orderDetails}" th:object="${detail}">
+								<span
+									th:text="${#numbers.formatDecimal((detail.product.price * (1 - detail.product.discount / 100)) * detail.quantity, 0,
+							'COMMA', 0, 'POINT') + 'đ'}"></span>
+							</div></td>
+						<td><span class="text-danger"
+							th:if="${order.status == 'Đã được hủy'}"
+							th:text="${order.status}"></span> <span class="text-success"
+							th:if="${order.status == 'Đã xử lý'}" th:text="${order.status}"></span>
+						</td>
 						<td><a th:href="@{'/detail_profile?id='+ ${order.id}}"
 							class="text-decoration-none text-primary">Chi tiết</a></td>
 					</tr>

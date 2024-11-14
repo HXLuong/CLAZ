@@ -41,4 +41,8 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 		return orderDetailRepository.existsByOrderCustomerUsernameAndProductId(username, productId);
 	}
 
+	@Override
+	public List<OrderDetail> findByOrderCustomerUsernameAndProductId(String username, int productId) {
+		return orderDetailRepository.findByOrderCustomerUsernameAndProductId(username, productId);
+	}
 }

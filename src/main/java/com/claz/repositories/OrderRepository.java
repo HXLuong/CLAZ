@@ -1,6 +1,8 @@
 
 package com.claz.repositories;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -24,10 +26,6 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 	List<Object[]> findOrderByUsername(String username);
 
 	List<Order> findOrdersByCustomerUsername(String username);
-
-//	@Modifying
-//	@Query("UPDATE Order o SET o.orderStatus = :status WHERE o.id = :id")
-//	void updateOrderStatus(@Param("id") Long id, @Param("status") OrderStatus status);
 
 	@Query("SELECT o FROM Order o WHERE (:orderId IS NULL OR o.id = :orderId) "
 			+ "AND (:amountFrom IS NULL OR o.amount >= :amountFrom) "
@@ -55,4 +53,12 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 
 	@Query("SELECT o.customer, COUNT(o) FROM Order o GROUP BY o.customer")
 	List<Object[]> findAllCustomersWithOrderCount();
+
+	@Query("SELECT o FROM Order o WHERE " + "(CAST(o.id AS string) LIKE %:keyword% OR " + "o.status LIKE %:keyword% OR "
+			+ "o.paymentMethod LIKE %:keyword% OR " + "o.customer.fullname LIKE %:keyword% OR "
+			+ "CAST(o.amount AS string) LIKE %:keyword%) ORDER BY o.created_at DESC")
+	Page<Order> searchOrders(@Param("keyword") String keyword, Pageable pageable);
+
+	@Query("SELECT o FROM Order o ORDER BY o.created_at DESC")
+	Page<Order> findAllOrdersSorted(Pageable pageable);
 }

@@ -1,10 +1,13 @@
 package com.claz.controllers;
 
 import com.claz.models.Category;
+import com.claz.models.Comment;
 import com.claz.models.Galary;
 import com.claz.models.Genre;
 import com.claz.models.GenreProduct;
+import com.claz.models.Order;
 import com.claz.models.Product;
+import com.claz.models.Reply;
 import com.claz.models.Slide;
 import com.claz.services.CategoryService;
 import com.claz.services.CommentService;
@@ -29,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -130,14 +134,14 @@ public class HomeController {
 			@RequestParam(required = false) Double minPrice, @RequestParam(required = false) Double maxPrice,
 			@RequestParam(required = false) String sort) {
 		if (search == null || search.trim().isEmpty()) {
-			search = ""; 
+			search = "";
 		}
 
 		if (!search.isEmpty()) {
 			session.setAttribute("searchProduct", productService.findBySearch(search));
 		} else {
 			List<Product> products = productService.findProducts(categoryId, genreId, minPrice, maxPrice, sort);
-			session.setAttribute("searchProduct", products); 
+			session.setAttribute("searchProduct", products);
 		}
 		List<Genre> genres = genreService.findAll();
 		List<Category> cates = categoryService.findAll();
@@ -186,7 +190,7 @@ public class HomeController {
 		if (categoryId != null || genreId != null) {
 			products = productService.findProducts(categoryId, genreId, minPrice, maxPrice, sort);
 		} else if (id != null) {
-			products = productService.findAllByCategoryId(id); // Only call if id is not null
+			products = productService.findAllByCategoryId(id);
 		} else {
 			products = productService.findProducts(categoryId, genreId, minPrice, maxPrice, sort);
 		}
@@ -200,16 +204,6 @@ public class HomeController {
 		session.setAttribute("searchProdut", products);
 		model.addAttribute("title", "Danh Mục Sản Phẩm");
 		session.setAttribute("page", "/category/category");
-		return "index";
-	}
-
-	@RequestMapping("/genre")
-	public String theloai(Model model, HttpSession session, @RequestParam("id") int id) {
-		List<Product> productsByGenreId = productService.findAllByGenreId(id);
-		List<Category> cates = categoryService.findAll();
-		model.addAttribute("cates", cates);
-		session.setAttribute("searchProdut", productsByGenreId);
-		session.setAttribute("page", "search/search");
 		return "index";
 	}
 
@@ -235,6 +229,17 @@ public class HomeController {
 		return "index";
 	}
 
+	@RequestMapping("/prSale")
+	public String prSale(Model model, HttpSession session) {
+		List<Category> cates = categoryService.findAll();
+		model.addAttribute("cates", cates);
+		List<Product> prSale = productService.findProductsWithDiscount();
+		session.setAttribute("searchProdut", prSale);
+		model.addAttribute("title", "Sản Phẩm Khuyến mãi");
+		session.setAttribute("page", "/category/category");
+		return "index";
+	}
+
 	@RequestMapping("/account")
 	public String upaccount(HttpSession session, Model model) {
 		List<Category> cates = categoryService.findAll();
@@ -256,7 +261,9 @@ public class HomeController {
 		String username = request.getRemoteUser();
 		List<Category> cates = categoryService.findAll();
 		model.addAttribute("cates", cates);
-		session.setAttribute("orders", orderService.findByUsername(username));
+		List<Order> orders = orderService.findByUsername(username);
+		session.setAttribute("orders", orders);
+		orders.sort(Comparator.comparing(Order::getCreated_at).reversed());
 		session.setAttribute("page", "/update_profile/order_profile");
 		return "index";
 	}
@@ -303,7 +310,9 @@ public class HomeController {
 		List<Category> cates = categoryService.findAll();
 		model.addAttribute("cates", cates);
 		String username = request.getRemoteUser();
-		session.setAttribute("orders", orderService.findByUsername(username));
+		List<Order> orders = orderService.findByUsername(username);
+		session.setAttribute("orders", orders);
+		orders.sort(Comparator.comparing(Order::getCreated_at).reversed());
 		session.setAttribute("page", "/update_profile/payment_profile");
 		return "index";
 	}
@@ -341,8 +350,12 @@ public class HomeController {
 		String username = request.getRemoteUser();
 		List<Category> cates = categoryService.findAll();
 		model.addAttribute("cates", cates);
-		session.setAttribute("comments", commentService.findByUsername(username));
-		session.setAttribute("replies", commentService.findByUsernameReply(username));
+		List<Comment> comments = commentService.findByUsername(username);
+		List<Reply> replies = commentService.findByUsernameReply(username);
+		session.setAttribute("comments", comments);
+		session.setAttribute("replies", replies);
+		comments.sort(Comparator.comparing(Comment::getCreated_at).reversed());
+		replies.sort(Comparator.comparing(Reply::getCreated_at).reversed());
 		session.setAttribute("page", "/update_profile/comment_profile");
 		return "index";
 	}

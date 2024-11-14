@@ -1,12 +1,25 @@
 package com.claz.controllers;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -113,10 +126,55 @@ public class ManagerController {
 	}
 
 	@RequestMapping("/adminListOrder")
-	public String adminListOrder(Model model, HttpServletRequest request) {
+	public String adminListOrder(Model model, HttpServletRequest request,
+			@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "size", defaultValue = "10") int size) {
 		nav(model, request);
-		List<Order> orders = orderService.findAll();
-		model.addAttribute("orders", orders);
+
+		Pageable pageable = PageRequest.of(page, size);
+		Page<Order> ordersPage = orderService.findAllOrdersSorted(pageable);
+
+		model.addAttribute("orders", ordersPage.getContent());
+		model.addAttribute("currentPage", page);
+		model.addAttribute("totalPages", ordersPage.getTotalPages());
+		model.addAttribute("page", "/admin/admin-listOrder");
+		return "/admin/admin-index";
+	}
+
+	@GetMapping("/updateOrder")
+	public String updateOrderStatus(@RequestParam("orderId") int orderId, Model model, HttpServletRequest request,
+			@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "size", defaultValue = "10") int size) {
+		nav(model, request);
+		Order order = orderService.findById(orderId);
+
+		if (order != null) {
+			order.setStatus("Đã được hủy");
+			order.setAmount(0.0);
+			orderService.save(order);
+		}
+		Pageable pageable = PageRequest.of(page, size);
+		Page<Order> ordersPage = orderService.findAllOrdersSorted(pageable);
+
+		model.addAttribute("orders", ordersPage.getContent());
+		model.addAttribute("currentPage", page);
+		model.addAttribute("totalPages", ordersPage.getTotalPages());
+		model.addAttribute("page", "/admin/admin-listOrder");
+
+		return "/admin/admin-index";
+	}
+
+	@GetMapping("/searchOrder")
+	public String searchOrders(Model model, @RequestParam(required = false) String keyword, HttpServletRequest request,
+			@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "size", defaultValue = "20000") int size) {
+		nav(model, request);
+		Pageable pageable = PageRequest.of(page, size);
+		Page<Order> ordersPage = orderService.searchOrders(keyword, pageable);
+		model.addAttribute("orders", ordersPage.getContent());
+		model.addAttribute("currentPage", page);
+		model.addAttribute("totalPages", ordersPage.getTotalPages());
+		model.addAttribute("keyword", keyword);
 		model.addAttribute("page", "/admin/admin-listOrder");
 		return "/admin/admin-index";
 	}
@@ -157,8 +215,13 @@ public class ManagerController {
 		return "/admin/admin-index";
 	}
 
+<<<<<<< HEAD
 	@RequestMapping("/statisticRevenueCustomer")
 	public String statisticRevenueCustomer(Model model, HttpServletRequest request) {
+=======
+	@RequestMapping("/statisticRevenue")
+	public String statisticRevenue(Model model, HttpServletRequest request) {
+>>>>>>> 3742514ab4858738f048413984529ea502d5449c
 		nav(model, request);
 		model.addAttribute("page", "/admin/statistics_RevenueCustomer");
 		return "/admin/admin-index";
