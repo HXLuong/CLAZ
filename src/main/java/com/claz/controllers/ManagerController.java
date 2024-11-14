@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 public class ManagerController {
 	@Autowired
 	StaffService staffService;
-	
+
 	@Autowired
 	private OrderService orderService;
 
@@ -156,11 +156,18 @@ public class ManagerController {
 		model.addAttribute("page", "/admin/admin-updatePassword");
 		return "/admin/admin-index";
 	}
-	
-	@RequestMapping("/statisticRevenue")
-	public String statisticRevenue(Model model, HttpServletRequest request) {
+
+	@RequestMapping("/statisticRevenueCustomer")
+	public String statisticRevenueCustomer(Model model, HttpServletRequest request) {
 		nav(model, request);
-		model.addAttribute("page", "/admin/statistics_Revenue");
+		model.addAttribute("page", "/admin/statistics_RevenueCustomer");
+		return "/admin/admin-index";
+	}
+
+	@RequestMapping("/statisticRevenueProduct")
+	public String statisticRevenueProduct(Model model, HttpServletRequest request) {
+		nav(model, request);
+		model.addAttribute("page", "/admin/statistics_RevenueProduct");
 		return "/admin/admin-index";
 	}
 

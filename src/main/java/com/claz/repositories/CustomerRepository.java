@@ -1,5 +1,7 @@
 package com.claz.repositories;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -23,4 +25,8 @@ public interface CustomerRepository extends JpaRepository<Customer, String> {
 	Customer findByUsernameOrEmail(String usernameOrEmail);
 
 	long count();
+
+	@Query("SELECT MONTH(c.created_at) AS month, COUNT(c) AS total FROM Customer c WHERE YEAR(c.created_at) = 2024 GROUP BY month ORDER BY month")
+	List<Map<String, Object>> getMonthlyUserRegistrations();
+
 }
