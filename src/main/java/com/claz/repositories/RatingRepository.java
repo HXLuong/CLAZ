@@ -19,7 +19,7 @@ public interface RatingRepository extends JpaRepository<Rating, Integer> {
 
 	List<Rating> findByProductId(int productId);
 
-	List<Rating> findByProductIdAndCustomerUsername(int productId, String username);
+	Optional<Rating> findByProductIdAndCustomerUsername(int productId, String username);
 
 	boolean existsByCustomerUsernameAndProductId(String username, Integer productId);
 //

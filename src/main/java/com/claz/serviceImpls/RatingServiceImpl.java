@@ -29,13 +29,18 @@ public class RatingServiceImpl implements RatingService {
 
 	@Autowired
 	private HttpSession httpSession;
+
 	@Autowired
 	ProductService productService;
 
 	@Autowired
 	CustomerService customerService;
+
 	@Autowired
 	RatingRepository ratingRepository;
+
+	@Autowired
+	OrderRepository orderRepository;
 
 	@Override
 	public Rating save(RatingDTO ratingDTO) {
@@ -73,9 +78,6 @@ public class RatingServiceImpl implements RatingService {
 		return ratingRepository.findAll();
 	}
 
-	@Autowired
-	OrderRepository orderRepository;
-
 	public boolean hasPurchasedProduct(Integer productId, String username) {
 		List<Order> orders = orderRepository.findByUsername(username);
 		for (Order order : orders) {
@@ -92,4 +94,8 @@ public class RatingServiceImpl implements RatingService {
 		return ratingRepository.existsByCustomerUsernameAndProductId(username, productId);
 	}
 
+	@Override
+	public Optional<Rating> findUserRatedProduct(int productId, String username) {
+		return ratingRepository.findByProductIdAndCustomerUsername(productId, username);
+	}
 }
