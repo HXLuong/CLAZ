@@ -167,6 +167,10 @@ public class CartRestController {
 						orderDetail.getQuantity(), orderDetail.getDiscount(), order.getAmount());
 			});
 
+			session.setAttribute("hasRated", false);
+			Map<String, Object> response = new HashMap<>();
+			response.put("hasRated", false);
+
 			cartService.deleteAllItemInCart();
 
 			return ResponseEntity.status(302).header("Location", "/paymentSuccess").build();
@@ -252,6 +256,15 @@ public class CartRestController {
 		return ResponseEntity.ok().contentType(MediaType.TEXT_PLAIN).body(paymentUrl);
 	}
 
+	@GetMapping("/checkHasRated")
+	public ResponseEntity<Boolean> checkHasRated(HttpSession session) {
+		Boolean hasRated = (Boolean) session.getAttribute("hasRated");
+		if (hasRated == null) {
+			hasRated = false;
+		}
+		return ResponseEntity.ok(hasRated);
+	}
+
 	private void sendConfirmationEmail(String email, String orderID, String fullname, LocalDateTime created_at,
 			String phone, String status, String image, String nameProduct, String keyProduct, double price,
 			int quantity, double discount, double amount) {
@@ -269,45 +282,49 @@ public class CartRestController {
 					+ "                style=\"width: 100%; max-width: 200px; margin: 20px 0;\">\r\n"
 					+ "        </div>\r\n"
 					+ "        <div style=\"text-align: center; background-color: #0149b5; padding: 30px; color: white;\">\r\n"
-					+ "            <h1 style=\"margin: 10px;\">Đơn hàng mới #"+ orderID +"</h1>\r\n"
+					+ "            <h1 style=\"margin: 10px;\">Đơn hàng mới #" + orderID + "</h1>\r\n"
 					+ "            <span style=\"color: #a3bfea;\">Cảm ơn bạn đã quan tâm sản phẩm <br> của CLAZ Shop.</span>\r\n"
 					+ "        </div>\r\n" + "        <div style=\"background-color: white; padding: 20px;\">\r\n"
-					+ "            <h2 style=\"margin-top: 0;\">Chào "+ fullname +",</h2>\r\n"
+					+ "            <h2 style=\"margin-top: 0;\">Chào " + fullname + ",</h2>\r\n"
 					+ "            <p style=\"margin: 10px 0;\">Đơn hàng của bạn đã được nhận và sẽ được xử lý ngay khi bạn xác nhận thanh toán.\r\n"
 					+ "            </p>\r\n"
 					+ "            <span>Để xem chi tiết đơn hàng của mình tại CLAZ Shop, bạn có thể <a\r\n"
 					+ "                    style=\"text-decoration: none; font-weight: bold;\"\r\n"
-					+ "                    href=\"http://localhost:8080/detail_profile?id="+ orderID +"\">nhấn vào đây</a>.</span>\r\n"
-					+ "            <h2 style=\"margin: 19px 0;\">Thông tin đơn hàng #"+ orderID +"</h2>\r\n"
-					+ "            <p style=\"margin: 10px 0;\">Ngày mua đơn hàng "+ formatter.format(created_at) +"</p>\r\n"
+					+ "                    href=\"http://localhost:8080/detail_profile?id=" + orderID
+					+ "\">nhấn vào đây</a>.</span>\r\n"
+					+ "            <h2 style=\"margin: 19px 0;\">Thông tin đơn hàng #" + orderID + "</h2>\r\n"
+					+ "            <p style=\"margin: 10px 0;\">Ngày mua đơn hàng " + formatter.format(created_at)
+					+ "</p>\r\n"
 					+ "            <div style=\"display: flex; flex-wrap: wrap; justify-content: space-between; margin-bottom: 20px;\">\r\n"
 					+ "                <div style=\"flex: 1; margin-right: 10px;\">\r\n"
-					+ "                    <p>Khách hàng: <strong>"+ fullname +"</strong></p>\r\n"
-					+ "                    <p>Email: <strong>"+ email +"</strong></p>\r\n"
-					+ "                    <p style=\"margin-bottom: 0;\">Số điện thoại: <strong>"+ phone +"</strong></p>\r\n"
-					+ "                </div>\r\n" + "                <div style=\"flex: 1;\">\r\n"
-					+ "                    <p>Tình trạng: <strong>"+ status +"</strong></p>\r\n"
-					+ "                    <p>Email nhận sản phẩm: <strong>"+ email +"</strong></p>\r\n"
-					+ "                </div>\r\n" + "            </div>\r\n"
-					+ "            <h2>Chi tiết đơn hàng #"+ orderID +"</h2>\r\n"
+					+ "                    <p>Khách hàng: <strong>" + fullname + "</strong></p>\r\n"
+					+ "                    <p>Email: <strong>" + email + "</strong></p>\r\n"
+					+ "                    <p style=\"margin-bottom: 0;\">Số điện thoại: <strong>" + phone
+					+ "</strong></p>\r\n" + "                </div>\r\n"
+					+ "                <div style=\"flex: 1;\">\r\n" + "                    <p>Tình trạng: <strong>"
+					+ status + "</strong></p>\r\n" + "                    <p>Email nhận sản phẩm: <strong>" + email
+					+ "</strong></p>\r\n" + "                </div>\r\n" + "            </div>\r\n"
+					+ "            <h2>Chi tiết đơn hàng #" + orderID + "</h2>\r\n"
 					+ "            <div style=\"display: flex; margin-top: 20px; flex-wrap: wrap; justify-content: space-between;\">\r\n"
-					+ "                <img src=\"./images/"+ image +"\" alt=\"PRODUCT_NAME\"\r\n"
+					+ "                <img src=\"./images/" + image + "\" alt=\"PRODUCT_NAME\"\r\n"
 					+ "                    style=\"width: 100%; max-width: 200px; height: 100px; object-fit: cover; margin: 0 10px 10px 10px;\">\r\n"
 					+ "                <div style=\"flex: 1; min-width: 200px; margin: 0 10px;\">\r\n"
-					+ "                    <span style=\"font-weight: bold; font-size: 18px; display: block;\">"+ nameProduct +"</span>\r\n"
-					+ "                    <p\r\n"
+					+ "                    <span style=\"font-weight: bold; font-size: 18px; display: block;\">"
+					+ nameProduct + "</span>\r\n" + "                    <p\r\n"
 					+ "                        style=\"border: 1px solid #639cf2; font-size: 18px; padding: 10px; text-align: center; margin: 10px 0;\">\r\n"
-					+ "                        "+ keyProduct +"\r\n" + "                    </p>\r\n"
+					+ "                        " + keyProduct + "\r\n" + "                    </p>\r\n"
 					+ "                    <a style=\"text-decoration: none; font-weight: bold;\" href=\"\">Hướng dẫn nhập key game</a><br>\r\n"
-					+ "                    <p style=\"font-size: 18px; color: #878787; margin: 10px 0;\">Số lượng: "+ quantity +"</p>\r\n"
-					+ "                </div>\r\n"
+					+ "                    <p style=\"font-size: 18px; color: #878787; margin: 10px 0;\">Số lượng: "
+					+ quantity + "</p>\r\n" + "                </div>\r\n"
 					+ "                <div style=\"text-align: start; flex: 0 0 auto; min-width: 120px; margin-left: 10px;\">\r\n"
-					+ "                    <span style=\"font-weight: bold; font-size: 18px;\">"+ currencyFormat.format((price * (1 - discount / 100)) * quantity) +"</span><br>\r\n"
-					+ "                    <span style=\"font-size: 18px; color: #878787;\">Đơn giá: "+ currencyFormat.format(price * (1 - discount / 100)) +"</span>\r\n"
-					+ "                </div>\r\n" + "            </div>\r\n" + "\r\n" + "            <hr>\r\n"
+					+ "                    <span style=\"font-weight: bold; font-size: 18px;\">"
+					+ currencyFormat.format((price * (1 - discount / 100)) * quantity) + "</span><br>\r\n"
+					+ "                    <span style=\"font-size: 18px; color: #878787;\">Đơn giá: "
+					+ currencyFormat.format(price * (1 - discount / 100)) + "</span>\r\n" + "                </div>\r\n"
+					+ "            </div>\r\n" + "\r\n" + "            <hr>\r\n"
 					+ "            <div style=\"text-align: end;\">\r\n"
-					+ "                <p style=\"font-size: 18px;\">Tổng giá trị sản phẩm: <strong style=\"font-size: 18px;\">"+ currencyFormat.format(amount / 100) +"</strong></p>\r\n"
-					+ "            </div>\r\n"
+					+ "                <p style=\"font-size: 18px;\">Tổng giá trị sản phẩm: <strong style=\"font-size: 18px;\">"
+					+ currencyFormat.format(amount / 100) + "</strong></p>\r\n" + "            </div>\r\n"
 					+ "            <div style=\"text-align: center; margin: 50px 0 30px;\">\r\n"
 					+ "                <a style=\"background-color: #2679f2; color: white; text-decoration: none; padding: 20px; font-size: 18px;\"\r\n"
 					+ "                    href=\"http://localhost:8080/\">Tiếp tục mua sắm</a>\r\n"

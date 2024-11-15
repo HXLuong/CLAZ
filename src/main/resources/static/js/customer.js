@@ -23,6 +23,7 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 			$scope.username = resp.data.username;
 			$scope.email = resp.data.email;
 			$scope.loadCart();
+			$scope.checkIfRated();
 		});
 	};
 	$scope.reset = function() {
@@ -569,6 +570,34 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 		})
 	}
 
+	$scope.onQuantityChange = function(item) {
+		item.quantity = Number(item.quantity);
+
+		if (item.quantity < 0 || isNaN(item.quantity)) {
+			item.quantity = 1;
+			Swal.fire({
+				icon: "warning",
+				title: "Số lượng không hợp lệ",
+				text: "Số lượng không thể nhỏ hơn 1",
+			});
+		}
+
+		const product = $scope.products.find(p => p.id === item.productID);
+
+		if (product && item.quantity > product.quantity) {
+			item.quantity = product.quantity; 
+			Swal.fire({
+				icon: "warning",
+				title: "Số lượng vượt quá số lượng có sẵn",
+				text: "Bạn không thể chọn nhiều hơn số lượng sản phẩm có trong kho",
+			});
+		}
+
+		$scope.caculateTotal();
+	};
+
+
+
 	$scope.caculateTotal = function() {
 		$scope.totalPrice = 0;
 		$scope.totalQuantity = 0;
@@ -727,6 +756,7 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 			});
 	};
 
+	// Replies
 	$scope.replies = {};
 
 	$scope.loadReplies = function(commentId) {
@@ -791,7 +821,6 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 			content: replyContent,
 			username: $scope.username
 		};
-
 		$http.put(`/comments/replies/${replyId}`, replyDTO)
 			.then(resp => {
 				let commentId;
@@ -810,7 +839,6 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 					title: "Thành công",
 					text: "Phản hồi đã được cập nhật.",
 				});
-
 			})
 			.catch(err => {
 				Swal.fire({
@@ -886,6 +914,131 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 	$scope.loadComments();
 
 
+	// Rating
+	$scope.ratingValue = 0;
+	$scope.hasRated = true;
+	$scope.canRateAgain = false;
+	$scope.canRate = false;
+
+	$scope.checkPurchaseStatus = function(callback) {
+		$http.get('/ratings/checkPurchaseStatus', {
+			params: { username: $scope.username }
+		}).then(function(response) {
+			console.log("Purchase Status Response: ", response.data);
+			$scope.canRate = response.data;
+			if (callback) callback();
+		});
+	};
+
+	$scope.checkIfRated = function() {
+		$http.get('/ratings/checkIfRated', {
+			params: { username: $scope.username }
+		}).then(function(response) {
+			console.log("Check If Rated Response: ", response.data);
+
+			$scope.canRateAgain = response.data.canRateAgain;
+
+			if (!$scope.hasRated) {
+				$scope.checkPurchaseStatus();
+			}
+		}).catch(err => {
+			console.error('Error checking if rated:', err);
+		});
+	};
+
+
+	$scope.setRating = function(value) {
+		$scope.ratingValue = value;
+	};
+
+	$scope.checkHasRated = function() {
+		$http.get('/rest/carts/checkHasRated')
+			.then(function(response) {
+				console.log("Has Rated Status: ", response.data);
+				$scope.hasRated = response.data;
+			})
+			.catch(function(error) {
+				console.error('Error fetching hasRated status:', error);
+			});
+	};
+
+	$scope.checkHasRated();
+
+	$scope.addRating = function(productId) {
+		$scope.checkPurchaseStatus(() => {
+			if ($scope.ratingValue <= 0) {
+				Swal.fire({
+					icon: "error",
+					title: "Lỗi",
+					text: "Bạn cần chọn ít nhất 1 sao để đánh giá sản phẩm.",
+				});
+				return;
+			}
+
+			const ratingDTO = {
+				id: $scope.generateRandomId(6),
+				productId: productId,
+				numberStars: $scope.ratingValue,
+				username: $scope.username
+			};
+
+			$http.post('/ratings/add', ratingDTO)
+				.then(resp => {
+					if (resp.data && resp.data.hasRated !== undefined) {
+						Swal.fire({
+							icon: "success",
+							title: "Thành công",
+							text: "Đánh giá đã thành công.",
+						});
+						$scope.hasRated = resp.data.hasRated;
+						console.log("Has Rated: ", $scope.hasRated);
+
+						$scope.loadRating();
+						$scope.ratingValue = 0;
+					} else {
+						Swal.fire({
+							icon: "error",
+							title: "Lỗi",
+							text: "Không thể nhận diện phản hồi từ server.",
+						});
+					}
+				})
+				.catch(err => {
+					Swal.fire({
+						icon: "error",
+						title: "Lỗi",
+						text: "Có lỗi xảy ra khi đánh giá.",
+					});
+				});
+		});
+	};
+
+	$scope.rating = [];
+	$scope.loadRating = function() {
+		$http.get(`/ratings/rating`)
+			.then(resp => {
+				$scope.rating = resp.data;
+				$scope.calculateTotalAndAverageRatings();
+			});
+	};
+
+	$scope.calculateTotalAndAverageRatings = function() {
+		if ($scope.rating.length === 0) {
+			$scope.totalRatings = 0;
+			$scope.averageRating = 0;
+			return;
+		}
+
+		let total = 0;
+		$scope.rating.forEach(function(rating) {
+			total += rating.number_Stars;
+		});
+		$scope.totalRatings = $scope.rating.length;
+		$scope.averageRating = (total / $scope.rating.length).toFixed(1);
+	};
+
+	$scope.loadRating();
+
 	// Payment VNPay
 	$scope.paymentByVNPay = function() {
 		const requestData = {
@@ -893,10 +1046,10 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 			username: $scope.username
 		};
 
-		if ($scope.totalPrice > 21000000) {
+		if ($scope.totalPrice > 20000000) {
 			Swal.fire({
 				title: "Lỗi",
-				text: "Đơn hàng của bạn không được vượt quá 21,000,000đ",
+				text: "Đơn hàng của bạn không được vượt quá 20,000,000đ",
 				icon: "warning"
 			});
 			return;
@@ -906,7 +1059,7 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 			.then(function(response) {
 				console.log('Dữ liệu phản hồi:', response.data);
 				if (response.data) {
-					window.location.href = response.data; // Chuyển hướng tới URL thanh toán
+					window.location.href = response.data;
 				} else {
 					alert('Không nhận được URL thanh toán. Vui lòng thử lại.');
 				}
@@ -917,6 +1070,4 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 			});
 
 	}
-
-
 });

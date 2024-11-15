@@ -35,4 +35,14 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 	public List<OrderDetail> findAll() {
 		return orderDetailRepository.findAll();
 	}
+
+	@Override
+	public boolean hasPurchasedProduct(String username, Integer productId) {
+		return orderDetailRepository.existsByOrderCustomerUsernameAndProductId(username, productId);
+	}
+
+	@Override
+	public List<OrderDetail> findByOrderCustomerUsernameAndProductId(String username, int productId) {
+		return orderDetailRepository.findByOrderCustomerUsernameAndProductId(username, productId);
+	}
 }

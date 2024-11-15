@@ -11,4 +11,8 @@ public interface OrderDetailService {
 	double totalAmount();
 
 	List<OrderDetail> findAll();
+
+	boolean hasPurchasedProduct(String username, Integer productId);
+
+	List<OrderDetail> findByOrderCustomerUsernameAndProductId(String username, int productId);
 }

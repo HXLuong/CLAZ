@@ -4,10 +4,15 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.claz.models.Customer;
 import com.claz.models.Order;
 
 public interface OrderService {
+
+	Order save(Order order);
 
 	Order createOrder(int id, String status, String paymentMethod, Double amount, Customer customer);
 
@@ -18,6 +23,8 @@ public interface OrderService {
 	Order findById(int id);
 
 	List<Order> findAll();
+	
+	Page<Order> findAllOrdersSorted(Pageable pageable);
 
 	int totalOrder();
 
@@ -36,4 +43,6 @@ public interface OrderService {
 	long getTotalCustomers();
 
 	List<Map<String, Object>> getAllCustomersWithOrderCount();
+
+	Page<Order> searchOrders(String keyword, Pageable pageable);
 }

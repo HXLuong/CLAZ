@@ -141,8 +141,8 @@ blockquote, dd, dl, figure, h1, h2, h3, h4, h5, h6, hr, p, pre {
 }
 
 #backtop {
-	width: 50px;
-	height: 50px;
+	width: 55px;
+	height: 55px;
 	background-color: #2579f3;
 	color: #fff;
 	display: flex;
@@ -150,7 +150,7 @@ blockquote, dd, dl, figure, h1, h2, h3, h4, h5, h6, hr, p, pre {
 	align-items: center;
 	border-radius: 50%;
 	position: fixed;
-	bottom: 40px;
+	bottom: 90px;
 	right: 20px;
 	cursor: pointer;
 }
@@ -283,6 +283,17 @@ span {
 
 .three-dots:hover {
 	background-color: rgba(1, 123, 255, 0.1);
+}
+
+.star {
+	font-size: 40px;
+	color: gray; 
+	cursor: pointer;
+	transition: color 0.3s;
+}
+
+.star.selected {
+	color: gold; 
 }
 
 @media only screen and (max-width: 1200px) {

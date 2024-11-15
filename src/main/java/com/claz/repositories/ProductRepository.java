@@ -19,7 +19,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 	@Query("SELECT p FROM Product p WHERE p.category.id=?1")
 	List<Product> findAllByCategoryId(int Category_ID);
 
-	@Query("SELECT p FROM Product p WHERE p.Name LIKE %:querySearch%")
+	@Query("SELECT p FROM Product p WHERE p.Name LIKE %:querySearch% OR p.category.name LIKE %:querySearch%")
 	List<Product> findByContentContaining(@Param("querySearch") String querySearch);
 
 	@Query("SELECT p FROM Product p WHERE p.Price BETWEEN ?1 AND ?2")
@@ -50,9 +50,12 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 	List<Product> findByFilters(@Param("categoryId") Integer categoryId, @Param("genreId") Integer genreId,
 			@Param("minPrice") Double minPrice, @Param("maxPrice") Double maxPrice, @Param("sort") String sort);
 
-	@Query("SELECT p FROM Product p JOIN p.genreProducts gp WHERE gp.genre.id = :genreId")
+	@Query("SELECT p FROM Product p WHERE :genreId IS NULL OR EXISTS (SELECT 1 FROM GenreProduct gp WHERE gp.product.id = p.id AND gp.genre.id = :genreId)")
 	List<Product> findAllByGenreId(@Param("genreId") int genreId);
-	
+
 	@Query("SELECT SUM(p.Quantity) FROM Product p")
-    int getTotalProductQuantity();
+	int getTotalProductQuantity();
+
+	@Query("SELECT p FROM Product p WHERE p.Discount > 0")
+	List<Product> findProductsWithDiscount();
 }
