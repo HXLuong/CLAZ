@@ -1,9 +1,6 @@
 package com.claz.models;
 
-import java.util.Date;
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.time.LocalDateTime;
 
 import javax.persistence.*;
 import lombok.AllArgsConstructor;
@@ -27,8 +24,7 @@ public class Staff {
 	String image;
 	boolean gender;
 	boolean role;
-	@Temporal(TemporalType.DATE)
 	@Column(name = "created_at")
-	Date created_at = new Date();
+	LocalDateTime created_at = LocalDateTime.now();
 
 }

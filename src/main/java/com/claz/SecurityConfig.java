@@ -59,26 +59,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(username -> {
-			try {
-				Staff staff = StaffService.findByUsername(username).orElse(null);
-				if (staff != null) {
-					String role = staff.isRole() ? "ADMIN" : "USER";
-					return User.withUsername(username).password(staff.getPassword()).roles(role).accountExpired(false)
-							.accountLocked(false).credentialsExpired(false).disabled(false).build();
-				}
-			} catch (Exception e) {
-				throw new UsernameNotFoundException("Staff " + username + " not found");
+		auth.userDetailsService(identifier -> {
+			Staff staff = StaffService.findByUsername(identifier).orElse(null);
+			if (staff != null) {
+				String role = staff.isRole() ? "ADMIN" : "CUSTOMER";
+				return User.withUsername(staff.getUsername()).password(staff.getPassword()).roles(role)
+						.accountExpired(false).accountLocked(false).credentialsExpired(false).disabled(false).build();
 			}
 
-			try {
-				Customer user = customerService.findByUsername(username);
-				String pass = user.getPassword();
-				return User.withUsername(username).password(pass).roles("CUSTOMER") // Assign the CUSTOMER role
+			Customer customer = customerService.findByUsernameOrEmail(identifier);
+			if (customer != null) {
+				return User.withUsername(customer.getUsername()).password(customer.getPassword()).roles("CUSTOMER")
 						.accountExpired(false).accountLocked(false).credentialsExpired(false).disabled(false).build();
-			} catch (Exception e) {
-				throw new UsernameNotFoundException("Customer " + username + " not found");
 			}
+
+			throw new UsernameNotFoundException("User with username or email " + identifier + " not found");
 		});
 	}
 
@@ -98,6 +93,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		http.authorizeRequests().antMatchers("/admin**").hasAnyRole("ADMIN", "USER").antMatchers("/order/**")
 				.authenticated().antMatchers("/cart-index").hasRole("CUSTOMER").anyRequest().permitAll();
+
+//		http.authorizeRequests().antMatchers("/cart-index").hasRole("CUSTOMER").anyRequest().permitAll();
 
 		http.formLogin().loginPage("/login").loginProcessingUrl("/security/login")
 				.defaultSuccessUrl("/login-success", true).failureUrl("/security/login/error");

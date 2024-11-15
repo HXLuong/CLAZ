@@ -1,95 +1,84 @@
 <div class="container mt-4">
-	<h3 class="fw-bold">Danh Mục Sản Phẩm</h3>
-	<div class="row mt-3">
-		<div class="col-md-2 col-12 fill">
-			<div class="dropdown">
-  			<button class="btn border dropdown-toggle w-100 " data-bs-toggle="dropdown" aria-expanded="false">
-    		Danh Mục
-  			</button>
-  			<ul class="dropdown-menu">
-    			<li><a class="dropdown-item" th:each="cate : ${session.cates}" th:text="${cate.Decription}" th:href="@{/category/{id}(id=${cate.id})}"></a></li>
-  			</ul>
-			</div>
+	<h3 class="fw-bold ms-3" th:text="${title}"></h3>
+	<form action="/category" method="get" class="row my-2 px-3">
+		<div class="col-xl-2 col-lg-2 col-md-6 col-12 fill py-2">
+			<select class="form-select" name="categoryId"
+				aria-label="Chọn Danh Mục">
+				<option value="">Chọn Danh Mục</option>
+				<option th:each="cate : ${session.cates}" th:value="${cate.id}"
+					th:text="${cate.name}"></option>
+			</select>
 		</div>
-		<div class="col-md-2 col-12 fill">
-			<div class="dropdown">
-  			<button class="btn border dropdown-toggle w-100 " data-bs-toggle="dropdown" aria-expanded="false">
-    		Thể Loại
-  			</button>
-  			<ul class="dropdown-menu">
-    			<li><a class="dropdown-item" th:each="cate : ${session.cates}" th:text="${cate.Name}" th:href="@{/category/{id}(id=${cate.id})}"></a></li>
-  			</ul>
-			</div>
+		<div class="col-xl-2 col-lg-2 col-md-6 col-12 fill py-2">
+			<select class="form-select" name="genreId" aria-label="Chọn Thể Loại">
+				<option value="">Chọn Thể Loại</option>
+				<option th:each="genre : ${session.genres}" th:value="${genre.id}"
+					th:text="${genre.name}"></option>
+			</select>
 		</div>
-		<div class="col-md-5 col-12 fill">
-			<form th:action="@{/product/searchprice}" method="post"
-				class="d-flex justify-content-between giatien">
-				<span style="font-weight: 500;"
-					class="text-nowrap mt-2 me-2 d-sm-block d-none">Mức Giá</span>
+		<div class="col-xl-5 col-lg-4 col-md-7 col-12 fill py-2">
+			<div class="d-flex justify-content-between giatien">
+				<span style="font-weight: 500;" class="text-nowrap mt-2 me-2">Mức
+					Giá</span>
 				<div class="form-group me-2">
-					<input name="min" placeholder="Min Price?"
-						class="form-control">
+					<input name="minPrice" th:value="${param.min}" min="0"
+						type="number" placeholder="Mức giá từ" class="form-control"
+						step="10000">
 				</div>
-				<span class="mt-2 me-2 d-sm-block d-none">-</span>
+				<span class="mt-2 me-2">-</span>
 				<div class="form-group">
-					<input name="max" placeholder="Max Price?"
-						class="form-control">
+					<input name="maxPrice" th:value="${param.max}" min="0"
+						type="number" placeholder="Mức giá đến" class="form-control"
+						step="10000">
 				</div>
-				<button class="btn btn-primary" style="display: none;"><i class="bi bi-funnel"></i> Lọc</button>
-			</form>
-		</div>
-		<div class="col-md-2 col-12 fill">
-			<div class="dropdown">
-  			<button class="btn btn-danger dropdown-toggle w-100 " data-bs-toggle="dropdown" aria-expanded="false">
-    		Sắp Xếp
-  			</button>
-  			<ul class="dropdown-menu">
-    			<li><a class="dropdown-item" th:href="@{/sortsp?sort=desc}">Cao Đến Thấp</a></li>
-    			<li><a class="dropdown-item" th:href="@{/sortsp?sort=asc}">Thấp Đến Cao</a></li>
-  			</ul>
 			</div>
 		</div>
-		<div class="col-md-1 col-12 fill">
-			<button type="button" class="btn btn-primary">
+		<div class="col-xl-2 col-lg-2 col-md-5 col-12 fill py-2">
+			<select class="form-select" name="sort" aria-label="Sắp xếp">
+				<option value="">Sắp xếp</option>
+				<option value="price_asc">Giá Tăng Dần</option>
+				<option value="price_desc">Giá Giảm Dần</option>
+				<option value="name_asc">Tên A-Z</option>
+				<option value="name_desc">Tên Z-A</option>
+			</select>
+		</div>
+		<div class="col-xl-1 col-lg-2 col-md-2 col-12 fill pt-2">
+			<button type="submit" class="btn btn-primary">
 				<i class="bi bi-funnel"></i> Lọc
 			</button>
 		</div>
-	</div>
-</div>
-<div class="container mt-4">
-	<div class="row">
+	</form>
+
+	<div class="container mt-2"
+		th:if="${not #lists.isEmpty(session.searchProdut)}">
+		<div class="row">
 			<div class="col-lg-3 col-md-4 col-6 list_product"
-				th:each="product : ${session.allproducts.content}">
-				<a th:href="@{/product/{id}(id=${product.id})}"> <img
+				th:each="product : ${session.searchProdut}">
+				<a th:href="@{|/${product.id}|}"> <img
 					th:src="@{'/images/'+${product.image}}"
 					class="img-fluid mt-2 rounded" alt="Product Image" width="100%">
-				</a> <a th:href="@{/product/{id}(id=${product.id})}"
-					class="d-block mt-2 text_product" th:text="${product.name}"></a>
+				</a> <a th:href="@{|/${product.id}|}" class="d-block mt-2 text_product"
+					th:text="${product.name}"></a>
 				<h6 class="mt-2 mb-3 d-flex align-items-center fw-bold text_product">
-					<span th:text="${product.price} + 'đ'"></span> <strike
-						class="mx-2 text-secondary" th:text="${product.price} + 'đ'"></strike>
+					<span
+						th:text="${#numbers.formatDecimal(product.price * (1 - product.discount / 100), 0, 'COMMA', 0, 'POINT')} + 'đ'"></span>
+					<strike class="mx-2 text-secondary" th:if="${product.discount} > 0"
+						th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + 'đ'"></strike>
 					<span class="badge text-bg-danger text-white p-2"
-						th:text="${product.discount + '%'}"></span>
+						th:if="${product.discount.intValue} > 0"
+						th:text="${'-' + product.discount.intValue() + '%'}"></span>
 				</h6>
 			</div>
 		</div>
+	</div>
 </div>
-<nav aria-label="Page navigation example">
-	<ul class="pagination justify-content-center mt-4">
-		<li class="page-item">
-            <a class="page-link" th:href="@{/category(p=${0})}">First</a>
-        </li>
-		<li class="page-item">
-            <a class="page-link" th:href="@{/category(p=${session.allproducts.number - 1 < 0 ? 0 : session.allproducts.number - 1})}">Previous</a>
-        </li>
-		<li class="page-item">
-            <a class="page-link" th:href="@{/category(p=${session.allproducts.number + 1 > session.allproducts.totalPages - 1 ? session.allproducts.totalPages - 1 : session.allproducts.number + 1})}">Next</a>
-        </li>
-		<li class="page-item">
-            <a class="page-link" th:href="@{/category(p=${session.allproducts.totalPages - 1})}">Last</a>
-        </li>
-	</ul>
-</nav>
-<br>
-<br>
+
+<div class="text-center my-4"
+	th:if="${#lists.isEmpty(session.searchProdut)}">
+	<h2 class="h4 font-bold mb-2">Không có sản phẩm phù hợp với tìm
+		kiếm!</h2>
+	<p class="text-muted">Bạn có thể thử từ khóa đơn giản hơn hoặc liên
+		hệ với hỗ trợ.</p>
+	<img alt="empty" class="img-fluid mt-4" src="./images/emptysearch.jpg" />
+</div>
 </body>

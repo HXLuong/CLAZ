@@ -1,9 +1,10 @@
 <div class="content px-3 py-2">
-	<div class="container-fluid">
+	<div class="container-fluid" th:if="${order != null}"
+		th:object="${order}">
 		<!-- Content -->
 		<div>
 			<div class="mb-3">
-				<h4 class="fw-bold fs-3">Chi tiết hóa đơn #7416909</h4>
+				<h4 class="fw-bold fs-3">Chi tiết hóa đơn [[*{'#' + id}]]</h4>
 			</div>
 			<div class="container p-0">
 				<hr class="my-3">
@@ -14,12 +15,13 @@
 							<h6>Thông tin đơn hàng</h6>
 							<div class="my-2">
 								<span style="display: block;" class="mt-2">Mã đơn hàng:
-									#7416909</span> <span style="display: block;" class="mt-2">Ngày
-									tạo: 2024-10-02 08:00:00</span> <span style="display: block;"
-									class="mt-2">Trạng thái đơn hàng: <span
-									class="text-success fw-bold">Đã xử lí</span>
+									[[*{'#' + id}]]</span> <span style="display: block;" class="mt-2">Ngày
+									tạo:
+									[[*{created_at.format(T(java.time.format.DateTimeFormatter).ofPattern('dd/MM/yyyy
+									HH:mm:ss'))}]]</span> <span style="display: block;" class="mt-2">Trạng
+									thái đơn hàng: <span class="text-success fw-bold">[[*{status}]]</span>
 								</span> <span style="display: block;" class="mt-2">Người nhận:
-									claz@gmail.com</span>
+									[[*{customer.email}]]</span>
 							</div>
 						</div>
 					</div>
@@ -28,29 +30,34 @@
 							<span class="fw-bold">Giá trị đơn hàng</span>
 						</div>
 						<div class="d-flex justify-content-between">
-							<span>Tổng giá trị sản phẩm</span> <span style="display: block;"
-								class="">9.000đ</span>
+							<span>Tổng giá trị đơn hàng</span> <span style="display: block;"
+								class="">[[*{#numbers.formatDecimal(amount / 100, 0,
+								'COMMA', 0, 'POINT')}]]đ</span>
 						</div>
 					</div>
 				</div>
 				<hr class="my-3">
-				<div class="mb-3">
+				<div class="mb-4" th:each="detail:*{orderDetails}"
+					th:object="${detail}">
 					<div class="row">
 						<div class="col-md-3 py-1">
-							<img src="/images/banner3.png" class="img-fluid rounded"
-								alt="Steam Random Code" style="width: 100%;">
+							<img th:src="@{'/images/'+ *{product.image}}"
+								class="img-fluid rounded" alt="Steam Random Code"
+								style="width: 100%;">
 						</div>
 						<div class="col-md-9">
 							<div class="row">
 								<h5 class="col-md-6 py-1">
-									<span class="fs-5 fw-bold" href="">Random Code Steam</span>
+									<a class="fs-5 fw-bold btn_color" th:href="*{product.id}">[[*{product.name}]]</a>
 								</h5>
 								<div class="col-md-6 py-1 d-flex justify-content-between">
-									<h6>Số lượng: 1</h6>
-									<h6>9.000₫</h6>
+									<h6>Số lượng: [[*{quantity}]]</h6>
+									<h6>Đơn giá: [[*{#numbers.formatDecimal(price * (1 -
+										discount / 100), 0, 'COMMA', 0, 'POINT')}]]đ</h6>
 								</div>
 								<div class="col-md-6 py-1 d-flex justify-content-between">
-									<h6>Tổng giá: 9.000₫</h6>
+									<h6>Tổng giá: [[*{#numbers.formatDecimal((price * (1 -
+										discount / 100)) * quantity, 0, 'COMMA', 0, 'POINT')}]]đ</h6>
 
 								</div>
 							</div>

@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.naming.AuthenticationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -33,6 +34,9 @@ public class CustomerRestController {
 	@Autowired
 	CustomerService customerService;
 
+	@Autowired
+	StaffService staffService;
+
 	BCryptPasswordEncoder pe = new BCryptPasswordEncoder();
 
 	@GetMapping()
@@ -40,12 +44,35 @@ public class CustomerRestController {
 		return customerService.findAll();
 	}
 
-	@PostMapping()
-	public Customer create(@RequestBody Customer customer) {
+	@PostMapping
+	public ResponseEntity<?> create(@RequestBody Customer customer) {
+		// Kiểm tra email đã tồn tại
+		Optional<Customer> existingEmail = customerService.findByEmail(customer.getEmail());
+		if (existingEmail.isPresent()) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body("Email đã tồn tại");
+		}
+
+		Optional<Customer> existingUsername = customerService.getname(customer.getUsername());
+		if (existingUsername.isPresent()) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body("Username đã tồn tại");
+		}
+
+		Optional<Staff> existingEmailStaff = staffService.findByEmail(customer.getEmail());
+		if (existingEmailStaff.isPresent()) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body("Email đã tồn tại");
+		}
+
+		Optional<Staff> existingUsernameStaff = staffService.getname(customer.getUsername());
+		if (existingUsernameStaff.isPresent()) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body("Username đã tồn tại");
+		}
+
 		String rawPassword = customer.getPassword();
 		String encodedPassword = pe.encode(rawPassword);
 		customer.setPassword(encodedPassword);
-		return customerService.createAccount(customer);
+		Customer savedCustomer = customerService.createAccount(customer);
+
+		return ResponseEntity.status(HttpStatus.CREATED).body(savedCustomer);
 	}
 
 	@GetMapping("/{username}")
@@ -55,10 +82,22 @@ public class CustomerRestController {
 	}
 
 	@PutMapping("/{username}")
-	public ResponseEntity<Customer> updateAccount(@PathVariable String username, @RequestBody Customer updatedAccount) {
+	public ResponseEntity<?> updateAccount(@PathVariable String username, @RequestBody Customer updatedAccount) {
 		Customer existingAccount = customerService.getname(username).get();
 		if (existingAccount == null) {
 			return ResponseEntity.notFound().build();
+		}
+
+		if (!existingAccount.getEmail().equals(updatedAccount.getEmail())) {
+			Optional<Customer> existingEmail = customerService.findByEmail(updatedAccount.getEmail());
+			if (existingEmail.isPresent()) {
+				return ResponseEntity.status(HttpStatus.CONFLICT).body("Email đã tồn tại");
+			}
+
+			Optional<Staff> existingEmailStaff = staffService.findByEmail(updatedAccount.getEmail());
+			if (existingEmailStaff.isPresent()) {
+				return ResponseEntity.status(HttpStatus.CONFLICT).body("Email đã tồn tại");
+			}
 		}
 
 		existingAccount.setFullname(updatedAccount.getFullname());

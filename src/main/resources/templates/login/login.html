@@ -23,16 +23,18 @@
 	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.js"></script>
-<link rel="stylesheet" href="./css/login.css">
+<link rel="stylesheet" th:href="@{/css/login.css}">
 <script src="/js/customer.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<link rel="icon" href="./images/iconlogo.png" type="image/x-icon">
 <title>Login</title>
 </head>
 <body ng-app="app" ng-controller="ctrl">
 	<header>
 		<div class="btn_login logo">
 			<a href="/" class="d-flex overflow-hidden align-items-center"> <img
-				src="./images/logo2.png" width="100%" height="90px" alt="" />
+				th:src="@{/images/logo2.png}" width="100%" height="90px" alt="" />
 			</a>
 		</div>
 		<div class=""></div>
@@ -58,7 +60,7 @@
 					placeholder="Nhập lại mật khẩu"> <span class="text-danger"
 					ng-show="form.password !== form.confirmPassword && form.confirmPassword !== ''">
 					* Xác nhận mật khẩu chưa trùng khớp</span> <br>
-				<button type="button" class="btn_login" ng-click="create()">Đăng
+				<button type="button" class="btn_login" ng-click="sendCreateMail()">Đăng
 					Ký</button>
 				<!-- Đảm bảo type là "button" -->
 			</form>
@@ -68,7 +70,6 @@
 			<form id="loginForm" class="login-form" action="/security/login"
 				method="post">
 				<h1>Đăng Nhập</h1>
-				[[${message}]]
 				<div class="social-icons">
 					<a href="/oauth2/authorization/google" class="icon btn_login"><i
 						class="fa-brands fa-google-plus-g"></i></a> <a
@@ -76,9 +77,12 @@
 						class="fa-brands fa-facebook-f"></i></a>
 				</div>
 				<span>hoặc đăng nhập tài khoản của bạn</span> <input type="text"
-					name="username" placeholder="Tên đăng nhập"> <input
-					type="password" name="password" placeholder="Mật Khẩu"> <a
-					class="btn_login" href="#" data-bs-toggle="modal"
+					name="username" placeholder="Tên đăng nhập hoặc email"> <input
+					type="password" name="password" placeholder="Mật Khẩu">
+				<div th:if="${message}" class="text-danger">
+					<span th:text="${message}"></span>
+				</div>
+				<a class="btn_login" href="#" data-bs-toggle="modal"
 					data-bs-target="#staticBackdrop">Quên Mật Khẩu?</a>
 				<button type="submit" class="btn_login" ng-click="login()">Đăng
 					Nhập</button>
@@ -202,6 +206,43 @@
 		</div>
 	</div>
 
-	<script src="./js/login.js"></script>
+	<div class="modal fade" id="VerifyCreateAccount"
+		data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+		aria-labelledby="VerifyCreateAccountLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="VerifyCreateAccountLabel">Nhập
+						mã xác nhận Email</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form ng-submit="CreateAccount()" class="col-xs-12 col-lg-12 mt-3">
+						<div class="row">
+							<div class="col-md-12 col-lg-12 col-xl-8 mx-auto">
+								<div class="mb-3">
+									<div class="form-group mb-3">
+										<div>Mã xác nhận:</div>
+										<input ng-model="form.code" name="verificationCode"
+											class="form-control" type="text" required>
+									</div>
+									<div ng-if="errorMessage" class="text-danger">{{
+										errorMessage }}</div>
+								</div>
+							</div>
+							<div class="d-flex justify-content-center gap-3">
+								<button class="btn btn-outline-primary">
+									<i class="bi bi-check-circle"></i> Xác nhận mã
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script th:src="@{/js/login.js}"></script>
 </body>
 </html>

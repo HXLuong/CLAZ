@@ -1,61 +1,59 @@
-<div class="container my-4"
-	th:if="${not #lists.isEmpty(session.searchProdut)}">
+<div class="container my-4">
 	<h3 class="fw-bold mx-3">Tìm kiếm Sản Phẩm</h3>
-	<div class="row my-2 px-3">
+	<form action="/search" method="get" class="row my-2 px-3">
 		<div class="col-xl-2 col-lg-2 col-md-6 col-12 fill py-2">
-			<select class="form-select" aria-label="Default select example">
-				<option selected>Danh Mục</option>
-				<option value="1">One</option>
-				<option value="2">Two</option>
-				<option value="3">Three</option>
+			<select class="form-select" name="categoryId"
+				aria-label="Chọn Danh Mục">
+				<option value="">Chọn Danh Mục</option>
+				<option th:each="cate : ${session.cates}" th:value="${cate.id}"
+					th:text="${cate.name}"></option>
 			</select>
 		</div>
 		<div class="col-xl-2 col-lg-2 col-md-6 col-12 fill py-2">
-			<select class="form-select" aria-label="Default select example">
-				<option selected>Thể Loại</option>
-				<option value="1">One</option>
-				<option value="2">Two</option>
-				<option value="3">Three</option>
+			<select class="form-select" name="genreId" aria-label="Chọn Thể Loại">
+				<option value="">Chọn Thể Loại</option>
+				<option th:each="genre : ${session.genres}" th:value="${genre.id}"
+					th:text="${genre.name}"></option>
 			</select>
 		</div>
 		<div class="col-xl-5 col-lg-4 col-md-7 col-12 fill py-2">
-			<form action="/product/searchgia" method="post"
-				class="d-flex justify-content-between giatien">
+			<div class="d-flex justify-content-between giatien">
 				<span style="font-weight: 500;" class="text-nowrap mt-2 me-2">Mức
 					Giá</span>
 				<div class="form-group me-2">
-					<input name="min" value="${param.min}" placeholder="Min Price?"
-						class="form-control">
+					<input name="minPrice" th:value="${param.min}" min="0"
+						type="number" placeholder="Mức giá từ" class="form-control"
+						step="10000">
 				</div>
 				<span class="mt-2 me-2">-</span>
 				<div class="form-group">
-					<input name="max" value="${param.max}" placeholder="Max Price?"
-						class="form-control">
+					<input name="maxPrice" th:value="${param.max}" min="0"
+						type="number" placeholder="Mức giá đến" class="form-control"
+						step="10000">
 				</div>
-				<button class="btn btn-primary" style="display: none;">
-					<i class="bi bi-funnel"></i> Lọc
-				</button>
-			</form>
+			</div>
 		</div>
 		<div class="col-xl-2 col-lg-2 col-md-5 col-12 fill py-2">
-			<select class="form-select" aria-label="Default select example">
-				<option selected>Sắp xếp</option>
-				<option value="1">One</option>
-				<option value="2">Two</option>
-				<option value="3">Three</option>
+			<select class="form-select" name="sort" aria-label="Sắp xếp">
+				<option value="">Sắp xếp</option>
+				<option value="price_asc">Giá Tăng Dần</option>
+				<option value="price_desc">Giá Giảm Dần</option>
+				<option value="name_asc">Tên A-Z</option>
+				<option value="name_desc">Tên Z-A</option>
 			</select>
 		</div>
 		<div class="col-xl-1 col-lg-2 col-md-2 col-12 fill pt-2">
-			<button type="button" class="btn btn-primary">
+			<button type="submit" class="btn btn-primary">
 				<i class="bi bi-funnel"></i> Lọc
 			</button>
 		</div>
-	</div>
+	</form>
 
-	<div class="container mt-2">
+	<div class="container mt-2"
+		th:if="${not #lists.isEmpty(session.searchProduct)}">
 		<div class="row">
 			<div class="col-lg-3 col-md-4 col-6 list_product"
-				th:each="product : ${session.searchProdut}">
+				th:each="product : ${session.searchProduct}">
 				<a th:href="@{|/${product.id}|}"> <img
 					th:src="@{'/images/'+${product.image}}"
 					class="img-fluid mt-2 rounded" alt="Product Image" width="100%">
@@ -76,7 +74,7 @@
 </div>
 
 <div class="text-center my-4"
-	th:if="${#lists.isEmpty(session.searchProdut)}">
+	th:if="${#lists.isEmpty(session.searchProduct)}">
 	<h2 class="h4 font-bold mb-2">Không có sản phẩm phù hợp với tìm
 		kiếm!</h2>
 	<p class="text-muted">Bạn có thể thử từ khóa đơn giản hơn hoặc liên

@@ -1,4 +1,5 @@
-<div class="content px-3 py-2">
+<div class="content px-3 py-2" ng-app="commentApp"
+	ng-controller="commentCtrl">
 	<div class="container-fluid">
 		<!-- Content -->
 		<div>
@@ -7,8 +8,9 @@
 			</div>
 			<div class="table-responsive">
 				<form action="" method="post" class="d-flex my-3">
-					<input class="rounded-start lh-lg border p-3 form_search"
-						type="search" placeholder="Tìm kiếm" /> <a href="#"
+					<input ng-model="searchQuery"
+						class="rounded-start lh-lg border p-3 form_search" type="search"
+						placeholder="Tìm kiếm" /> <a href=""
 						class="text-white d-flex align-items-center rounded-end btn_search">
 						<i class=" bi bi-search my-2 mx-3"></i>
 					</a>
@@ -16,23 +18,150 @@
 				<table class="table table-bordered text-center align-middle">
 					<thead>
 						<tr>
-							<th scope="col">Người bình luận</th>
-							<th scope="col">Sản phẩm</th>
-							<th scope="col">Nội dung</th>
-							<th scope="col">Ngày bình luận</th>
-							<th scope="col">Khác</th>
+							<th ng-click="sortBy('index')">STT</th>
+							<th ng-click="sortBy('customer.username')">Người bình luận</th>
+							<th ng-click="sortBy('product.name')">Sản phẩm</th>
+							<th ng-click="sortBy('content')">Nội dung</th>
+							<th ng-click="sortBy('created_at')">Ngày bình luận</th>
+							<th>Khác</th>
 						</tr>
 					</thead>
 					<tbody>
-						<td>Záp đẹp try</td>
-						<td>sssssssssssssssssssssssssssss</td>
-						<td>ggggggggggggggggggggggggggggg</td>
-						<td>11/10/2024</td>
-						<td scope="row">
-							<button ng-click="" class="btn btn-outline-danger">
-								<i class="bi bi-trash3-fill"></i> Gỡ
-							</button> </a>
-						</td>
+						<tr
+							ng-repeat="item in items | filter:searchQuery | orderBy:sortColumn:reverse">
+							<td>{{$index + 1}}</td>
+							<td>{{item.customer.username}}</td>
+							<td>{{item.product.name}}</td>
+							<td>{{item.content}}</td>
+							<td>{{item.created_at | date:'dd/MM/yyyy HH:mm:ss'}}</td>
+							<td scope="row" class="d-flex justify-content-center gap-2">
+								<button ng-click="edit(item)" type="button"
+									class="btn btn-outline-warning me-2" data-bs-toggle="modal"
+									data-bs-target="#staticBackdrop">
+									<i class="bi bi-box-arrow-up-right"></i> Trả lời
+								</button>
+								<button ng-click="delete(item)" class="btn btn-outline-danger">
+									<i class="bi bi-trash3-fill"></i> Gỡ
+								</button>
+								<div class="modal fade" id="staticBackdrop"
+									data-bs-backdrop="static" data-bs-keyboard="false"
+									tabindex="-1" aria-labelledby="staticBackdropLabel"
+									aria-hidden="true">
+									<div class="modal-dialog" style="max-width: 700px">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h1 class="modal-title fs-5" id="staticBackdropLabel">Trả
+													lời bình luận</h1>
+												<button type="button" class="btn-close"
+													data-bs-dismiss="modal" aria-label="Close"></button>
+											</div>
+											<div class="modal-body" style="text-align: left;">
+												<div class="mt-3 d-flex flex-column">
+													<div class="d-flex">
+														<div class="me-3">
+															<img class="object-fit-cover rounded-circle"
+																ng-src="./images/{{form.customer.image}}" width="70px"
+																height="70px" alt="">
+														</div>
+
+														<div class="flex-grow-1">
+															<h6 class="fw-bold">{{form.customer.fullname}}</h6>
+															<span class="text-secondary">Bình luận vào ngày
+																{{form.created_at | date:'dd/MM/yyyy HH:mm:ss'}}</span>
+
+															<p cl>{{form.content}}</p>
+
+															<a class="text-decoration-none fw-bold text-primary"
+																ng-click="toggleReplyInput(form, null)"
+																href="javascript:void(0)">Trả lời</a>
+														</div>
+													</div>
+
+													<div class="ms-5 mt-2"
+														ng-repeat="reply in replies[form.id] | orderBy:'created_at'">
+														<div class="d-flex align-items-start mb-2">
+															<div class="me-2">
+																<img class="object-fit-cover rounded-circle"
+																	ng-if="reply.staff"
+																	ng-src="./images/{{reply.staff.image}}" width="50px"
+																	height="50px" alt=""> <img
+																	class="object-fit-cover rounded-circle"
+																	ng-if="!reply.staff"
+																	ng-src="./images/{{reply.customer.image}}" width="50px"
+																	height="50px" alt="">
+															</div>
+															<div class="flex-grow-1">
+																<span class="fw-bold me-2" ng-if="reply.staff">{{
+																	reply.staff.fullname }} <i
+																	class="bi bi-patch-check-fill text-primary"></i>
+																</span> <span class="fw-bold me-2" ng-if="!reply.staff">{{
+																	reply.customer.fullname }} </span> <span
+																	class="text-secondary">{{ reply.created_at |
+																	date:'dd/MM/yyyy HH:mm:ss' }}</span>
+
+																<div ng-show="!reply.isEditing">
+																	<p class="mb-2">{{ reply.content }}</p>
+																	<a class="text-decoration-none fw-bold text-primary"
+																		ng-click="toggleReplyInput(form, reply)"
+																		href="javascript:void(0)">Trả lời</a>
+																</div>
+
+																<div ng-show="reply.isEditing">
+																	<textarea ng-model="replyContent[reply.id]"
+																		class="form-control"
+																		placeholder="Nhập nội dung phản hồi..." rows="2"
+																		required></textarea>
+																	<div class="mt-2">
+																		<button class="btn btn-primary"
+																			ng-click="updateReply(reply.id, replyContent[reply.id])">Lưu</button>
+																		<button class="btn btn-secondary"
+																			ng-click="cancelReply(reply)">Hủy</button>
+																	</div>
+																</div>
+
+															</div>
+
+															<div class="dropdown mt-1"
+																ng-hide="reply.staff.username !== username">
+																<span class="three-dots" id="dropdownMenuButton"
+																	data-bs-toggle="dropdown" aria-haspopup="true"
+																	aria-expanded="false">...</span>
+																<div class="dropdown-menu"
+																	aria-labelledby="dropdownMenuButton">
+																	<a class="dropdown-item"
+																		ng-click="toggleReplyEdit(reply)">Chỉnh sửa</a> <a
+																		class="dropdown-item" ng-click="deleteReply(reply)">Xóa</a>
+																</div>
+															</div>
+
+														</div>
+													</div>
+
+													<div ng-if="form.showReplyInput" class="ms-5 d-flex">
+														<div class="me-2">
+															<img class="object-fit-cover rounded-circle"
+																ng-src="./images/{{image}}" width="50px" height="50px"
+																alt="User Image">
+														</div>
+														<input type="text" ng-model="replyContent"
+															placeholder="Nhập phản hồi" class="form-control me-2"
+															required />
+														<button class="btn btn-outline-primary"
+															ng-click="addReply(form.id, replyContent)">
+															<i class="bi bi-send-fill"></i>
+														</button>
+													</div>
+												</div>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-secondary"
+													data-bs-dismiss="modal">Đóng</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</td>
+						</tr>
 					</tbody>
 				</table>
 			</div>

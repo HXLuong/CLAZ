@@ -1,12 +1,12 @@
-<div class="content px-3 py-2" ng-app="app" ng-controller="ctrl">
+<div class="content px-3 py-2" ng-app="dashApp" ng-controller="dashCtrl">
 	<div class="container-fluid">
 		<div class="mb-3">
-			<h4 class="fw-bold fs-3">Dashboard</h4>
+			<h4 class="fw-bold fs-3">Trang chủ</h4>
 		</div>
 
 		<div class="container mt-3">
 			<div class="row mb-4 text-center">
-				<div class="col-xs-12 col-md-6 col-lg-4 col-xl-3">
+				<div class="col-xs-12 col-md-12 col-lg-6 col-xl-3 mb-2">
 					<div class="d-flex border rounded">
 						<div class="px-5 py-4 bg-primary rounded-start">
 							<i class="bi bi-cart-check text-white fs-1"></i>
@@ -14,44 +14,14 @@
 						<div
 							class="w-100 d-flex justify-content-center align-items-center">
 							<div class="d-flex flex-column">
-								<span class="fs-4 text-change"> 120 </span> <span
-									class="text-change"> Đơn hàng </span>
+								<span class="fs-4 text-change">{{ ordersToday | number}}</span>
+								<span class="text-change"> Đơn hàng / Ngày </span>
 							</div>
 						</div>
 					</div>
 				</div>
 
-				<div class="col-xs-12 col-md-6 col-lg-4 col-xl-3">
-					<div class="d-flex border rounded">
-						<div class="px-5 py-4 bg-warning rounded-start">
-							<i class="bi bi-chat text-white fs-1"></i>
-						</div>
-						<div
-							class="w-100 d-flex justify-content-center align-items-center">
-							<div class="d-flex flex-column">
-								<span class="fs-4 text-change"> 120 </span> <span
-									class="text-change"> Bình luận </span>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-xs-12 col-md-6 col-lg-4 col-xl-3">
-					<div class="d-flex border rounded">
-						<div class="px-5 py-4 bg-info rounded-start">
-							<i class="bi bi-people text-white fs-1"></i>
-						</div>
-						<div
-							class="w-100 d-flex justify-content-center align-items-center">
-							<div class="d-flex flex-column">
-								<span class="fs-4 text-change"> {{ totalUsers | number }} </span> <span
-									class="text-change"> Thành viên </span>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-xs-12 col-md-6 col-lg-4 col-xl-3">
+				<div class="col-xs-12 col-md-12 col-lg-6 col-xl-3 mb-2">
 					<div class="d-flex border rounded">
 						<div class="px-5 py-4 bg-danger rounded-start">
 							<i class="bi bi-bar-chart  text-white fs-1"></i>
@@ -59,49 +29,77 @@
 						<div
 							class="w-100 d-flex justify-content-center align-items-center">
 							<div class="d-flex flex-column">
-								<span class="fs-4 text-change"> {{ totalRevenue | number }}đ </span> <span
-									class="text-change"> Doanh thu </span>
+								<span class="fs-4 text-change">{{ revenueToday | number:0
+									}}đ </span> <span class="text-change"> Doanh thu / Ngày</span>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
 
-			<div class="flex-fill border-0">
-				<div class="py-4">
-					<div class="d-flex align-items-start">
-						<div class="flex-grow-1">
-							<div id="chartContainer">
-								<div id="myChart" style="max-width: 780px; height: 400px;"></div>
+				<div class="col-xs-12 col-md-12 col-lg-6 col-xl-3 mb-2">
+					<div class="d-flex border rounded">
+						<div class="px-5 py-4 bg-warning rounded-start">
+							<i class="bi bi-box-seam text-white fs-1"></i>
+						</div>
+						<div
+							class="w-100 d-flex justify-content-center align-items-center">
+							<div class="d-flex flex-column">
+								<span class="fs-4 text-change">{{ inventoryCount | number
+									}}</span> <span class="text-change"> Số lượng hàng tồn kho </span>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-xs-12 col-md-12 col-lg-6 col-xl-3 mb-2">
+					<div class="d-flex border rounded">
+						<div class="px-5 py-4 bg-info rounded-start">
+							<i class="bi bi-people text-white fs-1"></i>
+						</div>
+						<div
+							class="w-100 d-flex justify-content-center align-items-center">
+							<div class="d-flex flex-column">
+								<span class="fs-4 text-change">{{ totalCustomers |
+									number}}</span> <span class="text-change"> Tổng khách hàng </span>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="col-lg-12 text-center">
-			<h5 class="mb-4">Chọn Thời Gian</h5>
-			<div class="input-group mb-3 d-flex align-items-center justify-content-center"
-				style="max-width: 450px; margin: auto;">
-				<input type="date" ng-model="startDate" class="form-control me-2"
-					placeholder="Từ ngày" /> <span>-</span>
-				<input type="date" ng-model="endDate" class="form-control ms-2"
-					placeholder="Đến ngày" />
-				<button class="btn btn-primary" ng-click="applyFilter()">Lọc</button>
-			</div>
+
+		<div class="mb-3 container">
+			<h6 class="fw-bold btn_color">Danh sách khách hàng</h6>
+
+
+			<table class="table table-bordered text-center align-middle">
+				<thead>
+					<tr>
+						<th>STT</th>
+						<th>Tên đăng nhập</th>
+						<th>Họ và tên</th>
+						<th>Email</th>
+						<th>Số điện thoại</th>
+						<th>Giới tính</th>
+						<th>Đơn hàng đã thanh toán</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="customerOrder in customerOrderCounts">
+						<td>{{$index + 1}}</td>
+						<td>{{customerOrder.customer.username}}</td>
+						<td>{{customerOrder.customer.fullname}}</td>
+						<td>{{customerOrder.customer.email}}</td>
+						<td>{{customerOrder.customer.phone}}</td>
+						<td>{{customerOrder.customer.gender ? 'Nam' : 'Nữ'}}</td>
+						<td>{{customerOrder.orderCount}}</td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
-		<h4 class="mt-4 text-center">Biểu Đồ Doanh Thu Theo Tháng</h4>
-		<div class="chart-container">
-			<canvas id="revenueChart" width="400" height="500"></canvas>
-		</div>
+
 	</div>
 </div>
 <a href="#" class="theme-toggle"> <i class="fa-regular fa-moon"></i>
 	<i class="fa-regular fa-sun"></i>
 </a>
-<script src="/js/report.js"></script>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

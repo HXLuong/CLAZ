@@ -1,6 +1,7 @@
 package com.claz.models;
 
-import java.util.Date;
+import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -18,7 +19,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "customer")
-public class Customer {
+public class Customer implements Serializable {
 
 	@Id
 	@Column(name = "Username", updatable = false, nullable = false)
@@ -29,9 +30,8 @@ public class Customer {
     String phone;
     String image;
     boolean gender;
-    @Temporal(TemporalType.DATE)
     @Column(name = "Created_at")
-    Date created_at = new Date();
+	  LocalDateTime created_at = LocalDateTime.now();
     
     @JsonIgnore
     @OneToMany(mappedBy = "customer")
@@ -55,5 +55,4 @@ public class Customer {
 			this.username = RandomStringUtils.randomAlphanumeric(8);
 		}
 	}
-
 }

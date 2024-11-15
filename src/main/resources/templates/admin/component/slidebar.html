@@ -10,7 +10,7 @@
 			<li class="sidebar-item"><a href="/admin" class="sidebar-link">
 					<i class="fa-solid fa-list pe-2"></i> Dashboard
 			</a></li>
-			<li class="sidebar-item"><a href="#"
+			<li class="sidebar-item" th:if="${role}"><a href="#"
 				class="sidebar-link collapsed" data-bs-target="#pages"
 				data-bs-toggle="collapse" aria-expanded="false"><i
 					class="fa-solid fa-users pe-2"></i> Quản lý tài khoản</a>
@@ -100,19 +100,17 @@
 				<ul id="comment" class="sidebar-dropdown list-unstyled collapse"
 					data-bs-parent="#sidebar">
 					<li class="sidebar-item"><a href="/adminComment"
-						class="sidebar-link ms-3"><i class="bi bi-chat-left-text-fill pe-2"></i>Danh
-							sách bình luận</a></li>
+						class="sidebar-link ms-3"><i
+							class="bi bi-chat-left-text-fill pe-2"></i>Danh sách bình luận</a></li>
 				</ul></li>
-			<li class="sidebar-item"><a href="#"
+			<li class="sidebar-item" th:if="${role}"><a href="#"
 				class="sidebar-link collapsed" data-bs-target="#Income"
 				data-bs-toggle="collapse" aria-expanded="false"><i
 					class="fa-solid fa-chart-simple pe-2"></i> Thống kê </a>
 				<ul id="Income" class="sidebar-dropdown list-unstyled collapse"
 					data-bs-parent="#sidebar">
-					<li class="sidebar-item"><a href="#" class="sidebar-link ms-3"><i
-							class="fa-solid fa-money-bill-trend-up pe-3"></i>Doanh thu tháng</a></li>
-					<li class="sidebar-item"><a href="#" class="sidebar-link ms-3"><i
-							class="fa-solid fa-money-bill-trend-up pe-3"></i>Doanh thu năm</a></li>
+					<li class="sidebar-item"><a href="/statisticRevenue" class="sidebar-link ms-3"><i
+							class="fa-solid fa-money-bill-trend-up pe-3"></i>Doanh thu</a></li>
 				</ul></li>
 		</ul>
 	</div>

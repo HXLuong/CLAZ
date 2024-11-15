@@ -3,7 +3,7 @@ app.controller("categoryCtrl", function($scope, $http) {
 	$scope.form = {};
 	$scope.items = [];
 	$scope.products = [];
-	$scope.genreProducts = []; // Khai báo biến này nếu chưa có
+	$scope.genreProducts = [];
 	$scope.galaries = [];
 
 	// Hàm tạo ID ngẫu nhiên
@@ -62,7 +62,7 @@ app.controller("categoryCtrl", function($scope, $http) {
 		}
 
 		var item = angular.copy($scope.form);
-		item.id = $scope.generateRandomId(6); // Tạo ID ngẫu nhiên 6 chữ số
+		item.id = $scope.generateRandomId(6);
 		$http.post(`/rest/categories`, item).then(resp => {
 			$scope.items.push(resp.data);
 			$scope.reset();
@@ -81,7 +81,6 @@ app.controller("categoryCtrl", function($scope, $http) {
 	}
 
 	$scope.update = function() {
-		/*Validate*/
 		if (!$scope.form.name) {
 			Swal.fire({
 				title: "Lỗi",
@@ -183,37 +182,17 @@ app.controller("categoryCtrl", function($scope, $http) {
 		});
 	};
 
-
-	/*$scope.pager = {
-		page: 0,
-		size: 5,
-		get items() {
-			var start = this.page * this.size;
-			return $scope.items.slice(start, start + this.size);
-		},
-		get count() {
-			return Math.ceil(1.0 * $scope.items.length / this.size);
-		},
-		first() {
-			this.page = 0;
-		},
-		prev() {
-			this.page--;
-			if (this.page < 0) {
-				this.last();
-			}
-		},
-		next() {
-			this.page++;
-			if (this.page >= this.count) {
-				this.first();
-			}
-		},
-		last() {
-			this.page = this.count - 1;
+	// Hàm sắp xếp
+	$scope.sortColumn = 'id';
+	$scope.reverse = false;
+	$scope.sortBy = function(column) {
+		if ($scope.sortColumn === column) {
+			$scope.reverse = !$scope.reverse;
+		} else {
+			$scope.sortColumn = column;
+			$scope.reverse = false;
 		}
-	}*/
-
+	};
 
 	$scope.load_all();
 	$scope.reset();

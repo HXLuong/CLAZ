@@ -3,33 +3,48 @@
 		<div
 			class="col-lg-6 col-sm-12 d-flex flex-wrap mt-3 p-0 overflow-hidden">
 			<div class="img-showcase">
-				<img th:each="i, iMG : ${session.galaries}"
+				<img th:src="@{'/images/'+ *{image}}" class="rounded" width="100%"
+					alt=""> <img th:each="i, iMG : ${session.galaries}"
 					th:src="@{'/images/'+ ${i.image}}" class="rounded" width="100%"
 					alt="">
 			</div>
-			<div class="img-select d-flex mt-1">
-				<div class="img-item p-1" th:each="i, iMG : ${session.galaries}">
-					<a href="#" th:data-id="${iMG.index +1}"> <img
+			<div
+				class="img-select d-flex flex-nowrap mt-1 w-100 overflow-x-scroll m-0"
+				th:if="${not #lists.isEmpty(session.galaries)}">
+				<div class="img-item p-1 col-xl-3 col-lg-4 col-md-3 col-sm-4 col-6">
+					<a href="#" th:data-id="1"> <img
+						th:src="@{'/images/'+ *{image}}" class="object-fit-cover" alt="">
+					</a>
+				</div>
+				<div class="img-item p-1 col-xl-3 col-lg-4 col-md-3 col-sm-4 col-6"
+					th:each="i, iMG : ${session.galaries}">
+					<a href="#" th:data-id="${(iMG.index +1) + 1}"> <img
 						th:src="@{'/images/'+ ${i.image}}" class="object-fit-cover" alt="">
 					</a>
 				</div>
 			</div>
+			<div
+				class="w-100 mt-1 d-flex justify-content-center text-body-tertiary fw-medium"
+				th:if="${#lists.isEmpty(session.galaries)}">
+				<span>Sản phẩm chỉ có 1 ảnh</span>
+			</div>
 		</div>
 		<div class="col-lg-6 col-sm-12 detailProduct">
 			<div class="mb-3 mt-3">
-				<span class="text-secondary">Sản phẩm</span> <br> <label
-					class="mt-1 fw-bold fs-4" th:text="*{name}"></label> <br> <label
+				<span class="text-secondary">Sản phẩm</span><br> <label
+					class="mt-1 fw-bold fs-4" th:text="*{name}"></label><br> <label
 					class="mt-2 fw-medium"><i class="bi bi-box2"></i> Tình
 					Trạng: <label class="text-success" th:if="*{quantity} > 0">Còn
 						hàng</label> <label class="text-danger" th:if="*{quantity} == 0">Hết
-						hàng</label> </label> <br> <label class="mt-2 fw-medium"> <i
+						hàng</label> </label><br> <label class="mt-2 fw-medium"> <i
 					class="bi bi-code-slash"></i> Mã Sản Phẩm: <label
 					class="text-secondary" th:text="*{id}"></label>
-				</label> <br> <label class="mt-2 fw-medium d-flex gap-1"> <i
+				</label><br> <label class="mt-2 fw-medium d-flex gap-1"> <i
 					class="bi bi-tag"></i> Thể Loại:
 					<div th:each="g, iterStat : ${session.genreProducts}">
-						<a href="#" class="text-secondary" th:text="${g.name}"></a> <span
-							class="text-secondary" th:if="${!iterStat.last}">,</span>
+						<a th:href="@{'/genre?id='+ ${g.genre.id}}" class="text-secondary"
+							th:text="${g.name}"></a> <span class="text-secondary"
+							th:if="${!iterStat.last}">,</span>
 					</div>
 				</label> <label class="mt-2 fw-bold fs-5"
 					th:text="*{#numbers.formatDecimal(price * (1 - discount / 100), 0, 'COMMA', 0, 'POINT')} + 'đ'"></label>
@@ -39,7 +54,7 @@
 						th:text="*{#numbers.formatDecimal(price, 0, 'COMMA', 0, 'POINT')} + 'đ'"></strike>
 					&nbsp;<span
 						class="border border-danger rounded bg-danger text-white px-2 py-1"
-						th:text="'-' + *{discount.intValue() + '%'}"></span> </label>
+						th:text="'-' + *{discount.intValue() + '%'}"></span>
 				</div>
 				<div th:if="${session.searchProduct.size() > 1}">
 					<hr class="my-3">
@@ -53,7 +68,8 @@
 				</div>
 				<hr class="mt-2 mb-3">
 				<div class="cart-btn">
-					<button class="btn btn-primary mb-3 me-3" style="width: 13rem;"
+					<button th:attr="ng-click='buyNow(\''+${id}+'\');'"
+						class="btn btn-primary mb-3 me-3" style="width: 13rem;"
 						th:disabled="*{quantity} <= 0">
 						<i class="bi bi-credit-card-fill"></i> <span class="fw-semibold">Mua
 							Ngay</span>
@@ -69,8 +85,8 @@
 		</div>
 		<hr class="mt-4">
 
-		<div class="mt-2" th:utext="*{decription}">
-			<!-- <div class="row">
+		<div class="mt-2" th:utext="*{decription}"></div>
+		<!-- <div class="row">
 				<h4 class="lh-lg fw-bold col-xl-3">Chi tiết sản phẩm</h4>
 				<div class="col-xl-9">
 					<div class="text-md-start mt-2 mb-2">
@@ -148,123 +164,147 @@
 					</div>
 				</div> 
 			</div> -->
-		</div>
 	</div>
 </div>
-
 <div class="container fw-bold d-flex justify-content-end gap-2 my-2">
 	<span>Rating:</span> <span>4.9 <i
-		class=" bi bi-star-fill text-warning"></i></span> <span>(69 lượt đánh
+		class="bi bi-star-fill text-warning"></i></span> <span>(69 lượt đánh
 		giá)</span>
 </div>
 
 <div class="container mt-4">
 	<h4>Bình luận</h4>
 	<span>Thời gian phản hồi trung bình: 5 phút!</span>
-	<form action="">
-		<textarea class="mt-3 form-control"
-			placeholder="Nhập nội dung bình luận" rows="4"></textarea>
+
+	<form ng-submit="submitComment(commentContent, productId)">
+		<textarea ng-model="commentContent.new" class="mt-3 form-control"
+			placeholder="Nhập nội dung bình luận" rows="4" required></textarea>
 		<div class="d-flex justify-content-end mt-3">
-			<button class="btn btn-outline-primary">
+			<button type="submit" class="btn btn-outline-primary">
 				<i class="bi bi-send-fill"></i> Gửi bình luận
 			</button>
 		</div>
 	</form>
-	<div class="mt-3 d-flex">
-		<div class="me-3">
-			<img class="object-fit-cover rounded-circle" src="./images/1000.jpg"
-				width="70px" height="70px" alt="">
-		</div>
-		<div>
-			<h6 class="fw-bold">HXLuong</h6>
-			<span class="text-secondary">Bình luận vào 2024-08-29 23:11:34</span>
-			<p class="mb-2">thuê 1 tài khoản 1 ngày k được nữa ạ? Toàn tối
-				thiểu là 4 ko hở ad ơi</p>
-			<a class="text-decoration-none fw-bold" href="">Trả lời</a>
 
-			<div class="mt-3 d-flex">
-				<div class="me-3">
-					<img class="object-fit-cover rounded-circle"
-						src="./images/AntiVirus99k-61638.png" width="50px" height="50px"
-						alt="">
+	<div ng-if="comments.length === 0" class="mt-3">Chưa có bình luận
+		nào.</div>
+
+	<div
+		ng-repeat="commentItem in comments | orderBy:'-created_at' | limitTo: commentLimit"
+		ng-init="loadReplies(commentItem.id)" class="mt-3 d-flex flex-column">
+		<div class="d-flex">
+			<div class="me-3">
+				<img class="object-fit-cover rounded-circle"
+					ng-src="./images/{{commentItem.customer.image}}" width="70px"
+					height="70px" alt="">
+			</div>
+
+			<div class="flex-grow-1">
+				<h6 class="fw-bold">{{commentItem.customer.fullname}}</h6>
+				<span class="text-secondary">Bình luận vào ngày
+					{{commentItem.created_at | date:'dd/MM/yyyy HH:mm:ss'}}</span>
+
+				<div ng-if="!commentItem.isEditing">
+					<p>{{commentItem.content}}</p>
 				</div>
-				<div>
-					<span class="fw-bold me-2">AntiVirus</span> <span
-						class="text-secondary">2024-08-29 23:11:34</span>
-					<p class="mb-2">@HXLuong Dạ vâng đúng rùi bạn ạ</p>
-					<a class="text-decoration-none fw-bold" href="">Trả lời</a>
+
+				<div ng-if="commentItem.isEditing">
+					<textarea ng-model="commentContent" class="form-control"
+						placeholder="Nhập nội dung bình luận..."></textarea>
+					<div class="mt-2">
+						<button class="btn btn-primary"
+							ng-click="submitComment(commentContent, productId)">Lưu</button>
+						<button class="btn btn-secondary"
+							ng-click="cancelEdit(commentItem)">Hủy</button>
+					</div>
+				</div>
+				<a class="text-decoration-none fw-bold text-primary"
+					ng-click="toggleReplyInput(commentItem, null)"
+					href="javascript:void(0)">Trả lời</a>
+			</div>
+			<div class="dropdown mt-3 ms-1"
+				ng-hide="commentItem.customer.username !== username">
+				<span class="three-dots" id="dropdownMenuButton"
+					data-bs-toggle="dropdown" aria-haspopup="true"
+					aria-expanded="false">...</span>
+
+				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+					<a class="dropdown-item" ng-click="editComment(commentItem)">Chỉnh
+						sửa</a> <a class="dropdown-item" ng-click="deleteComment(commentItem)">Xóa</a>
 				</div>
 			</div>
+		</div>
+
+		<div class="ms-5 mt-2"
+			ng-repeat="reply in replies[commentItem.id] | orderBy:'created_at'">
+			<div class="d-flex align-items-start mb-2">
+				<div class="me-2">
+					<img class="object-fit-cover rounded-circle" ng-if="reply.customer"
+						ng-src="./images/{{reply.customer.image}}" width="50px"
+						height="50px" alt=""> <img
+						class="object-fit-cover rounded-circle" ng-if="!reply.customer"
+						ng-src="./images/{{reply.staff.image}}" width="50px" height="50px"
+						alt="">
+				</div>
+				<div class="flex-grow-1">
+					<span class="fw-bold me-2" ng-if="reply.customer">{{
+						reply.customer.fullname }}</span> <span class="fw-bold me-2"
+						ng-if="!reply.customer">{{ reply.staff.fullname }} <i
+						class="bi bi-patch-check-fill text-primary"></i></span> <span
+						class="text-secondary">{{ reply.created_at |
+						date:'dd/MM/yyyy HH:mm:ss' }}</span>
+
+					<div ng-show="!reply.isEditing">
+						<p class="mb-2">{{ reply.content }}</p>
+						<a class="text-decoration-none fw-bold text-primary"
+							ng-click="toggleReplyInput(commentItem, reply)"
+							href="javascript:void(0)">Trả lời</a>
+					</div>
+
+					<div ng-show="reply.isEditing">
+						<textarea ng-model="replyContent[reply.id]" class="form-control"
+							placeholder="Nhập nội dung phản hồi..." rows="2" required></textarea>
+						<div class="mt-2">
+							<button class="btn btn-primary"
+								ng-click="updateReply(reply.id, replyContent[reply.id])">Lưu</button>
+							<button class="btn btn-secondary" ng-click="cancelReply(reply)">Hủy</button>
+						</div>
+					</div>
+
+				</div>
+
+				<div class="dropdown mt-1"
+					ng-hide="reply.customer.username !== username">
+					<span class="three-dots" id="dropdownMenuButton"
+						data-bs-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false">...</span>
+					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+						<a class="dropdown-item" ng-click="toggleReplyEdit(reply)">Chỉnh
+							sửa</a> <a class="dropdown-item" ng-click="deleteReply(reply)">Xóa</a>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<div ng-if="commentItem.showReplyInput" class="ms-5 d-flex">
+			<div class="me-2">
+				<img class="object-fit-cover rounded-circle"
+					ng-src="./images/{{form.image}}" width="50px" height="50px"
+					alt="User Image">
+			</div>
+			<input type="text" ng-model="replyContent"
+				placeholder="Nhập phản hồi" class="form-control me-2" required />
+			<button class="btn btn-outline-primary"
+				ng-click="addReply(commentItem.id, replyContent)">
+				<i class="bi bi-send-fill"></i>
+			</button>
 		</div>
 	</div>
-
-	<div class="mt-3 d-flex">
-		<div class="me-3">
-			<img class="object-fit-cover rounded-circle" src="./images/1000.jpg"
-				width="70px" height="70px" alt="">
-		</div>
-		<div>
-			<h6 class="fw-bold">HXLuong</h6>
-			<span class="text-secondary">Bình luận vào 2024-08-29 23:11:34</span>
-			<p class="mb-2">thuê 1 tài khoản 1 ngày k được nữa ạ? Toàn tối
-				thiểu là 4 ko hở ad ơi</p>
-			<a class="text-decoration-none fw-bold" href="">Trả lời</a>
-
-			<div class="mt-3 d-flex">
-				<div class="me-3">
-					<img class="object-fit-cover rounded-circle"
-						src="./images/AntiVirus99k-61638.png" width="50px" height="50px"
-						alt="">
-				</div>
-				<div>
-					<span class="fw-bold me-2">AntiVirus</span> <span
-						class="text-secondary">2024-08-29 23:11:34</span>
-					<p class="mb-2">@HXLuong Dạ vâng đúng rùi bạn ạ</p>
-					<a class="text-decoration-none fw-bold" href="">Trả lời</a>
-				</div>
-			</div>
-
-			<div class="mt-3 d-flex">
-				<div class="me-3">
-					<img class="object-fit-cover rounded-circle"
-						src="./images/AntiVirus99k-61638.png" width="50px" height="50px"
-						alt="">
-				</div>
-				<div>
-					<span class="fw-bold me-2">AntiVirus</span> <span
-						class="text-secondary">2024-08-29 23:11:34</span>
-					<p class="mb-2">@HXLuong Dạ vâng đúng rùi bạn ạ</p>
-					<a class="text-decoration-none fw-bold" href="">Trả lời</a>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="mt-3 d-flex">
-		<div class="me-3">
-			<img class="object-fit-cover rounded-circle" src="./images/1000.jpg"
-				width="70px" height="70px" alt="">
-		</div>
-		<div>
-			<h6 class="fw-bold">HXLuong</h6>
-			<span class="text-secondary">Bình luận vào 2024-08-29 23:11:34</span>
-			<p class="mb-2">thuê 1 tài khoản 1 ngày k được nữa ạ? Toàn tối
-				thiểu là 4 ko hở ad ơi</p>
-			<a class="text-decoration-none fw-bold" href="">Trả lời</a>
-
-			<div class="mt-3 d-flex">
-				<div class="me-3">
-					<img class="object-fit-cover rounded-circle"
-						src="./images/AntiVirus99k-61638.png" width="50px" height="50px"
-						alt="">
-				</div>
-				<div>
-					<span class="fw-bold me-2">AntiVirus</span> <span
-						class="text-secondary">2024-08-29 23:11:34</span>
-					<p class="mb-2">@HXLuong Dạ vâng đúng rùi bạn ạ</p>
-					<a class="text-decoration-none fw-bold" href="">Trả lời</a>
-				</div>
-			</div>
-		</div>
+	<hr class="my-3" ng-if="comments.length > commentLimit">
+	<div class="d-flex justify-content-center">
+		<a style="cursor: pointer;" class="text-primary"
+			ng-click="showMoreComments()" ng-if="comments.length > commentLimit">Xem
+			thêm các bình luận khác</a>
 	</div>
 </div>

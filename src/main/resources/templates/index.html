@@ -45,6 +45,8 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!-- Css -->
 <link rel="stylesheet" href="./css/style.css">
+
+<link rel="icon" href="./images/iconlogo.png" type="image/x-icon">
 </head>
 <body ng-app="app" ng-controller="ctrl">
 	<div th:replace="~{/component/header.html}"></div>
@@ -99,5 +101,18 @@
 			}, 100);
 		})
 	});
+
+	// Copy key
+	function copyToClipboard() {
+		var copyText = document.getElementById("keyProductInput");
+		copyText.select();
+		copyText.setSelectionRange(0, 99999);
+		document.execCommand("copy");
+		Swal.fire({
+			title : "Copy thành công",
+			icon : "success"
+		});
+	}
+
 </script>
 </html>

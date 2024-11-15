@@ -1,29 +1,25 @@
-//package com.claz.controllers;
-//
-//import com.claz.models.ChatHistory;
-//import com.claz.services.ChatService;
-//import org.springframework.web.bind.annotation.*;
-//
-//import java.util.Collections;
-//import java.util.List;
-//
-//@RestController
-//@RequestMapping("/chat")
-//public class ChatController {
-//
-//    private final ChatService chatService;
-//
-//    public ChatController(ChatService chatService) {
-//        this.chatService = chatService;
-//    }
-//
-//    @PostMapping("/send")
-//    public String sendMessage(@RequestParam String userId, @RequestParam String message) {
-//        return chatService.getResponse(message, userId);
-//    }
-//
-//    @GetMapping("/history/{userId}")
-//    public List<ChatHistory> getChatHistory(@PathVariable String userId) {
-//        return chatService.getChatHistory(userId).orElse(Collections.emptyList());
-//    }
-//}
+package com.claz.controllers;
+import com.claz.services.AIService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
+
+@RestController
+@RequestMapping("/api/chat")
+public class ChatController {
+
+    private final AIService aiService;
+
+    public ChatController(AIService aiService) {
+        this.aiService = aiService;
+    }
+
+    @PostMapping("/message")
+    public ResponseEntity<String> getChatResponse(@RequestBody Map<String, String> payload) {
+        String userMessage = payload.get("message");
+        String reply = aiService.chat(userMessage); // Gọi hàm assistant.chat để nhận phản hồi
+        return ResponseEntity.ok(reply);
+    }
+}
+

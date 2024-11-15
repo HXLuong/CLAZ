@@ -1,11 +1,10 @@
 package com.claz.models;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,7 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "product")
-public class Product {
+public class Product implements Serializable {
 
 	@Id
 	@Column(name = "Product_ID", updatable = false, nullable = false)
@@ -24,18 +23,18 @@ public class Product {
 	String Name;
 	String Image;
 	Double Price;
-	int Quantity;
+	Integer Quantity;
 	String Decription;
 	Double Discount;
-	int Hot;
+	Boolean Hot;
+	Integer Purchases;
 	Double Total_Pay;
-	int Total_Rating;
-	int Total_Stars;
+	Integer Total_Rating;
+	Integer Total_Stars;
 
-//	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "Created_at")
-//	Date Created_at = new Date();
-	LocalDateTime Created_at;
+	LocalDateTime created_at = LocalDateTime.now();
+
 	@ManyToOne
 	@JoinColumn(name = "Category_ID")
 	Category category;
@@ -59,5 +58,5 @@ public class Product {
 	@JsonIgnore
 	@OneToMany(mappedBy = "product")
 	List<Rating> rating;
-	
+
 }

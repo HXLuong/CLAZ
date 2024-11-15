@@ -85,6 +85,7 @@ public class ForgotPassWord {
 					"Mã xác nhận của bạn là: " + randomCode);
 			return ResponseEntity.ok(new SuccessResponse("Mã xác nhận đã được gửi đến email của bạn.", randomCode));
 		} catch (UsernameNotFoundException e) {
+			System.out.println("ssssssssss " + mail);
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse("Email không tồn tại."));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -133,12 +134,6 @@ public class ForgotPassWord {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body(new ErrorResponse("Có lỗi xảy ra khi cập nhật mật khẩu."));
 		}
-	}
-
-	@GetMapping("/rest/customer/check-email")
-	public ResponseEntity<Optional<Customer>> checkEmailExists(@RequestParam String email) {
-		Optional<Customer> exists = customerService.findByEmail(email);
-		return ResponseEntity.ok(exists);
 	}
 
 }

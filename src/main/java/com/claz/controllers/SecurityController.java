@@ -4,6 +4,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,22 +17,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.claz.models.Customer;
+import com.claz.models.Staff;
 import com.claz.repositories.CustomerRepository;
 import com.claz.services.CustomerService;
+import com.claz.services.StaffService;
 
 @Controller
 public class SecurityController {
 
 	@Autowired
 	CustomerService customerService;
+
 	@Autowired
 	private BCryptPasswordEncoder pe;
+
 	@Autowired
 	CustomerRepository dao;
 
+	@Autowired
+	StaffService staffService;
+
 	@RequestMapping("/login")
 	public String login(Model model) {
-		model.addAttribute("message", "Vui Lòng đăng nhập");
 		return "/login/login";
 	}
 
@@ -50,10 +57,8 @@ public class SecurityController {
 		if (customerOptional.isPresent()) {
 			String fullName = customerOptional.get().getFullname();
 			model.addAttribute("fullName", fullName);
-			System.out.println("Full name: " + fullName);
 		} else {
 			model.addAttribute("fullName", "Người dùng không xác định");
-			System.out.println("Người dùng không xác định");
 		}
 
 		return "redirect:/";
@@ -62,7 +67,7 @@ public class SecurityController {
 	@RequestMapping("/security/login/error")
 	public String error(Model md) {
 		md.addAttribute("message", "Tên đăng nhập hoặc mật khẩu không đúng");
-		return "redirect:/login";
+		return "/login/login";
 	}
 
 	@GetMapping("/security/login/success")
@@ -74,10 +79,8 @@ public class SecurityController {
 		String image = null;
 		if (provider.equals("google")) {
 			username = oauth2.getPrincipal().getAttribute("sub");
-//			image = oauth2.getPrincipal().getAttribute("avatar");
 		} else if (provider.equals("facebook")) {
 			username = oauth2.getPrincipal().getAttribute("id");
-//			image = oauth2.getPrincipal().getAttribute("picture");
 		}
 
 		Optional<Customer> existingCustomer = customerService.getname(username);
@@ -85,8 +88,19 @@ public class SecurityController {
 		if (existingCustomer.isPresent()) {
 			Customer customer = existingCustomer.get();
 			model.addAttribute("fullName", customer.getFullname());
-			System.out.println("Full name: " + customer.getFullname());
 		} else {
+			Optional<Customer> existingEmail = customerService.findByEmail(email);
+			if (existingEmail.isPresent()) {
+				model.addAttribute("message", "Email đã được đăng ký. Vui lòng sử dụng email khác.");
+				return "/login/login";
+			}
+
+			Optional<Staff> existingEmailStaff = staffService.findByEmail(email);
+			if (existingEmailStaff.isPresent()) {
+				model.addAttribute("message", "Email đã được đăng ký. Vui lòng sử dụng email khác.");
+				return "/login/login";
+			}
+
 			Customer customer = new Customer();
 			customer.setEmail(email);
 			customer.setFullname(fullname);
@@ -96,7 +110,6 @@ public class SecurityController {
 			customerService.createAccount(customer);
 
 			model.addAttribute("fullName", customer.getFullname());
-			System.out.println("Full name: " + customer.getFullname());
 		}
 		return "redirect:/";
 	}
