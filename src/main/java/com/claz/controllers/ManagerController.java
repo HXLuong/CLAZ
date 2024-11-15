@@ -215,13 +215,8 @@ public class ManagerController {
 		return "/admin/admin-index";
 	}
 
-<<<<<<< HEAD
 	@RequestMapping("/statisticRevenueCustomer")
 	public String statisticRevenueCustomer(Model model, HttpServletRequest request) {
-=======
-	@RequestMapping("/statisticRevenue")
-	public String statisticRevenue(Model model, HttpServletRequest request) {
->>>>>>> 3742514ab4858738f048413984529ea502d5449c
 		nav(model, request);
 		model.addAttribute("page", "/admin/statistics_RevenueCustomer");
 		return "/admin/admin-index";
