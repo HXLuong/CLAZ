@@ -8,13 +8,15 @@ app.controller('reportCtrl', function($scope, $http, $timeout) {
 	        var ctxRevenue = document.getElementById('revenueChart');
 	        if (ctxRevenue) {
 	            ctxRevenue = ctxRevenue.getContext('2d');
-
+				if ($scope.revenueChart) {
+					                $scope.revenueChart.destroy();
+					            }
 	            $scope.revenueChart = new Chart(ctxRevenue, {
 	                type: 'bar',
 	                data: {
 	                    labels: products,
 	                    datasets: [{
-	                        label: 'Tổng sản phẩm đã bán ở tháng 11',
+	                        label: 'Tổng sản phẩm đã bán',
 	                      	data: revenues,
 	                        backgroundColor: products.map((_, index) => {
 	                            const colors = [
@@ -68,24 +70,60 @@ app.controller('reportCtrl', function($scope, $http, $timeout) {
 	        }
 	    }, 0);
 	};
-	
+	$scope.createChart([],[]);
 	$scope.monthlyRevenueData = [];  
+	$scope.currentPage = 1;
+	$scope.itemsPerPage = 10;
 
-	$scope.fetchProductRevenueData = function() {
-	    $http.get('/api/revenue/product')
+	$scope.fetchProductRevenueData = function(year, month) {
+		if (!$scope.selectedYear) {
+		        swal({
+		            title: "Thông báo!",
+		            text: "Vui lòng chọn năm để xem doanh thu.",
+		            icon: "warning",
+		            button: "Đóng"
+		        });
+		        return;
+		    }
+
+		    if (!$scope.selectedMonth) {
+		        swal({
+		            title: "Thông báo!",
+		            text: "Vui lòng chọn tháng để xem doanh thu.",
+		            icon: "warning",
+		            button: "Đóng"
+		        });
+		        return;
+		    }
+	    $http.get(`/api/revenue/product?year=${year}&month=${month || ''}`)
 	        .then(function(response) {
 	            if (response.data && response.data.length > 0) {
 	                var revenueData = response.data;
-	                var products = revenueData.map(item => item.product);
-	                var revenues = revenueData.map(item => item.totalRevenue);
-
 	                $scope.monthlyRevenueData = revenueData.map(item => ({
-	                    product: item.product,            
-	                    revenue: item.totalRevenue    
+	                    id: item.id,
+	                    product: item.product,
+	                    revenue: item.totalRevenue
 	                }));
+
+	                $scope.totalPages = Math.ceil($scope.monthlyRevenueData.length / $scope.itemsPerPage);
+	                $scope.updatePagedData();
+
+	                var products = $scope.monthlyRevenueData.map(item => item.product);
+	                var revenues = $scope.monthlyRevenueData.map(item => item.revenue);
+
 	                $scope.createChart(products, revenues);
 	            } else {
-	                console.log("Không có dữ liệu để hiển thị.");
+	                swal({
+	                    title: "Thông báo!",
+	                    text: `Không có dữ liệu doanh thu cho năm ${year} ${month ? 'và tháng ' + month : ''}.`,
+	                    icon: "warning",
+	                    button: "Đóng"
+	                });
+
+	                $scope.monthlyRevenueData = [];
+	                $scope.totalPages = 1;
+	                $scope.updatePagedData();
+	                $scope.createChart(['Không có dữ liệu'], [0]);
 	            }
 	        })
 	        .catch(function(error) {
@@ -93,15 +131,34 @@ app.controller('reportCtrl', function($scope, $http, $timeout) {
 	        });
 	};
 
+	$scope.updatePagedData = function () {
+	    const start = ($scope.currentPage - 1) * $scope.itemsPerPage;
+	    $scope.pagedData = $scope.monthlyRevenueData.slice(start, start + $scope.itemsPerPage);
+	};
 
+	$scope.nextPage = function () {
+	    if ($scope.currentPage < $scope.totalPages) {
+	        $scope.currentPage++;
+	        $scope.updatePagedData();
+	    }
+	};
+
+	$scope.previousPage = function () {
+	    if ($scope.currentPage > 1) {
+	        $scope.currentPage--;
+	        $scope.updatePagedData();
+	    }
+	};
+	
     $scope.fetchProductRevenueData();
-    
-	$scope.createLineChart = function(months, totalRegistrations) {
 
+	$scope.createLineChart = function(months, totalRegistrations) {
 	    $timeout(function() {
 	        var ctx = document.getElementById('myChart');
-
 	        if (ctx) {
+				if ($scope.myChart) {
+				$scope.myChart.destroy();
+				}
 	            ctx = ctx.getContext('2d');
 
 	            var allMonths = Array.from({ length: 12 }, (_, index) => index + 1);
@@ -121,7 +178,7 @@ app.controller('reportCtrl', function($scope, $http, $timeout) {
 	            var monthsLabels = allMonths.map(month => monthNames[month - 1]);
 	            var registrationsData = allMonths.map(month => monthDataMap[month]);
 
-	            $scope.revenueChart = new Chart(ctx, {
+	            $scope.myChart = new Chart(ctx, {
 	                type: 'line',
 	                data: {
 	                    labels: monthsLabels,
@@ -136,6 +193,7 @@ app.controller('reportCtrl', function($scope, $http, $timeout) {
 	                },
 	                options: {
 	                    responsive: true,
+						maintainAspectRatio: false,
 	                    scales: {
 	                        y: {
 	                            beginAtZero: true,
@@ -164,9 +222,11 @@ app.controller('reportCtrl', function($scope, $http, $timeout) {
 	        }
 	    }, 0);
 	};
+		$scope.createLineChart([],[]);
+	
 	$scope.monthlyCustomerData=[]
-	$scope.fetchMonthlyUserRegistrationsData = function() {
-	    $http.get('/api/user/registrations/monthly')
+	$scope.fetchMonthlyUserRegistrationsData = function(year) {
+	    $http.get(`/api/user/registrations/monthly?year=${year}`)
 	        .then(function(response) {
 	            if (response.data && response.data.length > 0) {
 	                var registrationData = response.data;
@@ -174,12 +234,16 @@ app.controller('reportCtrl', function($scope, $http, $timeout) {
 	                var totalRegistrations = registrationData.map(item => item.total); 
 	                $scope.createLineChart(months, totalRegistrations); 
 					$scope.monthlyCustomerData = registrationData.map(item => ({
-					                    month: item.month,            
-					                    total: item.total    
-					                }));
+					month: item.month,            
+					total: item.total    
+					 }));
 	            } else {
-	                console.log("Không có dữ liệu để hiển thị.");
-	                $scope.createLineChart([], []);
+					swal({
+					title: "Thông báo!",
+					text: "Không có dữ liệu khách hàng tham gia năm này " + year + ".",
+					icon: "warning",
+					button: "Đóng"
+					});
 	            }
 	        })
 	        .catch(function(error) {
@@ -187,6 +251,7 @@ app.controller('reportCtrl', function($scope, $http, $timeout) {
 	        });
 	};
 	$scope.fetchMonthlyUserRegistrationsData();
+	
 	$scope.fetchMonthlyProductRevenueData = function(year) {
 	    if (year < 2000 || year > new Date().getFullYear()) {
 	        swal({
@@ -210,13 +275,13 @@ app.controller('reportCtrl', function($scope, $http, $timeout) {
 	                icon: "warning",
 	                button: "Đóng"
 	            });
-	            $scope.revenues = Array(12).fill(0); // Khởi tạo mảng doanh thu
+	            $scope.revenues = Array(12).fill(0); 
 	            return;
 	        }
 
 	        const allMonths = Array.from({ length: 12 }, (_, index) => index + 1);
 	        const monthDataMap = allMonths.reduce((acc, month) => {
-	            acc[month] = 0; // Giá trị mặc định là 0
+	            acc[month] = 0; 
 	            return acc;
 	        }, {});
 
@@ -231,7 +296,7 @@ app.controller('reportCtrl', function($scope, $http, $timeout) {
 	        console.log("Tháng và doanh thu:", monthDataMap);
 
 	        $scope.months = allMonths;
-	        $scope.revenues = allMonths.map(month => monthDataMap[month]); // Đảm bảo mảng đầy đủ
+	        $scope.revenues = allMonths.map(month => monthDataMap[month]); 
 
 	        console.log("Dữ liệu tháng và doanh thu sau khi xử lý:", $scope.months, $scope.revenues);
 	        $scope.createMonthlyChart($scope.months, $scope.revenues);
@@ -253,10 +318,10 @@ app.controller('reportCtrl', function($scope, $http, $timeout) {
 	            $scope.monthlyRevenueChart = new Chart(ctxMonthlyRevenue, {
 	                type: 'bar',
 	                data: {
-	                    labels: months.map(month => `Tháng ${month}`),
+	                    labels: months.length > 0 ? months.map(month => `Tháng ${month}`) : ['Chưa có dữ liệu'],
 	                    datasets: [{
 	                        label: 'Doanh thu theo năm',
-	                        data: revenues,
+	                        data: revenues.length > 0 ? revenues : [0],
 	                        backgroundColor: months.map((_, index) => {
 	                            const colors = [
 	                                'rgba(54, 162, 235, 0.6)',
@@ -295,14 +360,12 @@ app.controller('reportCtrl', function($scope, $http, $timeout) {
 	    }, 0);
 	};
 
-
-
 	$scope.createMonthlyChart();
 
 	$scope.fetchMonthlyProductRevenueData($scope.selectedYear);
 	$scope.getYears = function() {
 	         let years = [];
-	         for (let i = 2000; i <= 2030; i++) {
+	         for (let i = 2020; i <= 2030; i++) {
 	             years.push(i);
 	         }
 	         return years;
