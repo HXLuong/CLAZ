@@ -229,6 +229,13 @@ public class ManagerController {
 		return "/admin/admin-index";
 	}
 
+	@RequestMapping("/statisticRevenueTotalProduct")
+	public String statisticRevenueTotalProduct(Model model, HttpServletRequest request) {
+		nav(model, request);
+		model.addAttribute("page", "/admin/statistics_RevenueTotalProduct");
+		return "/admin/admin-index";
+	}
+
 	public void nav(Model model, HttpServletRequest request) {
 		String username = request.getRemoteUser();
 		Staff staff = staffService.findByUsername(username).get();

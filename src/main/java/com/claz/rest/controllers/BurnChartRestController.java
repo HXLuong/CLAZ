@@ -16,6 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.claz.repositories.CustomerRepository;
 import com.claz.repositories.OrderDetailRepository;
+import com.claz.repositories.OrderRepository;
 import com.claz.services.CustomerService;
 import com.claz.services.ProductService;
 
@@ -30,15 +31,16 @@ public class BurnChartRestController {
 	CustomerService customerService;
 
 	@Autowired
-	private OrderDetailRepository orderDetailRepository;
+	private OrderRepository orderRepository;
 
 	@Autowired
 	private CustomerRepository customerRepository;
 
 	@GetMapping("/api/revenue/product")
-	public ResponseEntity<List<Map<String, Object>>> getProductRevenue() {
+	public ResponseEntity<List<Map<String, Object>>> getProductRevenue(@RequestParam int year,
+			@RequestParam(required = false) Integer month) {
 		try {
-			List<Map<String, Object>> revenueData = orderDetailRepository.getProductRevenue();
+			List<Map<String, Object>> revenueData = orderRepository.getProductRevenue(year, month);
 			return ResponseEntity.ok(revenueData);
 		} catch (Exception e) {
 			return ResponseEntity.status(500).body(null);
@@ -46,9 +48,9 @@ public class BurnChartRestController {
 	}
 
 	@GetMapping("/api/user/registrations/monthly")
-	public ResponseEntity<List<Map<String, Object>>> getMonthlyUserRegistrations() {
+	public ResponseEntity<List<Map<String, Object>>> getMonthlyUserRegistrations(@RequestParam int year) {
 		try {
-			List<Map<String, Object>> registrationData = customerRepository.getMonthlyUserRegistrations();
+			List<Map<String, Object>> registrationData = customerRepository.getMonthlyUserRegistrations(year);
 			return ResponseEntity.ok(registrationData);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
@@ -57,7 +59,7 @@ public class BurnChartRestController {
 
 	@GetMapping("/api/revenue/monthly")
 	public ResponseEntity<List<Map<String, Object>>> getAnnualRevenue(@RequestParam int year) {
-		List<Map<String, Object>> revenueData = orderDetailRepository.getMonthlyRevenueByYear(year);
+		List<Map<String, Object>> revenueData = orderRepository.getMonthlyRevenueByYear(year);
 		return ResponseEntity.ok(revenueData);
 	}
 }

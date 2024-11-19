@@ -2,7 +2,7 @@
 	ng-controller="reportCtrl">
 	<div class="container-fluid">
 		<div class="mb-3">
-			<h4 class="fw-bold fs-3 mb-5">Thống kê Người dùng đăng ký</h4>
+			<h4 class="fw-bold fs-3 mb-5">Thống kê khách hàng tham gia</h4>
 		</div>
 		<!--  
 		<div class="flex-fill border-0">
@@ -19,13 +19,29 @@
 		-->
 
 		<!-- Biểu đồ thứ nhất -->
+		<div class="d-flex flex-wrap align-items-center mb-3 mt-4 gap-2">
+			<div>
+				<label for="yearSelect" class="col-form-label">Nhập năm:</label>
+			</div>
+			<div>
+				<select id="yearSelect" ng-model="selectedYear" class="form-control"
+					style="min-width: 150px;">
+					<option value="" disabled selected>Chọn năm</option>
+					<option ng-repeat="year in getYears()" value="{{year}}">{{year}}</option>
+				</select>
+			</div>
+			<div>
+				<button ng-click="fetchMonthlyUserRegistrationsData(selectedYear)"
+					class="btn btn-primary text-wrap">Tìm kiếm</button>
+			</div>
+		</div>
 		<div class="row">
 			<div class="col-lg-6 col-12">
-				<table class="table table-bordered mt-4">
+				<table class="table table-bordered mt-4 text-center">
 					<thead>
 						<tr>
 							<th>Tháng</th>
-							<th>Số lượng người dùng đăng ký</th>
+							<th>Số lượng khách hàng tham gia</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -36,11 +52,11 @@
 					</tbody>
 				</table>
 			</div>
-			<div class="col-lg-6 col-12">
-				<div id="chartContainer" class="chart-container">
-					<canvas id="myChart" style="width: 100%; height: 400px;"></canvas>
-				</div>
+			<div class="chart-container"
+				style="position: relative; width: 100%; max-width: 600px;">
+				<canvas id="myChart"></canvas>
 			</div>
+
 		</div>
 
 		<a href="#" class="theme-toggle"> <i class="fa-regular fa-moon"></i>

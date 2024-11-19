@@ -5,30 +5,6 @@
 			<h4 class="fw-bold fs-3 mb-5">Thống kê doanh thu sản phẩm</h4>
 		</div>
 
-		<div class="row mt-4">
-			<div class="col-lg-4 col-12">
-				<table class="table table-bordered mt-4">
-					<thead>
-						<tr>
-							<th>Tên sản phẩm</th>
-							<th>Số sản phẩm đã bán</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-repeat="item in monthlyRevenueData">
-							<td>{{item.product}}</td>
-							<td>{{item.revenue}}</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			<div class="col-lg-8 col-12 mb-3">
-				<div class="chart-container">
-					<canvas id="revenueChart" style="width: 100%; height: 400px;"></canvas>
-				</div>
-			</div>
-		</div>
-
 		<div class="d-flex flex-wrap align-items-center mb-3 mt-4 gap-2">
 			<div>
 				<label for="yearSelect" class="col-form-label">Nhập năm:</label>
@@ -47,7 +23,7 @@
 		</div>
 		<div class="row">
 			<div class="col-12 col-lg-4">
-				<table class="table table-bordered mt-4">
+				<table class="table table-bordered mt-4 text-center">
 					<thead>
 						<tr>
 							<th>Tháng</th>
