@@ -167,10 +167,6 @@ public class CartRestController {
 						orderDetail.getQuantity(), orderDetail.getDiscount(), order.getAmount());
 			});
 
-			session.setAttribute("hasRated", false);
-			Map<String, Object> response = new HashMap<>();
-			response.put("hasRated", false);
-
 			cartService.deleteAllItemInCart();
 
 			return ResponseEntity.status(302).header("Location", "/paymentSuccess").build();

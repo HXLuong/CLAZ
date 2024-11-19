@@ -90,12 +90,29 @@ public class RatingServiceImpl implements RatingService {
 		return false;
 	}
 
-	public boolean hasUserRatedProduct(String username, Integer productId) {
-		return ratingRepository.existsByCustomerUsernameAndProductId(username, productId);
-	}
+	public boolean hasUserRatedProduct(String username, int productId) {
+		// Lấy danh sách sản phẩm mà người dùng đã mua và số lần mua
+		List<Object[]> productCounts = orderRepository.findProductCountByUsername(username);
 
-	@Override
-	public Optional<Rating> findUserRatedProduct(int productId, String username) {
-		return ratingRepository.findByProductIdAndCustomerUsername(productId, username);
+		// Tìm số lượng của sản phẩm trong danh sách
+		int purchasedQuantity = 0;
+		for (Object[] productCount : productCounts) {
+			int id = (int) productCount[0]; // Product_ID
+			long count = (long) productCount[1]; // Số lần sản phẩm xuất hiện
+
+			if (id == productId) {
+				purchasedQuantity = (int) count;
+				break;
+			}
+		}
+
+		// Kiểm tra xem người dùng đã đánh giá sản phẩm này chưa
+		List<Rating> ratings = ratingRepository.findByProductIdAndCustomerUsername(productId, username);
+
+		System.out.println("ffsfsffsfffff " + ratings.size() + " " + purchasedQuantity);
+		if (ratings.size() < purchasedQuantity) {
+			return false;
+		}
+		return true;
 	}
 }
