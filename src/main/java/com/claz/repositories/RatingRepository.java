@@ -19,17 +19,10 @@ public interface RatingRepository extends JpaRepository<Rating, Integer> {
 
 	List<Rating> findByProductId(int productId);
 
-	Optional<Rating> findByProductIdAndCustomerUsername(int productId, String username);
+	List<Rating> findByProductIdAndCustomerUsername(int productId, String username);
 
 	boolean existsByCustomerUsernameAndProductId(String username, Integer productId);
-//
-//	@Query("SELECT r FROM Rating r WHERE r.customer.username = :username AND r.product.id = :productId ORDER BY r.created_at DESC")
-//	Optional<Rating> findTopByCustomerUsernameAndProductIdOrderByCreatedAtDesc(@Param("username") String username,
-//			@Param("productId") int productId);
-
+	
 	@Query("SELECT r FROM Rating r WHERE r.customer.username=?1")
 	List<Rating> findByCustomerUsername(String username);
-//
-//	@Query("SELECT r FROM Rating r WHERE r.product.id=?1")
-//	List<Rating> findByProductId(int id);
 }

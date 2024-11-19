@@ -73,4 +73,7 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 			+ "FROM Order o WHERE YEAR(o.created_at) = :year GROUP BY MONTH(o.created_at)")
 	List<Map<String, Object>> getMonthlyRevenueByYear(@Param("year") int year);
 
+	@Query("SELECT od.product.id, COUNT(od) " + "FROM Order o " + "JOIN o.orderDetails od "
+			+ "WHERE o.customer.username = :username " + "GROUP BY od.product.id")
+	List<Object[]> findProductCountByUsername(@Param("username") String username);
 }

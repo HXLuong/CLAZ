@@ -46,15 +46,13 @@ public class RatingRestController {
 	OrderService orderService;
 
 	@PostMapping("/add")
-	public ResponseEntity<?> create(@RequestBody RatingDTO rating, HttpSession session) {
-		Rating savedRating = ratingService.save(rating);
-		session.setAttribute("hasRated", true);
-
-		Map<String, Object> response = new HashMap<>();
-		response.put("hasRated", true);
-		response.put("rating", savedRating);
-
-		return new ResponseEntity<>(response, HttpStatus.CREATED);
+	public ResponseEntity<?> create(@RequestBody RatingDTO rating) {
+		try {
+			Rating savedRating = ratingService.save(rating);
+			return new ResponseEntity<>(savedRating, HttpStatus.CREATED);
+		} catch (IllegalArgumentException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
 	}
 
 	@PutMapping("/{id}")
@@ -101,21 +99,20 @@ public class RatingRestController {
 	@GetMapping("/checkIfRated")
 	public ResponseEntity<Map<String, Boolean>> checkIfRated(@RequestParam String username, HttpSession session) {
 		Integer productId = (Integer) session.getAttribute("productId");
-
 		Map<String, Boolean> response = new HashMap<>();
-
 		if (productId == null) {
+			response.put("hasRated", false);
 			response.put("canRateAgain", false);
 			return ResponseEntity.badRequest().body(response);
 		}
-
-		// Kiểm tra xem người dùng đã thanh toán cho sản phẩm này chưa
+		boolean hasRated = ratingService.hasUserRatedProduct(username, productId);
 		boolean hasPurchased = orderDetailService.hasPurchasedProduct(username, productId);
-		boolean canRateAgain = hasPurchased; // Người dùng đã thanh toán thì có thể đánh giá
-
-		response.put("canRateAgain", canRateAgain);
-
+		// Đặt canRateAgain = true nếu người dùng đã mua sản phẩm nhưng chưa đánh giá
+		boolean canRateAgain = hasPurchased && !hasRated;
+		session.setAttribute("hasRated", hasRated);
 		session.setAttribute("canRateAgain", canRateAgain);
+		response.put("hasRated", hasRated);
+		response.put("canRateAgain", canRateAgain);
 		return ResponseEntity.ok(response);
 	}
 }

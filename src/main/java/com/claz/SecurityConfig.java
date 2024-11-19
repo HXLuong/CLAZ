@@ -92,7 +92,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().disable().cors().disable();
 
 		http.authorizeRequests().antMatchers("/admin**").hasAnyRole("ADMIN", "USER").antMatchers("/order/**")
-				.authenticated().antMatchers("/cart-index").hasRole("CUSTOMER").anyRequest().permitAll();
+				.authenticated().antMatchers("/cart-index").authenticated().anyRequest().permitAll();
 
 //		http.authorizeRequests().antMatchers("/cart-index").hasRole("CUSTOMER").anyRequest().permitAll();
 

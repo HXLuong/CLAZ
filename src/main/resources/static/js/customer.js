@@ -585,7 +585,7 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 		const product = $scope.products.find(p => p.id === item.productID);
 
 		if (product && item.quantity > product.quantity) {
-			item.quantity = product.quantity; 
+			item.quantity = product.quantity;
 			Swal.fire({
 				icon: "warning",
 				title: "Số lượng vượt quá số lượng có sẵn",
@@ -916,8 +916,9 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 
 	// Rating
 	$scope.ratingValue = 0;
-	$scope.hasRated = true;
+	$scope.hasRated = false;
 	$scope.canRateAgain = false;
+
 	$scope.canRate = false;
 
 	$scope.checkPurchaseStatus = function(callback) {
@@ -936,8 +937,8 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 		}).then(function(response) {
 			console.log("Check If Rated Response: ", response.data);
 
+			$scope.hasRated = response.data.hasRated;
 			$scope.canRateAgain = response.data.canRateAgain;
-
 			if (!$scope.hasRated) {
 				$scope.checkPurchaseStatus();
 			}
@@ -945,74 +946,46 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 			console.error('Error checking if rated:', err);
 		});
 	};
-
-
 	$scope.setRating = function(value) {
 		$scope.ratingValue = value;
 	};
-
-	$scope.checkHasRated = function() {
-		$http.get('/rest/carts/checkHasRated')
-			.then(function(response) {
-				console.log("Has Rated Status: ", response.data);
-				$scope.hasRated = response.data;
-			})
-			.catch(function(error) {
-				console.error('Error fetching hasRated status:', error);
-			});
-	};
-
-	$scope.checkHasRated();
-
 	$scope.addRating = function(productId) {
 		$scope.checkPurchaseStatus(() => {
 			if ($scope.ratingValue <= 0) {
 				Swal.fire({
 					icon: "error",
 					title: "Lỗi",
-					text: "Bạn cần chọn ít nhất 1 sao để đánh giá sản phẩm.",
+					text: "Bạn cần chọn một đánh giá để tiếp tục.",
 				});
 				return;
 			}
-
 			const ratingDTO = {
 				id: $scope.generateRandomId(6),
 				productId: productId,
 				numberStars: $scope.ratingValue,
 				username: $scope.username
 			};
-
 			$http.post('/ratings/add', ratingDTO)
 				.then(resp => {
-					if (resp.data && resp.data.hasRated !== undefined) {
-						Swal.fire({
-							icon: "success",
-							title: "Thành công",
-							text: "Đánh giá đã thành công.",
-						});
-						$scope.hasRated = resp.data.hasRated;
-						console.log("Has Rated: ", $scope.hasRated);
-
-						$scope.loadRating();
-						$scope.ratingValue = 0;
-					} else {
-						Swal.fire({
-							icon: "error",
-							title: "Lỗi",
-							text: "Không thể nhận diện phản hồi từ server.",
-						});
-					}
+					Swal.fire({
+						icon: "success",
+						title: "Thành công",
+						text: "Đánh giá đã được thêm.",
+					});
+					$scope.loadRating();
+					$scope.checkIfRated();
+					$scope.ratingValue = 0;
 				})
 				.catch(err => {
+					console.error('Lỗi khi thêm đánh giá:', err);
 					Swal.fire({
 						icon: "error",
 						title: "Lỗi",
-						text: "Có lỗi xảy ra khi đánh giá.",
+						text: "Có lỗi xảy ra khi thêm đánh giá.",
 					});
 				});
 		});
 	};
-
 	$scope.rating = [];
 	$scope.loadRating = function() {
 		$http.get(`/ratings/rating`)
@@ -1021,14 +994,12 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 				$scope.calculateTotalAndAverageRatings();
 			});
 	};
-
 	$scope.calculateTotalAndAverageRatings = function() {
 		if ($scope.rating.length === 0) {
 			$scope.totalRatings = 0;
 			$scope.averageRating = 0;
 			return;
 		}
-
 		let total = 0;
 		$scope.rating.forEach(function(rating) {
 			total += rating.number_Stars;
@@ -1036,7 +1007,6 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 		$scope.totalRatings = $scope.rating.length;
 		$scope.averageRating = (total / $scope.rating.length).toFixed(1);
 	};
-
 	$scope.loadRating();
 
 	// Payment VNPay

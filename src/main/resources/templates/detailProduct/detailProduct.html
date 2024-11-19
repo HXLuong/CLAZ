@@ -42,9 +42,9 @@
 				</label><br> <label class="mt-2 fw-medium d-flex gap-1"> <i
 					class="bi bi-tag"></i> Thể Loại:
 					<div th:each="g, iterStat : ${session.genreProducts}">
-						<a th:href="@{'/search?genreId='+ ${g.genre.id}}" class="text-secondary"
-							th:text="${g.name}"></a> <span class="text-secondary"
-							th:if="${!iterStat.last}">,</span>
+						<a th:href="@{'/search?genreId='+ ${g.genre.id}}"
+							class="text-secondary" th:text="${g.name}"></a> <span
+							class="text-secondary" th:if="${!iterStat.last}">,</span>
 					</div>
 				</label> <label class="mt-2 fw-bold fs-5"
 					th:text="*{#numbers.formatDecimal(price * (1 - discount / 100), 0, 'COMMA', 0, 'POINT')} + 'đ'"></label>
@@ -173,19 +173,22 @@
 </div>
 <div class="container text-center">
 	<!-- Show rating form only if the user has not rated and can rate again -->
-	<div ng-show="!hasRated && canRateAgain">
-		<h3>Đánh giá sản phẩm</h3>
-		<div class="star-rating d-flex justify-content-center mt-1">
-			<span class="star fs-1" ng-repeat="n in [1, 2, 3, 4, 5]"
-				data-value="{{n}}" ng-click="setRating(n)"
-				ng-class="{'selected': ratingValue >= n}">★</span>
+	<th:block th:if="${#request.remoteUser}">
+		<div ng-show="!hasRated">
+			<h3>Đánh giá sản phẩm</h3>
+			<div class="star-rating d-flex justify-content-center mt-1">
+				<span class="star fs-1" ng-repeat="n in [1, 2, 3, 4, 5]"
+					data-value="{{n}}" ng-click="setRating(n)"
+					ng-class="{'selected': ratingValue >= n}">★</span>
+			</div>
+			<div class="mt-1">
+				<p id="rating-result">Bạn đã đánh giá: {{ ratingValue }}/5</p>
+			</div>
+			<button class="btn btn-outline-primary mt-2"
+				ng-click="addRating(productId)">Gửi đánh giá</button>
 		</div>
-		<div class="mt-1">
-			<p id="rating-result">Bạn đã đánh giá: {{ ratingValue }}/5</p>
-		</div>
-		<button class="btn btn-outline-primary mt-2"
-			ng-click="addRating(productId)">Gửi đánh giá</button>
-	</div>
+	</th:block>
+
 </div>
 
 
