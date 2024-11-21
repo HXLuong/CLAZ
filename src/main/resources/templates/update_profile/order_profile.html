@@ -9,7 +9,7 @@
 			<hr class="my-3">
 		</div>
 
-		<form action="/filterOrder" method="post" class="row container">
+		<form action="/profileFilterOrder" method="get" class="row container">
 
 			<div class="col-xl-2 col-lg-4 col-md-4 col-12 mt-2">
 				<div class="form-floating">
@@ -94,7 +94,7 @@
 							th:text="${order.status}"></span> <span class="text-success"
 							th:if="${order.status == 'Đã xử lý'}" th:text="${order.status}"></span>
 						</td>
-						<td><a th:href="@{'/detail_profile?id='+ ${order.id}}"
+						<td><a th:href="@{'/profileDetail?id='+ ${order.id}}"
 							class="text-decoration-none text-primary">Chi tiết</a></td>
 					</tr>
 				</tbody>

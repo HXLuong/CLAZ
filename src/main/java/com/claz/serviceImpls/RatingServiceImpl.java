@@ -91,14 +91,11 @@ public class RatingServiceImpl implements RatingService {
 	}
 
 	public boolean hasUserRatedProduct(String username, int productId) {
-		// Lấy danh sách sản phẩm mà người dùng đã mua và số lần mua
 		List<Object[]> productCounts = orderRepository.findProductCountByUsername(username);
-
-		// Tìm số lượng của sản phẩm trong danh sách
 		int purchasedQuantity = 0;
 		for (Object[] productCount : productCounts) {
-			int id = (int) productCount[0]; // Product_ID
-			long count = (long) productCount[1]; // Số lần sản phẩm xuất hiện
+			int id = (int) productCount[0]; 
+			long count = (long) productCount[1];
 
 			if (id == productId) {
 				purchasedQuantity = (int) count;
@@ -106,10 +103,8 @@ public class RatingServiceImpl implements RatingService {
 			}
 		}
 
-		// Kiểm tra xem người dùng đã đánh giá sản phẩm này chưa
 		List<Rating> ratings = ratingRepository.findByProductIdAndCustomerUsername(productId, username);
 
-		System.out.println("ffsfsffsfffff " + ratings.size() + " " + purchasedQuantity);
 		if (ratings.size() < purchasedQuantity) {
 			return false;
 		}
