@@ -955,7 +955,7 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 				Swal.fire({
 					icon: "error",
 					title: "Lỗi",
-					text: "Bạn cần chọn một đánh giá để tiếp tục.",
+					text: "Bạn cần chọn ít nhất 1 sao để đánh giá sản phẩm.",
 				});
 				return;
 			}
@@ -970,7 +970,7 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 					Swal.fire({
 						icon: "success",
 						title: "Thành công",
-						text: "Đánh giá đã được thêm.",
+						text: "Đánh giá sản phẩm thành công.",
 					});
 					$scope.loadRating();
 					$scope.checkIfRated();
@@ -981,7 +981,7 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 					Swal.fire({
 						icon: "error",
 						title: "Lỗi",
-						text: "Có lỗi xảy ra khi thêm đánh giá.",
+						text: "Có lỗi xảy ra khi đánh giá.",
 					});
 				});
 		});

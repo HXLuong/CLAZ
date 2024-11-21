@@ -240,7 +240,7 @@ public class HomeController {
 		return "index";
 	}
 
-	@RequestMapping("/account")
+	@RequestMapping("/profileAccount")
 	public String upaccount(HttpSession session, Model model) {
 		List<Category> cates = categoryService.findAll();
 		model.addAttribute("cates", cates);
@@ -248,7 +248,7 @@ public class HomeController {
 		return "index";
 	}
 
-	@RequestMapping("/password")
+	@RequestMapping("/profilePassword")
 	public String uppass(HttpSession session, Model model) {
 		List<Category> cates = categoryService.findAll();
 		model.addAttribute("cates", cates);
@@ -256,7 +256,7 @@ public class HomeController {
 		return "index";
 	}
 
-	@RequestMapping("/order")
+	@RequestMapping("/profileOrder")
 	public String donhang(HttpSession session, HttpServletRequest request, Model model) {
 		String username = request.getRemoteUser();
 		List<Category> cates = categoryService.findAll();
@@ -268,7 +268,7 @@ public class HomeController {
 		return "index";
 	}
 
-	@RequestMapping("/filterOrder")
+	@GetMapping("/profileFilterOrder")
 	public String filterOrder(HttpSession session, HttpServletRequest request, Model model,
 			@RequestParam(required = false) Integer orderId, @RequestParam(required = false) Double amountFrom,
 			@RequestParam(required = false) Double amountTo,
@@ -296,7 +296,7 @@ public class HomeController {
 		return "index";
 	}
 
-	@RequestMapping("/detail_profile")
+	@RequestMapping("/profileDetail")
 	public String detail_profile(HttpSession session, @RequestParam("id") int id, Model model) {
 		List<Category> cates = categoryService.findAll();
 		model.addAttribute("cates", cates);
@@ -305,7 +305,7 @@ public class HomeController {
 		return "index";
 	}
 
-	@RequestMapping("/payment")
+	@RequestMapping("/profilePayment")
 	public String giaodich(HttpSession session, HttpServletRequest request, Model model) {
 		List<Category> cates = categoryService.findAll();
 		model.addAttribute("cates", cates);
@@ -317,7 +317,7 @@ public class HomeController {
 		return "index";
 	}
 
-	@RequestMapping("/filterPayment")
+	@GetMapping("/profileFilterPayment")
 	public String filterPayment(HttpSession session, HttpServletRequest request, Model model,
 			@RequestParam(required = false) String paymentMethod, @RequestParam(required = false) Double amountFrom,
 			@RequestParam(required = false) Double amountTo,
@@ -345,7 +345,7 @@ public class HomeController {
 		return "index";
 	}
 
-	@RequestMapping("/comment")
+	@RequestMapping("/profileComment")
 	public String binhluan(HttpSession session, HttpServletRequest request, Model model) {
 		String username = request.getRemoteUser();
 		List<Category> cates = categoryService.findAll();
@@ -360,7 +360,7 @@ public class HomeController {
 		return "index";
 	}
 
-	@RequestMapping("/filterComment")
+	@GetMapping("/profileFilterComment")
 	public String filterComment(HttpSession session, HttpServletRequest request, Model model,
 			@RequestParam(required = false) String content,
 			@RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fromDate,
