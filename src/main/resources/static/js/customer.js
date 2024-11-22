@@ -1040,4 +1040,37 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 			});
 
 	}
+
+	// Payment MoMo
+	$scope.paymentByMoMo = function() {
+		const requestData = {
+			totalPrice: $scope.totalPrice,
+			username: $scope.username
+		};
+
+		if ($scope.totalPrice > 20000000) {
+			Swal.fire({
+				title: "Lỗi",
+				text: "Đơn hàng của bạn không được vượt quá 20,000,000đ",
+				icon: "warning"
+			});
+			return;
+		}
+
+		$http.post('/rest/carts/payMoMo', requestData)
+			.then(function(response) {
+				console.log('Dữ liệu phản hồi:', response.data);
+				if (response.data && response.data.payUrl) {
+					// Chuyển hướng người dùng đến MoMo thanh toán
+					window.location.href = response.data.payUrl;
+				} else {
+					alert('Không nhận được URL thanh toán. Vui lòng thử lại.');
+				}
+			})
+			.catch(function(error) {
+				console.error('Lỗi khi thực hiện thanh toán:', error);
+				alert('Có lỗi xảy ra trong quá trình thanh toán. Vui lòng thử lại.');
+			});
+
+	}
 });
