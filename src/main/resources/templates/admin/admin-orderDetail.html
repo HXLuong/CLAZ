@@ -22,6 +22,8 @@
 									thái đơn hàng: <span class="text-danger fw-bold"
 									th:if="*{status == 'Đã được hủy'}">[[*{status}]]</span> <span
 									class="text-success fw-bold" th:if="*{status == 'Đã xử lý'}">[[*{status}]]</span>
+									<span class="text-warning"
+									th:if="${order.status == 'Đang xử lý'}">[[*{status}]]</span>
 								</span> <span style="display: block;" class="mt-2">Người nhận:
 									[[*{customer.email}]]</span>
 							</div>

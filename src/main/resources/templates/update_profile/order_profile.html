@@ -93,6 +93,8 @@
 							th:if="${order.status == 'Đã được hủy'}"
 							th:text="${order.status}"></span> <span class="text-success"
 							th:if="${order.status == 'Đã xử lý'}" th:text="${order.status}"></span>
+							<span class="text-warning"
+							th:if="${order.status == 'Đang xử lý'}" th:text="${order.status}"></span>
 						</td>
 						<td><a th:href="@{'/profileDetail?id='+ ${order.id}}"
 							class="text-decoration-none text-primary">Chi tiết</a></td>

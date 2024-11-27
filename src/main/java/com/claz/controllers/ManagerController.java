@@ -24,9 +24,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.claz.models.Order;
+import com.claz.models.OrderDetail;
+import com.claz.models.Product;
 import com.claz.models.Staff;
 import com.claz.services.OrderDetailService;
 import com.claz.services.OrderService;
+import com.claz.services.ProductService;
 import com.claz.services.StaffService;
 import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 
@@ -40,6 +43,9 @@ public class ManagerController {
 
 	@Autowired
 	OrderDetailService orderDetailService;
+
+	@Autowired
+	ProductService productService;
 
 	@RequestMapping("/admin")
 	public String adm(Model model, HttpServletRequest request) {
@@ -141,16 +147,15 @@ public class ManagerController {
 		return "/admin/admin-index";
 	}
 
-	@GetMapping("/updateOrder")
-	public String updateOrderStatus(@RequestParam("orderId") int orderId, Model model, HttpServletRequest request,
+	@GetMapping("/adminCancelOrder")
+	public String CancelOrder(@RequestParam("orderId") int orderId, Model model, HttpServletRequest request,
 			@RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "size", defaultValue = "10") int size) {
 		nav(model, request);
 		Order order = orderService.findById(orderId);
 
 		if (order != null) {
-			order.setStatus("Đã được hủy");
-			order.setAmount(0.0);
+			order.setStatus("Đang xử lý");
 			orderService.save(order);
 		}
 		Pageable pageable = PageRequest.of(page, size);
@@ -164,7 +169,39 @@ public class ManagerController {
 		return "/admin/admin-index";
 	}
 
-	@GetMapping("/searchOrder")
+	@GetMapping("/adminUpdateOrder")
+	public String updateOrderStatus(@RequestParam("orderId") int orderId, Model model, HttpServletRequest request,
+			@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "size", defaultValue = "10") int size) {
+		nav(model, request);
+		Order order = orderService.findById(orderId);
+
+		if (order != null) {
+			List<OrderDetail> orderDetails = order.getOrderDetails();
+			for (OrderDetail orderDetail : orderDetails) {
+				Product product = orderDetail.getProduct();
+				if (product != null) {
+					product.setQuantity(product.getQuantity() + orderDetail.getQuantity());
+					productService.update(product);
+				}
+			}
+			order.setStatus("Đã được hủy");
+			order.setAmount(0.0);
+			orderService.save(order);
+		}
+
+		Pageable pageable = PageRequest.of(page, size);
+		Page<Order> ordersPage = orderService.findAllOrdersSorted(pageable);
+
+		model.addAttribute("orders", ordersPage.getContent());
+		model.addAttribute("currentPage", page);
+		model.addAttribute("totalPages", ordersPage.getTotalPages());
+		model.addAttribute("page", "/admin/admin-listOrder");
+
+		return "/admin/admin-index";
+	}
+
+	@GetMapping("/adminSearchOrder")
 	public String searchOrders(Model model, @RequestParam(required = false) String keyword, HttpServletRequest request,
 			@RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "size", defaultValue = "20000") int size) {
