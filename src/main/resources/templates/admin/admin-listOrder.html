@@ -6,7 +6,8 @@
 			</div>
 			<div class="table-responsive">
 
-				<form th:action="@{/searchOrder}" method="get" class="d-flex my-3">
+				<form th:action="@{/adminSearchOrder}" method="get"
+					class="d-flex my-3">
 					<input class="rounded-start lh-lg border p-3 form_search"
 						type="search" name="keyword" placeholder="Tìm kiếm"
 						th:value="${keyword}" /> <a href="#"
@@ -37,7 +38,10 @@
 							<td><span class="text-danger"
 								th:if="${order.status == 'Đã được hủy'}"
 								th:text="${order.status}"></span> <span class="text-success"
-								th:if="${order.status == 'Đã xử lý'}" th:text="${order.status}"></span></td>
+								th:if="${order.status == 'Đã xử lý'}" th:text="${order.status}"></span>
+								<span class="text-warning"
+								th:if="${order.status == 'Đang xử lý'}"
+								th:text="${order.status}"></span></td>
 							<td th:text="${order.paymentMethod}"></td>
 							<td><span th:if="${order.amount > 0}"
 								th:text="${#numbers.formatDecimal(order.amount / 100, 0,
@@ -51,12 +55,18 @@
 								</div></td>
 							<td
 								th:text="${order.created_at.format(T(java.time.format.DateTimeFormatter).ofPattern('dd/MM/yyyy HH:mm:ss'))}"></td>
-							<td><a th:href="@{'/adminOrderDetail?id='+ ${order.id}}"
+							<td class="d-flex justify-content-center gap-1"><a
+								th:href="@{'/adminOrderDetail?id='+ ${order.id}}"
 								class="btn btn-outline-primary me-2"> <i
 									class="bi bi-box-arrow-up-right"></i> Chi tiết
-							</a> <a th:href="@{'/updateOrder?orderId='+ ${order.id}}"
+							</a> <a th:if="${order.status == 'Đã xử lý'}"
+								th:href="@{'/adminCancelOrder?orderId='+ ${order.id}}"
 								class="btn btn-outline-danger me-2"> <i
 									class="bi bi-trash3-fill"></i> Hủy
+							</a> <a th:if="${order.status == 'Đang xử lý'}"
+								th:href="@{'/adminUpdateOrder?orderId='+ ${order.id}}"
+								class="btn btn-outline-danger me-2"> <i
+									class="bi bi-trash3-fill"></i> Xác nhận hủy
 							</a></td>
 						</tr>
 					</tbody>
