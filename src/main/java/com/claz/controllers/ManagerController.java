@@ -1,9 +1,12 @@
 package com.claz.controllers;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -140,7 +143,26 @@ public class ManagerController {
 		Pageable pageable = PageRequest.of(page, size);
 		Page<Order> ordersPage = orderService.findAllOrdersSorted(pageable);
 
-		model.addAttribute("orders", ordersPage.getContent());
+		List<Map<String, Object>> orderTotals = new ArrayList<>();
+		for (Order order : ordersPage.getContent()) {
+			List<OrderDetail> allOrderDetails = order.getOrderDetails();
+			double totalAmount = 0.0;
+			for (OrderDetail detail : allOrderDetails) {
+				double lineTotal = detail.getPrice() * detail.getQuantity() * (1 - detail.getDiscount() / 100);
+				totalAmount += lineTotal;
+			}
+			Map<String, Object> orderTotal = new HashMap<>();
+			orderTotal.put("id", order.getId());
+			orderTotal.put("status", order.getStatus());
+			orderTotal.put("paymentMethod", order.getPaymentMethod());
+			orderTotal.put("created_at", order.getCreated_at());
+			orderTotal.put("customer", order.getCustomer());
+			orderTotal.put("orderDetails", order.getOrderDetails());
+			orderTotal.put("amount", totalAmount);
+			orderTotals.add(orderTotal);
+		}
+
+		model.addAttribute("orders", orderTotals);
 		model.addAttribute("currentPage", page);
 		model.addAttribute("totalPages", ordersPage.getTotalPages());
 		model.addAttribute("page", "/admin/admin-listOrder");
@@ -161,7 +183,26 @@ public class ManagerController {
 		Pageable pageable = PageRequest.of(page, size);
 		Page<Order> ordersPage = orderService.findAllOrdersSorted(pageable);
 
-		model.addAttribute("orders", ordersPage.getContent());
+		List<Map<String, Object>> orderTotals = new ArrayList<>();
+		for (Order orders : ordersPage.getContent()) {
+			List<OrderDetail> allOrderDetails = orders.getOrderDetails();
+			double totalAmount = 0.0;
+			for (OrderDetail detail : allOrderDetails) {
+				double lineTotal = detail.getPrice() * detail.getQuantity() * (1 - detail.getDiscount() / 100);
+				totalAmount += lineTotal;
+			}
+			Map<String, Object> orderTotal = new HashMap<>();
+			orderTotal.put("id", orders.getId());
+			orderTotal.put("status", orders.getStatus());
+			orderTotal.put("paymentMethod", orders.getPaymentMethod());
+			orderTotal.put("created_at", orders.getCreated_at());
+			orderTotal.put("customer", orders.getCustomer());
+			orderTotal.put("orderDetails", orders.getOrderDetails());
+			orderTotal.put("amount", totalAmount);
+			orderTotals.add(orderTotal);
+		}
+
+		model.addAttribute("orders", orderTotals);
 		model.addAttribute("currentPage", page);
 		model.addAttribute("totalPages", ordersPage.getTotalPages());
 		model.addAttribute("page", "/admin/admin-listOrder");
@@ -193,7 +234,26 @@ public class ManagerController {
 		Pageable pageable = PageRequest.of(page, size);
 		Page<Order> ordersPage = orderService.findAllOrdersSorted(pageable);
 
-		model.addAttribute("orders", ordersPage.getContent());
+		List<Map<String, Object>> orderTotals = new ArrayList<>();
+		for (Order orders : ordersPage.getContent()) {
+			List<OrderDetail> allOrderDetails = orders.getOrderDetails();
+			double totalAmount = 0.0;
+			for (OrderDetail detail : allOrderDetails) {
+				double lineTotal = detail.getPrice() * detail.getQuantity() * (1 - detail.getDiscount() / 100);
+				totalAmount += lineTotal;
+			}
+			Map<String, Object> orderTotal = new HashMap<>();
+			orderTotal.put("id", orders.getId());
+			orderTotal.put("status", orders.getStatus());
+			orderTotal.put("paymentMethod", orders.getPaymentMethod());
+			orderTotal.put("created_at", orders.getCreated_at());
+			orderTotal.put("customer", orders.getCustomer());
+			orderTotal.put("orderDetails", orders.getOrderDetails());
+			orderTotal.put("amount", totalAmount);
+			orderTotals.add(orderTotal);
+		}
+
+		model.addAttribute("orders", orderTotals);
 		model.addAttribute("currentPage", page);
 		model.addAttribute("totalPages", ordersPage.getTotalPages());
 		model.addAttribute("page", "/admin/admin-listOrder");
@@ -208,7 +268,27 @@ public class ManagerController {
 		nav(model, request);
 		Pageable pageable = PageRequest.of(page, size);
 		Page<Order> ordersPage = orderService.searchOrders(keyword, pageable);
-		model.addAttribute("orders", ordersPage.getContent());
+
+		List<Map<String, Object>> orderTotals = new ArrayList<>();
+		for (Order order : ordersPage.getContent()) {
+			List<OrderDetail> allOrderDetails = order.getOrderDetails();
+			double totalAmount = 0.0;
+			for (OrderDetail detail : allOrderDetails) {
+				double lineTotal = detail.getPrice() * detail.getQuantity() * (1 - detail.getDiscount() / 100);
+				totalAmount += lineTotal;
+			}
+			Map<String, Object> orderTotal = new HashMap<>();
+			orderTotal.put("id", order.getId());
+			orderTotal.put("status", order.getStatus());
+			orderTotal.put("paymentMethod", order.getPaymentMethod());
+			orderTotal.put("created_at", order.getCreated_at());
+			orderTotal.put("customer", order.getCustomer());
+			orderTotal.put("orderDetails", order.getOrderDetails());
+			orderTotal.put("amount", totalAmount);
+			orderTotals.add(orderTotal);
+		}
+
+		model.addAttribute("orders", orderTotals);
 		model.addAttribute("currentPage", page);
 		model.addAttribute("totalPages", ordersPage.getTotalPages());
 		model.addAttribute("keyword", keyword);
@@ -219,6 +299,14 @@ public class ManagerController {
 	@RequestMapping("/adminOrderDetail")
 	public String adminOrderDetail(Model model, HttpServletRequest request, @RequestParam("id") int id) {
 		nav(model, request);
+		Order order = orderService.findById(id);
+		List<OrderDetail> orderDetails = order.getOrderDetails();
+		double totalAmount = 0.0;
+		for (OrderDetail detail : orderDetails) {
+			double lineTotal = detail.getPrice() * detail.getQuantity() * (1 - detail.getDiscount() / 100);
+			totalAmount += lineTotal;
+		}
+		model.addAttribute("totalAmount", totalAmount);
 		model.addAttribute("order", orderService.findById(id));
 		model.addAttribute("page", "/admin/admin-orderDetail");
 		return "/admin/admin-index";

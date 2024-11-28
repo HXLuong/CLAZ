@@ -36,10 +36,10 @@
 						<span>Tổng giá trị đơn hàng</span> <span th:if="*{amount > 0}">[[*{#numbers.formatDecimal(amount
 							/ 100, 0, 'COMMA', 0, 'POINT')}]]đ</span>
 						<div
-							th:if="*{orderDetails != null && !orderDetails.isEmpty() && amount == 0}"
-							th:each="detail:*{orderDetails}" th:object="${detail}">
-							<span>[[*{#numbers.formatDecimal((price * (1 - discount /
-								100)) * quantity, 0, 'COMMA', 0, 'POINT')}]]đ</span>
+							th:if="*{orderDetails != null && !orderDetails.isEmpty() && amount == 0}">
+							<span
+								th:text="${#numbers.formatDecimal(totalAmount, 0,
+							'COMMA', 0, 'POINT') + 'đ'}"></span>
 						</div>
 					</div>
 				</div>
