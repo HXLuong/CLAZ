@@ -16,6 +16,11 @@ app.controller("productCtrl", function($scope, $http) {
 		return result;
 	};
 
+	// làm tròn giá bán
+	$scope.roundPrice = function(value) {
+		return Math.ceil(value / 5000) * 5000;
+	};
+
 	$scope.load_all = function() {
 		$http.get(`/rest/products`).then(resp => {
 			$scope.items = resp.data;

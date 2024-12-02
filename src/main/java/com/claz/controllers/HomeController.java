@@ -78,17 +78,61 @@ public class HomeController {
 	public String index(HttpSession session, Model model, @RequestParam(defaultValue = "8") int productsMore,
 			@RequestParam(defaultValue = "8") int productsBest, @RequestParam(defaultValue = "8") int productsSteam,
 			@RequestParam(defaultValue = "8") int productsStudy, @RequestParam(defaultValue = "8") int productsWork) {
-		if (session.getAttribute("searchProduct") == null) {
-			List<Product> prHot = productService.findByHot();
+		// sản phẩm nổi bật
+		List<Product> prHot = productService.findByHot();
+		if (prHot != null) {
+			List<Double> prHotPrices = new ArrayList<>();
+			for (Product product : prHot) {
+				double prHotPrice = Math.ceil(product.getPrice() * (1 - product.getDiscount() / 100) / 5000) * 5000;
+				prHotPrices.add(prHotPrice);
+			}
+			model.addAttribute("prHotPrices", prHotPrices);
 			session.setAttribute("products", prHot);
-			List<Product> prBestSeller = productService.findByBestSeller(10);
+		}
+		// sản phẩm bán chạy
+		List<Product> prBestSeller = productService.findByBestSeller(10);
+		if (prBestSeller != null) {
+			List<Double> prBestSellerPrices = new ArrayList<>();
+			for (Product product : prBestSeller) {
+				double prBestSellerPrice = Math.ceil(product.getPrice() * (1 - product.getDiscount() / 100) / 5000)
+						* 5000;
+				prBestSellerPrices.add(prBestSellerPrice);
+			}
+			model.addAttribute("prBestSellerPrices", prBestSellerPrices);
 			session.setAttribute("productBestSellers", prBestSeller);
-			List<Product> pr2 = productService.findAll().stream().filter(e -> e.getCategory().getId() == 4).toList();
+		}
+		// game trên steam
+		List<Product> pr2 = productService.findAll().stream().filter(e -> e.getCategory().getId() == 4).toList();
+		if (pr2 != null) {
+			List<Double> pr2Prices = new ArrayList<>();
+			for (Product product : pr2) {
+				double pr2Price = Math.ceil(product.getPrice() * (1 - product.getDiscount() / 100) / 5000) * 5000;
+				pr2Prices.add(pr2Price);
+			}
+			model.addAttribute("pr2Prices", pr2Prices);
 			session.setAttribute("gamesteam", pr2);
-			List<Product> pr3 = productService.findAll().stream().filter(e -> e.getCategory().getId() == 2).toList();
-			session.setAttribute("lamviec", pr3);
-			List<Product> pr4 = productService.findAll().stream().filter(e -> e.getCategory().getId() == 3).toList();
+		}
+		// học tập
+		List<Product> pr4 = productService.findAll().stream().filter(e -> e.getCategory().getId() == 3).toList();
+		if (pr4 != null) {
+			List<Double> pr4Prices = new ArrayList<>();
+			for (Product product : pr4) {
+				double pr4Price = Math.ceil(product.getPrice() * (1 - product.getDiscount() / 100) / 5000) * 5000;
+				pr4Prices.add(pr4Price);
+			}
+			model.addAttribute("pr4Prices", pr4Prices);
 			session.setAttribute("hoctap", pr4);
+		}
+		// làm việc
+		List<Product> pr3 = productService.findAll().stream().filter(e -> e.getCategory().getId() == 2).toList();
+		if (pr3 != null) {
+			List<Double> pr3Prices = new ArrayList<>();
+			for (Product product : pr3) {
+				double pr3Price = Math.ceil(product.getPrice() * (1 - product.getDiscount() / 100) / 5000) * 5000;
+				pr3Prices.add(pr3Price);
+			}
+			model.addAttribute("pr3Prices", pr3Prices);
+			session.setAttribute("lamviec", pr3);
 		}
 
 		List<Category> cate = categoryService.findAll();
@@ -113,6 +157,8 @@ public class HomeController {
 		List<GenreProduct> genreProducts = genreProductService.findAllByproductId(id);
 		List<Galary> galaries = galaryService.findAllByproductId(id);
 		List<Category> cate = categoryService.findAll();
+		double discountedPrice = Math.ceil(item.getPrice() * (1 - item.getDiscount() / 100) / 5000) * 5000;
+		model.addAttribute("discountedPrice", discountedPrice);
 		model.addAttribute("cates", cate);
 		session.setAttribute("genreProducts", genreProducts);
 		session.setAttribute("galaries", galaries);
@@ -142,10 +188,29 @@ public class HomeController {
 		}
 
 		if (!search.isEmpty()) {
-			session.setAttribute("searchProduct", productService.findBySearch(search));
+			List<Product> searchProduct = productService.findBySearch(search);
+			if (searchProduct != null) {
+				List<Double> searchProductPrices = new ArrayList<>();
+				for (Product product : searchProduct) {
+					double searchProductPrice = Math.ceil(product.getPrice() * (1 - product.getDiscount() / 100) / 5000)
+							* 5000;
+					searchProductPrices.add(searchProductPrice);
+				}
+				model.addAttribute("searchProductPrices", searchProductPrices);
+				session.setAttribute("searchProduct", searchProduct);
+			}
 		} else {
 			List<Product> products = productService.findProducts(categoryId, genreId, minPrice, maxPrice, sort);
-			session.setAttribute("searchProduct", products);
+			if (products != null) {
+				List<Double> searchProductPrices = new ArrayList<>();
+				for (Product product : products) {
+					double searchProductPrice = Math.ceil(product.getPrice() * (1 - product.getDiscount() / 100) / 5000)
+							* 5000;
+					searchProductPrices.add(searchProductPrice);
+				}
+				model.addAttribute("searchProductPrices", searchProductPrices);
+				session.setAttribute("searchProduct", products);
+			}
 		}
 		List<Genre> genres = genreService.findAll();
 		List<Category> cates = categoryService.findAll();
@@ -202,6 +267,16 @@ public class HomeController {
 		List<Genre> genres = genreService.findAll();
 		List<Category> cates = categoryService.findAll();
 
+		if (products != null) {
+			List<Double> searchProductPrices = new ArrayList<>();
+			for (Product product : products) {
+				double searchProductPrice = Math.ceil(product.getPrice() * (1 - product.getDiscount() / 100) / 5000)
+						* 5000;
+				searchProductPrices.add(searchProductPrice);
+			}
+			model.addAttribute("searchProductPrices", searchProductPrices);
+		}
+
 		session.setAttribute("cates", cates);
 		model.addAttribute("cates", cates);
 		session.setAttribute("genres", genres);
@@ -216,7 +291,16 @@ public class HomeController {
 		List<Category> cates = categoryService.findAll();
 		model.addAttribute("cates", cates);
 		List<Product> prHot = productService.findByHot();
-		session.setAttribute("searchProdut", prHot);
+		if (prHot != null) {
+			List<Double> searchProductPrices = new ArrayList<>();
+			for (Product product : prHot) {
+				double searchProductPrice = Math.ceil(product.getPrice() * (1 - product.getDiscount() / 100) / 5000)
+						* 5000;
+				searchProductPrices.add(searchProductPrice);
+			}
+			model.addAttribute("searchProductPrices", searchProductPrices);
+			session.setAttribute("searchProdut", prHot);
+		}
 		model.addAttribute("title", "Sản Phẩm Nổi Bật");
 		session.setAttribute("page", "/category/category");
 		return "index";
@@ -227,7 +311,16 @@ public class HomeController {
 		List<Category> cates = categoryService.findAll();
 		model.addAttribute("cates", cates);
 		List<Product> prBestSeller = productService.findByBestSeller(10);
-		session.setAttribute("searchProdut", prBestSeller);
+		if (prBestSeller != null) {
+			List<Double> searchProductPrices = new ArrayList<>();
+			for (Product product : prBestSeller) {
+				double searchProductPrice = Math.ceil(product.getPrice() * (1 - product.getDiscount() / 100) / 5000)
+						* 5000;
+				searchProductPrices.add(searchProductPrice);
+			}
+			model.addAttribute("searchProductPrices", searchProductPrices);
+			session.setAttribute("searchProdut", prBestSeller);
+		}
 		model.addAttribute("title", "Sản Phẩm Bán Chạy Nhất");
 		session.setAttribute("page", "/category/category");
 		return "index";
@@ -238,7 +331,16 @@ public class HomeController {
 		List<Category> cates = categoryService.findAll();
 		model.addAttribute("cates", cates);
 		List<Product> prSale = productService.findProductsWithDiscount();
-		session.setAttribute("searchProdut", prSale);
+		if (prSale != null) {
+			List<Double> searchProductPrices = new ArrayList<>();
+			for (Product product : prSale) {
+				double searchProductPrice = Math.ceil(product.getPrice() * (1 - product.getDiscount() / 100) / 5000)
+						* 5000;
+				searchProductPrices.add(searchProductPrice);
+			}
+			model.addAttribute("searchProductPrices", searchProductPrices);
+			session.setAttribute("searchProdut", prSale);
+		}
 		model.addAttribute("title", "Sản Phẩm Khuyến mãi");
 		session.setAttribute("page", "/category/category");
 		return "index";
