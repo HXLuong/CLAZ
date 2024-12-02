@@ -47,7 +47,7 @@
 							class="text-secondary" th:if="${!iterStat.last}">,</span>
 					</div>
 				</label> <label class="mt-2 fw-bold fs-5"
-					th:text="*{#numbers.formatDecimal(price * (1 - discount / 100), 0, 'COMMA', 0, 'POINT')} + 'đ'"></label>
+					th:text="${#numbers.formatDecimal(discountedPrice, 0, 'COMMA', 0, 'POINT')} + 'đ'"></label>
 				<div class="d-flex align-items-center text-nowrap flex-nowrap"
 					th:if="*{discount} > 0">
 					<strike class=" text-body-tertiary fw-bold"
