@@ -53,7 +53,7 @@
 		th:if="${not #lists.isEmpty(session.searchProduct)}">
 		<div class="row">
 			<div class="col-lg-3 col-md-4 col-6 list_product"
-				th:each="product : ${session.searchProduct}">
+				th:each="product, p : ${session.searchProduct}">
 				<a th:href="@{|/${product.id}|}"> <img
 					th:src="@{'/images/'+${product.image}}"
 					class="img-fluid mt-2 rounded" alt="Product Image" width="100%">
@@ -61,7 +61,7 @@
 					th:text="${product.name}"></a>
 				<h6 class="mt-2 mb-3 d-flex align-items-center fw-bold text_product">
 					<span
-						th:text="${#numbers.formatDecimal(product.price * (1 - product.discount / 100), 0, 'COMMA', 0, 'POINT')} + 'đ'"></span>
+						th:text="${#numbers.formatDecimal(searchProductPrices[p.index], 0, 'COMMA', 0, 'POINT')} + 'đ'"></span>
 					<strike class="mx-2 text-secondary" th:if="${product.discount} > 0"
 						th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + 'đ'"></strike>
 					<span class="badge text-bg-danger text-white p-2"

@@ -154,6 +154,13 @@
 			<artifactId>okhttp</artifactId>
 			<version>3.11.0</version>
 		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.13.2</version> <!-- Bạn có thể kiểm tra phiên bản mới nhất -->
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
 
 	<build>

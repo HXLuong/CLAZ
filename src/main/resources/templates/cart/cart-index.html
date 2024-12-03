@@ -36,9 +36,10 @@
 
 						<div class="d-block d-md-none p-0 product-qty">
 							<h6 class="d-flex align-items-center fw-bold my-2">
-								{{ item.price * (1 - item.discount / 100) | number:0 }}đ<strike
-									class="mx-2 text-secondary" ng-if="item.discount > 0">{{item.price
-									| number}}đ</strike><span class="badge text-bg-danger text-white p-2"
+								{{ roundPriceCart(item.price * (1 - item.discount / 100)) |
+								number:0 }}đ<strike class="mx-2 text-secondary"
+									ng-if="item.discount > 0">{{item.price | number}}đ</strike><span
+									class="badge text-bg-danger text-white p-2"
 									ng-if="item.discount > 0">-{{item.discount}}%</span>
 							</h6>
 						</div>
@@ -60,7 +61,8 @@
 
 						<div class="col-xl-3 col-md-3 d-none d-md-block">
 							<h6 class=" fw-bold p-1 d-flex justify-content-end fs-5">{{
-								item.price * (1 - item.discount / 100) | number:0 }}đ</h6>
+								roundPriceCart(item.price * (1 - item.discount / 100)) |
+								number:0 }}đ</h6>
 							<div class="d-flex justify-content-end">
 								<span class="badge text-bg-danger text-white tex-sale p-1"
 									ng-if="item.discount > 0">-{{item.discount}}%</span> <strike

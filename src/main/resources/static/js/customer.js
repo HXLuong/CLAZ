@@ -422,6 +422,11 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 		});
 	}
 
+	// làm tròn giá bán
+	$scope.roundPriceCart = function(value) {
+		return Math.ceil(value / 5000) * 5000;
+	};
+
 	$scope.loadProducts = function() {
 		$http.get('/rest/products').then(resp => {
 			$scope.products = resp.data || [];
@@ -596,16 +601,20 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 		$scope.caculateTotal();
 	};
 
-
-
 	$scope.caculateTotal = function() {
 		$scope.totalPrice = 0;
 		$scope.totalQuantity = 0;
+
 		for (let i = 0; i < $scope.listItem.length; i++) {
-			$scope.totalPrice += $scope.listItem[i].price * (1 - $scope.listItem[i].discount / 100) * $scope.listItem[i].quantity;
+			// Lấy giá đã làm tròn
+			let roundedPrice = $scope.roundPriceCart($scope.listItem[i].price * (1 - $scope.listItem[i].discount / 100));
+
+			// Tính tổng giá trị đã làm tròn
+			$scope.totalPrice += roundedPrice * $scope.listItem[i].quantity;
 			$scope.totalQuantity += $scope.listItem[i].quantity;
 		}
-	}
+	};
+
 
 
 	// Comment
@@ -1023,6 +1032,13 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 				icon: "warning"
 			});
 			return;
+		} else if ($scope.totalPrice <= 0) {
+			Swal.fire({
+				title: "Lỗi",
+				text: "Đơn hàng của bạn không được ở mức 0đ",
+				icon: "warning"
+			});
+			return;
 		}
 
 		$http.post('/rest/carts/pay', requestData)
@@ -1052,6 +1068,13 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 			Swal.fire({
 				title: "Lỗi",
 				text: "Đơn hàng của bạn không được vượt quá 20,000,000đ",
+				icon: "warning"
+			});
+			return;
+		} else if ($scope.totalPrice <= 0) {
+			Swal.fire({
+				title: "Lỗi",
+				text: "Đơn hàng của bạn không được ở mức 0đ",
 				icon: "warning"
 			});
 			return;
