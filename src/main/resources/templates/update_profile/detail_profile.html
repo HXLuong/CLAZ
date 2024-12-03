@@ -33,49 +33,44 @@
 						<span class="fw-bold">Giá trị đơn hàng</span>
 					</div>
 					<div class="d-flex justify-content-between">
-						<span>Tổng giá trị đơn hàng</span> <span th:if="*{amount > 0}">[[*{#numbers.formatDecimal(amount
-							/ 100, 0, 'COMMA', 0, 'POINT')}]]đ</span>
-						<div
-							th:if="*{orderDetails != null && !orderDetails.isEmpty() && amount == 0}">
-							<span
-								th:text="${#numbers.formatDecimal(totalAmount, 0,
+						<span>Tổng giá trị đơn hàng</span> <span
+							th:text="${#numbers.formatDecimal(totalAmount, 0,
 							'COMMA', 0, 'POINT') + 'đ'}"></span>
-						</div>
 					</div>
 				</div>
 			</div>
 			<hr class="my-3">
 		</div>
 
-		<div class="mb-4" th:each="detail:*{orderDetails}"
-			th:object="${detail}">
+		<div class="mb-4" th:each="detail : ${roundedOrderDetails}">
 			<div class="row">
 				<div class="col-md-3 py-1">
-					<img th:src="@{'/images/'+ *{product.image}}"
+					<img th:src="@{'/images/'+ ${detail.product.image}}"
 						class="img-fluid rounded" alt="Steam Random Code"
 						style="width: 100%;">
 				</div>
 				<div class="col-md-9">
 					<div class="row">
 						<h6 class="col-md-6 py-1">
-							<a th:href="*{product.id}">[[*{product.name}]]</a>
+							<a th:href="${detail.product.id}">[[${detail.product.name}]]</a>
 						</h6>
 						<div class="col-md-6 py-1 d-flex justify-content-between">
-							<h6>Số lượng: [[*{quantity}]]</h6>
-							<h6>[[*{#numbers.formatDecimal((price * (1 - discount /
-								100)) * quantity, 0, 'COMMA', 0, 'POINT')}]]đ</h6>
+							<h6>Số lượng: [[${detail.quantity}]]</h6>
+							<h6>[[${#numbers.formatDecimal(detail.price, 0, 'COMMA', 0,
+								'POINT')}]]đ</h6>
 						</div>
 					</div>
 
 					<div class="mt-2">
 						<div class="d-flex justify-content-between align-items-end">
-							<span th:if="*{order.status == 'Đã xử lý'}">Key game</span> <a
-								th:href="*{product.id}" class="btn btn-outline-warning"> <i
-								class="bi bi-cart3"></i> Mua lại đơn hàng
+							<span th:if="${detail.order.status == 'Đã xử lý'}">Key
+								game</span> <a th:href="${detail.product.id}"
+								class="btn btn-outline-warning"> <i class="bi bi-cart3"></i>
+								Mua lại đơn hàng
 							</a>
 						</div>
 
-						<div class="row mt-1" th:if="*{order.status == 'Đã xử lý'}">
+						<div class="row mt-1" th:if="${detail.order.status == 'Đã xử lý'}">
 							<div class="col-xl-7 col-lg-6 col-md-6 my-1">
 								<div class="input-group">
 									<button class="btn btn-primary" type="button"
@@ -83,7 +78,7 @@
 										<i class="fa-regular fa-copy"></i>
 									</button>
 									<input type="text" class="form-control"
-										th:value="*{keyProduct}" id="keyProductInput"
+										th:value="${detail.keyProduct}" id="keyProductInput"
 										onclick="copyToClipboard()" readonly>
 								</div>
 								<small class="text-muted"><i

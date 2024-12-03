@@ -39,7 +39,7 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 	};
 
 	$scope.isValidPassword = function(password) {
-		const passwordRegex = /^(?=.*[\d!@#$%^&*()_+{}\[\]:;"'<>,.?/-])[A-Za-z\d!@#$%^&*()_+{}\[\]:;"'<>,.?/-]{8,}$/;
+		const passwordRegex = /[^a-zA-Z0-9]/;
 		return passwordRegex.test(password);
 	};
 
@@ -76,7 +76,7 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 			});
 			return;
 		}
-		if (!$scope.form.password || !$scope.isValidPassword($scope.form.password)) {
+		if (!$scope.form.password || $scope.form.password.length < 8 || !$scope.isValidPassword($scope.form.password)) {
 			Swal.fire({
 				title: "Lỗi",
 				text: "Mật khẩu phải có ít nhất 8 ký tự, bao gồm ít nhất 1 số hoặc 1 ký tự đặc biệt.",
@@ -206,7 +206,7 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 		}
 	};
 	$scope.updateAccountPass = function() {
-		if (!$scope.form.password || !$scope.isValidPassword($scope.form.password)) {
+		if (!$scope.form.password || $scope.form.password.length < 8 || !$scope.isValidPassword($scope.form.password)) {
 			Swal.fire({
 				title: "Lỗi",
 				text: "Mật khẩu phải có ít nhất 8 ký tự, bao gồm ít nhất 1 số hoặc 1 ký tự đặc biệt.",
@@ -357,10 +357,10 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 	};
 
 	$scope.resetPassword = function() {
-		if (!$scope.form.password || $scope.form.password.length < 6) {
+		if (!$scope.form.password || $scope.form.password.length < 8 || !$scope.isValidPassword($scope.form.password)) {
 			Swal.fire({
 				title: "Lỗi",
-				text: "Mật khẩu mới phải có ít nhất 6 ký tự.",
+				text: "Mật khẩu phải có ít nhất 8 ký tự, bao gồm ít nhất 1 số hoặc 1 ký tự đặc biệt.",
 				icon: "error"
 			});
 			return;
