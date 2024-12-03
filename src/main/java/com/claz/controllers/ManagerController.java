@@ -148,8 +148,8 @@ public class ManagerController {
 			List<OrderDetail> allOrderDetails = order.getOrderDetails();
 			double totalAmount = 0.0;
 			for (OrderDetail detail : allOrderDetails) {
-				double lineTotal = detail.getPrice() * detail.getQuantity() * (1 - detail.getDiscount() / 100);
-				totalAmount += lineTotal;
+				double lineTotal = Math.ceil(detail.getPrice() * (1 - detail.getDiscount() / 100) / 5000) * 5000;
+				totalAmount += lineTotal * detail.getQuantity();
 			}
 			Map<String, Object> orderTotal = new HashMap<>();
 			orderTotal.put("id", order.getId());
@@ -188,8 +188,8 @@ public class ManagerController {
 			List<OrderDetail> allOrderDetails = orders.getOrderDetails();
 			double totalAmount = 0.0;
 			for (OrderDetail detail : allOrderDetails) {
-				double lineTotal = detail.getPrice() * detail.getQuantity() * (1 - detail.getDiscount() / 100);
-				totalAmount += lineTotal;
+				double lineTotal = Math.ceil(detail.getPrice() * (1 - detail.getDiscount() / 100) / 5000) * 5000;
+				totalAmount += lineTotal * detail.getQuantity();
 			}
 			Map<String, Object> orderTotal = new HashMap<>();
 			orderTotal.put("id", orders.getId());
@@ -239,8 +239,8 @@ public class ManagerController {
 			List<OrderDetail> allOrderDetails = orders.getOrderDetails();
 			double totalAmount = 0.0;
 			for (OrderDetail detail : allOrderDetails) {
-				double lineTotal = detail.getPrice() * detail.getQuantity() * (1 - detail.getDiscount() / 100);
-				totalAmount += lineTotal;
+				double lineTotal = Math.ceil(detail.getPrice() * (1 - detail.getDiscount() / 100) / 5000) * 5000;
+				totalAmount += lineTotal * detail.getQuantity();
 			}
 			Map<String, Object> orderTotal = new HashMap<>();
 			orderTotal.put("id", orders.getId());
@@ -274,8 +274,8 @@ public class ManagerController {
 			List<OrderDetail> allOrderDetails = order.getOrderDetails();
 			double totalAmount = 0.0;
 			for (OrderDetail detail : allOrderDetails) {
-				double lineTotal = detail.getPrice() * detail.getQuantity() * (1 - detail.getDiscount() / 100);
-				totalAmount += lineTotal;
+				double lineTotal = Math.ceil(detail.getPrice() * (1 - detail.getDiscount() / 100) / 5000) * 5000;
+				totalAmount += lineTotal * detail.getQuantity();
 			}
 			Map<String, Object> orderTotal = new HashMap<>();
 			orderTotal.put("id", order.getId());
@@ -301,13 +301,30 @@ public class ManagerController {
 		nav(model, request);
 		Order order = orderService.findById(id);
 		List<OrderDetail> orderDetails = order.getOrderDetails();
+		List<Map<String, Object>> roundedOrderDetails = new ArrayList<>();
 		double totalAmount = 0.0;
+
 		for (OrderDetail detail : orderDetails) {
-			double lineTotal = detail.getPrice() * detail.getQuantity() * (1 - detail.getDiscount() / 100);
-			totalAmount += lineTotal;
+			Map<String, Object> newDetail = new HashMap<>();
+			newDetail.put("id", detail.getId());
+			newDetail.put("product", detail.getProduct());
+			newDetail.put("quantity", detail.getQuantity());
+			newDetail.put("discount", detail.getDiscount());
+			newDetail.put("order", detail.getOrder());
+			
+			double lineTotal = Math.ceil(detail.getPrice() * (1 - detail.getDiscount() / 100) / 5000) * 5000;
+			newDetail.put("price", lineTotal);
+			double roundedPrice = lineTotal * detail.getQuantity();
+
+			newDetail.put("roundedPrice", roundedPrice);
+
+			roundedOrderDetails.add(newDetail);
+			totalAmount += roundedPrice;
 		}
+
+		model.addAttribute("roundedOrderDetails", roundedOrderDetails);
 		model.addAttribute("totalAmount", totalAmount);
-		model.addAttribute("order", orderService.findById(id));
+		model.addAttribute("order", order);
 		model.addAttribute("page", "/admin/admin-orderDetail");
 		return "/admin/admin-index";
 	}

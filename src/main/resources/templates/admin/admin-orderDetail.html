@@ -34,39 +34,34 @@
 							<span class="fw-bold">Giá trị đơn hàng</span>
 						</div>
 						<div class="d-flex justify-content-between">
-							<span>Tổng giá trị đơn hàng</span> <span th:if="*{amount > 0}">[[*{#numbers.formatDecimal(amount
-								/ 100, 0, 'COMMA', 0, 'POINT')}]]đ</span>
-							<div
-								th:if="*{orderDetails != null && !orderDetails.isEmpty() && amount == 0}">
-								<span
-									th:text="${#numbers.formatDecimal(totalAmount, 0,
+							<span>Tổng giá trị đơn hàng</span> <span
+								th:text="${#numbers.formatDecimal(totalAmount, 0,
 							'COMMA', 0, 'POINT') + 'đ'}"></span>
-							</div>
 						</div>
 					</div>
 				</div>
 				<hr class="my-3">
-				<div class="mb-4" th:each="detail:*{orderDetails}"
-					th:object="${detail}">
+				<div class="mb-4" th:each="detail : ${roundedOrderDetails}">
 					<div class="row">
 						<div class="col-md-3 py-1">
-							<img th:src="@{'/images/'+ *{product.image}}"
+							<img th:src="@{'/images/'+ ${detail.product.image}}"
 								class="img-fluid rounded" alt="Steam Random Code"
 								style="width: 100%;">
 						</div>
 						<div class="col-md-9">
 							<div class="row">
 								<h5 class="col-md-6 py-1">
-									<a class="fs-5 fw-bold btn_color" th:href="*{product.id}">[[*{product.name}]]</a>
+									<a class="fs-5 fw-bold btn_color">[[${detail.product.name}]]</a>
 								</h5>
 								<div class="col-md-6 py-1 d-flex justify-content-between">
-									<h6>Số lượng: [[*{quantity}]]</h6>
-									<h6>Đơn giá: [[*{#numbers.formatDecimal(price * (1 -
-										discount / 100), 0, 'COMMA', 0, 'POINT')}]]đ</h6>
+									<h6>Số lượng: [[${detail.quantity}]]</h6>
+									<h6>Đơn giá: [[${#numbers.formatDecimal(detail.price, 0,
+										'COMMA', 0, 'POINT')}]]đ</h6>
 								</div>
 								<div class="col-md-6 py-1 d-flex justify-content-between">
-									<h6>Tổng giá: [[*{#numbers.formatDecimal((price * (1 -
-										discount / 100)) * quantity, 0, 'COMMA', 0, 'POINT')}]]đ</h6>
+									<h6>Tổng giá:
+										[[${#numbers.formatDecimal(detail.roundedPrice, 0, 'COMMA', 0,
+										'POINT')}]]đ</h6>
 
 								</div>
 							</div>

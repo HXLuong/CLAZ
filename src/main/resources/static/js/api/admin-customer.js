@@ -43,7 +43,7 @@ app.controller('customerCtrl', function($scope, $http) {
 	};
 
 	$scope.isValidPassword = function(password) {
-		const passwordRegex = /^(?=.*[\d!@#$%^&*()_+{}\[\]:;"'<>,.?/-])[A-Za-z\d!@#$%^&*()_+{}\[\]:;"'<>,.?/-]{8,}$/;
+		const passwordRegex = /[^a-zA-Z0-9]/;
 		return passwordRegex.test(password);
 	};
 
@@ -70,7 +70,7 @@ app.controller('customerCtrl', function($scope, $http) {
 			});
 			return;
 		}
-		if (!$scope.form.password || !$scope.isValidPassword($scope.form.password)) {
+		if (!$scope.form.password || $scope.form.password.length < 8 || !$scope.isValidPassword($scope.form.password)) {
 			Swal.fire({
 				title: "Lỗi",
 				text: "Mật khẩu phải có ít nhất 8 ký tự, bao gồm ít nhất 1 số hoặc 1 ký tự đặc biệt.",
@@ -141,7 +141,7 @@ app.controller('customerCtrl', function($scope, $http) {
 			});
 			return;
 		}
-		if (!$scope.form.password || !$scope.isValidPassword($scope.form.password)) {
+		if (!$scope.form.password || $scope.form.password.length < 8 || !$scope.isValidPassword($scope.form.password)) {
 			Swal.fire({
 				title: "Lỗi",
 				text: "Mật khẩu phải có ít nhất 8 ký tự, bao gồm ít nhất 1 số hoặc 1 ký tự đặc biệt.",

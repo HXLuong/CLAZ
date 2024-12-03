@@ -368,7 +368,11 @@ public class CartRestController {
 
 			NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-			// Prepare the email content
+
+			double totalAmount = 0.0;
+			double lineTotal = Math.ceil(price * (1 - discount / 100) / 5000) * 5000;
+			totalAmount += lineTotal * quantity;
+
 			String subject = "CLAZ Shop - Đơn hàng mới " + orderID;
 			String body = "<html>" + "<head><title>Xác nhận đơn hàng</title></head>"
 					+ "<body style=\"font-family: Arial, sans-serif; margin: 0; padding: 0;\">\r\n"
@@ -414,9 +418,9 @@ public class CartRestController {
 					+ quantity + "</p>\r\n" + "                </div>\r\n"
 					+ "                <div style=\"text-align: start; flex: 0 0 auto; min-width: 120px; margin-left: 10px;\">\r\n"
 					+ "                    <span style=\"font-weight: bold; font-size: 18px;\">"
-					+ currencyFormat.format((price * (1 - discount / 100)) * quantity) + "</span><br>\r\n"
+					+ currencyFormat.format(totalAmount) + "</span><br>\r\n"
 					+ "                    <span style=\"font-size: 18px; color: #878787;\">Đơn giá: "
-					+ currencyFormat.format(price * (1 - discount / 100)) + "</span>\r\n" + "                </div>\r\n"
+					+ currencyFormat.format(lineTotal) + "</span>\r\n" + "                </div>\r\n"
 					+ "            </div>\r\n" + "\r\n" + "            <hr>\r\n"
 					+ "            <div style=\"text-align: end;\">\r\n"
 					+ "                <p style=\"font-size: 18px;\">Tổng giá trị sản phẩm: <strong style=\"font-size: 18px;\">"
