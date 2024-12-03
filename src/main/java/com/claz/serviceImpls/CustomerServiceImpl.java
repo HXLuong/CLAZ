@@ -52,8 +52,11 @@ public class CustomerServiceImpl implements CustomerService {
 		return customerDAO.findAll();
 	}
 
-	public Customer createAccount(Customer account) {
-		return customerDAO.save(account);
+	public Customer createAccount(Customer Customer) {
+		if (customerDAO.existsById(Customer.getUsername())) {
+			throw new IllegalArgumentException("Username already exists");
+		}
+		return customerDAO.save(Customer);
 	}
 
 	@Override
