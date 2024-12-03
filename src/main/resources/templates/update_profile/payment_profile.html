@@ -10,7 +10,7 @@
 			<hr class="my-3">
 		</div>
 
-		<form action="/filterPayment" method="post" class="row container">
+		<form action="/profileFilterPayment" method="get" class="row container">
 
 			<div class="col-xl-2 col-lg-4 col-md-4 col-12 mt-2">
 				<div class="form-floating">
@@ -69,7 +69,7 @@
 						<td
 							th:text="${order.paymentMethod} + ' - Mã giao dịch #' + ${order.id}"></td>
 						<td class="text-success"><span th:if="${order.amount > 0}"
-							th:text="${#numbers.formatDecimal(order.amount / 100, 0,
+							th:text="${#numbers.formatDecimal(order.amount, 0,
 							'COMMA', 0, 'POINT') + 'đ'}"></span>
 							<div class="d-flex justify-content-between"
 								th:if="${order.orderDetails != null && !order.orderDetails.isEmpty() && order.amount == 0}"

@@ -955,7 +955,7 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 				Swal.fire({
 					icon: "error",
 					title: "Lỗi",
-					text: "Bạn cần chọn một đánh giá để tiếp tục.",
+					text: "Bạn cần chọn ít nhất 1 sao để đánh giá sản phẩm.",
 				});
 				return;
 			}
@@ -970,7 +970,7 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 					Swal.fire({
 						icon: "success",
 						title: "Thành công",
-						text: "Đánh giá đã được thêm.",
+						text: "Đánh giá sản phẩm thành công.",
 					});
 					$scope.loadRating();
 					$scope.checkIfRated();
@@ -981,7 +981,7 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 					Swal.fire({
 						icon: "error",
 						title: "Lỗi",
-						text: "Có lỗi xảy ra khi thêm đánh giá.",
+						text: "Có lỗi xảy ra khi đánh giá.",
 					});
 				});
 		});
@@ -1030,6 +1030,39 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 				console.log('Dữ liệu phản hồi:', response.data);
 				if (response.data) {
 					window.location.href = response.data;
+				} else {
+					alert('Không nhận được URL thanh toán. Vui lòng thử lại.');
+				}
+			})
+			.catch(function(error) {
+				console.error('Lỗi khi thực hiện thanh toán:', error);
+				alert('Có lỗi xảy ra trong quá trình thanh toán. Vui lòng thử lại.');
+			});
+
+	}
+
+	// Payment MoMo
+	$scope.paymentByMoMo = function() {
+		const requestData = {
+			totalPrice: $scope.totalPrice,
+			username: $scope.username
+		};
+
+		if ($scope.totalPrice > 20000000) {
+			Swal.fire({
+				title: "Lỗi",
+				text: "Đơn hàng của bạn không được vượt quá 20,000,000đ",
+				icon: "warning"
+			});
+			return;
+		}
+
+		$http.post('/rest/carts/payMoMo', requestData)
+			.then(function(response) {
+				console.log('Dữ liệu phản hồi:', response.data);
+				if (response.data && response.data.payUrl) {
+					// Chuyển hướng người dùng đến MoMo thanh toán
+					window.location.href = response.data.payUrl;
 				} else {
 					alert('Không nhận được URL thanh toán. Vui lòng thử lại.');
 				}

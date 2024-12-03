@@ -6,6 +6,7 @@ import com.claz.models.Galary;
 import com.claz.models.Genre;
 import com.claz.models.GenreProduct;
 import com.claz.models.Order;
+import com.claz.models.OrderDetail;
 import com.claz.models.Product;
 import com.claz.models.Reply;
 import com.claz.models.Slide;
@@ -32,8 +33,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -77,13 +81,20 @@ public class HomeController {
 		if (session.getAttribute("searchProduct") == null) {
 			List<Product> prHot = productService.findByHot();
 			session.setAttribute("products", prHot);
+
 			List<Product> prBestSeller = productService.findByBestSeller(10);
 			session.setAttribute("productBestSellers", prBestSeller);
-			List<Product> pr2 = productService.findAll().stream().filter(e -> e.getCategory().getId() == 4).toList();
+
+			List<Product> pr2 = productService.findAll().stream()
+					.filter(e -> e.getCategory() != null && e.getCategory().getId() == 4).toList();
 			session.setAttribute("gamesteam", pr2);
-			List<Product> pr3 = productService.findAll().stream().filter(e -> e.getCategory().getId() == 2).toList();
+
+			List<Product> pr3 = productService.findAll().stream()
+					.filter(e -> e.getCategory() != null && e.getCategory().getId() == 2).toList();
 			session.setAttribute("lamviec", pr3);
-			List<Product> pr4 = productService.findAll().stream().filter(e -> e.getCategory().getId() == 3).toList();
+
+			List<Product> pr4 = productService.findAll().stream()
+					.filter(e -> e.getCategory() != null && e.getCategory().getId() == 3).toList();
 			session.setAttribute("hoctap", pr4);
 		}
 
@@ -240,7 +251,7 @@ public class HomeController {
 		return "index";
 	}
 
-	@RequestMapping("/account")
+	@RequestMapping("/profileAccount")
 	public String upaccount(HttpSession session, Model model) {
 		List<Category> cates = categoryService.findAll();
 		model.addAttribute("cates", cates);
@@ -248,7 +259,7 @@ public class HomeController {
 		return "index";
 	}
 
-	@RequestMapping("/password")
+	@RequestMapping("/profilePassword")
 	public String uppass(HttpSession session, Model model) {
 		List<Category> cates = categoryService.findAll();
 		model.addAttribute("cates", cates);
@@ -256,19 +267,39 @@ public class HomeController {
 		return "index";
 	}
 
-	@RequestMapping("/order")
+	@RequestMapping("/profileOrder")
 	public String donhang(HttpSession session, HttpServletRequest request, Model model) {
 		String username = request.getRemoteUser();
 		List<Category> cates = categoryService.findAll();
 		model.addAttribute("cates", cates);
 		List<Order> orders = orderService.findByUsername(username);
-		session.setAttribute("orders", orders);
+
+		List<Map<String, Object>> orderTotals = new ArrayList<>();
+		for (Order order : orders) {
+			List<OrderDetail> allOrderDetails = order.getOrderDetails();
+			double totalAmount = 0.0;
+			for (OrderDetail detail : allOrderDetails) {
+				double lineTotal = detail.getPrice() * detail.getQuantity() * (1 - detail.getDiscount() / 100);
+				totalAmount += lineTotal;
+			}
+			Map<String, Object> orderTotal = new HashMap<>();
+			orderTotal.put("id", order.getId());
+			orderTotal.put("status", order.getStatus());
+			orderTotal.put("paymentMethod", order.getPaymentMethod());
+			orderTotal.put("created_at", order.getCreated_at());
+			orderTotal.put("customer", order.getCustomer());
+			orderTotal.put("orderDetails", order.getOrderDetails());
+			orderTotal.put("amount", totalAmount);
+			orderTotals.add(orderTotal);
+		}
+
+		session.setAttribute("orders", orderTotals);
 		orders.sort(Comparator.comparing(Order::getCreated_at).reversed());
 		session.setAttribute("page", "/update_profile/order_profile");
 		return "index";
 	}
 
-	@RequestMapping("/filterOrder")
+	@GetMapping("/profileFilterOrder")
 	public String filterOrder(HttpSession session, HttpServletRequest request, Model model,
 			@RequestParam(required = false) Integer orderId, @RequestParam(required = false) Double amountFrom,
 			@RequestParam(required = false) Double amountTo,
@@ -285,39 +316,108 @@ public class HomeController {
 				|| toDateTime != null;
 
 		if (isFilterApplied) {
-			session.setAttribute("orders",
-					orderService.filterOrders(orderId, (amountFrom != null ? amountFrom * 100 : null),
-							(amountTo != null ? amountTo * 100 : null), fromDateTime, toDateTime, username));
+			List<Order> orders = orderService.filterOrders(orderId, (amountFrom != null ? amountFrom * 100 : null),
+					(amountTo != null ? amountTo * 100 : null), fromDateTime, toDateTime, username);
+
+			List<Map<String, Object>> orderTotals = new ArrayList<>();
+			for (Order order : orders) {
+				List<OrderDetail> allOrderDetails = order.getOrderDetails();
+				double totalAmount = 0.0;
+				for (OrderDetail detail : allOrderDetails) {
+					double lineTotal = detail.getPrice() * detail.getQuantity() * (1 - detail.getDiscount() / 100);
+					totalAmount += lineTotal;
+				}
+				Map<String, Object> orderTotal = new HashMap<>();
+				orderTotal.put("id", order.getId());
+				orderTotal.put("status", order.getStatus());
+				orderTotal.put("paymentMethod", order.getPaymentMethod());
+				orderTotal.put("created_at", order.getCreated_at());
+				orderTotal.put("customer", order.getCustomer());
+				orderTotal.put("orderDetails", order.getOrderDetails());
+				orderTotal.put("amount", totalAmount);
+				orderTotals.add(orderTotal);
+			}
+
+			session.setAttribute("orders", orderTotals);
 		} else {
-			session.setAttribute("orders", orderService.findByUsername(username));
+			List<Order> orders = orderService.findByUsername(username);
+
+			List<Map<String, Object>> orderTotals = new ArrayList<>();
+			for (Order order : orders) {
+				List<OrderDetail> allOrderDetails = order.getOrderDetails();
+				double totalAmount = 0.0;
+				for (OrderDetail detail : allOrderDetails) {
+					double lineTotal = detail.getPrice() * detail.getQuantity() * (1 - detail.getDiscount() / 100);
+					totalAmount += lineTotal;
+				}
+				Map<String, Object> orderTotal = new HashMap<>();
+				orderTotal.put("id", order.getId());
+				orderTotal.put("status", order.getStatus());
+				orderTotal.put("paymentMethod", order.getPaymentMethod());
+				orderTotal.put("created_at", order.getCreated_at());
+				orderTotal.put("customer", order.getCustomer());
+				orderTotal.put("orderDetails", order.getOrderDetails());
+				orderTotal.put("amount", totalAmount);
+				orderTotals.add(orderTotal);
+			}
+
+			session.setAttribute("orders", orderTotals);
 		}
 
 		session.setAttribute("page", "/update_profile/order_profile");
 		return "index";
 	}
 
-	@RequestMapping("/detail_profile")
+	@RequestMapping("/profileDetail")
 	public String detail_profile(HttpSession session, @RequestParam("id") int id, Model model) {
 		List<Category> cates = categoryService.findAll();
+		Order order = orderService.findById(id);
+		List<OrderDetail> orderDetails = order.getOrderDetails();
+		double totalAmount = 0.0;
+		for (OrderDetail detail : orderDetails) {
+			double lineTotal = detail.getPrice() * detail.getQuantity() * (1 - detail.getDiscount() / 100);
+			totalAmount += lineTotal;
+		}
+		model.addAttribute("totalAmount", totalAmount);
 		model.addAttribute("cates", cates);
 		session.setAttribute("order", orderService.findById(id));
 		session.setAttribute("page", "/update_profile/detail_profile");
 		return "index";
 	}
 
-	@RequestMapping("/payment")
+	@RequestMapping("/profilePayment")
 	public String giaodich(HttpSession session, HttpServletRequest request, Model model) {
 		List<Category> cates = categoryService.findAll();
 		model.addAttribute("cates", cates);
 		String username = request.getRemoteUser();
 		List<Order> orders = orderService.findByUsername(username);
-		session.setAttribute("orders", orders);
+
+		List<Map<String, Object>> orderTotals = new ArrayList<>();
+		for (Order order : orders) {
+			List<OrderDetail> allOrderDetails = order.getOrderDetails();
+			double totalAmount = 0.0;
+			for (OrderDetail detail : allOrderDetails) {
+				double lineTotal = detail.getPrice() * detail.getQuantity() * (1 - detail.getDiscount() / 100);
+				totalAmount += lineTotal;
+			}
+			Map<String, Object> orderTotal = new HashMap<>();
+			orderTotal.put("id", order.getId());
+			orderTotal.put("status", order.getStatus());
+			orderTotal.put("paymentMethod", order.getPaymentMethod());
+			orderTotal.put("created_at", order.getCreated_at());
+			orderTotal.put("customer", order.getCustomer());
+			orderTotal.put("orderDetails", order.getOrderDetails());
+			orderTotal.put("amount", totalAmount);
+			orderTotals.add(orderTotal);
+		}
+
+		session.setAttribute("orders", orderTotals);
 		orders.sort(Comparator.comparing(Order::getCreated_at).reversed());
 		session.setAttribute("page", "/update_profile/payment_profile");
 		return "index";
 	}
 
-	@RequestMapping("/filterPayment")
+	@GetMapping("/profileFilterPayment")
 	public String filterPayment(HttpSession session, HttpServletRequest request, Model model,
 			@RequestParam(required = false) String paymentMethod, @RequestParam(required = false) Double amountFrom,
 			@RequestParam(required = false) Double amountTo,
@@ -334,18 +434,60 @@ public class HomeController {
 				|| fromDateTime != null || toDateTime != null;
 
 		if (isFilterApplied) {
-			session.setAttribute("orders",
-					orderService.filterPayments(paymentMethod, (amountFrom != null ? amountFrom * 100 : null),
-							(amountTo != null ? amountTo * 100 : null), fromDateTime, toDateTime, username));
+			List<Order> orders = orderService.filterPayments(paymentMethod,
+					(amountFrom != null ? amountFrom * 100 : null), (amountTo != null ? amountTo * 100 : null),
+					fromDateTime, toDateTime, username);
+
+			List<Map<String, Object>> orderTotals = new ArrayList<>();
+			for (Order order : orders) {
+				List<OrderDetail> allOrderDetails = order.getOrderDetails();
+				double totalAmount = 0.0;
+				for (OrderDetail detail : allOrderDetails) {
+					double lineTotal = detail.getPrice() * detail.getQuantity() * (1 - detail.getDiscount() / 100);
+					totalAmount += lineTotal;
+				}
+				Map<String, Object> orderTotal = new HashMap<>();
+				orderTotal.put("id", order.getId());
+				orderTotal.put("status", order.getStatus());
+				orderTotal.put("paymentMethod", order.getPaymentMethod());
+				orderTotal.put("created_at", order.getCreated_at());
+				orderTotal.put("customer", order.getCustomer());
+				orderTotal.put("orderDetails", order.getOrderDetails());
+				orderTotal.put("amount", totalAmount);
+				orderTotals.add(orderTotal);
+			}
+
+			session.setAttribute("orders", orderTotals);
 		} else {
-			session.setAttribute("orders", orderService.findByUsername(username));
+			List<Order> orders = orderService.findByUsername(username);
+
+			List<Map<String, Object>> orderTotals = new ArrayList<>();
+			for (Order order : orders) {
+				List<OrderDetail> allOrderDetails = order.getOrderDetails();
+				double totalAmount = 0.0;
+				for (OrderDetail detail : allOrderDetails) {
+					double lineTotal = detail.getPrice() * detail.getQuantity() * (1 - detail.getDiscount() / 100);
+					totalAmount += lineTotal;
+				}
+				Map<String, Object> orderTotal = new HashMap<>();
+				orderTotal.put("id", order.getId());
+				orderTotal.put("status", order.getStatus());
+				orderTotal.put("paymentMethod", order.getPaymentMethod());
+				orderTotal.put("created_at", order.getCreated_at());
+				orderTotal.put("customer", order.getCustomer());
+				orderTotal.put("orderDetails", order.getOrderDetails());
+				orderTotal.put("amount", totalAmount);
+				orderTotals.add(orderTotal);
+			}
+
+			session.setAttribute("orders", orderTotals);
 		}
 
 		session.setAttribute("page", "/update_profile/payment_profile");
 		return "index";
 	}
 
-	@RequestMapping("/comment")
+	@RequestMapping("/profileComment")
 	public String binhluan(HttpSession session, HttpServletRequest request, Model model) {
 		String username = request.getRemoteUser();
 		List<Category> cates = categoryService.findAll();
@@ -360,7 +502,7 @@ public class HomeController {
 		return "index";
 	}
 
-	@RequestMapping("/filterComment")
+	@GetMapping("/profileFilterComment")
 	public String filterComment(HttpSession session, HttpServletRequest request, Model model,
 			@RequestParam(required = false) String content,
 			@RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fromDate,
