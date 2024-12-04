@@ -146,6 +146,7 @@ public class HomeController {
 		session.setAttribute("productsSteam", productsSteam);
 		session.setAttribute("productsStudy", productsStudy);
 		session.setAttribute("productsWork", productsWork);
+		model.addAttribute("items", productService.findAll());
 		model.addAttribute("isHome", true);
 		session.setAttribute("page", "component/home");
 		return "index";
@@ -173,6 +174,7 @@ public class HomeController {
 				itemName = itemName.substring(0, spaceIndex);
 			}
 		}
+		model.addAttribute("items", productService.findAll());
 		session.setAttribute("productDisplayCount", 8);
 		session.setAttribute("searchProduct", productService.findBySearch(itemName));
 		return "index";
@@ -218,7 +220,7 @@ public class HomeController {
 		session.setAttribute("cates", cates);
 		model.addAttribute("cates", cates);
 		session.setAttribute("genres", genres);
-
+		model.addAttribute("items", productService.findAll());
 		session.setAttribute("page", "search/search");
 		return "index";
 	}
@@ -227,6 +229,7 @@ public class HomeController {
 	public String cart(HttpSession session, Model model) {
 		List<Category> cates = categoryService.findAll();
 		model.addAttribute("cates", cates);
+		model.addAttribute("items", productService.findAll());
 		session.setAttribute("page", "/cart/cart-index");
 		return "index";
 	}
@@ -236,6 +239,7 @@ public class HomeController {
 		String username = request.getRemoteUser();
 		List<Category> cates = categoryService.findAll();
 		model.addAttribute("cates", cates);
+		model.addAttribute("items", productService.findAll());
 		session.setAttribute("customers", customerService.findByUsername(username));
 		session.setAttribute("page", "/cart/paymentSuccess");
 		return "index";
@@ -245,6 +249,7 @@ public class HomeController {
 	public String paymentFail(HttpSession session, Model model) {
 		List<Category> cates = categoryService.findAll();
 		model.addAttribute("cates", cates);
+		model.addAttribute("items", productService.findAll());
 		session.setAttribute("page", "/cart/paymentFail");
 		return "index";
 	}
@@ -279,6 +284,7 @@ public class HomeController {
 
 		session.setAttribute("cates", cates);
 		model.addAttribute("cates", cates);
+		model.addAttribute("items", productService.findAll());
 		session.setAttribute("genres", genres);
 		session.setAttribute("searchProdut", products);
 		model.addAttribute("title", "Danh Mục Sản Phẩm");
@@ -302,6 +308,7 @@ public class HomeController {
 			session.setAttribute("searchProdut", prHot);
 		}
 		model.addAttribute("title", "Sản Phẩm Nổi Bật");
+		model.addAttribute("items", productService.findAll());
 		session.setAttribute("page", "/category/category");
 		return "index";
 	}
@@ -322,6 +329,7 @@ public class HomeController {
 			session.setAttribute("searchProdut", prBestSeller);
 		}
 		model.addAttribute("title", "Sản Phẩm Bán Chạy Nhất");
+		model.addAttribute("items", productService.findAll());
 		session.setAttribute("page", "/category/category");
 		return "index";
 	}
@@ -342,6 +350,7 @@ public class HomeController {
 			session.setAttribute("searchProdut", prSale);
 		}
 		model.addAttribute("title", "Sản Phẩm Khuyến mãi");
+		model.addAttribute("items", productService.findAll());
 		session.setAttribute("page", "/category/category");
 		return "index";
 	}
@@ -350,6 +359,7 @@ public class HomeController {
 	public String upaccount(HttpSession session, Model model) {
 		List<Category> cates = categoryService.findAll();
 		model.addAttribute("cates", cates);
+		model.addAttribute("items", productService.findAll());
 		session.setAttribute("page", "/update_profile/account_profile");
 		return "index";
 	}
@@ -358,6 +368,7 @@ public class HomeController {
 	public String uppass(HttpSession session, Model model) {
 		List<Category> cates = categoryService.findAll();
 		model.addAttribute("cates", cates);
+		model.addAttribute("items", productService.findAll());
 		session.setAttribute("page", "/update_profile/password_profile");
 		return "index";
 	}
@@ -391,6 +402,7 @@ public class HomeController {
 		session.setAttribute("orders", orderTotals);
 		orders.sort(Comparator.comparing(Order::getCreated_at).reversed());
 		session.setAttribute("page", "/update_profile/order_profile");
+		model.addAttribute("items", productService.findAll());
 		return "index";
 	}
 
@@ -460,6 +472,7 @@ public class HomeController {
 		}
 
 		session.setAttribute("page", "/update_profile/order_profile");
+		model.addAttribute("items", productService.findAll());
 		return "index";
 	}
 
@@ -495,6 +508,7 @@ public class HomeController {
 		model.addAttribute("cates", cates);
 		session.setAttribute("order", order);
 		session.setAttribute("page", "/update_profile/detail_profile");
+		model.addAttribute("items", productService.findAll());
 		return "index";
 	}
 
@@ -527,6 +541,7 @@ public class HomeController {
 		session.setAttribute("orders", orderTotals);
 		orders.sort(Comparator.comparing(Order::getCreated_at).reversed());
 		session.setAttribute("page", "/update_profile/payment_profile");
+		model.addAttribute("items", productService.findAll());
 		return "index";
 	}
 
@@ -597,6 +612,7 @@ public class HomeController {
 		}
 
 		session.setAttribute("page", "/update_profile/payment_profile");
+		model.addAttribute("items", productService.findAll());
 		return "index";
 	}
 
@@ -612,6 +628,7 @@ public class HomeController {
 		comments.sort(Comparator.comparing(Comment::getCreated_at).reversed());
 		replies.sort(Comparator.comparing(Reply::getCreated_at).reversed());
 		session.setAttribute("page", "/update_profile/comment_profile");
+		model.addAttribute("items", productService.findAll());
 		return "index";
 	}
 
@@ -639,6 +656,7 @@ public class HomeController {
 		}
 
 		session.setAttribute("page", "/update_profile/comment_profile");
+		model.addAttribute("items", productService.findAll());
 		return "index";
 	}
 
