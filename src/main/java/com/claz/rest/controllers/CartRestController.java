@@ -3,20 +3,28 @@ package com.claz.rest.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import com.claz.VNPayConfig;
 import com.claz.jwt.EmailService;
 import com.claz.models.Cart;
+import com.claz.models.Category;
 import com.claz.models.Customer;
 import com.claz.models.Order;
 import com.claz.models.OrderDetail;
 import com.claz.models.Product;
+import com.claz.models.momo.PaymentResponse;
+import com.claz.models.momo.RequestType;
+import com.claz.momoConfig.CustomerEnvironment;
+import com.claz.serviceImpls.CreateOrderMoMo;
 import com.claz.services.CartService;
+import com.claz.services.CategoryService;
 import com.claz.services.CustomerService;
 import com.claz.services.OrderDetailService;
 import com.claz.services.OrderService;
 import com.claz.services.ProductService;
+import com.claz.utils.LogUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -62,6 +70,15 @@ public class CartRestController {
 	@Autowired
 	EmailService emailService;
 
+	@Autowired
+	private CustomerEnvironment environment;
+
+	@Autowired
+	private CreateOrderMoMo createOrderMoMo;
+
+	@Autowired
+	private CategoryService categoryService;
+
 	private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
 	// CRUD item in cart
@@ -106,79 +123,7 @@ public class CartRestController {
 		return ResponseEntity.ok(cart);
 	}
 
-	// Payment
-	@GetMapping("/vnpay-callback")
-	public ResponseEntity<Void> paymentCallback(HttpServletRequest request) {
-		String orderID = request.getParameter("vnp_TxnRef");
-		String amount = request.getParameter("vnp_Amount");
-		String status = request.getParameter("vnp_ResponseCode");
-
-		HttpSession session = request.getSession();
-		String username = (String) session.getAttribute("username");
-
-		if (status.equals("00")) {
-			List<Cart> cartList = cartService.getAllItemInCart(username);
-			Order order = orderService.createOrder(Integer.valueOf(orderID), "Đã xử lý", "Chuyển khoản bằng VNPay",
-					Double.valueOf(amount), customerService.findByUsername(username));
-
-			cartList.forEach(cart -> {
-				Random random = new Random();
-				int idOrderDeatail = 100000 + random.nextInt(900000);
-
-				Random randomKey = new Random();
-				StringBuilder sb = new StringBuilder();
-
-				for (int i = 0; i < 3; i++) {
-					for (int j = 0; j < 5; j++) {
-						sb.append(CHARACTERS.charAt(randomKey.nextInt(CHARACTERS.length())));
-					}
-					if (i < 2)
-						sb.append('-');
-				}
-
-				OrderDetail orderDetail = new OrderDetail();
-				orderDetail.setId(idOrderDeatail);
-				orderDetail.setPrice(cart.getPrice());
-				orderDetail.setQuantity(cart.getQuantity());
-				orderDetail.setDiscount(cart.getDiscount());
-				orderDetail.setKeyProduct(sb.toString());
-
-				Product product = productService.findById(cart.getProductID()).get();
-
-				orderDetail.setProduct(product);
-				orderDetail.setOrder(order);
-				orderDetailService.createOrderDetail(orderDetail);
-
-				int newQuantity = product.getQuantity() - cart.getQuantity();
-				if (newQuantity >= 0) {
-					System.out.println(product.getQuantity());
-					product.setQuantity(newQuantity);
-					product.setPurchases(product.getPurchases() + cart.getQuantity());
-					productService.update(product);
-				} else {
-					throw new IllegalArgumentException(product.getName());
-				}
-
-				// send mail
-				Customer customer = customerService.findByUsername(username);
-				sendConfirmationEmail(customer.getEmail(), orderID, customer.getFullname(), order.getCreated_at(),
-						customer.getPhone(), order.getStatus(), orderDetail.getProduct().getImage(),
-						orderDetail.getProduct().getName(), orderDetail.getKeyProduct(), orderDetail.getPrice(),
-						orderDetail.getQuantity(), orderDetail.getDiscount(), order.getAmount());
-			});
-
-			session.setAttribute("hasRated", false);
-			Map<String, Object> response = new HashMap<>();
-			response.put("hasRated", false);
-
-			cartService.deleteAllItemInCart();
-
-			return ResponseEntity.status(302).header("Location", "/paymentSuccess").build();
-		} else {
-			return ResponseEntity.status(302).header("Location", "/paymentFail").build();
-		}
-	}
-
+	// Payment VNPay
 	@PostMapping("/pay")
 	public ResponseEntity<String> getPay(@RequestBody Map<String, Object> requestData, HttpServletRequest request)
 			throws UnsupportedEncodingException {
@@ -256,15 +201,166 @@ public class CartRestController {
 		return ResponseEntity.ok().contentType(MediaType.TEXT_PLAIN).body(paymentUrl);
 	}
 
-	@GetMapping("/checkHasRated")
-	public ResponseEntity<Boolean> checkHasRated(HttpSession session) {
-		Boolean hasRated = (Boolean) session.getAttribute("hasRated");
-		if (hasRated == null) {
-			hasRated = false;
+	@GetMapping("/vnpay-callback")
+	public ResponseEntity<Void> paymentCallback(HttpServletRequest request) {
+		String orderID = request.getParameter("vnp_TxnRef");
+		String amount = request.getParameter("vnp_Amount");
+		String status = request.getParameter("vnp_ResponseCode");
+
+		HttpSession session = request.getSession();
+		String username = (String) session.getAttribute("username");
+
+		if (status.equals("00")) {
+			List<Cart> cartList = cartService.getAllItemInCart(username);
+			Order order = orderService.createOrder(Integer.valueOf(orderID), "Đã xử lý", "Chuyển khoản bằng VNPay",
+					Double.valueOf(amount), customerService.findByUsername(username));
+
+			cartList.forEach(cart -> {
+				Random random = new Random();
+				int idOrderDeatail = 100000 + random.nextInt(900000);
+
+				Random randomKey = new Random();
+				StringBuilder sb = new StringBuilder();
+
+				for (int i = 0; i < 3; i++) {
+					for (int j = 0; j < 5; j++) {
+						sb.append(CHARACTERS.charAt(randomKey.nextInt(CHARACTERS.length())));
+					}
+					if (i < 2)
+						sb.append('-');
+				}
+
+				OrderDetail orderDetail = new OrderDetail();
+				orderDetail.setId(idOrderDeatail);
+				orderDetail.setPrice(cart.getPrice());
+				orderDetail.setQuantity(cart.getQuantity());
+				orderDetail.setDiscount(cart.getDiscount());
+				orderDetail.setKeyProduct(sb.toString());
+
+				Product product = productService.findById(cart.getProductID()).get();
+
+				orderDetail.setProduct(product);
+				orderDetail.setOrder(order);
+				orderDetailService.createOrderDetail(orderDetail);
+
+				int newQuantity = product.getQuantity() - cart.getQuantity();
+				if (newQuantity >= 0) {
+					System.out.println(product.getQuantity());
+					product.setQuantity(newQuantity);
+					product.setPurchases(product.getPurchases() + cart.getQuantity());
+					productService.update(product);
+				} else {
+					throw new IllegalArgumentException(product.getName());
+				}
+
+				// send mail
+				Customer customer = customerService.findByUsername(username);
+				sendConfirmationEmail(customer.getEmail(), orderID, customer.getFullname(), order.getCreated_at(),
+						customer.getPhone(), order.getStatus(), orderDetail.getProduct().getImage(),
+						orderDetail.getProduct().getName(), orderDetail.getKeyProduct(), orderDetail.getPrice(),
+						orderDetail.getQuantity(), orderDetail.getDiscount(), order.getAmount());
+			});
+
+			cartService.deleteAllItemInCart();
+
+			return ResponseEntity.status(302).header("Location", "/paymentSuccess").build();
+		} else {
+			return ResponseEntity.status(302).header("Location", "/paymentFail").build();
 		}
-		return ResponseEntity.ok(hasRated);
 	}
 
+	// Payment MoMo
+	@PostMapping("/payMoMo")
+	public PaymentResponse paymentMoMo(@RequestBody Map<String, Object> requestData, HttpServletRequest request)
+			throws Exception {
+		HttpSession session = request.getSession();
+		String username = (String) requestData.get("username");
+		session.setAttribute("username", username);
+		LogUtils.init();
+		String requestId = String.valueOf(System.currentTimeMillis());
+		String orderId = VNPayConfig.getRandomNumber(6);
+		Long transId = 2L;
+		double totalPrice = Double.valueOf(requestData.get("totalPrice").toString());
+		long amount = (long) (totalPrice * 100);
+		String partnerClientId = "partnerClientId";
+		String orderInfo = "Pay With MoMo";
+		String returnUrl = "http://localhost:8080/rest/carts/paymentMoMoSuccess";
+		String notifyURL = "http://google.com.vn";
+		CustomerEnvironment environment = CustomerEnvironment.selectEnv("dev");
+		PaymentResponse captureWalletMoMoResponse = createOrderMoMo.process(environment, orderId, requestId,
+				Long.toString(amount / 100), orderInfo, returnUrl, notifyURL, "", RequestType.PAY_WITH_ATM,
+				Boolean.TRUE);
+		return captureWalletMoMoResponse;
+	}
+
+	@GetMapping("/paymentMoMoSuccess")
+	public ResponseEntity<Void> paymentMoMoSuccess(@RequestParam("orderId") String orderId,
+			@RequestParam("amount") String amount, @RequestParam("resultCode") String resultCode,
+			@RequestParam("message") String message, @RequestParam("transId") String transId,
+			HttpServletRequest request, Model model) {
+		HttpSession session = request.getSession();
+		String username = (String) session.getAttribute("username");
+		if ("0".equals(resultCode)) { // Nếu resultCode == 0 thì thanh toán thành công
+
+			List<Cart> cartList = cartService.getAllItemInCart(username);
+			Order order = orderService.createOrder(Integer.valueOf(orderId), "Đã xử lý", "Chuyển khoản bằng MoMo",
+					Double.valueOf(amount) * 100, customerService.findByUsername(username));
+
+			cartList.forEach(cart -> {
+				Random random = new Random();
+				int idOrderDeatail = 100000 + random.nextInt(900000);
+
+				Random randomKey = new Random();
+				StringBuilder sb = new StringBuilder();
+
+				for (int i = 0; i < 3; i++) {
+					for (int j = 0; j < 5; j++) {
+						sb.append(CHARACTERS.charAt(randomKey.nextInt(CHARACTERS.length())));
+					}
+					if (i < 2)
+						sb.append('-');
+				}
+
+				OrderDetail orderDetail = new OrderDetail();
+				orderDetail.setId(idOrderDeatail);
+				orderDetail.setPrice(cart.getPrice());
+				orderDetail.setQuantity(cart.getQuantity());
+				orderDetail.setDiscount(cart.getDiscount());
+				orderDetail.setKeyProduct(sb.toString());
+
+				Product product = productService.findById(cart.getProductID()).get();
+
+				orderDetail.setProduct(product);
+				orderDetail.setOrder(order);
+				orderDetailService.createOrderDetail(orderDetail);
+
+				int newQuantity = product.getQuantity() - cart.getQuantity();
+				if (newQuantity >= 0) {
+					System.out.println(product.getQuantity());
+					product.setQuantity(newQuantity);
+					product.setPurchases(product.getPurchases() + cart.getQuantity());
+					productService.update(product);
+				} else {
+					throw new IllegalArgumentException(product.getName());
+				}
+
+				// send mail
+				Customer customer = customerService.findByUsername(username);
+				sendConfirmationEmail(customer.getEmail(), orderId, customer.getFullname(), order.getCreated_at(),
+						customer.getPhone(), order.getStatus(), orderDetail.getProduct().getImage(),
+						orderDetail.getProduct().getName(), orderDetail.getKeyProduct(), orderDetail.getPrice(),
+						orderDetail.getQuantity(), orderDetail.getDiscount(), order.getAmount());
+			});
+
+			cartService.deleteAllItemInCart();
+
+			return ResponseEntity.status(302).header("Location", "/paymentSuccess").build();
+		} else {
+			return ResponseEntity.status(302).header("Location", "/paymentFail").build();
+		}
+	}
+
+	// gửi mail khi thanh toán xong
 	private void sendConfirmationEmail(String email, String orderID, String fullname, LocalDateTime created_at,
 			String phone, String status, String image, String nameProduct, String keyProduct, double price,
 			int quantity, double discount, double amount) {
@@ -272,7 +368,11 @@ public class CartRestController {
 
 			NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-			// Prepare the email content
+
+			double totalAmount = 0.0;
+			double lineTotal = Math.ceil(price * (1 - discount / 100) / 5000) * 5000;
+			totalAmount += lineTotal * quantity;
+
 			String subject = "CLAZ Shop - Đơn hàng mới " + orderID;
 			String body = "<html>" + "<head><title>Xác nhận đơn hàng</title></head>"
 					+ "<body style=\"font-family: Arial, sans-serif; margin: 0; padding: 0;\">\r\n"
@@ -318,9 +418,9 @@ public class CartRestController {
 					+ quantity + "</p>\r\n" + "                </div>\r\n"
 					+ "                <div style=\"text-align: start; flex: 0 0 auto; min-width: 120px; margin-left: 10px;\">\r\n"
 					+ "                    <span style=\"font-weight: bold; font-size: 18px;\">"
-					+ currencyFormat.format((price * (1 - discount / 100)) * quantity) + "</span><br>\r\n"
+					+ currencyFormat.format(totalAmount) + "</span><br>\r\n"
 					+ "                    <span style=\"font-size: 18px; color: #878787;\">Đơn giá: "
-					+ currencyFormat.format(price * (1 - discount / 100)) + "</span>\r\n" + "                </div>\r\n"
+					+ currencyFormat.format(lineTotal) + "</span>\r\n" + "                </div>\r\n"
 					+ "            </div>\r\n" + "\r\n" + "            <hr>\r\n"
 					+ "            <div style=\"text-align: end;\">\r\n"
 					+ "                <p style=\"font-size: 18px;\">Tổng giá trị sản phẩm: <strong style=\"font-size: 18px;\">"

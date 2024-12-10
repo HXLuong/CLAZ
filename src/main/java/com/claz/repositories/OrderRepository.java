@@ -13,6 +13,7 @@ import com.claz.models.Order;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Repository
@@ -61,4 +62,18 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 
 	@Query("SELECT o FROM Order o ORDER BY o.created_at DESC")
 	Page<Order> findAllOrdersSorted(Pageable pageable);
+
+	@Query("SELECT new map(od.product.id as id, od.product.Name as product, COUNT(od) as totalRevenue) "
+			+ "FROM OrderDetail od WHERE YEAR(od.order.created_at) = :year "
+			+ "AND (:month IS NULL OR MONTH(od.order.created_at) = :month) "
+			+ "GROUP BY od.product.id, od.product.Name")
+	List<Map<String, Object>> getProductRevenue(@Param("year") int year, @Param("month") Integer month);
+
+	@Query("SELECT MONTH(o.created_at) as month, SUM(o.amount / 100) as totalRevenue "
+			+ "FROM Order o WHERE YEAR(o.created_at) = :year GROUP BY MONTH(o.created_at)")
+	List<Map<String, Object>> getMonthlyRevenueByYear(@Param("year") int year);
+
+	@Query("SELECT od.product.id, COUNT(od) " + "FROM Order o " + "JOIN o.orderDetails od "
+			+ "WHERE o.customer.username = :username " + "GROUP BY od.product.id")
+	List<Object[]> findProductCountByUsername(@Param("username") String username);
 }

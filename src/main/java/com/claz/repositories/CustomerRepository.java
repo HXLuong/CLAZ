@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.claz.models.Customer;
@@ -26,7 +27,7 @@ public interface CustomerRepository extends JpaRepository<Customer, String> {
 
 	long count();
 
-	@Query("SELECT MONTH(c.created_at) AS month, COUNT(c) AS total FROM Customer c WHERE YEAR(c.created_at) = 2024 GROUP BY month ORDER BY month")
-	List<Map<String, Object>> getMonthlyUserRegistrations();
+	@Query("SELECT MONTH(c.created_at) AS month, COUNT(c) AS total FROM Customer c WHERE YEAR(c.created_at) = :year GROUP BY month ORDER BY month")
+	List<Map<String, Object>> getMonthlyUserRegistrations(@Param("year") int year);
 
 }

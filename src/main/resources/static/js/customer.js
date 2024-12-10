@@ -39,7 +39,7 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 	};
 
 	$scope.isValidPassword = function(password) {
-		const passwordRegex = /^(?=.*[\d!@#$%^&*()_+{}\[\]:;"'<>,.?/-])[A-Za-z\d!@#$%^&*()_+{}\[\]:;"'<>,.?/-]{8,}$/;
+		const passwordRegex = /[^a-zA-Z0-9]/;
 		return passwordRegex.test(password);
 	};
 
@@ -76,7 +76,7 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 			});
 			return;
 		}
-		if (!$scope.form.password || !$scope.isValidPassword($scope.form.password)) {
+		if (!$scope.form.password || $scope.form.password.length < 8 || !$scope.isValidPassword($scope.form.password)) {
 			Swal.fire({
 				title: "Lỗi",
 				text: "Mật khẩu phải có ít nhất 8 ký tự, bao gồm ít nhất 1 số hoặc 1 ký tự đặc biệt.",
@@ -206,7 +206,7 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 		}
 	};
 	$scope.updateAccountPass = function() {
-		if (!$scope.form.password || !$scope.isValidPassword($scope.form.password)) {
+		if (!$scope.form.password || $scope.form.password.length < 8 || !$scope.isValidPassword($scope.form.password)) {
 			Swal.fire({
 				title: "Lỗi",
 				text: "Mật khẩu phải có ít nhất 8 ký tự, bao gồm ít nhất 1 số hoặc 1 ký tự đặc biệt.",
@@ -357,10 +357,10 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 	};
 
 	$scope.resetPassword = function() {
-		if (!$scope.form.password || $scope.form.password.length < 6) {
+		if (!$scope.form.password || $scope.form.password.length < 8 || !$scope.isValidPassword($scope.form.password)) {
 			Swal.fire({
 				title: "Lỗi",
-				text: "Mật khẩu mới phải có ít nhất 6 ký tự.",
+				text: "Mật khẩu phải có ít nhất 8 ký tự, bao gồm ít nhất 1 số hoặc 1 ký tự đặc biệt.",
 				icon: "error"
 			});
 			return;
@@ -421,6 +421,11 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 			});
 		});
 	}
+
+	// làm tròn giá bán
+	$scope.roundPriceCart = function(value) {
+		return Math.ceil(value / 5000) * 5000;
+	};
 
 	$scope.loadProducts = function() {
 		$http.get('/rest/products').then(resp => {
@@ -585,7 +590,7 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 		const product = $scope.products.find(p => p.id === item.productID);
 
 		if (product && item.quantity > product.quantity) {
-			item.quantity = product.quantity; 
+			item.quantity = product.quantity;
 			Swal.fire({
 				icon: "warning",
 				title: "Số lượng vượt quá số lượng có sẵn",
@@ -596,16 +601,20 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 		$scope.caculateTotal();
 	};
 
-
-
 	$scope.caculateTotal = function() {
 		$scope.totalPrice = 0;
 		$scope.totalQuantity = 0;
+
 		for (let i = 0; i < $scope.listItem.length; i++) {
-			$scope.totalPrice += $scope.listItem[i].price * (1 - $scope.listItem[i].discount / 100) * $scope.listItem[i].quantity;
+			// Lấy giá đã làm tròn
+			let roundedPrice = $scope.roundPriceCart($scope.listItem[i].price * (1 - $scope.listItem[i].discount / 100));
+
+			// Tính tổng giá trị đã làm tròn
+			$scope.totalPrice += roundedPrice * $scope.listItem[i].quantity;
 			$scope.totalQuantity += $scope.listItem[i].quantity;
 		}
-	}
+	};
+
 
 
 	// Comment
@@ -916,8 +925,9 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 
 	// Rating
 	$scope.ratingValue = 0;
-	$scope.hasRated = true;
+	$scope.hasRated = false;
 	$scope.canRateAgain = false;
+
 	$scope.canRate = false;
 
 	$scope.checkPurchaseStatus = function(callback) {
@@ -936,8 +946,8 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 		}).then(function(response) {
 			console.log("Check If Rated Response: ", response.data);
 
+			$scope.hasRated = response.data.hasRated;
 			$scope.canRateAgain = response.data.canRateAgain;
-
 			if (!$scope.hasRated) {
 				$scope.checkPurchaseStatus();
 			}
@@ -945,25 +955,9 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 			console.error('Error checking if rated:', err);
 		});
 	};
-
-
 	$scope.setRating = function(value) {
 		$scope.ratingValue = value;
 	};
-
-	$scope.checkHasRated = function() {
-		$http.get('/rest/carts/checkHasRated')
-			.then(function(response) {
-				console.log("Has Rated Status: ", response.data);
-				$scope.hasRated = response.data;
-			})
-			.catch(function(error) {
-				console.error('Error fetching hasRated status:', error);
-			});
-	};
-
-	$scope.checkHasRated();
-
 	$scope.addRating = function(productId) {
 		$scope.checkPurchaseStatus(() => {
 			if ($scope.ratingValue <= 0) {
@@ -974,36 +968,25 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 				});
 				return;
 			}
-
 			const ratingDTO = {
 				id: $scope.generateRandomId(6),
 				productId: productId,
 				numberStars: $scope.ratingValue,
 				username: $scope.username
 			};
-
 			$http.post('/ratings/add', ratingDTO)
 				.then(resp => {
-					if (resp.data && resp.data.hasRated !== undefined) {
-						Swal.fire({
-							icon: "success",
-							title: "Thành công",
-							text: "Đánh giá đã thành công.",
-						});
-						$scope.hasRated = resp.data.hasRated;
-						console.log("Has Rated: ", $scope.hasRated);
-
-						$scope.loadRating();
-						$scope.ratingValue = 0;
-					} else {
-						Swal.fire({
-							icon: "error",
-							title: "Lỗi",
-							text: "Không thể nhận diện phản hồi từ server.",
-						});
-					}
+					Swal.fire({
+						icon: "success",
+						title: "Thành công",
+						text: "Đánh giá sản phẩm thành công.",
+					});
+					$scope.loadRating();
+					$scope.checkIfRated();
+					$scope.ratingValue = 0;
 				})
 				.catch(err => {
+					console.error('Lỗi khi thêm đánh giá:', err);
 					Swal.fire({
 						icon: "error",
 						title: "Lỗi",
@@ -1012,7 +995,6 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 				});
 		});
 	};
-
 	$scope.rating = [];
 	$scope.loadRating = function() {
 		$http.get(`/ratings/rating`)
@@ -1021,14 +1003,12 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 				$scope.calculateTotalAndAverageRatings();
 			});
 	};
-
 	$scope.calculateTotalAndAverageRatings = function() {
 		if ($scope.rating.length === 0) {
 			$scope.totalRatings = 0;
 			$scope.averageRating = 0;
 			return;
 		}
-
 		let total = 0;
 		$scope.rating.forEach(function(rating) {
 			total += rating.number_Stars;
@@ -1036,7 +1016,6 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 		$scope.totalRatings = $scope.rating.length;
 		$scope.averageRating = (total / $scope.rating.length).toFixed(1);
 	};
-
 	$scope.loadRating();
 
 	// Payment VNPay
@@ -1053,6 +1032,13 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 				icon: "warning"
 			});
 			return;
+		} else if ($scope.totalPrice <= 0) {
+			Swal.fire({
+				title: "Lỗi",
+				text: "Đơn hàng của bạn không được ở mức 0đ",
+				icon: "warning"
+			});
+			return;
 		}
 
 		$http.post('/rest/carts/pay', requestData)
@@ -1060,6 +1046,46 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 				console.log('Dữ liệu phản hồi:', response.data);
 				if (response.data) {
 					window.location.href = response.data;
+				} else {
+					alert('Không nhận được URL thanh toán. Vui lòng thử lại.');
+				}
+			})
+			.catch(function(error) {
+				console.error('Lỗi khi thực hiện thanh toán:', error);
+				alert('Có lỗi xảy ra trong quá trình thanh toán. Vui lòng thử lại.');
+			});
+
+	}
+
+	// Payment MoMo
+	$scope.paymentByMoMo = function() {
+		const requestData = {
+			totalPrice: $scope.totalPrice,
+			username: $scope.username
+		};
+
+		if ($scope.totalPrice > 20000000) {
+			Swal.fire({
+				title: "Lỗi",
+				text: "Đơn hàng của bạn không được vượt quá 20,000,000đ",
+				icon: "warning"
+			});
+			return;
+		} else if ($scope.totalPrice <= 0) {
+			Swal.fire({
+				title: "Lỗi",
+				text: "Đơn hàng của bạn không được ở mức 0đ",
+				icon: "warning"
+			});
+			return;
+		}
+
+		$http.post('/rest/carts/payMoMo', requestData)
+			.then(function(response) {
+				console.log('Dữ liệu phản hồi:', response.data);
+				if (response.data && response.data.payUrl) {
+					// Chuyển hướng người dùng đến MoMo thanh toán
+					window.location.href = response.data.payUrl;
 				} else {
 					alert('Không nhận được URL thanh toán. Vui lòng thử lại.');
 				}

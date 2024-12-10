@@ -6,6 +6,7 @@ import com.claz.models.Galary;
 import com.claz.models.Genre;
 import com.claz.models.GenreProduct;
 import com.claz.models.Order;
+import com.claz.models.OrderDetail;
 import com.claz.models.Product;
 import com.claz.models.Reply;
 import com.claz.models.Slide;
@@ -32,8 +33,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -74,17 +78,61 @@ public class HomeController {
 	public String index(HttpSession session, Model model, @RequestParam(defaultValue = "8") int productsMore,
 			@RequestParam(defaultValue = "8") int productsBest, @RequestParam(defaultValue = "8") int productsSteam,
 			@RequestParam(defaultValue = "8") int productsStudy, @RequestParam(defaultValue = "8") int productsWork) {
-		if (session.getAttribute("searchProduct") == null) {
-			List<Product> prHot = productService.findByHot();
+		// sản phẩm nổi bật
+		List<Product> prHot = productService.findByHot();
+		if (prHot != null) {
+			List<Double> prHotPrices = new ArrayList<>();
+			for (Product product : prHot) {
+				double prHotPrice = Math.ceil(product.getPrice() * (1 - product.getDiscount() / 100) / 5000) * 5000;
+				prHotPrices.add(prHotPrice);
+			}
+			model.addAttribute("prHotPrices", prHotPrices);
 			session.setAttribute("products", prHot);
-			List<Product> prBestSeller = productService.findByBestSeller(10);
+		}
+		// sản phẩm bán chạy
+		List<Product> prBestSeller = productService.findByBestSeller(10);
+		if (prBestSeller != null) {
+			List<Double> prBestSellerPrices = new ArrayList<>();
+			for (Product product : prBestSeller) {
+				double prBestSellerPrice = Math.ceil(product.getPrice() * (1 - product.getDiscount() / 100) / 5000)
+						* 5000;
+				prBestSellerPrices.add(prBestSellerPrice);
+			}
+			model.addAttribute("prBestSellerPrices", prBestSellerPrices);
 			session.setAttribute("productBestSellers", prBestSeller);
-			List<Product> pr2 = productService.findAll().stream().filter(e -> e.getCategory().getId() == 4).toList();
+		}
+		// game trên steam
+		List<Product> pr2 = productService.findAll().stream().filter(e -> e.getCategory().getId() == 4).toList();
+		if (pr2 != null) {
+			List<Double> pr2Prices = new ArrayList<>();
+			for (Product product : pr2) {
+				double pr2Price = Math.ceil(product.getPrice() * (1 - product.getDiscount() / 100) / 5000) * 5000;
+				pr2Prices.add(pr2Price);
+			}
+			model.addAttribute("pr2Prices", pr2Prices);
 			session.setAttribute("gamesteam", pr2);
-			List<Product> pr3 = productService.findAll().stream().filter(e -> e.getCategory().getId() == 2).toList();
-			session.setAttribute("lamviec", pr3);
-			List<Product> pr4 = productService.findAll().stream().filter(e -> e.getCategory().getId() == 3).toList();
+		}
+		// học tập
+		List<Product> pr4 = productService.findAll().stream().filter(e -> e.getCategory().getId() == 3).toList();
+		if (pr4 != null) {
+			List<Double> pr4Prices = new ArrayList<>();
+			for (Product product : pr4) {
+				double pr4Price = Math.ceil(product.getPrice() * (1 - product.getDiscount() / 100) / 5000) * 5000;
+				pr4Prices.add(pr4Price);
+			}
+			model.addAttribute("pr4Prices", pr4Prices);
 			session.setAttribute("hoctap", pr4);
+		}
+		// làm việc
+		List<Product> pr3 = productService.findAll().stream().filter(e -> e.getCategory().getId() == 2).toList();
+		if (pr3 != null) {
+			List<Double> pr3Prices = new ArrayList<>();
+			for (Product product : pr3) {
+				double pr3Price = Math.ceil(product.getPrice() * (1 - product.getDiscount() / 100) / 5000) * 5000;
+				pr3Prices.add(pr3Price);
+			}
+			model.addAttribute("pr3Prices", pr3Prices);
+			session.setAttribute("lamviec", pr3);
 		}
 
 		List<Category> cate = categoryService.findAll();
@@ -98,6 +146,7 @@ public class HomeController {
 		session.setAttribute("productsSteam", productsSteam);
 		session.setAttribute("productsStudy", productsStudy);
 		session.setAttribute("productsWork", productsWork);
+		model.addAttribute("items", productService.findAll());
 		model.addAttribute("isHome", true);
 		session.setAttribute("page", "component/home");
 		return "index";
@@ -109,6 +158,8 @@ public class HomeController {
 		List<GenreProduct> genreProducts = genreProductService.findAllByproductId(id);
 		List<Galary> galaries = galaryService.findAllByproductId(id);
 		List<Category> cate = categoryService.findAll();
+		double discountedPrice = Math.ceil(item.getPrice() * (1 - item.getDiscount() / 100) / 5000) * 5000;
+		model.addAttribute("discountedPrice", discountedPrice);
 		model.addAttribute("cates", cate);
 		session.setAttribute("genreProducts", genreProducts);
 		session.setAttribute("galaries", galaries);
@@ -123,6 +174,7 @@ public class HomeController {
 				itemName = itemName.substring(0, spaceIndex);
 			}
 		}
+		model.addAttribute("items", productService.findAll());
 		session.setAttribute("productDisplayCount", 8);
 		session.setAttribute("searchProduct", productService.findBySearch(itemName));
 		return "index";
@@ -138,10 +190,29 @@ public class HomeController {
 		}
 
 		if (!search.isEmpty()) {
-			session.setAttribute("searchProduct", productService.findBySearch(search));
+			List<Product> searchProduct = productService.findBySearch(search);
+			if (searchProduct != null) {
+				List<Double> searchProductPrices = new ArrayList<>();
+				for (Product product : searchProduct) {
+					double searchProductPrice = Math.ceil(product.getPrice() * (1 - product.getDiscount() / 100) / 5000)
+							* 5000;
+					searchProductPrices.add(searchProductPrice);
+				}
+				model.addAttribute("searchProductPrices", searchProductPrices);
+				session.setAttribute("searchProduct", searchProduct);
+			}
 		} else {
 			List<Product> products = productService.findProducts(categoryId, genreId, minPrice, maxPrice, sort);
-			session.setAttribute("searchProduct", products);
+			if (products != null) {
+				List<Double> searchProductPrices = new ArrayList<>();
+				for (Product product : products) {
+					double searchProductPrice = Math.ceil(product.getPrice() * (1 - product.getDiscount() / 100) / 5000)
+							* 5000;
+					searchProductPrices.add(searchProductPrice);
+				}
+				model.addAttribute("searchProductPrices", searchProductPrices);
+				session.setAttribute("searchProduct", products);
+			}
 		}
 		List<Genre> genres = genreService.findAll();
 		List<Category> cates = categoryService.findAll();
@@ -149,7 +220,7 @@ public class HomeController {
 		session.setAttribute("cates", cates);
 		model.addAttribute("cates", cates);
 		session.setAttribute("genres", genres);
-
+		model.addAttribute("items", productService.findAll());
 		session.setAttribute("page", "search/search");
 		return "index";
 	}
@@ -158,6 +229,7 @@ public class HomeController {
 	public String cart(HttpSession session, Model model) {
 		List<Category> cates = categoryService.findAll();
 		model.addAttribute("cates", cates);
+		model.addAttribute("items", productService.findAll());
 		session.setAttribute("page", "/cart/cart-index");
 		return "index";
 	}
@@ -167,6 +239,7 @@ public class HomeController {
 		String username = request.getRemoteUser();
 		List<Category> cates = categoryService.findAll();
 		model.addAttribute("cates", cates);
+		model.addAttribute("items", productService.findAll());
 		session.setAttribute("customers", customerService.findByUsername(username));
 		session.setAttribute("page", "/cart/paymentSuccess");
 		return "index";
@@ -176,6 +249,7 @@ public class HomeController {
 	public String paymentFail(HttpSession session, Model model) {
 		List<Category> cates = categoryService.findAll();
 		model.addAttribute("cates", cates);
+		model.addAttribute("items", productService.findAll());
 		session.setAttribute("page", "/cart/paymentFail");
 		return "index";
 	}
@@ -198,8 +272,19 @@ public class HomeController {
 		List<Genre> genres = genreService.findAll();
 		List<Category> cates = categoryService.findAll();
 
+		if (products != null) {
+			List<Double> searchProductPrices = new ArrayList<>();
+			for (Product product : products) {
+				double searchProductPrice = Math.ceil(product.getPrice() * (1 - product.getDiscount() / 100) / 5000)
+						* 5000;
+				searchProductPrices.add(searchProductPrice);
+			}
+			model.addAttribute("searchProductPrices", searchProductPrices);
+		}
+
 		session.setAttribute("cates", cates);
 		model.addAttribute("cates", cates);
+		model.addAttribute("items", productService.findAll());
 		session.setAttribute("genres", genres);
 		session.setAttribute("searchProdut", products);
 		model.addAttribute("title", "Danh Mục Sản Phẩm");
@@ -212,8 +297,18 @@ public class HomeController {
 		List<Category> cates = categoryService.findAll();
 		model.addAttribute("cates", cates);
 		List<Product> prHot = productService.findByHot();
-		session.setAttribute("searchProdut", prHot);
+		if (prHot != null) {
+			List<Double> searchProductPrices = new ArrayList<>();
+			for (Product product : prHot) {
+				double searchProductPrice = Math.ceil(product.getPrice() * (1 - product.getDiscount() / 100) / 5000)
+						* 5000;
+				searchProductPrices.add(searchProductPrice);
+			}
+			model.addAttribute("searchProductPrices", searchProductPrices);
+			session.setAttribute("searchProdut", prHot);
+		}
 		model.addAttribute("title", "Sản Phẩm Nổi Bật");
+		model.addAttribute("items", productService.findAll());
 		session.setAttribute("page", "/category/category");
 		return "index";
 	}
@@ -223,8 +318,18 @@ public class HomeController {
 		List<Category> cates = categoryService.findAll();
 		model.addAttribute("cates", cates);
 		List<Product> prBestSeller = productService.findByBestSeller(10);
-		session.setAttribute("searchProdut", prBestSeller);
+		if (prBestSeller != null) {
+			List<Double> searchProductPrices = new ArrayList<>();
+			for (Product product : prBestSeller) {
+				double searchProductPrice = Math.ceil(product.getPrice() * (1 - product.getDiscount() / 100) / 5000)
+						* 5000;
+				searchProductPrices.add(searchProductPrice);
+			}
+			model.addAttribute("searchProductPrices", searchProductPrices);
+			session.setAttribute("searchProdut", prBestSeller);
+		}
 		model.addAttribute("title", "Sản Phẩm Bán Chạy Nhất");
+		model.addAttribute("items", productService.findAll());
 		session.setAttribute("page", "/category/category");
 		return "index";
 	}
@@ -234,41 +339,74 @@ public class HomeController {
 		List<Category> cates = categoryService.findAll();
 		model.addAttribute("cates", cates);
 		List<Product> prSale = productService.findProductsWithDiscount();
-		session.setAttribute("searchProdut", prSale);
+		if (prSale != null) {
+			List<Double> searchProductPrices = new ArrayList<>();
+			for (Product product : prSale) {
+				double searchProductPrice = Math.ceil(product.getPrice() * (1 - product.getDiscount() / 100) / 5000)
+						* 5000;
+				searchProductPrices.add(searchProductPrice);
+			}
+			model.addAttribute("searchProductPrices", searchProductPrices);
+			session.setAttribute("searchProdut", prSale);
+		}
 		model.addAttribute("title", "Sản Phẩm Khuyến mãi");
+		model.addAttribute("items", productService.findAll());
 		session.setAttribute("page", "/category/category");
 		return "index";
 	}
 
-	@RequestMapping("/account")
+	@RequestMapping("/profileAccount")
 	public String upaccount(HttpSession session, Model model) {
 		List<Category> cates = categoryService.findAll();
 		model.addAttribute("cates", cates);
+		model.addAttribute("items", productService.findAll());
 		session.setAttribute("page", "/update_profile/account_profile");
 		return "index";
 	}
 
-	@RequestMapping("/password")
+	@RequestMapping("/profilePassword")
 	public String uppass(HttpSession session, Model model) {
 		List<Category> cates = categoryService.findAll();
 		model.addAttribute("cates", cates);
+		model.addAttribute("items", productService.findAll());
 		session.setAttribute("page", "/update_profile/password_profile");
 		return "index";
 	}
 
-	@RequestMapping("/order")
+	@RequestMapping("/profileOrder")
 	public String donhang(HttpSession session, HttpServletRequest request, Model model) {
 		String username = request.getRemoteUser();
 		List<Category> cates = categoryService.findAll();
 		model.addAttribute("cates", cates);
 		List<Order> orders = orderService.findByUsername(username);
-		session.setAttribute("orders", orders);
+
+		List<Map<String, Object>> orderTotals = new ArrayList<>();
+		for (Order order : orders) {
+			List<OrderDetail> allOrderDetails = order.getOrderDetails();
+			double totalAmount = 0.0;
+			for (OrderDetail detail : allOrderDetails) {
+				double lineTotal = Math.ceil(detail.getPrice() * (1 - detail.getDiscount() / 100) / 5000) * 5000;
+				totalAmount += lineTotal * detail.getQuantity();
+			}
+			Map<String, Object> orderTotal = new HashMap<>();
+			orderTotal.put("id", order.getId());
+			orderTotal.put("status", order.getStatus());
+			orderTotal.put("paymentMethod", order.getPaymentMethod());
+			orderTotal.put("created_at", order.getCreated_at());
+			orderTotal.put("customer", order.getCustomer());
+			orderTotal.put("orderDetails", order.getOrderDetails());
+			orderTotal.put("amount", totalAmount);
+			orderTotals.add(orderTotal);
+		}
+
+		session.setAttribute("orders", orderTotals);
 		orders.sort(Comparator.comparing(Order::getCreated_at).reversed());
 		session.setAttribute("page", "/update_profile/order_profile");
+		model.addAttribute("items", productService.findAll());
 		return "index";
 	}
 
-	@RequestMapping("/filterOrder")
+	@GetMapping("/profileFilterOrder")
 	public String filterOrder(HttpSession session, HttpServletRequest request, Model model,
 			@RequestParam(required = false) Integer orderId, @RequestParam(required = false) Double amountFrom,
 			@RequestParam(required = false) Double amountTo,
@@ -285,45 +423,129 @@ public class HomeController {
 				|| toDateTime != null;
 
 		if (isFilterApplied) {
-			session.setAttribute("orders",
-					orderService.filterOrders(orderId, (amountFrom != null ? amountFrom * 100 : null),
-							(amountTo != null ? amountTo * 100 : null), fromDateTime, toDateTime, username));
+			List<Order> orders = orderService.filterOrders(orderId, (amountFrom != null ? amountFrom * 100 : null),
+					(amountTo != null ? amountTo * 100 : null), fromDateTime, toDateTime, username);
+
+			List<Map<String, Object>> orderTotals = new ArrayList<>();
+			for (Order order : orders) {
+				List<OrderDetail> allOrderDetails = order.getOrderDetails();
+				double totalAmount = 0.0;
+				for (OrderDetail detail : allOrderDetails) {
+					double lineTotal = Math.ceil(detail.getPrice() * (1 - detail.getDiscount() / 100) / 5000) * 5000;
+					totalAmount += lineTotal * detail.getQuantity();
+				}
+				Map<String, Object> orderTotal = new HashMap<>();
+				orderTotal.put("id", order.getId());
+				orderTotal.put("status", order.getStatus());
+				orderTotal.put("paymentMethod", order.getPaymentMethod());
+				orderTotal.put("created_at", order.getCreated_at());
+				orderTotal.put("customer", order.getCustomer());
+				orderTotal.put("orderDetails", order.getOrderDetails());
+				orderTotal.put("amount", totalAmount);
+				orderTotals.add(orderTotal);
+			}
+
+			session.setAttribute("orders", orderTotals);
 		} else {
-			session.setAttribute("orders", orderService.findByUsername(username));
+			List<Order> orders = orderService.findByUsername(username);
+
+			List<Map<String, Object>> orderTotals = new ArrayList<>();
+			for (Order order : orders) {
+				List<OrderDetail> allOrderDetails = order.getOrderDetails();
+				double totalAmount = 0.0;
+				for (OrderDetail detail : allOrderDetails) {
+					double lineTotal = Math.ceil(detail.getPrice() * (1 - detail.getDiscount() / 100) / 5000) * 5000;
+					totalAmount += lineTotal * detail.getQuantity();
+				}
+				Map<String, Object> orderTotal = new HashMap<>();
+				orderTotal.put("id", order.getId());
+				orderTotal.put("status", order.getStatus());
+				orderTotal.put("paymentMethod", order.getPaymentMethod());
+				orderTotal.put("created_at", order.getCreated_at());
+				orderTotal.put("customer", order.getCustomer());
+				orderTotal.put("orderDetails", order.getOrderDetails());
+				orderTotal.put("amount", totalAmount);
+				orderTotals.add(orderTotal);
+			}
+
+			session.setAttribute("orders", orderTotals);
 		}
 
 		session.setAttribute("page", "/update_profile/order_profile");
+		model.addAttribute("items", productService.findAll());
 		return "index";
 	}
 
-	@RequestMapping("/detailProduct")
-	public String detailProduct(HttpSession session) {
-		session.setAttribute("page", "/detailProduct/detailProduct");
-		return "index";
-	}
-
-	@RequestMapping("/detail_profile")
+	@RequestMapping("/profileDetail")
 	public String detail_profile(HttpSession session, @RequestParam("id") int id, Model model) {
 		List<Category> cates = categoryService.findAll();
+		Order order = orderService.findById(id);
+		List<OrderDetail> orderDetails = order.getOrderDetails();
+
+		List<OrderDetail> roundedOrderDetails = new ArrayList<>();
+		double totalAmount = 0.0;
+
+		for (OrderDetail detail : orderDetails) {
+			OrderDetail newDetail = new OrderDetail();
+			newDetail.setId(detail.getId());
+			newDetail.setProduct(detail.getProduct());
+			newDetail.setQuantity(detail.getQuantity());
+			newDetail.setDiscount(detail.getDiscount());
+			newDetail.setKeyProduct(detail.getKeyProduct());
+			newDetail.setOrder(detail.getOrder());
+
+			double lineTotal = Math.ceil(detail.getPrice() * (1 - detail.getDiscount() / 100) / 5000) * 5000;
+			double roundedPrice = lineTotal * detail.getQuantity();
+
+			newDetail.setPrice(roundedPrice);
+
+			roundedOrderDetails.add(newDetail);
+			totalAmount += roundedPrice;
+		}
+
+		model.addAttribute("roundedOrderDetails", roundedOrderDetails);
+		model.addAttribute("totalAmount", totalAmount);
 		model.addAttribute("cates", cates);
-		session.setAttribute("order", orderService.findById(id));
+		session.setAttribute("order", order);
 		session.setAttribute("page", "/update_profile/detail_profile");
+		model.addAttribute("items", productService.findAll());
 		return "index";
 	}
 
-	@RequestMapping("/payment")
+	@RequestMapping("/profilePayment")
 	public String giaodich(HttpSession session, HttpServletRequest request, Model model) {
 		List<Category> cates = categoryService.findAll();
 		model.addAttribute("cates", cates);
 		String username = request.getRemoteUser();
 		List<Order> orders = orderService.findByUsername(username);
-		session.setAttribute("orders", orders);
+
+		List<Map<String, Object>> orderTotals = new ArrayList<>();
+		for (Order order : orders) {
+			List<OrderDetail> allOrderDetails = order.getOrderDetails();
+			double totalAmount = 0.0;
+			for (OrderDetail detail : allOrderDetails) {
+				double lineTotal = Math.ceil(detail.getPrice() * (1 - detail.getDiscount() / 100) / 5000) * 5000;
+				totalAmount += lineTotal * detail.getQuantity();
+			}
+			Map<String, Object> orderTotal = new HashMap<>();
+			orderTotal.put("id", order.getId());
+			orderTotal.put("status", order.getStatus());
+			orderTotal.put("paymentMethod", order.getPaymentMethod());
+			orderTotal.put("created_at", order.getCreated_at());
+			orderTotal.put("customer", order.getCustomer());
+			orderTotal.put("orderDetails", order.getOrderDetails());
+			orderTotal.put("amount", totalAmount);
+			orderTotals.add(orderTotal);
+		}
+
+		session.setAttribute("orders", orderTotals);
 		orders.sort(Comparator.comparing(Order::getCreated_at).reversed());
 		session.setAttribute("page", "/update_profile/payment_profile");
+		model.addAttribute("items", productService.findAll());
 		return "index";
 	}
 
-	@RequestMapping("/filterPayment")
+	@GetMapping("/profileFilterPayment")
 	public String filterPayment(HttpSession session, HttpServletRequest request, Model model,
 			@RequestParam(required = false) String paymentMethod, @RequestParam(required = false) Double amountFrom,
 			@RequestParam(required = false) Double amountTo,
@@ -340,18 +562,61 @@ public class HomeController {
 				|| fromDateTime != null || toDateTime != null;
 
 		if (isFilterApplied) {
-			session.setAttribute("orders",
-					orderService.filterPayments(paymentMethod, (amountFrom != null ? amountFrom * 100 : null),
-							(amountTo != null ? amountTo * 100 : null), fromDateTime, toDateTime, username));
+			List<Order> orders = orderService.filterPayments(paymentMethod,
+					(amountFrom != null ? amountFrom * 100 : null), (amountTo != null ? amountTo * 100 : null),
+					fromDateTime, toDateTime, username);
+
+			List<Map<String, Object>> orderTotals = new ArrayList<>();
+			for (Order order : orders) {
+				List<OrderDetail> allOrderDetails = order.getOrderDetails();
+				double totalAmount = 0.0;
+				for (OrderDetail detail : allOrderDetails) {
+					double lineTotal = Math.ceil(detail.getPrice() * (1 - detail.getDiscount() / 100) / 5000) * 5000;
+					totalAmount += lineTotal * detail.getQuantity();
+				}
+				Map<String, Object> orderTotal = new HashMap<>();
+				orderTotal.put("id", order.getId());
+				orderTotal.put("status", order.getStatus());
+				orderTotal.put("paymentMethod", order.getPaymentMethod());
+				orderTotal.put("created_at", order.getCreated_at());
+				orderTotal.put("customer", order.getCustomer());
+				orderTotal.put("orderDetails", order.getOrderDetails());
+				orderTotal.put("amount", totalAmount);
+				orderTotals.add(orderTotal);
+			}
+
+			session.setAttribute("orders", orderTotals);
 		} else {
-			session.setAttribute("orders", orderService.findByUsername(username));
+			List<Order> orders = orderService.findByUsername(username);
+
+			List<Map<String, Object>> orderTotals = new ArrayList<>();
+			for (Order order : orders) {
+				List<OrderDetail> allOrderDetails = order.getOrderDetails();
+				double totalAmount = 0.0;
+				for (OrderDetail detail : allOrderDetails) {
+					double lineTotal = Math.ceil(detail.getPrice() * (1 - detail.getDiscount() / 100) / 5000) * 5000;
+					totalAmount += lineTotal * detail.getQuantity();
+				}
+				Map<String, Object> orderTotal = new HashMap<>();
+				orderTotal.put("id", order.getId());
+				orderTotal.put("status", order.getStatus());
+				orderTotal.put("paymentMethod", order.getPaymentMethod());
+				orderTotal.put("created_at", order.getCreated_at());
+				orderTotal.put("customer", order.getCustomer());
+				orderTotal.put("orderDetails", order.getOrderDetails());
+				orderTotal.put("amount", totalAmount);
+				orderTotals.add(orderTotal);
+			}
+
+			session.setAttribute("orders", orderTotals);
 		}
 
 		session.setAttribute("page", "/update_profile/payment_profile");
+		model.addAttribute("items", productService.findAll());
 		return "index";
 	}
 
-	@RequestMapping("/comment")
+	@RequestMapping("/profileComment")
 	public String binhluan(HttpSession session, HttpServletRequest request, Model model) {
 		String username = request.getRemoteUser();
 		List<Category> cates = categoryService.findAll();
@@ -363,10 +628,11 @@ public class HomeController {
 		comments.sort(Comparator.comparing(Comment::getCreated_at).reversed());
 		replies.sort(Comparator.comparing(Reply::getCreated_at).reversed());
 		session.setAttribute("page", "/update_profile/comment_profile");
+		model.addAttribute("items", productService.findAll());
 		return "index";
 	}
 
-	@RequestMapping("/filterComment")
+	@GetMapping("/profileFilterComment")
 	public String filterComment(HttpSession session, HttpServletRequest request, Model model,
 			@RequestParam(required = false) String content,
 			@RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fromDate,
@@ -390,6 +656,7 @@ public class HomeController {
 		}
 
 		session.setAttribute("page", "/update_profile/comment_profile");
+		model.addAttribute("items", productService.findAll());
 		return "index";
 	}
 

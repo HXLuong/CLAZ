@@ -26,5 +26,4 @@ public class Staff {
 	boolean role;
 	@Column(name = "created_at")
 	LocalDateTime created_at = LocalDateTime.now();
-
 }

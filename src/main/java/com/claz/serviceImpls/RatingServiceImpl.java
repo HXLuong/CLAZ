@@ -90,12 +90,24 @@ public class RatingServiceImpl implements RatingService {
 		return false;
 	}
 
-	public boolean hasUserRatedProduct(String username, Integer productId) {
-		return ratingRepository.existsByCustomerUsernameAndProductId(username, productId);
-	}
+	public boolean hasUserRatedProduct(String username, int productId) {
+		List<Object[]> productCounts = orderRepository.findProductCountByUsername(username);
+		int purchasedQuantity = 0;
+		for (Object[] productCount : productCounts) {
+			int id = (int) productCount[0]; 
+			long count = (long) productCount[1];
 
-	@Override
-	public Optional<Rating> findUserRatedProduct(int productId, String username) {
-		return ratingRepository.findByProductIdAndCustomerUsername(productId, username);
+			if (id == productId) {
+				purchasedQuantity = (int) count;
+				break;
+			}
+		}
+
+		List<Rating> ratings = ratingRepository.findByProductIdAndCustomerUsername(productId, username);
+
+		if (ratings.size() < purchasedQuantity) {
+			return false;
+		}
+		return true;
 	}
 }

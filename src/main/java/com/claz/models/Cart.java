@@ -27,4 +27,6 @@ public class Cart {
 	@ManyToOne
 	@JoinColumn(name = "username")
 	Customer customer;
+	
+	
 }

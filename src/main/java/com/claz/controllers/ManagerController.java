@@ -1,9 +1,12 @@
 package com.claz.controllers;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -24,9 +27,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.claz.models.Order;
+import com.claz.models.OrderDetail;
+import com.claz.models.Product;
 import com.claz.models.Staff;
 import com.claz.services.OrderDetailService;
 import com.claz.services.OrderService;
+import com.claz.services.ProductService;
 import com.claz.services.StaffService;
 import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 
@@ -40,6 +46,9 @@ public class ManagerController {
 
 	@Autowired
 	OrderDetailService orderDetailService;
+
+	@Autowired
+	ProductService productService;
 
 	@RequestMapping("/admin")
 	public String adm(Model model, HttpServletRequest request) {
@@ -134,14 +143,74 @@ public class ManagerController {
 		Pageable pageable = PageRequest.of(page, size);
 		Page<Order> ordersPage = orderService.findAllOrdersSorted(pageable);
 
-		model.addAttribute("orders", ordersPage.getContent());
+		List<Map<String, Object>> orderTotals = new ArrayList<>();
+		for (Order order : ordersPage.getContent()) {
+			List<OrderDetail> allOrderDetails = order.getOrderDetails();
+			double totalAmount = 0.0;
+			for (OrderDetail detail : allOrderDetails) {
+				double lineTotal = Math.ceil(detail.getPrice() * (1 - detail.getDiscount() / 100) / 5000) * 5000;
+				totalAmount += lineTotal * detail.getQuantity();
+			}
+			Map<String, Object> orderTotal = new HashMap<>();
+			orderTotal.put("id", order.getId());
+			orderTotal.put("status", order.getStatus());
+			orderTotal.put("paymentMethod", order.getPaymentMethod());
+			orderTotal.put("created_at", order.getCreated_at());
+			orderTotal.put("customer", order.getCustomer());
+			orderTotal.put("orderDetails", order.getOrderDetails());
+			orderTotal.put("amount", totalAmount);
+			orderTotals.add(orderTotal);
+		}
+
+		model.addAttribute("orders", orderTotals);
 		model.addAttribute("currentPage", page);
 		model.addAttribute("totalPages", ordersPage.getTotalPages());
 		model.addAttribute("page", "/admin/admin-listOrder");
 		return "/admin/admin-index";
 	}
 
-	@GetMapping("/updateOrder")
+	@GetMapping("/adminCancelOrder")
+	public String CancelOrder(@RequestParam("orderId") int orderId, Model model, HttpServletRequest request,
+			@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "size", defaultValue = "10") int size) {
+		nav(model, request);
+		Order order = orderService.findById(orderId);
+
+		if (order != null) {
+			order.setStatus("Đang xử lý");
+			orderService.save(order);
+		}
+		Pageable pageable = PageRequest.of(page, size);
+		Page<Order> ordersPage = orderService.findAllOrdersSorted(pageable);
+
+		List<Map<String, Object>> orderTotals = new ArrayList<>();
+		for (Order orders : ordersPage.getContent()) {
+			List<OrderDetail> allOrderDetails = orders.getOrderDetails();
+			double totalAmount = 0.0;
+			for (OrderDetail detail : allOrderDetails) {
+				double lineTotal = Math.ceil(detail.getPrice() * (1 - detail.getDiscount() / 100) / 5000) * 5000;
+				totalAmount += lineTotal * detail.getQuantity();
+			}
+			Map<String, Object> orderTotal = new HashMap<>();
+			orderTotal.put("id", orders.getId());
+			orderTotal.put("status", orders.getStatus());
+			orderTotal.put("paymentMethod", orders.getPaymentMethod());
+			orderTotal.put("created_at", orders.getCreated_at());
+			orderTotal.put("customer", orders.getCustomer());
+			orderTotal.put("orderDetails", orders.getOrderDetails());
+			orderTotal.put("amount", totalAmount);
+			orderTotals.add(orderTotal);
+		}
+
+		model.addAttribute("orders", orderTotals);
+		model.addAttribute("currentPage", page);
+		model.addAttribute("totalPages", ordersPage.getTotalPages());
+		model.addAttribute("page", "/admin/admin-listOrder");
+
+		return "/admin/admin-index";
+	}
+
+	@GetMapping("/adminUpdateOrder")
 	public String updateOrderStatus(@RequestParam("orderId") int orderId, Model model, HttpServletRequest request,
 			@RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "size", defaultValue = "10") int size) {
@@ -149,14 +218,42 @@ public class ManagerController {
 		Order order = orderService.findById(orderId);
 
 		if (order != null) {
+			List<OrderDetail> orderDetails = order.getOrderDetails();
+			for (OrderDetail orderDetail : orderDetails) {
+				Product product = orderDetail.getProduct();
+				if (product != null) {
+					product.setQuantity(product.getQuantity() + orderDetail.getQuantity());
+					productService.update(product);
+				}
+			}
 			order.setStatus("Đã được hủy");
 			order.setAmount(0.0);
 			orderService.save(order);
 		}
+
 		Pageable pageable = PageRequest.of(page, size);
 		Page<Order> ordersPage = orderService.findAllOrdersSorted(pageable);
 
-		model.addAttribute("orders", ordersPage.getContent());
+		List<Map<String, Object>> orderTotals = new ArrayList<>();
+		for (Order orders : ordersPage.getContent()) {
+			List<OrderDetail> allOrderDetails = orders.getOrderDetails();
+			double totalAmount = 0.0;
+			for (OrderDetail detail : allOrderDetails) {
+				double lineTotal = Math.ceil(detail.getPrice() * (1 - detail.getDiscount() / 100) / 5000) * 5000;
+				totalAmount += lineTotal * detail.getQuantity();
+			}
+			Map<String, Object> orderTotal = new HashMap<>();
+			orderTotal.put("id", orders.getId());
+			orderTotal.put("status", orders.getStatus());
+			orderTotal.put("paymentMethod", orders.getPaymentMethod());
+			orderTotal.put("created_at", orders.getCreated_at());
+			orderTotal.put("customer", orders.getCustomer());
+			orderTotal.put("orderDetails", orders.getOrderDetails());
+			orderTotal.put("amount", totalAmount);
+			orderTotals.add(orderTotal);
+		}
+
+		model.addAttribute("orders", orderTotals);
 		model.addAttribute("currentPage", page);
 		model.addAttribute("totalPages", ordersPage.getTotalPages());
 		model.addAttribute("page", "/admin/admin-listOrder");
@@ -164,14 +261,34 @@ public class ManagerController {
 		return "/admin/admin-index";
 	}
 
-	@GetMapping("/searchOrder")
+	@GetMapping("/adminSearchOrder")
 	public String searchOrders(Model model, @RequestParam(required = false) String keyword, HttpServletRequest request,
 			@RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "size", defaultValue = "20000") int size) {
 		nav(model, request);
 		Pageable pageable = PageRequest.of(page, size);
 		Page<Order> ordersPage = orderService.searchOrders(keyword, pageable);
-		model.addAttribute("orders", ordersPage.getContent());
+
+		List<Map<String, Object>> orderTotals = new ArrayList<>();
+		for (Order order : ordersPage.getContent()) {
+			List<OrderDetail> allOrderDetails = order.getOrderDetails();
+			double totalAmount = 0.0;
+			for (OrderDetail detail : allOrderDetails) {
+				double lineTotal = Math.ceil(detail.getPrice() * (1 - detail.getDiscount() / 100) / 5000) * 5000;
+				totalAmount += lineTotal * detail.getQuantity();
+			}
+			Map<String, Object> orderTotal = new HashMap<>();
+			orderTotal.put("id", order.getId());
+			orderTotal.put("status", order.getStatus());
+			orderTotal.put("paymentMethod", order.getPaymentMethod());
+			orderTotal.put("created_at", order.getCreated_at());
+			orderTotal.put("customer", order.getCustomer());
+			orderTotal.put("orderDetails", order.getOrderDetails());
+			orderTotal.put("amount", totalAmount);
+			orderTotals.add(orderTotal);
+		}
+
+		model.addAttribute("orders", orderTotals);
 		model.addAttribute("currentPage", page);
 		model.addAttribute("totalPages", ordersPage.getTotalPages());
 		model.addAttribute("keyword", keyword);
@@ -182,7 +299,32 @@ public class ManagerController {
 	@RequestMapping("/adminOrderDetail")
 	public String adminOrderDetail(Model model, HttpServletRequest request, @RequestParam("id") int id) {
 		nav(model, request);
-		model.addAttribute("order", orderService.findById(id));
+		Order order = orderService.findById(id);
+		List<OrderDetail> orderDetails = order.getOrderDetails();
+		List<Map<String, Object>> roundedOrderDetails = new ArrayList<>();
+		double totalAmount = 0.0;
+
+		for (OrderDetail detail : orderDetails) {
+			Map<String, Object> newDetail = new HashMap<>();
+			newDetail.put("id", detail.getId());
+			newDetail.put("product", detail.getProduct());
+			newDetail.put("quantity", detail.getQuantity());
+			newDetail.put("discount", detail.getDiscount());
+			newDetail.put("order", detail.getOrder());
+			
+			double lineTotal = Math.ceil(detail.getPrice() * (1 - detail.getDiscount() / 100) / 5000) * 5000;
+			newDetail.put("price", lineTotal);
+			double roundedPrice = lineTotal * detail.getQuantity();
+
+			newDetail.put("roundedPrice", roundedPrice);
+
+			roundedOrderDetails.add(newDetail);
+			totalAmount += roundedPrice;
+		}
+
+		model.addAttribute("roundedOrderDetails", roundedOrderDetails);
+		model.addAttribute("totalAmount", totalAmount);
+		model.addAttribute("order", order);
 		model.addAttribute("page", "/admin/admin-orderDetail");
 		return "/admin/admin-index";
 	}
@@ -226,6 +368,13 @@ public class ManagerController {
 	public String statisticRevenueProduct(Model model, HttpServletRequest request) {
 		nav(model, request);
 		model.addAttribute("page", "/admin/statistics_RevenueProduct");
+		return "/admin/admin-index";
+	}
+
+	@RequestMapping("/statisticRevenueTotalProduct")
+	public String statisticRevenueTotalProduct(Model model, HttpServletRequest request) {
+		nav(model, request);
+		model.addAttribute("page", "/admin/statistics_RevenueTotalProduct");
 		return "/admin/admin-index";
 	}
 
