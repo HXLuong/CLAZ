@@ -74,6 +74,25 @@ public class CartServiceImpl implements CartService {
 			return cartRepository.save(item);
 		}
 	}
+	
+	@Override
+	public Cart changeQuantityItemInCart(int itemID, int newQuantity) {
+	    Cart item = findItemById(itemID);
+	    Optional<Cart> existingItemOpt = cartRepository.findByCustomerAndName(item.getCustomer(), item.getName());
+
+	    if (existingItemOpt.isPresent()) {
+	        Cart existingItem = existingItemOpt.get();
+
+	        if (newQuantity < 1) {
+	            throw new IllegalArgumentException("Số lượng không thể nhỏ hơn 1.");
+	        }
+
+	        existingItem.setQuantity(newQuantity);
+	        return cartRepository.save(existingItem);
+	    } else {
+	        throw new IllegalArgumentException("Sản phẩm không tồn tại trong giỏ hàng.");
+	    }
+	}
 
 	@Override
 	public void deleteAllItemInCart() {
