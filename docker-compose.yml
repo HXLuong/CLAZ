@@ -1,32 +1,40 @@
 version: '3.8'
-services:
-  app:
-    build:
-      context: . # Chỉ vào thư mục chứa Dockerfile
-    ports:
-      - "8080:8080" # Map cổng host:container
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/claz_database
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: 123456
-    depends_on:
-      - mysql
-    networks:
-      - app-network
 
+services:
   mysql:
-    image: mysql:8
-    container_name: mysql
+    image: mysql:latest
+    container_name: mysql-container
     environment:
       MYSQL_ROOT_PASSWORD: 123456
-      MYSQL_DATABASE: claz_database
+      MYSQL_DATABASE: CLAZ_database
       MYSQL_USER: root
       MYSQL_PASSWORD: 123456
     ports:
-      - "3306:3306"
+      - "3307:3306"
+    networks:
+      - app-network
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  spring-boot-app:
+    image: spring-boot-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/CLAZ_database
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=123456
+    depends_on:
+      - mysql
     networks:
       - app-network
 
 networks:
   app-network:
     driver: bridge
+
+volumes:
+  mysql-data:
