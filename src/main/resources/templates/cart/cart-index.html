@@ -48,10 +48,10 @@
 							class="col-xl-3 col-md-3 col-sm-3 col-4 d-flex p-0 product-qty">
 							<div class="input-group mb-4">
 								<button class="btn btn-quantity pt-1"
-									ng-click="updateItem(item.id)">-</button>
+									ng-click="decreaseQty(item.productID, item.id)">-</button>
 								<input type="text"
 									class="form-control text-center text-primary btn-quantity"
-									ng-model="item.quantity" ng-change="onQuantityChange(item)"
+									ng-model="item.quantity" ng-change="onQuantityChange(item.productID, item.id)"
 									min="1">
 								<button class="btn btn-quantity pt-1"
 									ng-click="increaseQty(item.productID)">+</button>

@@ -20,7 +20,7 @@ import java.util.Optional;
 public interface OrderRepository extends JpaRepository<Order, Integer> {
 	List<Order> findByCustomer(Customer customer);
 
-	@Query("SELECT o FROM Order o WHERE o.customer.username=?1")
+	@Query("SELECT o FROM Order o WHERE o.customer.username=?1 ORDER BY o.created_at DESC")
 	List<Order> findByUsername(String username);
 
 	@Query("SELECT o.created_at, o.paymentMethod, od.id, od.price, od.quantity, od.discount FROM Order o inner join OrderDetail od on o.id = od.order.id where o.customer.username = ?1")

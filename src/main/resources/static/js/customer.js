@@ -457,13 +457,13 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 			const product = $scope.products.find(p => p.id === productID);
 			if (item) {
 				item.quantity += 1;
-				if (item.quantity > product.quantity) {
+				if (item.quantity + 1 > product.quantity) {
 					Swal.fire({
 						icon: "warning",
 						title: "Không thể thêm sản phẩm trong giỏ hàng",
 						text: "Số lượng sản phẩm đã đến giới hạn",
 					});
-					item.quantity = product.quantity;
+					item.quantity = 1;
 					return;
 				}
 			}
@@ -494,13 +494,13 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 			const product = $scope.products.find(p => p.id === productID);
 			if (item) {
 				item.quantity += 1;
-				if (item.quantity > product.quantity) {
+				if (item.quantity + 1 > product.quantity) {
 					Swal.fire({
 						icon: "warning",
 						title: "Không thể thêm sản phẩm trong giỏ hàng",
 						text: "Số lượng sản phẩm đã đến giới hạn",
 					});
-					item.quantity = product.quantity;
+					item.quantity = 1;
 					return;
 				}
 			}
@@ -522,26 +522,28 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 			});
 			return;
 		}
-		$http.post(`/rest/carts/add?productID=${productID}&username=${$scope.username}`).then(resp => {
-			const item = $scope.listItem.find(item => item.productID === productID);
-			const product = $scope.products.find(p => p.id === productID);
-			if (item) {
-				item.quantity += 1;
-				if (item.quantity > product.quantity) {
-					Swal.fire({
-						icon: "warning",
-						title: "Không thể thêm sản phẩm trong giỏ hàng",
-						text: "Số lượng sản phẩm đã đến giới hạn",
-					});
-					item.quantity = product.quantity;
-					return;
-				}
+
+		const item = $scope.listItem.find(item => item.productID === productID);
+		const product = $scope.products.find(p => p.id === productID);
+
+		if (item) {
+			if (item.quantity + 1 > product.quantity) {
+				Swal.fire({
+					icon: "warning",
+					title: "Không thể thêm sản phẩm vào giỏ hàng",
+					text: "Số lượng sản phẩm đã đến giới hạn tồn kho.",
+				});
+				return;
 			}
-			$scope.caculateTotal();
-			$scope.loadCart();
-		}).catch(err => {
-			console.error('Lỗi khi thêm sản phẩm:', err);
-		});
+
+			// Tăng số lượng trong giao diện và gửi yêu cầu
+			item.quantity += 1;
+			$http.post(`/rest/carts/add?productID=${productID}&username=${$scope.username}`).then(resp => {
+				$scope.caculateTotal();
+			}).catch(err => {
+				console.error('Lỗi khi thêm sản phẩm:', err);
+			});
+		}
 	};
 
 	$scope.deleteItem = function(itemID) {
@@ -567,36 +569,65 @@ app.controller('ctrl', function($scope, $http, $routeParams) {
 		});
 	}
 
-	$scope.updateItem = function(itemID) {
+	$scope.decreaseQty = function(productID, itemID) {
+		const item = $scope.listItem.find(item => item.productID === productID);
 		const username = $scope.username;
-		$http.put(`/rest/carts/update/${itemID}`).then(resp => {
-			$scope.loadCart(username);
-			console.log('update success')
-		})
-	}
+		if (item) {
+			if (item.quantity > 1) {
+				// Giảm số lượng
+				item.quantity -= 1;
+				// Cập nhật vào cơ sở dữ liệu
+				$http.put(`/rest/carts/update/${itemID}`).then(resp => {
+					$scope.loadCart(username);
+				});
+			} else {
+				Swal.fire({
+					icon: "warning",
+					title: "Không thể giảm thêm",
+					text: "Số lượng sản phẩm phải ít nhất là 1.",
+				});
+				item.quantity = 1;
+				$scope.caculateTotal();
+			}
+		}
+	};
 
-	$scope.onQuantityChange = function(item) {
+
+	$scope.onQuantityChange = function(productID, itemID) {
+		const item = $scope.listItem.find((item) => item.productID === productID);
+		const product = $scope.products.find((p) => p.id === productID);
+
+		if (!item || !product) return;
+
 		item.quantity = Number(item.quantity);
 
-		if (item.quantity < 0 || isNaN(item.quantity)) {
+		if (isNaN(item.quantity) || item.quantity < 1) {
 			item.quantity = 1;
 			Swal.fire({
 				icon: "warning",
 				title: "Số lượng không hợp lệ",
-				text: "Số lượng không thể nhỏ hơn 1",
+				text: "Số lượng không thể nhỏ hơn 1.",
 			});
 		}
 
-		const product = $scope.products.find(p => p.id === item.productID);
-
-		if (product && item.quantity > product.quantity) {
-			item.quantity = product.quantity;
+		if (item.quantity + 1 > product.quantity) {
+			item.quantity = 1; 
 			Swal.fire({
 				icon: "warning",
-				title: "Số lượng vượt quá số lượng có sẵn",
-				text: "Bạn không thể chọn nhiều hơn số lượng sản phẩm có trong kho",
+				title: "Số lượng vượt quá giới hạn",
+				text: "Không thể chọn nhiều hơn số lượng có sẵn trong kho.",
 			});
 		}
+
+		const username = $scope.username;
+		$http
+			.put(`/rest/carts/change/${itemID}?quantity=${item.quantity}`)
+			.then((resp) => {
+				$scope.loadCart(username);
+			})
+			.catch((err) => {
+				console.error("Lỗi khi cập nhật số lượng:", err);
+			});
 
 		$scope.caculateTotal();
 	};

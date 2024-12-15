@@ -15,6 +15,8 @@ public interface CartService {
 	Cart findItemById(int id);
 
 	Cart reduceQuantityItemInCart(int itemID);
+	
+	Cart changeQuantityItemInCart(int itemID, int newQuantity);
 
 	void deleteAllItemInCart();
 }

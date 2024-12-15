@@ -100,6 +100,17 @@ public class CartRestController {
 		return ResponseEntity.ok(cart);
 	}
 
+	@PutMapping("/change/{itemID}")
+	public ResponseEntity<?> changeQuantity(@PathVariable("itemID") int itemID,
+			@RequestParam("quantity") int quantity) {
+		try {
+			Cart updatedCart = cartService.changeQuantityItemInCart(itemID, quantity);
+			return ResponseEntity.ok(updatedCart);
+		} catch (IllegalArgumentException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+	}
+
 	@PostMapping("/add")
 	public ResponseEntity<Cart> addItemToCart(@RequestParam("productID") int productID,
 			@RequestParam("username") String username) {
