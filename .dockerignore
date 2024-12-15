@@ -1,0 +1,7 @@
+target/*.war
+target/*.ear
+*.log
+*.class
+.idea/
+*.iml
+*.git

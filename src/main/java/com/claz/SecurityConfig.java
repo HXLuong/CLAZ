@@ -54,7 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private StaffService StaffService;
 
-	@Autowired
+
 	private BCryptPasswordEncoder pe;
 
 	@Override

@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,18 +23,18 @@ public class Product implements Serializable {
 	String Name;
 	String Image;
 	Double Price;
-	int Quantity;
+	Integer Quantity;
 	String Decription;
 	Double Discount;
-	boolean Hot;
-	int Purchases;
+	Boolean Hot;
+	Integer Purchases;
 	Double Total_Pay;
-	int Total_Rating;
-	int Total_Stars;
+	Integer Total_Rating;
+	Integer Total_Stars;
 
 	@Column(name = "Created_at")
 	LocalDateTime created_at = LocalDateTime.now();
-	
+
 	@ManyToOne
 	@JoinColumn(name = "Category_ID")
 	Category category;
@@ -59,5 +58,5 @@ public class Product implements Serializable {
 	@JsonIgnore
 	@OneToMany(mappedBy = "product")
 	List<Rating> rating;
-	
+
 }
