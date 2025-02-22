@@ -21,6 +21,9 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
 	@Query("SELECT p FROM Product p WHERE p.Name LIKE %:querySearch% OR p.category.name LIKE %:querySearch%")
 	List<Product> findByContentContaining(@Param("querySearch") String querySearch);
+	
+	@Query("SELECT p FROM Product p WHERE p.Name LIKE CONCAT('%', :querySearch, '%')")
+	List<Product> findByNameProduct(@Param("querySearch") String querySearch);
 
 	@Query("SELECT p FROM Product p WHERE p.Price BETWEEN ?1 AND ?2")
 	List<Product> findByPrice(double minPrice, double maxPrice);

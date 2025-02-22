@@ -176,7 +176,7 @@ public class HomeController {
 		}
 		model.addAttribute("items", productService.findAll());
 		session.setAttribute("productDisplayCount", 8);
-		session.setAttribute("searchProduct", productService.findBySearch(itemName));
+		session.setAttribute("searchProduct", productService.findByNameProduct(itemName));
 		return "index";
 	}
 
