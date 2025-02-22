@@ -59,9 +59,10 @@
 				<div th:if="${session.searchProduct.size() > 1}">
 					<hr class="my-3">
 					<h6 class="fw-medium mb-2">Các sản phẩm liên quan</h6>
-					<div class="d-flex">
+					<div class="d-flex flex-wrap">
 						<div th:each="p : ${session.searchProduct}">
-							<a th:href="${p.id}" class="btn btn-outline-primary me-2 mb-2"
+							<a th:href="${p.id}" class="btn btn-outline-primary me-2 mb-2" 
+								th:classappend="${#httpServletRequest.requestURI.endsWith('/' + p.id)} ? 'btn-primary text-white' : ''"
 								th:text="${p.name.contains('-') ? (p.name.split('-')[p.name.split('-').length - 1]) : p.name}"></a>
 						</div>
 					</div>

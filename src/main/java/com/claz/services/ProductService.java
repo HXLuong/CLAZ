@@ -26,6 +26,8 @@ public interface ProductService {
 	List<Product> findAllByCategoryId(int Category_ID);
 
 	List<Product> findBySearch(String search);
+	
+	List<Product> findByNameProduct(String search);
 
 	Product create(Product product);
 

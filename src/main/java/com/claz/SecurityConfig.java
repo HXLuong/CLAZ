@@ -62,7 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.userDetailsService(identifier -> {
 			Staff staff = StaffService.findByUsername(identifier).orElse(null);
 			if (staff != null) {
-				String role = staff.isRole() ? "ADMIN" : "CUSTOMER";
+				String role = staff.isRole() ? "ADMIN" : "USER";
 				return User.withUsername(staff.getUsername()).password(staff.getPassword()).roles(role)
 						.accountExpired(false).accountLocked(false).credentialsExpired(false).disabled(false).build();
 			}

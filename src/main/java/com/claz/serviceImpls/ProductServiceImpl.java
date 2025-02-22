@@ -210,4 +210,9 @@ public class ProductServiceImpl implements ProductService {
 		return productRepository.findProductsWithDiscount();
 	}
 
+	@Override
+	public List<Product> findByNameProduct(String search) {
+		return productRepository.findByNameProduct(search);
+	}
+
 }
